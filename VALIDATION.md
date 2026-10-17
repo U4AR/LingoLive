@@ -1,4 +1,38 @@
-# Current source: web 1.3 — October 17, 2026
+# Current source: web 1.4 — October 17, 2026
+
+- **78 backend tests pass**, including four tests for the compact Gemini 3.8
+  response: both providers make exactly one call for a complete lesson, all
+  readings/meanings survive expansion, malformed/missing/source-changing words
+  fail validation, sparse punctuation expands exactly, and truncated output
+  makes no automatic second paid call. Both provider requests use `thinkingLevel:
+  low` and the existing 4,096-token cap.
+- **57 real Chromium checks pass**: 13 baseline, 5 optional Google auth, 8
+  conversation context, 12 learner memory/sensors, 4 minimal UI, 8 personal-key
+  flows and 7 first-use tutorial checks. Tests use mocked Google responses and
+  synthetic microphone/location fixtures. The tutorial tests cover language
+  validation/persistence, interactive meaning/transliteration, skip/completion,
+  reload, replay, Escape, collapsed history, mobile fit, and zero paid/sensor calls.
+- Pure JS source/word/PCM/context checks pass. Screenshots show the actual new UI.
+- Google documents `gemini-3.8-flash` as stable and supports **low**, medium and
+  high reasoning. Minimal is explicitly unsupported. Checked official pages:
+  https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash and
+  https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-8-flash.
+- **Not deployed or live-inference tested:** the existing temporary deployment
+  credential now returns HTTP 401, and no fresh `GCP_DEPLOY_ACCESS_TOKEN` binding
+  is present. No latency improvement or successful real 3.8 inference is claimed.
+  The existing v1.3 deployment and hosted evidence below predate these changes.
+
+The model wire response uses short word keys (`t/r/m/n`), leaves punctuation as
+`t` only, and omits ordinary usage notes. It is expanded and strictly validated
+before returning the unchanged public lesson shape. This reduces generated
+metadata while retaining every source character, word meaning and pronunciation.
+Transcription is a separate live service; all lesson work is one Flash request.
+The UI pronunciation toggle, word bubbles and tutorial need no extra model call.
+Authentication, key isolation, memory, optional signals and cost guards remain.
+
+---
+
+# Web 1.3 deployment evidence — October 17, 2026
 
 The source now supports either the host access code or a learner's Google AI
 Studio key, including transcription and replies. Personal-key calls use their

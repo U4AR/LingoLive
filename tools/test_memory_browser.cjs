@@ -9,7 +9,7 @@ let browser,page;const results=[];async function check(name,fn){await fn();resul
  const done=()=>page.waitForFunction(()=>[...document.querySelectorAll('.transcript .phrase-meta')].every(n=>/Lesson saved|Not the learning language|You said this|Transcript saved/.test(n.textContent)));
  const type=async(text=EXAMPLE.text)=>{const n=Number(await page.locator('#saved-count').textContent());await page.locator('#type-details').evaluate(n=>n.open=true);await page.locator('#phrase-input').fill(text);await page.getByRole('button',{name:'Teach me this phrase'}).click();await page.waitForFunction(n=>document.querySelector('#saved-count').textContent===String(n),n+1);await done();};
  const notes=async value=>{await page.locator('#context-settings').evaluate(n=>n.open=true);await page.locator('#memory-notes').fill(value);await page.locator('#save-memory').click();};
- await page.goto(ORIGIN);await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');await page.locator('#connection-open').click();await page.locator('#access-code').fill('test-only-browser-access-code-32-characters');await page.locator('#connect-submit').click();await page.locator('#connection-dialog').waitFor({state:'hidden'});offset=(await requests()).length;
+ await page.goto(ORIGIN);await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');await page.locator('#tutorial-skip').click();await page.locator('#connection-open').click();await page.locator('#access-code').fill('test-only-browser-access-code-32-characters');await page.locator('#connect-submit').click();await page.locator('#connection-dialog').waitFor({state:'hidden'});offset=(await requests()).length;
  const first=await page.locator('#learner-profile').inputValue();let second;
  await check('No goal is required; learner notes guide the same lesson request',async()=>{
   await notes('I am a beginner travelling by train.');assert.equal((await requests()).length,0);await type();const data=(await requests())[0];assert.equal(data.user_goal,'');assert.equal(data.memory_notes,'I am a beginner travelling by train.');assert.equal(await page.locator('.reply').count(),3);
@@ -53,7 +53,7 @@ let browser,page;const results=[];async function check(name,fn){await fn();resul
  });
  await check('A distinctive spoken suggestion is automatically marked as likely learner speech',async()=>{
   await page.locator('#conversation-tab').click();await type();const chosen=EXAMPLE.lesson.replies[1].words.map(w=>w.text).join('');await type(chosen);
-  await page.locator('.transcript').last().getByText(/Likely you/).waitFor();await type();const data=(await requests()).at(-1);assert.equal(data.recent_turns.find(t=>t.text===chosen).speaker,'likely_user');assert.equal(data.user_goal,'');
+  await page.locator('#recent-phrases').evaluate(n=>n.open=true);await page.locator('.transcript').last().getByText(/Likely you/).waitFor();await type();const data=(await requests()).at(-1);assert.equal(data.recent_turns.find(t=>t.text===chosen).speaker,'likely_user');assert.equal(data.user_goal,'');
  });
  await check('Model-inferred learner intent is remembered without requiring a goal',async()=>{
   await type('I want to catch my train.');await page.waitForFunction(()=>document.querySelector('#goal-summary').textContent.includes('Likely goal: Get to the train station.'));await type();const data=(await requests()).at(-1);assert.equal(data.user_goal,'');assert.equal(data.inferred_user_goal,'Get to the train station.');assert.equal(data.recent_turns.at(-1).speaker,'likely_user');

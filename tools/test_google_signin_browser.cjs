@@ -12,7 +12,7 @@ const sdk=`window.google={accounts:{id:{initialize(config){this.config=config},r
  const context=await browser.newContext({viewport:{width:390,height:844}});
  await context.route('https://accounts.google.com/gsi/client',route=>route.fulfill({contentType:'application/javascript',body:sdk}));
  const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(ORIGIN);await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');
+ await page.goto(ORIGIN);await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');await page.locator('#tutorial-skip').click();
  await check('Google is required before connecting with the private code',async()=>{
   await page.locator('#connection-open').click();await page.getByRole('button',{name:'Sign in with Google',exact:true}).waitFor();
   assert.equal(await page.locator('#connect-submit').isDisabled(),true);

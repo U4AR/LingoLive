@@ -82,7 +82,7 @@ class GoogleContractTests(unittest.IsolatedAsyncioTestCase):
         original=httpx.AsyncClient;received=[]
         def handler(request):
             received.append(request);payload=json.loads(request.content)
-            self.assertEqual('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent',str(request.url))
+            self.assertEqual('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',str(request.url))
             self.assertEqual(CONFIG.api_key,request.headers['x-goog-api-key'])
             self.assertEqual(INPUT,json.loads(payload['contents'][0]['parts'][0]['text']))
             self.assertEqual('application/json',payload['generationConfig']['responseMimeType'])

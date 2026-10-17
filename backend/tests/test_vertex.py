@@ -25,7 +25,7 @@ class VertexContractTests(unittest.IsolatedAsyncioTestCase):
   original=httpx.AsyncClient;received=[]
   def handler(request):
    received.append(request)
-   self.assertEqual('https://aiplatform.googleapis.com/v1/projects/locateassist/locations/global/publishers/google/models/gemini-3.6-flash:generateContent',str(request.url))
+   self.assertEqual('https://aiplatform.googleapis.com/v1/projects/locateassist/locations/global/publishers/google/models/gemini-3.8-flash:generateContent',str(request.url))
    self.assertEqual('Bearer test-only-vertex-oauth',request.headers['authorization']);self.assertNotIn('x-goog-api-key',request.headers)
    return httpx.Response(200,json={'candidates':[{'finishReason':'STOP','content':{'parts':[{'text':json.dumps(EXAMPLE['lesson'])}]}}]})
   def client(**kwargs):return original(transport=httpx.MockTransport(handler),**kwargs)

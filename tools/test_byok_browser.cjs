@@ -9,7 +9,7 @@ async function check(name,fn){await fn();checks.push({name,passed:true});console
  const status=()=>page.request.get(ORIGIN+'/fixture/status').then(r=>r.json());
  const finish=()=>page.waitForFunction(()=>[...document.querySelectorAll('.transcript .phrase-meta')].every(n=>/Lesson saved|Not the learning language/.test(n.textContent)));
  const type=async()=>{const count=Number(await page.locator('#saved-count').textContent());await page.locator('#type-details').evaluate(n=>n.open=true);await page.locator('#phrase-input').fill(EXAMPLE.text);await page.getByRole('button',{name:'Teach me this phrase'}).click();await page.waitForFunction(n=>document.querySelector('#saved-count').textContent===String(n),count+1);await finish();};
- await page.goto(ORIGIN);await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');
+ await page.goto(ORIGIN);await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');await page.locator('#tutorial-skip').click();
  await check('Connect offers private code and a personal Google key with clear billing and retention',async()=>{
   await page.locator('#connection-open').click();await page.getByText('Your host can share the access code.',{exact:true}).waitFor();assert.equal(await page.locator('#method-code').isChecked(),true);
   await page.locator('#method-key').check();assert.equal(await page.locator('#key-fields').isVisible(),true);assert.equal(await page.locator('#code-fields').isVisible(),false);assert.match(await page.locator('#key-fields').textContent(),/Google bills your key/);

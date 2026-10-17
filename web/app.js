@@ -5,6 +5,7 @@ import {approximateLocation} from './signals.mjs';
 import {newConversation,restoreConversation,contextForRecord,latestContextSummary,matchesSuggestedReply} from './context.mjs';
 import {LiveMicrophone} from './microphone.js';
 import {renderGoogleSignIn,forgetGoogleSelection} from './google-signin.js';
+import {setupTutorial} from './tutorial.js';
 const $=id=>document.getElementById(id);
 const element=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;};
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -70,7 +71,7 @@ function renderLesson(){
     content.classList.add('lesson-status');content.append(element('p','eyebrow',record.pair.learning_name.toUpperCase()+' → '+record.pair.known_name.toUpperCase()));
     const phrase=element('div','source-words',record.text);phrase.dir='auto';content.append(phrase);
     content.append(element('h2','',record.status==='loading'?'Finding the meaning…':record.status==='queued'?'A little lesson is on its way.':record.status==='familiar'?'A phrase to keep.':'Your phrase is here.'));
-    content.append(element('p','',record.error||record.lesson?.explanation||(record.status==='queued'||record.status==='loading'?'Your words stay here while Google prepares the explanation.':'Turn it into a word-by-word lesson whenever you’re ready.')));
+    content.append(element('p','',record.error||record.lesson?.explanation||(record.status==='queued'||record.status==='loading'?'Translation, pronunciation and replies are being prepared together.':'Turn it into a word-by-word lesson whenever you’re ready.')));
     if(!['loading','queued'].includes(record.status)){const retry=element('button','small-button','Teach this phrase →');retry.onclick=()=>queueLesson(record);content.append(retry);}return;
   }
   const lesson=record.lesson;content.append(element('p','heard-label',record.speaker==='user'||record.speaker==='likely_user'?'You said':'Heard'));const replyGoal=record.lesson_context?.user_goal??record.context_goal;
@@ -267,5 +268,6 @@ async function init(){
   $('conversation-goal').value=state.conversation.goal;persistConversation();renderContext();
   try{state.storage=await new Memory(learners.key('lingolive-learning')).open();profileStores.set(state.learner.id,state.storage);state.records=await state.storage.all();for(const r of state.records)r.profile_id=state.learner.id;for(const record of state.records)if(['queued','loading'].includes(record.status)){record.status='transcribed';record.error='The page was closed before the lesson finished. Your phrase is saved; retry it.';await save(record);}updateCount();renderTranscripts();renderContext();}catch{state.storage=null;state.memoryFailed=true;notice('Persistent browser storage is unavailable. This conversation will only last while this page is open.',true);$('storage-note').textContent='Browser storage is unavailable. This session is temporary.';}
   try{const health=await api('/health');serverConfigured=health.configured;if(serverConfigured||health.byok_available){try{const session=await api('/v1/session');connected(true,session.mode);}catch{connected(false);}}}catch{notice('The live service is unavailable. You can explore the prepared example or your saved lessons.',true);}
+  setupTutorial(()=>{if(!state.connected)openConnection();},stopListening);
 }
 init().catch(()=>notice('The page could not finish loading. Please refresh to try again.',true));

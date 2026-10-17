@@ -5,7 +5,7 @@ async function check(name,fn){await fn();checks.push({name,passed:true});console
 (async()=>{try{
  browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('http://127.0.0.1:8094');await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');
+ await page.goto('http://127.0.0.1:8094');await page.waitForFunction(()=>document.querySelector('#known-language').value==='en-US');await page.locator('#tutorial-skip').click();
  await check('Settings start hidden and preserve goals, learner memory and opt-in sensors',async()=>{
   assert.equal(await page.locator('#context-settings').isVisible(),false);await page.locator('#settings-open').click();
   for(const id of ['learner-profile','memory-notes','context-setting','use-location','use-audio-context','conversation-goal'])assert.equal(await page.locator('#'+id).isVisible(),true);

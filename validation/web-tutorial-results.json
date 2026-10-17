@@ -1,0 +1,35 @@
+{
+  "passed": 7,
+  "checks": [
+    {
+      "name": "First visit opens an accessible tutorial with real language choices",
+      "passed": true
+    },
+    {
+      "name": "Language selection validates the pair and saves it into the app",
+      "passed": true
+    },
+    {
+      "name": "Word and transliteration tutorial is interactive with no model requests",
+      "passed": true
+    },
+    {
+      "name": "Completion opens Connect without starting the microphone and is remembered on reload",
+      "passed": true
+    },
+    {
+      "name": "Tutorial can be replayed from settings and dismissed with Escape",
+      "passed": true
+    },
+    {
+      "name": "History starts collapsed and the main speaking button stays visible on mobile",
+      "passed": true
+    },
+    {
+      "name": "Skip on a fresh browser also persists and makes no paid call",
+      "passed": true
+    }
+  ],
+  "model_calls": 0,
+  "errors": []
+}

@@ -2,7 +2,24 @@
 
 [Read the illustrated project PDF](docs/LingoLive-How-It-Works.pdf) · [Editable source](docs/how-it-works.html)
 
-## Current source: web 1.3
+## Current source: web 1.4
+
+Web 1.4 defaults to **Gemini 3.8 Flash with low reasoning**. One lesson call
+produces the translation, three replies, all word meanings and Latin
+pronunciations, plus conversation context. Compact model output avoids repeated
+word metadata; the public lesson format and saved history stay compatible.
+Pronunciation switching and word taps make no AI call. Transcription still uses
+**Gemini 3.5 Transcribe Live** as a separate live speech service.
+
+The single-column screen keeps recent phrases collapsed, with one large
+microphone button. A three-step first-visit tutorial lets learners select their
+languages and try word meanings/pronunciation without a paid request or sensor
+permission. Skip/complete is remembered on this browser; replay it in Settings.
+
+**Publishing this update is pending:** the previous temporary Google Cloud
+credential expired. Web 1.4 passes local mocked-provider checks; its real Google
+3.8 output and latency have not been measured. The live service below remains
+v1.3 until a new authenticated deployment succeeds.
 
 Connect with **Use access code** to use your host's Google allowance, or
 **Use my Google API key** to use your own Google AI Studio account for both
@@ -33,7 +50,7 @@ files, signing keys and generated APK/ZIP files are excluded from Git.
 A web and Android companion for learning from real conversations. Choose a language
 you know and a language you are learning, then tap **Start listening**. Google's
 **Gemini 3.5 Transcribe Live** transcribes speech across languages, including
-code-switching. Final learning-language phrases become short **Gemini 3.6 Flash**
+code-switching. Web 1.4 final learning-language phrases become short **Gemini 3.8 Flash**
 lessons: what was said, what each word means, a usage note, and three natural replies.
 
 Tap any word in the source or a suggested reply for its contextual meaning,
@@ -299,7 +316,7 @@ flowchart LR
   Mic[Android microphone] --> Transcribe[Gemini 3.5 Transcribe Live]
   Transcribe --> Captions[Live captions and final text]
   Captions --> ID[Google ML Kit language identification]
-  ID -->|Learning language| Flash[Gemini 3.6 Flash]
+  ID -->|Learning language| Flash[Gemini 3.8 Flash]
   Flash --> Lesson[Meaning, words and replies]
   Lesson --> Local[(Private local SQLite memory)]
   Lesson --> Words[Tap words in either script]
@@ -320,5 +337,5 @@ claim is made by this project.
 API references checked October 16, 2026:
 [Transcribe Live](https://ai.google.dev/gemini-api/docs/live-api/live-transcribe),
 [Transcribe model](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-transcribe),
-[Flash model](https://ai.google.dev/gemini-api/docs/models/gemini-3.6-flash), and
+[Flash model](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash), and
 [structured outputs](https://ai.google.dev/gemini-api/docs/structured-output).

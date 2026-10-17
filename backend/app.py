@@ -28,7 +28,23 @@ from websockets.asyncio.client import connect
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / 'shared/lesson_schema.json').read_text())
+# The public/stored lesson stays stable. Short wire keys and punctuation-only
+# entries avoid generating repeated metadata for every space and word.
+MODEL_SCHEMA = json.loads(json.dumps(SCHEMA))
+MODEL_SCHEMA['$defs']['word'] = {
+    'type':'object', 'properties': {key:{'type':'string'} for key in ('t','r','m','n')},
+    'required':['t'], 'additionalProperties':False}
 INSTRUCTIONS = (ROOT / 'shared/teach_prompt.txt').read_text()
+MODEL_INSTRUCTIONS = INSTRUCTIONS + '''
+WEB RESPONSE WIRE FORMAT
+For this response, the schema uses compact word keys in both source and replies.
+Use t for exact text, r for Latin pronunciation/transliteration, m for contextual
+meaning in the known language, and optional n for an essential short usage note.
+Every word must have non-empty r and m. Spaces/punctuation have ONLY t. Omit n for
+ordinary words. Do not output text/reading/meaning/note/is_word keys: the server
+restores those. This wire format overrides the earlier word-key descriptions;
+all source-preservation, meaning, context and reply requirements still apply.
+'''
 GOOGLE_WS = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent'
 VERTEX_WS = 'wss://aiplatform.googleapis.com/ws/google.cloud.aiplatform.v1.LlmBidiService/BidiGenerateContent'
 WEB = ROOT / 'web'
@@ -40,7 +56,7 @@ SESSION_SECONDS = 60 * 60
 class Config:
     api_key: str = ''
     access_token: str = ''
-    flash_model: str = 'gemini-3.6-flash'
+    flash_model: str = 'gemini-3.8-flash'
     transcribe_model: str = 'gemini-3.5-transcribe-live'
     requests_per_minute: int = 24
     provider: str = 'gemini'
@@ -59,7 +75,7 @@ class Config:
     @classmethod
     def environment(cls):
         return cls(os.getenv('GEMINI_API_KEY', ''), os.getenv('LINGOLIVE_ACCESS_TOKEN', ''),
-            os.getenv('LINGOLIVE_FLASH_MODEL', 'gemini-3.6-flash'), os.getenv('LINGOLIVE_TRANSCRIBE_MODEL', 'gemini-3.5-transcribe-live'),
+            os.getenv('LINGOLIVE_FLASH_MODEL', 'gemini-3.8-flash'), os.getenv('LINGOLIVE_TRANSCRIBE_MODEL', 'gemini-3.5-transcribe-live'),
             provider=os.getenv('LINGOLIVE_PROVIDER','gemini'), project=os.getenv('LINGOLIVE_VERTEX_PROJECT',''), location=os.getenv('LINGOLIVE_VERTEX_LOCATION','global'),
             requests_per_minute=int(os.getenv('LINGOLIVE_REQUESTS_PER_MINUTE','24')),
             ai_enabled=os.getenv('LINGOLIVE_AI_ENABLED','true').lower()=='true',
@@ -199,6 +215,29 @@ def validate_lesson(value, source):
             raise ValueError('Lesson must cover the exact source and supply three replies')
     return lesson.model_dump(exclude_unset=True)
 
+def expand_model_lesson(value):
+    """Expand compact model words before the normal strict lesson validation."""
+    def words(items):
+        if not isinstance(items,list):raise ValueError('Invalid word list')
+        result=[]
+        for word in items:
+            if not isinstance(word,dict):raise ValueError('Invalid word')
+            if 't' not in word:
+                # Accept the previous schema for backwards-compatible providers.
+                result.append(word);continue
+            if set(word)-{'t','r','m','n'} or not all(isinstance(v,str) for v in word.values()):
+                raise ValueError('Invalid compact word')
+            text=word['t'];is_word=bool(word.get('r') or word.get('m')) or any(c.isalnum() for c in text)
+            result.append({'text':text,'reading':word.get('r','') if is_word else text,
+                'meaning':word.get('m',''),'note':word.get('n',''),'is_word':is_word})
+        return result
+    if not isinstance(value,dict):raise ValueError('Invalid lesson')
+    value=dict(value);value['words']=words(value['words'])
+    if not isinstance(value['replies'],list) or any(not isinstance(r,dict) for r in value['replies']):
+        raise ValueError('Invalid replies')
+    value['replies']=[dict(reply,words=words(reply['words'])) for reply in value['replies']]
+    return value
+
 def setup_message(model,project=None,location='global'):
     if not re.fullmatch(r'gemini-[a-zA-Z0-9.-]{1,80}-transcribe-live', model): raise ValueError('Invalid transcription model')
     if project is not None:
@@ -286,9 +325,10 @@ class GoogleProvider:
             payload.pop('location_context',None)
         parts=[{'text':json.dumps(payload,ensure_ascii=False)}]
         if value.audio_context:parts.append({'inlineData':{'mimeType':'audio/wav','data':value.audio_context.data}})
-        body={'systemInstruction': {'parts':[{'text':INSTRUCTIONS}]},
+        body={'systemInstruction': {'parts':[{'text':MODEL_INSTRUCTIONS}]},
             'contents':[{'role':'user','parts':parts}],
-            'generationConfig':{'responseMimeType':'application/json','responseJsonSchema':SCHEMA,'maxOutputTokens':self.config.max_output_tokens}}
+            'generationConfig':{'responseMimeType':'application/json','responseJsonSchema':MODEL_SCHEMA,
+                'maxOutputTokens':self.config.max_output_tokens,'thinkingConfig':{'thinkingLevel':'low'}}}
         if not re.fullmatch(r'gemini-[a-zA-Z0-9.-]{1,80}',self.config.flash_model): raise HTTPException(503,'Invalid Flash model configuration')
         if self.config.provider=='vertex':
             url='https://aiplatform.googleapis.com/v1/'+self._vertex_model(self.config.flash_model)+':generateContent'
@@ -311,7 +351,7 @@ class GoogleProvider:
             data=json.loads(b''.join(chunks));candidate=data.get('candidates',[{}])[0]
             if candidate.get('finishReason','STOP')!='STOP': raise ValueError('Incomplete lesson')
             text=''.join(p.get('text','') for p in candidate['content']['parts'] if not p.get('thought'))
-            return validate_lesson(json.loads(text),value.text)
+            return validate_lesson(expand_model_lesson(json.loads(text)),value.text)
         except HTTPException: raise
         except httpx.HTTPError: raise HTTPException(502,'Cannot reach Google; the client can retry its saved transcript') from None
         except (ValueError,KeyError,IndexError,TypeError): raise HTTPException(502,'Google returned an incomplete lesson; retry the saved transcript') from None
@@ -442,7 +482,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
         return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.3'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.4'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
         ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))

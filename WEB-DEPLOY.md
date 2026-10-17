@@ -1,6 +1,13 @@
 # Deploy LingoLive on Cloud Run
 
-Current web 1.3 is deployed as `lingolive-00005-lch` at
+Current source is **web 1.4**, defaulting to `gemini-3.8-flash` with low
+reasoning and compact single-call lesson output. It includes a minimal screen
+and local first-visit tutorial. **The update is not deployed yet:** the previous
+temporary Cloud credential expired. Supply working deployment credentials and
+run the existing helper; then verify `/health` version `1.4`, source assets,
+real Google output and latency. Do not treat older v1.3 evidence as a 1.4 check.
+
+Previously deployed web 1.3 is running as `lingolive-00005-lch` at
 https://lingolive-358650584819.us-central1.run.app. Hosted assets match source;
 private-code sessions, real Google transcription/context lessons, key sessions,
 invalid-key rejection and the original cost limits are verified. A valid personal
@@ -48,7 +55,7 @@ invitation requirements continue to apply only to host-code access.
 
 Use a billing-enabled Google Cloud project. Enable Vertex AI (`aiplatform`),
 Cloud Run, Cloud Build, Artifact Registry, IAM and Secret Manager. The same
-Gemini 3.6 Flash and Gemini 3.5 Transcribe Live models are used through Vertex;
+The v1.4 defaults are Gemini 3.8 Flash (low reasoning) and Gemini 3.5 Transcribe Live through Vertex;
 host-code operation needs **no Google API key** in the browser or recommended runtime. Personal-key mode accepts a key only at connection time; source contains no keys.
 Google authentication uses the runtime service account's automatically refreshed
 OAuth token. Usage is billed to the Cloud project. AI Studio prepaid credits are
