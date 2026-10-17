@@ -57,7 +57,18 @@
     "new_video_generated": false,
     "memory_story": "Opt-in saved places: useful notes recalled only on a fresh stable return nearby; editable and bounded.",
     "audio_direction": "Natural Kannada and Indian-English cadence, conversational gaps and restrained Bengaluru traffic/cafe ambience; actual response waits preserved.",
-    "technical_depth": "General Google AI / Cloud Run credit only; focus on utility/functions. Algorithms, numeric guards, security and latency belong in the PDF."
+    "technical_depth": "General Google AI / Cloud Run credit only; focus on utility/functions. Algorithms, numeric guards, security and latency belong in the PDF.",
+    "transcript_app_version": "1.9",
+    "target_seconds": 175,
+    "updated_transcript_date": "2026-10-17",
+    "functional_story": [
+      "prepare a trip plan before leaving",
+      "understand Kannada and find a reply",
+      "express English intent in Kannada",
+      "follow the current plan and conversation",
+      "permission-based return-place memory",
+      "learn afterwards in Saved"
+    ]
   },
   "functional_updates": {
     "pre_task_plan": true,
