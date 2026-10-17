@@ -1,0 +1,80 @@
+{
+  "synthetic_input": "No tea. Please take me straight to the station.",
+  "direct_google_calls": 2,
+  "candidates": {
+    "source": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "{\n  \"detected_language\": \"en-US\",\n  \"contains_learning_language\": false,\n  \"translation\": \"No tea. Please take me straight to the station.\",\n  \"explanation\": \"User is cancelling the previously discussed tea stop.\",\n  \"words\": [],\n  \"context_summary\": \"User prefers to head directly to the station, skipping the planned tea stop.\",\n  \"inferred_setting\": \"travelling\",\n  \"context_confidence\": \"high\",\n  \"current_speaker\": \"user\",\n  \"speaker_confidence\": \"high\",\n  \"inferred_user_intent\": \"Cancel tea stop and proceed directly to station\",\n  \"memory_candidates\": [],\n  \"place_candidates\": [],\n  \"reply_mode\": \"express\",\n  \"suggested_plan_steps\": [\n    {\n      \"label\": \"Reach Bengaluru railway station\",\n      \"optional\": false\n    }\n  ]\n}",
+                "thoughtSignature": "AY89a18/2+yHsFPWVo/XuGQH05GfHRPagpQWaJdHEscI084XeytBg1iMFwqbJYEoa+HhrFPwED/MNtz2HuxrINe2sYE5huyy8i7tuYU8gBpmi3O03jdkRZqz9DQ="
+              }
+            ]
+          },
+          "finishReason": "STOP"
+        }
+      ],
+      "usageMetadata": {
+        "promptTokenCount": 2906,
+        "candidatesTokenCount": 213,
+        "totalTokenCount": 3119,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 2906
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 213
+          }
+        ]
+      },
+      "modelVersion": "gemini-3.1-flash-lite",
+      "createTime": "2026-10-17T14:33:36.326689Z",
+      "responseId": "QIfTaqH4E92nq8YP9rjboQw"
+    },
+    "replies": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "{\n  \"replies\": [\n    {\n      \"label\": \"Direct and formal\",\n      \"text\": \"ಚಹಾ ಬೇಡ. ದಯವಿಟ್ಟು ನನ್ನನ್ನು ನೇರವಾಗಿ ನಿಲ್ದಾಣಕ್ಕೆ ಕರೆದೊಯ್ಯಿರಿ.\",\n      \"translation\": \"No tea. Please take me directly to the station.\",\n      \"words\": [\n        [\"ಚಹಾ\", \"chaha\", \"tea\"],\n        [\"ಬೇಡ\", \"beda\", \"no\"],\n        [\"ದಯವಿಟ್ಟು\", \"dayavittu\", \"please\"],\n        [\"ನನ್ನನ್ನು\", \"nannannu\", \"me\"],\n        [\"ನೇರವಾಗಿ\", \"neravagi\", \"directly\"],\n        [\"ನಿಲ್ದಾಣಕ್ಕೆ\", \"nildanakke\", \"to station\"],\n        [\"ಕರೆದೊಯ್ಯಿರಿ\", \"karedoyyiri\", \"take me\"]\n      ]\n    },\n    {\n      \"label\": \"Polite request\",\n      \"text\": \"ಚಹಾ ಬೇಡ, ದಯವಿಟ್ಟು ನೇರವಾಗಿ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಿ.\",\n      \"translation\": \"No tea, please go directly to the station.\",\n      \"words\": [\n        [\"ಚಹಾ\", \"chaha\", \"tea\"],\n        [\"ಬೇಡ\", \"beda\", \"no\"],\n        [\"ದಯವಿಟ್ಟು\", \"dayavittu\", \"please\"],\n        [\"ನೇರವಾಗಿ\", \"neravagi\", \"directly\"],\n        [\"ನಿಲ್ದಾಣಕ್ಕೆ\", \"nildanakke\", \"to station\"],\n        [\"ಹೋಗಿ\", \"hogi\", \"go\"]\n      ]\n    },\n    {\n      \"label\": \"Clear instruction\",\n      \"text\": \"ಚಹಾ ಇಲ್ಲ, ನನ್ನನ್ನು ನೇರವಾಗಿ ನಿಲ್ದಾಣಕ್ಕೆ ಕರೆದುಕೊಂಡು ಹೋಗಿ.\",\n      \"translation\": \"No tea, take me directly to the station.\",\n      \"words\": [\n        [\"ಚಹಾ\", \"chaha\", \"tea\"],\n        [\"ಇಲ್ಲ\", \"illa\", \"no\"],\n        [\"ನನ್ನನ್ನು\", \"nannannu\", \"me\"],\n        [\"ನೇರವಾಗಿ\", \"neravagi\", \"directly\"],\n        [\"ನಿಲ್ದಾಣಕ್ಕೆ\", \"nildanakke\", \"to station\"],\n        [\"ಕರೆದುಕೊಂಡು\", \"karedukondu\", \"taking\"],\n        [\"ಹೋಗಿ\", \"hogi\", \"go\"]\n      ]\n    }\n  ]\n}",
+                "thoughtSignature": "AY89a18aySV84gDDSL9v5aELgFmDdDx5uqFReFhbqAjmz1AuaWQPkWRyKFmsW9381NytmvqxjQzKkCqC22YclUM+HsXCzTbUa0PmwvOcqUeGhUYOITqpW49tTmg="
+              }
+            ]
+          },
+          "finishReason": "STOP"
+        }
+      ],
+      "usageMetadata": {
+        "promptTokenCount": 1271,
+        "candidatesTokenCount": 519,
+        "totalTokenCount": 1790,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 1271
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 519
+          }
+        ]
+      },
+      "modelVersion": "gemini-3.1-flash-lite",
+      "createTime": "2026-10-17T14:33:36.309004Z",
+      "responseId": "QIfTaozuEv-c4_UP6tOx8AQ"
+    }
+  }
+}

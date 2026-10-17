@@ -25,7 +25,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from websockets.asyncio.client import connect
-from backend.fast_lessons import SOURCE_SCHEMA, REPLY_SCHEMA, SOURCE_PROMPT, REPLY_PROMPT, EXPRESS_PROMPT, known_language_hint, language_base, merge as merge_parallel
+from backend.fast_lessons import SOURCE_SCHEMA, REPLY_SCHEMA, EXPRESS_SCHEMA, SOURCE_PROMPT, EXPRESS_SOURCE_PROMPT, REPLY_PROMPT, EXPRESS_PROMPT, known_language_hint, language_base, merge as merge_parallel
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / 'shared/lesson_schema.json').read_text())
@@ -440,8 +440,8 @@ class GoogleProvider:
                 if self.config.lesson_strategy=='parallel':
                     source_cap=self.config.max_output_tokens//2;reply_cap=self.config.max_output_tokens-source_cap
                     if source_cap<128:raise HTTPException(503,'Output allowance is too small for two branches')
-                    tasks=[asyncio.create_task(generate(client,body(SOURCE_PROMPT,SOURCE_SCHEMA,parts,source_cap))),
-                        asyncio.create_task(generate(client,body(EXPRESS_PROMPT if express_hint else REPLY_PROMPT,REPLY_SCHEMA,parts[:1],reply_cap)))]
+                    tasks=[asyncio.create_task(generate(client,body(EXPRESS_SOURCE_PROMPT if express_hint else SOURCE_PROMPT,SOURCE_SCHEMA,parts,source_cap))),
+                        asyncio.create_task(generate(client,body(EXPRESS_PROMPT if express_hint else REPLY_PROMPT,EXPRESS_SCHEMA if express_hint else REPLY_SCHEMA,parts[:1],reply_cap)))]
                     try:source,replies=await asyncio.gather(*tasks)
                     except BaseException:
                         for task in tasks:task.cancel()

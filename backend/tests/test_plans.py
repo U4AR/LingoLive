@@ -3,7 +3,7 @@ from dataclasses import replace
 from unittest.mock import patch
 import httpx
 from backend.app import TeachRequest,GoogleProvider,validate_lesson
-from backend.fast_lessons import merge,known_language_hint,EXPRESS_PROMPT
+from backend.fast_lessons import merge,known_language_hint,EXPRESS_PROMPT,EXPRESS_SOURCE_PROMPT
 from test_app import INPUT,EXAMPLE,CONFIG
 from test_parallel import responses
 
@@ -54,7 +54,11 @@ class PlannedProviderTests(unittest.IsolatedAsyncioTestCase):
    self.assertEqual('express',lesson['reply_mode']);self.assertEqual(3,len(lesson['replies']));self.assertFalse(lesson['contains_learning_language'])
    self.assertEqual(2 if strategy=='parallel' else 1,len(seen))
    for b in seen:self.assertEqual('say_this',json.loads(b['contents'][0]['parts'][0]['text'])['assistance_mode'])
-   if strategy=='parallel':self.assertEqual(EXPRESS_PROMPT,seen[1]['systemInstruction']['parts'][0]['text'])
+   if strategy=='parallel':
+    self.assertEqual(EXPRESS_PROMPT,seen[1]['systemInstruction']['parts'][0]['text'])
+    self.assertEqual(EXPRESS_SOURCE_PROMPT,seen[0]['systemInstruction']['parts'][0]['text'])
+    self.assertEqual(10,seen[1]['generationConfig']['responseJsonSchema']['properties']['replies']['items']['properties']['words']['maxItems'])
+    self.assertEqual(CONFIG.max_output_tokens,sum(b['generationConfig']['maxOutputTokens'] for b in seen))
  async def test_both_existing_parallel_calls_receive_plan_current_stage_and_expression_mode(self):
   original=httpx.AsyncClient;seen=[];source,replies=responses();source.update(contains_learning_language=False,words=[],reply_mode='express',suggested_plan_steps=[{'label':'Must not replace the explicit steps','optional':False}])
   def handler(request):

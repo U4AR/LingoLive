@@ -1,0 +1,80 @@
+{
+  "synthetic_input": "No tea. Please take me straight to the station.",
+  "direct_google_calls": 2,
+  "candidates": {
+    "source": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "{\n  \"detected_language\": \"kn-IN\",\n  \"contains_learning_language\": true,\n  \"translation\": \"ಚಹಾ ಬೇಡ. ದಯವಿಟ್ಟು ನನ್ನನ್ನು ನೇರವಾಗಿ ನಿಲ್ದಾಣಕ್ಕೆ ಕರೆದೊಯ್ಯಿರಿ.\",\n  \"explanation\": \"Translates to no tea and direct travel to station.\",\n  \"words\": [\n    [\"ಚಹಾ\", \"chaha\", \"tea\"],\n    [\"ಬೇಡ\", \"beda\", \"not needed\"],\n    [\"ದಯವಿಟ್ಟು\", \"dayavittu\", \"please\"],\n    [\"ನೇರವಾಗಿ\", \"neravagi\", \"directly\"],\n    [\"ನಿಲ್ದಾಣಕ್ಕೆ\", \"nildanakke\", \"to the station\"],\n    [\"ಕರೆದೊಯ್ಯಿರಿ\", \"karedoyyiri\", \"take me there\"]\n  ],\n  \"context_summary\": \"User cancels the planned tea stop and requests a direct drive to the station.\",\n  \"inferred_setting\": \"travelling\",\n  \"context_confidence\": \"high\",\n  \"current_speaker\": \"user\",\n  \"speaker_confidence\": \"high\",\n  \"inferred_user_intent\": \"Cancel tea stop and head directly to the railway station.\",\n  \"memory_candidates\": [],\n  \"place_candidates\": [],\n  \"reply_mode\": \"respond\",\n  \"suggested_plan_steps\": [\n    {\n      \"label\": \"Drive directly to Bengaluru railway station\",\n      \"optional\": false\n    }\n  ]\n}",
+                "thoughtSignature": "AY89a19KNZQErUnMLqYxFQOXEW6bUCgXSW++hhY/+VICh36nRi8w9Oe9QVknf7TbV2MT5pyQdVACfQSc1uIZwIrSgkcX+kMJKIqGbyfVLM06ig5gCLwWUILvzgA="
+              }
+            ]
+          },
+          "finishReason": "STOP"
+        }
+      ],
+      "usageMetadata": {
+        "promptTokenCount": 2757,
+        "candidatesTokenCount": 331,
+        "totalTokenCount": 3088,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 2757
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 331
+          }
+        ]
+      },
+      "modelVersion": "gemini-3.1-flash-lite",
+      "createTime": "2026-10-17T14:32:01.902934Z",
+      "responseId": "4YbTapaON-XG4_UP_a-tuQo"
+    },
+    "replies": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "{\n  \"replies\": [\n    {\n      \"label\": \"Direct and polite\",\n      \"text\": \"ಚಹಾ ಬೇಡ. ದಯವಿಟ್ಟು ನೇರವಾಗಿ ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಿ.\",\n      \"translation\": \"No tea. Please go directly to the railway station.\",\n      \"words\": [\n        [\"ಚಹಾ\", \"chaha\", \"tea\"],\n        [\"ಬೇಡ\", \"beda\", \"do not want\"],\n        [\"ದಯವಿಟ್ಟು\", \"dayavittu\", \"please\"],\n        [\"ನೇರವಾಗಿ\", \"neravagi\", \"directly\"],\n        [\"ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ\", \"railve nildanakke\", \"to railway station\"],\n        [\"ಹೋಗಿ\", \"hogi\", \"go\"]\n      ]\n    },\n    {\n      \"label\": \"Concise request\",\n      \"text\": \"ಚಹಾ ಬೇಡ, ನೇರವಾಗಿ ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಕರೆದೊಯ್ಯಿರಿ.\",\n      \"translation\": \"No tea, please take me directly to the railway station.\",\n      \"words\": [\n        [\"ಚಹಾ\", \"chaha\", \"tea\"],\n        [\"ಬೇಡ\", \"beda\", \"no\"],\n        [\"ನೇರವಾಗಿ\", \"neravagi\", \"straight\"],\n        [\"ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ\", \"railve nildanakke\", \"to station\"],\n        [\"ಕರೆದೊಯ್ಯಿರಿ\", \"karedoyyiri\", \"take\"]\n      ]\n    },\n    {\n      \"label\": \"Station focus\",\n      \"text\": \"ಚಹಾ ಅಗತ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನನ್ನನ್ನು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ನೇರವಾಗಿ ಕರೆದೊಯ್ಯಿರಿ.\",\n      \"translation\": \"No tea needed. Please take me straight to the railway station.\",\n      \"words\": [\n        [\"ಚಹಾ\", \"chaha\", \"tea\"],\n        [\"ಅಗತ್ಯವಿಲ್ಲ\", \"agatyavilla\", \"not needed\"],\n        [\"ದಯವಿಟ್ಟು\", \"dayavittu\", \"please\"],\n        [\"ನನ್ನನ್ನು\", \"nannannu\", \"me\"],\n        [\"ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ\", \"railve nildanakke\", \"to station\"],\n        [\"ನೇರವಾಗಿ\", \"neravagi\", \"straight\"]\n      ]\n    }\n  ]\n}",
+                "thoughtSignature": "AY89a190yZunLfMg9Os9sjLnLEWOAZhB0mpcoO1buJ76SJuF8O+F3dRN8+c/3kUAUUDyVDP+zqrGkYZiVZG77HC308sNRapV6BiLQva6Y6paUaxyL4E1my+Sbtg="
+              }
+            ]
+          },
+          "finishReason": "STOP"
+        }
+      ],
+      "usageMetadata": {
+        "promptTokenCount": 1245,
+        "candidatesTokenCount": 510,
+        "totalTokenCount": 1755,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 1245
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 510
+          }
+        ]
+      },
+      "modelVersion": "gemini-3.1-flash-lite",
+      "createTime": "2026-10-17T14:32:01.948469Z",
+      "responseId": "4YbTavXxOZOm998PnOOpwA8"
+    }
+  }
+}

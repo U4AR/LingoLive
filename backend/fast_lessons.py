@@ -50,6 +50,12 @@ REPLY_PROMPT+=PLAN_RULES
 EXPRESS_PROMPT=RULES+'''
 Your ONLY task: translate the learner's CURRENT text into the LEARNING language so the learner can SAY IT to another person. This is NOT a conversation to answer. Return exactly THREE concise natural phrasings of the SAME meaning, each with label, target text, known-language translation, and word rows for EVERY target word. All three must preserve the current question/request, negation, destination and uncertainty. Do not substitute other trip steps or suggest different actions. For "Could we stop for tea first?" every option asks to stop for tea first; no option asks travel time or gives the final destination. For "No tea. Please take me straight to the station." every option declines tea and requests going directly to the station. Context may resolve a pronoun only; it is not a menu of alternative intentions. If necessary use identical short phrasings rather than change meaning. Maximum six lexical rows per phrase. Meanings and labels in KNOWN language; short Latin readings for target words. Never answer the request, invent a reply by the other person, or claim an action happened.
 '''
+EXPRESS_PROMPT=EXPRESS_PROMPT.replace('Maximum six lexical rows per phrase.','Maximum ten lexical rows per phrase. Cover the entire phrase, including its final verb; shorten the phrase if needed, never drop definitions to fit the row limit.')
+EXPRESS_SCHEMA=copy.deepcopy(REPLY_SCHEMA)
+EXPRESS_SCHEMA['properties']['replies']['items']['properties']['words']['maxItems']=10
+EXPRESS_SOURCE_PROMPT=SOURCE_PROMPT+'''
+IMPORTANT: assistance_mode=say_this controls the separate REPLY task, not your source analysis. Analyze the EXACT ORIGINAL contents.text, never a translation or previous suggestion. Do NOT generate target-language text as source words. Your translation is always in known_name. Example: known=English, learning=Kannada, text="No tea. Please take me straight to the station." must have detected_language="en-US", contains_learning_language=false, words=[], reply_mode="express" and an ENGLISH translation, not Kannada. If actual original text contains learning-language words, cover only that exact original text faithfully and report its presence honestly. Existing plan steps must not be replaced with suggested steps.
+'''
 
 def parts(payload,audio=None):
  import json
