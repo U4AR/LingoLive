@@ -1,3 +1,28 @@
+# Approved web 1.9 video — v2
+
+- Final edit: 179.021 seconds, H.264 1920x1080/25fps, AAC stereo, full decode
+  passed. English captions are burned in and available as SRT/WebVTT. Full-movie
+  loudness measured -16.75 LUFS, true peak -3.10 dBTP. Sample frames covering
+  conversation, correction, memory, word bubble and closing were inspected.
+- Final take: seven real lesson requests / fourteen parallel generation calls,
+  four synthetic speech/noise inputs through the actual microphone worklet and
+  Google transcription. An earlier incomplete take made three lesson requests.
+  A certificate setup attempt made no lesson request. No backend output mocked.
+- The cafe ASR error (Kannada misidentified as Bengali), its response wait and
+  typed correction are visible. The return question had mixed Telugu/Kannada
+  script. These are actual prototype limitations, not a flawless noise benchmark.
+- A real source candidate saved ginger-tea place memory after simulated dwell;
+  a real away request withheld it; a new blank-goal return request used it without
+  saved coordinates. Location and elapsed time are simulated and labelled.
+- Voice model gemini-3.1-flash-tts-preview; four preset voices. Three source clips
+  and four selected reply clips received an independent automated transcription
+  check, without supplying expected text. No human native review is claimed.
+- Actual model replies drive spoken Kannada and captions. No audio acceleration;
+  original browser speed and complete inference waits with end-frame holds.
+  Learning first appears at 2:22 as an additional feature. No deployment or cost
+  guard changes. Raw audio/video stays outside Git; sanitized evidence/provenance
+  is in submission-demo-v2*.json and docs/submission/DEMO-V2.md.
+
 # Web 1.9 — Pre-task intent and learner-language expression
 
 - **112 backend tests and 91 Chromium browser checks pass**, plus eight plan-core,

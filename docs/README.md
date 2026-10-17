@@ -1,9 +1,10 @@
 Current technical write-up: [LingoLive-Writeup.pdf](submission/LingoLive-Writeup.pdf)
-covers web 1.9 pre-task plans, learner-language expression, guarded saved places and real-Google verification. The proposed
-Bengaluru/Kannada video focuses on utility and functions, including natural
-cadence and environmental sound; its script is [DEMO-TRANSCRIPT-V2.md](submission/DEMO-TRANSCRIPT-V2.md) and awaits
-approval before production. The presentation below and published 1.5 video are
-older materials and have not been relabelled as current.
+covers web 1.9, task plans, learner-language replies, guarded saved places and
+real-Google verification. The user-approved **2:59 Bengaluru/Kannada video** shows
+the communication problem first, then the working solution. Learning appears near
+the end as an extra. See [provenance and reproduction](submission/DEMO-V2.md) and
+the [approved transcript](submission/DEMO-TRANSCRIPT-V2.md).
+The older presentation and web 1.5 media below remain explicitly archived.
 
 # Project explanation PDF
 
@@ -40,6 +41,6 @@ project write-up, prepared entry fields, proposal PDF, narrated-demo script,
 captions, artifact links and submission status.
 
 Web 1.6 changes the live experience to replies first and learning later in Saved.
-The revised [Bengaluru/Kannada demo transcript](submission/DEMO-TRANSCRIPT-V2.md)
-is pending approval. The proposal PDF and video describe the earlier prototype; the full write-up PDF
-has been refreshed. No v2 narration, simulated voices or video has been produced.
+The approved [current video transcript](submission/DEMO-TRANSCRIPT-V2.md),
+[video provenance](submission/DEMO-V2.md) and full technical write-up describe
+the newer web 1.9 demonstration. The proposal and older media remain archived.

@@ -1,9 +1,10 @@
 # LingoLive demo transcript — Understand. Reply. Keep going.
 
-**Status:** revised for user approval, covering the deployed web 1.9 functions.
-No new narration, actor voices, noise mix, generated footage or video has been
-produced. The user's earlier instruction requires transcript approval before
-media production. The web 1.5 video remains archived and is not this demonstration.
+**Status:** approved by the user ("Ok make it"); video produced, verified and published.
+The script below is the approved version. The final edit is 2:59.021, preserving
+a real recognition error and typed correction, with learning introduced at 2:22.
+Actual selected Kannada replies and captions are documented in DEMO-V2.md.
+The web 1.5 video remains explicitly archived.
 
 **Audience:** immigrants and people moving between Indian states. An
 English-speaking newcomer is navigating everyday Kannada conversations in Bengaluru.

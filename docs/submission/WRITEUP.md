@@ -21,8 +21,8 @@ A Bengaluru/Kannada scenario illustrates the need: someone asks a question while
 the newcomer needs a useful reply. Live Conversation now prioritizes translation,
 three suggested replies and pronunciation/playback/copy aids. Word meanings and
 practice open afterwards in a separate Saved review, using already prepared data
-without another AI request. The earlier video is archived; the revised Kannada
-transcript awaits approval before any new narration, simulated voices or footage.
+without another AI request. The earlier video is archived. The user approved the new Kannada transcript;
+the completed 2:59 demonstration introduces learning near the end as an extra.
 
 ## The problem
 
@@ -256,6 +256,26 @@ credentials are included in the repository or demonstration.
 
 Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds (mean 2.065); browser interactions took 2.340, 1.939, 1.972, 2.307 seconds. All four cases passed: Kannada cab directions, an English tea request expressed in Kannada, a Kannada café exchange with explicit plan progress, and declining tea to go to the station. These are four functional cases, not a stable latency average, physical speech capture test or evidence of sub-two-second performance across users. Three earlier staged failures and direct diagnostics remain in the evidence; they are not included in this final passing sample.
 
+## Current video demonstration
+
+The approved Bengaluru/Kannada video runs 2:59.021, with 1080p H.264, AAC and
+English captions. It presents the communication problem before the solution;
+learning is an additional feature at 2:22. Google Gemini 3.1 Flash TTS preview
+provides four distinct preset voices. The generated opening illustration,
+synthetic speech/ambience and simulated location/time are disclosed. Actual
+speech/noise WAVs pass through the real microphone worklet and Google service.
+Seven final-take lesson requests use real Google responses; no output is replaced.
+An earlier incomplete take made three requests and is retained as evidence.
+
+The recording exposes a real limitation: the cafe question was misidentified as
+Bengali. Its response and a visible typed correction remain in the film. A return
+question used mixed Telugu/Kannada script while retaining useful meaning. Four
+selected reply voices passed a separate automated transcription check; no human
+native review or physical-microphone robustness is claimed. Place memory was
+withheld away and used on a simulated return in a new blank-goal conversation.
+The normal app quotas and resource guards remain unchanged. Reproduction and
+media provenance are in DEMO-V2.md and validation/submission-demo-v2*.json.
+
 ## Differentiation and growth
 
 The prototype brings together live conversation, contextual next-turn replies,
@@ -276,8 +296,8 @@ educational outcomes.
 
 - Proposal PDF: `LingoLive-Proposal.pdf` in this directory.
 - Prepared form responses: `ENTRY.md` and `submission.json`.
-- Demo narration, captions and provenance: `demo-scenes.json`, `DEMO.md` and
-  `validation/submission-demo.json`.
+- Current approved demo: `DEMO-TRANSCRIPT-V2.md`, `DEMO-V2.md` and
+  `validation/submission-demo-v2.json`. Earlier web 1.5 evidence stays archived.
 - Technical detail: `MEMORY.md`, `WEB-DEPLOY.md`, `VALIDATION.md` and `docs/LATENCY.md`.
 - Official requirements checked October 17, 2026:
   https://aibuildercup.com/themes.html and https://aibuildercup.com/Faqs.html.

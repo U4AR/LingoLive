@@ -1,0 +1,5 @@
+{
+  "unresolved_findings": [],
+  "zip_members_scanned": true,
+  "limits": "Pattern scan plus explicit file allowlist; no cookie/profile/CLI files included"
+}

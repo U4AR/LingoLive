@@ -1,0 +1,54 @@
+{
+  "source": {
+    "clips": [
+      {
+        "language": "Kannada",
+        "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+        "clear": true
+      },
+      {
+        "language": "Kannada",
+        "text": "ಇಲ್ಲಿ ಕುಡಿತೀರಾ ಅಥವಾ ಪಾರ್ಸೆಲ್ ಬೇಕಾ?",
+        "clear": true
+      },
+      {
+        "language": "Kannada",
+        "text": "ಏನ್ ಬೇಕು?",
+        "clear": true
+      }
+    ]
+  },
+  "reply": {
+    "clips": [
+      {
+        "language": "kn",
+        "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು",
+        "clear": true
+      },
+      {
+        "language": "kn",
+        "text": "ಮೊದಲು ಚಹಾಕ್ಕೆ ನಿಲ್ಲಿಸಬಹುದೆ",
+        "clear": true
+      },
+      {
+        "language": "kn",
+        "text": "ಪಾರ್ಸೆಲ್ ಕೊಡಿ",
+        "clear": true
+      },
+      {
+        "language": "kn",
+        "text": "ಒಂದು ಶುಂಠಿ ಟೀ ಬೇಕು",
+        "clear": true
+      }
+    ],
+    "files": [
+      "learner-cab",
+      "learner-express",
+      "learner-cafe",
+      "learner-place"
+    ],
+    "independent_model": "gemini-3.1-flash-lite",
+    "human_native_review": false,
+    "source": "Generated speech, without supplying expected transcripts to the check model"
+  }
+}

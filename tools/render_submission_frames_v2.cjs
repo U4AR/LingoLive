@@ -1,0 +1,22 @@
+/* Original presentation graphics around unmodified recordings, not mock app UI. */
+const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:path');
+const OUT=path.resolve(process.argv[2]||'/tmp/lingolive-video-v2');
+const specs={
+ problem:['BENGALURU · AN EVERYDAY JOURNEY','Stuck for words<br>in a new city.','Knowing what you mean can be easier than saying it.'],
+ solution:['MEET LINGOLIVE','Understand.<br>Reply. Keep going.','Conversation help for a new city.'],
+ plan:['BEFORE LEAVING HOME','Start with<br>your plan.','Cab → optional tea stop → railway station.'],
+ cab:['AT THE CAB PICKUP','Understand.<br>Choose a reply.','Hear it. Read it. Say it.'],
+ express:['SAY WHAT YOU MEAN','Speak in your<br>own words.','Get help expressing your intention in Kannada.'],
+ cafe:['AT THE TEA STALL','Keep the<br>conversation going.','Replies follow the current exchange and your plan.'],
+ place:['PERMISSION-BASED MEMORY','Useful context,<br>when you return.','Relevant notes for familiar places. You stay in control.'],
+ learn:['AN ADDITIONAL FEATURE','Learn afterwards,<br>at your own pace.','Saved conversations · Word meanings · Practice'],
+ close:['LINGOLIVE','Take part in<br>everyday conversations.','Understand. Reply. Keep going.']};
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+(async()=>{let browser;try{fs.mkdirSync(path.join(OUT,'frames'),{recursive:true});browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});const page=await browser.newPage({viewport:{width:1920,height:1080}});await page.route(/^https?:/,r=>r.abort());
+ for(const [id,[eyebrow,heading,lead]] of Object.entries(specs)){
+  const problem=id==='problem',close=id==='close';const disclosure=problem?'Dramatized illustration · AI-generated image and voices':id==='place'?'Real app · Simulated microphone, location and elapsed time':id==='learn'?'Actual saved conversation · No new model call':id==='solution'?'Live prototype · Recorded app screen':'Real Google responses · Simulated microphone input';
+  await page.setContent(`<html><meta charset="utf-8"><style>*{box-sizing:border-box}body{margin:0;width:1920px;height:1080px;background:${problem?'transparent':'#f5f6f0'};font-family:Arial,sans-serif;color:#234b3d;overflow:hidden}.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,24,17,.82),rgba(7,24,17,.43) 55%,rgba(7,24,17,.08))}.head{position:absolute;left:120px;top:137px;width:1080px}.eyebrow{font-size:25px;letter-spacing:3px;font-weight:600;${problem?'color:#e5ecd9':''}}h1{font-size:${close?86:88}px;line-height:1.07;font-weight:600;letter-spacing:-3px;margin:34px 0 24px;${problem?'color:#fff':''}}.lead{font-size:32px;line-height:1.5;max-width:1010px;color:${problem?'#e6ebdc':'#607568'}}.disclosure{position:absolute;left:120px;top:49px;font-size:22px;color:${problem?'#e6ebdc':'#6b7f70'}}.device{position:absolute;left:1288px;top:37px;width:524px;height:1004px;border-radius:35px;background:#dfe7d8;border:3px solid #b6c7b0;box-shadow:0 15px 45px #173e3122}.progress{position:absolute;left:120px;top:1039px;width:1020px;height:3px;background:#c9d5c0}.credit{position:absolute;left:120px;top:550px;width:1030px;font-size:30px;line-height:1.65}.brand{font-size:40px;font-weight:600;letter-spacing:-1px;margin-bottom:26px}.url{font-size:27px;overflow-wrap:anywhere;margin-top:20px}.author{font-size:23px;color:#6b7f70;margin-top:18px}</style><body>${problem?'<div class="shade"></div>':'<div class="device"></div>'}<div class="disclosure">${esc(disclosure)}</div><div class="head"><div class="eyebrow">${esc(eyebrow)}</div><h1>${heading}</h1><div class="lead">${esc(lead)}</div></div>${close?'<div class="credit"><div class="brand">LingoLive</div>Built with Google AI · Deployed on Cloud Run<div class="url">lingolive-358650584819.us-central1.run.app</div><div class="author">Ashish T. Vasant · AI Builder Cup prototype</div></div>':''}${problem?'':'<div class="progress"></div>'}</body></html>`);
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight);if(overflow)throw Error('Graphic overflow '+id);
+  await page.screenshot({path:path.join(OUT,'frames',id+'.png'),omitBackground:problem});console.log('Rendered graphic '+id);
+ }
+}finally{await browser?.close();}})().catch(e=>{console.error(e.message);process.exitCode=1;});

@@ -1,0 +1,566 @@
+{
+  "model": "gemini-3.1-flash-tts-preview",
+  "provider": "Google Vertex AI",
+  "region": "us-central1",
+  "synthetic": true,
+  "not_a_real_person_voice_clone": true,
+  "audio_sped_up": false,
+  "calls": [
+    {
+      "id": "narration-problem",
+      "text": "For immigrants and people moving between Indian states, even a simple journey can mean a difficult conversation.",
+      "text_sha256": "c7407ea4e118337a88607f56726b57ab59b34529c1f63d2015ef820784679e06",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 8.04,
+      "preflight_cache_reused": true,
+      "sha256": "ff070e307270195f2e9a3b7f47234a1a8cdf3804d21d5d1c980fcae5490056d7"
+    },
+    {
+      "id": "narration-solution",
+      "text": "Meet LingoLive: understand what's being said, find a reply, and say it in the other person's language. Keep the conversation moving.",
+      "text_sha256": "3a4ce9f93c00fd367247883c7ee3578d29959df53bd47b9f59d7906cdf595b8a",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 9.76,
+      "synthesis_seconds": 5.419,
+      "usage": {
+        "promptTokenCount": 75,
+        "candidatesTokenCount": 244,
+        "totalTokenCount": 319,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 75
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 244
+          }
+        ]
+      },
+      "sha256": "512677845b6b435669ccbe064025496726012e9dd0a1267b889ae7ff0e080e93"
+    },
+    {
+      "id": "narration-plan",
+      "text": "Before leaving, save your plan: a cab to the railway station, with a possible tea stop first.",
+      "text_sha256": "f14b64ca1fa7573ce38de2fd2e63c7804e68a49c16385a035f4bd927df028523",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 7.2,
+      "synthesis_seconds": 4.297,
+      "usage": {
+        "promptTokenCount": 64,
+        "candidatesTokenCount": 180,
+        "totalTokenCount": 244,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 64
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 180
+          }
+        ]
+      },
+      "sha256": "977379eb2e0ba18902bcd7bae7270f8af1925e9a7003d7688c28c74d9a9a38d9"
+    },
+    {
+      "id": "narration-cab",
+      "text": "Tap to listen. See the meaning, choose a reply, then read the pronunciation or play it aloud.",
+      "text_sha256": "ddd0565c54e032de29eba11890812a44b9808141c0641af3ef5bfda5ddf887c7",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 7.12,
+      "synthesis_seconds": 4.305,
+      "usage": {
+        "promptTokenCount": 64,
+        "candidatesTokenCount": 178,
+        "totalTokenCount": 242,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 64
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 178
+          }
+        ]
+      },
+      "sha256": "d3a729ce241b07ea00d4b6dca0ac09394f5727ff6627a8b3e3d2e0bcaa713aaa"
+    },
+    {
+      "id": "narration-express",
+      "text": "Speak in English. LingoLive helps you express your own words in Kannada.",
+      "text_sha256": "10df402596bde749e21b444b3efa3f16fbd47dd33ccf506e3474e0e72c7f3c50",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 4.64,
+      "synthesis_seconds": 2.988,
+      "usage": {
+        "promptTokenCount": 59,
+        "candidatesTokenCount": 116,
+        "totalTokenCount": 175,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 59
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 116
+          }
+        ]
+      },
+      "sha256": "4b845970ffabf3393f24857a94c8eb41d9bb443bf5344fc612cbf1f47a23264a"
+    },
+    {
+      "id": "narration-cafe",
+      "text": "Replies follow the current conversation and your plan. Your latest words take priority.",
+      "text_sha256": "7b070c411db6e3268d2b0455689bbd83000959adb0bd2667ca6531e8385a4afb",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 6.8,
+      "synthesis_seconds": 4.148,
+      "usage": {
+        "promptTokenCount": 58,
+        "candidatesTokenCount": 170,
+        "totalTokenCount": 228,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 58
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 170
+          }
+        ]
+      },
+      "sha256": "b5e9728ee513113584aaf5cc79f351ba20d679b86b64bba5d71a31e543a96f28"
+    },
+    {
+      "id": "narration-place",
+      "text": "With permission, LingoLive remembers useful routines. Back near a saved place, relevant notes help again. Away from that area, they stay out. You can change or forget them.",
+      "text_sha256": "e13984e7d4d8d374842463a526116bed5e75ea9e31128e9d6e456d3fe3cbb266",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 13.12,
+      "synthesis_seconds": 6.706,
+      "usage": {
+        "promptTokenCount": 80,
+        "candidatesTokenCount": 328,
+        "totalTokenCount": 408,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 80
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 328
+          }
+        ]
+      },
+      "sha256": "2b5af56f334334f6a31e4d3ae8ffca28c296b26c6ea008544c84f8494215aa10"
+    },
+    {
+      "id": "narration-learn",
+      "text": "And there's a learning feature for later. In Saved, tap words for their meanings, hear the pronunciation and practise. Learn from your own conversations, at your own pace.",
+      "text_sha256": "340b9cd88e69b3ffe0ba61094c398ebadd947b31f114d1969540d2c038ea21bc",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 12.32,
+      "synthesis_seconds": 6.456,
+      "usage": {
+        "promptTokenCount": 79,
+        "candidatesTokenCount": 308,
+        "totalTokenCount": 387,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 79
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 308
+          }
+        ]
+      },
+      "sha256": "5f418964535365aa8c83f5660d9a695ead967675392b648d1fc5af55125e4f0d"
+    },
+    {
+      "id": "driver-question",
+      "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "text_sha256": "5ba0f66bfa05cf00648044d993208a097b64a84341e84cf94c679a105cb8cb3b",
+      "language": "kn-IN",
+      "voice": "Charon",
+      "seconds": 1.52,
+      "preflight_cache_reused": true,
+      "sha256": "376c721635fb20d49dd4af8b12a6e3dd82b6a0a5d40b527b308bf1ad621abbc6"
+    },
+    {
+      "id": "narration-close",
+      "text": "Powered by Google AI on Google Cloud, LingoLive helps newcomers take part in everyday conversations—with growing confidence.",
+      "text_sha256": "984b606c8f3680af3f2ee798f3cab678c05453ea172dfc36d769246c1e55972b",
+      "language": "en-IN",
+      "voice": "Kore",
+      "seconds": 9.2,
+      "synthesis_seconds": 4.331,
+      "usage": {
+        "promptTokenCount": 66,
+        "candidatesTokenCount": 230,
+        "totalTokenCount": 296,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 66
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 230
+          }
+        ]
+      },
+      "sha256": "c62eb0665b1f9a8409d05c180ef3f36cc6ebb12fe3236d43d54d60d308b0708b"
+    },
+    {
+      "id": "driver-confused",
+      "text": "ಅರ್ಥವಾಗಲಿಲ್ಲ. ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "text_sha256": "e8947cbe413490d17683ff40c35d0cc53691a779ada3a5bc6434d604f6f4c2c2",
+      "language": "kn-IN",
+      "voice": "Charon",
+      "seconds": 3.48,
+      "synthesis_seconds": 2.761,
+      "usage": {
+        "promptTokenCount": 49,
+        "candidatesTokenCount": 87,
+        "totalTokenCount": 136,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 49
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 87
+          }
+        ]
+      },
+      "sha256": "87bfb3ced9d46ca379cf4fb1a78b33d274cc3c0effeef14ec69e7da9de4fc9ad"
+    },
+    {
+      "id": "driver-okay",
+      "text": "ಸರಿ.",
+      "text_sha256": "7eb43b3d8b71187d16251160e8e1d2591c001284d4043ee46daf55ecb0e58316",
+      "language": "kn-IN",
+      "voice": "Charon",
+      "seconds": 0.76,
+      "synthesis_seconds": 2.14,
+      "usage": {
+        "promptTokenCount": 34,
+        "candidatesTokenCount": 19,
+        "totalTokenCount": 53,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 34
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 19
+          }
+        ]
+      },
+      "sha256": "63f821b15f3ab3998ebec499b729e89fc9b775fccae5e9bb4cf6912450eaeae3"
+    },
+    {
+      "id": "learner-problem",
+      "text": "The railway station… could we stop for tea first?",
+      "text_sha256": "33077c606ef42cc6413ebb7569d860268255f188a395fa487d52ad99c3fc420d",
+      "language": "en-IN",
+      "voice": "Orus",
+      "seconds": 4.84,
+      "synthesis_seconds": 2.861,
+      "usage": {
+        "promptTokenCount": 51,
+        "candidatesTokenCount": 121,
+        "totalTokenCount": 172,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 51
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 121
+          }
+        ]
+      },
+      "sha256": "fe6138f6d153fab9d57384f5cc4ebf634a1253ff7708f3770cea3e9619b40dd3"
+    },
+    {
+      "id": "learner-unsure",
+      "text": "I know what I mean. I just don't know how to say it.",
+      "text_sha256": "ac8985a95a513ac99b070b25ff699268b6a19779e1b2edffcec591d2486c28a0",
+      "language": "en-IN",
+      "voice": "Orus",
+      "seconds": 4.28,
+      "synthesis_seconds": 2.786,
+      "usage": {
+        "promptTokenCount": 53,
+        "candidatesTokenCount": 107,
+        "totalTokenCount": 160,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 53
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 107
+          }
+        ]
+      },
+      "sha256": "2721cb912508847fdf009eb99e75d69ec49beaace7cdda0bf7cce09016b5809a"
+    },
+    {
+      "id": "learner-english",
+      "text": "Could we stop for tea first?",
+      "text_sha256": "180bc0c7bba602b59a40f5a9f80cd64b478005771ba27df83966bee08acc881d",
+      "language": "en-IN",
+      "voice": "Orus",
+      "seconds": 2.2,
+      "synthesis_seconds": 1.801,
+      "usage": {
+        "promptTokenCount": 39,
+        "candidatesTokenCount": 55,
+        "totalTokenCount": 94,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 39
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 55
+          }
+        ]
+      },
+      "sha256": "c38d65be0934934a90784e73fae84d221d6bdd0fbc08679c8e18e3db31bf2225"
+    },
+    {
+      "id": "cafe-question",
+      "text": "ಇಲ್ಲೇ ಕುಡಿಯುತ್ತೀರಾ ಅಥವಾ ಪಾರ್ಸೆಲ್ ಬೇಕಾ?",
+      "text_sha256": "f8d4cda56640339ccc6c470977cdbf4fec9224e8c0419a16276b7fda9f4510d3",
+      "language": "kn-IN",
+      "voice": "Algieba",
+      "seconds": 2.84,
+      "synthesis_seconds": 2.029,
+      "usage": {
+        "promptTokenCount": 56,
+        "candidatesTokenCount": 71,
+        "totalTokenCount": 127,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 56
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 71
+          }
+        ]
+      },
+      "sha256": "c953bb7937f4debd4fc5334d71722ca85373139ff1a45d13c1233e8a89759624"
+    },
+    {
+      "id": "shop-question",
+      "text": "ಏನು ಬೇಕು?",
+      "text_sha256": "4c1f1646a291970325facd3386d51dec3effff40479082de1ce7f23ad769512d",
+      "language": "kn-IN",
+      "voice": "Algieba",
+      "seconds": 1.44,
+      "synthesis_seconds": 1.966,
+      "usage": {
+        "promptTokenCount": 41,
+        "candidatesTokenCount": 36,
+        "totalTokenCount": 77,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 41
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 36
+          }
+        ]
+      },
+      "sha256": "dd72cab90ed0deada350ddf7c83ee33ae00cdd9ee1aa8b0e932e5b7b54be59d8"
+    },
+    {
+      "id": "learner-cab",
+      "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು.",
+      "text_sha256": "cf7b8c5c5e2a7d2b975b51ce1d2240c81b317dd7ddd6764e2489c64a61a4c1bd",
+      "language": "kn-IN",
+      "voice": "Orus",
+      "seconds": 3.48,
+      "synthesis_seconds": 2.754,
+      "usage": {
+        "promptTokenCount": 73,
+        "candidatesTokenCount": 87,
+        "totalTokenCount": 160,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 73
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 87
+          }
+        ]
+      },
+      "sha256": "6b83c076e476ccdf7c4f0e73e89ce797b5c13023a3984221f39297ff75a829c1"
+    },
+    {
+      "id": "learner-express",
+      "text": "ಮೊದಲು ಚಹಾಕ್ಕೆ ನಿಲ್ಲಿಸಬಹುದೇ?",
+      "text_sha256": "df5306fb2ee43ba3f07cacf7d655a265d60e2b689eb12b7948e6e060b5baee84",
+      "language": "kn-IN",
+      "voice": "Orus",
+      "seconds": 2.92,
+      "synthesis_seconds": 2.734,
+      "usage": {
+        "promptTokenCount": 69,
+        "candidatesTokenCount": 73,
+        "totalTokenCount": 142,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 69
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 73
+          }
+        ]
+      },
+      "sha256": "21786a15347ee5ea96935fdf96fec10800763cfa74a17c5cddbb35918e54d075"
+    },
+    {
+      "id": "learner-cafe",
+      "text": "ಪಾರ್ಸೆಲ್ ಕೊಡಿ.",
+      "text_sha256": "92fb119d65474eb9b5d2293cfe448ca8a31ead1e2a44b7ad125649c2fa0ec712",
+      "language": "kn-IN",
+      "voice": "Orus",
+      "seconds": 1.48,
+      "synthesis_seconds": 2.249,
+      "usage": {
+        "promptTokenCount": 65,
+        "candidatesTokenCount": 37,
+        "totalTokenCount": 102,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 65
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 37
+          }
+        ]
+      },
+      "sha256": "72a81be349dcdf78414064e20d354949c9dd5273552fdb4147225d632a6d2f55"
+    },
+    {
+      "id": "learner-place",
+      "text": "ಒಂದು ಶುಂಠಿ ಟೀ ಬೇಕು",
+      "text_sha256": "14fa5f034c470f91bb6880f833291bea5d6eb2d1c641ed6c32c41bc2009e5b48",
+      "language": "kn-IN",
+      "voice": "Orus",
+      "seconds": 2.84,
+      "synthesis_seconds": 1.979,
+      "usage": {
+        "promptTokenCount": 68,
+        "candidatesTokenCount": 71,
+        "totalTokenCount": 139,
+        "trafficType": "ON_DEMAND",
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 68
+          }
+        ],
+        "candidatesTokensDetails": [
+          {
+            "modality": "AUDIO",
+            "tokenCount": 71
+          }
+        ]
+      },
+      "sha256": "bc20e8312fe2ba10d92435eb2834dcb74800e3e1cdd2bb1c1c75ef39c741722c"
+    }
+  ],
+  "total_unique_synthesized_files": 21,
+  "automatic_retries": false,
+  "maximum_synthesis_starts_per_minute": 12,
+  "maximum_parallel_synthesis_workers": 2
+}

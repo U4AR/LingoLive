@@ -8,6 +8,13 @@ HTTP/WebSocket rejection and unchanged resource/quota guards verified.
 Four real-Gemini typed cases passed; HTTP mean 2.065 s, a tiny functional
 sample, not a new latency guarantee or physical-microphone benchmark.
 The task-plan request did not change the video transcript or generate media.
+A later, separate user approval ("Ok make it") authorized the new demonstration.
+Video v2 is now complete: 179.021 s, 1080p H.264/AAC, Kannada/Indian-English
+Gemini 3.1 Flash TTS preview voices. Problem first, then contextual communication
+help; learning is an additional feature at 2:22. Actual ASR error/typed correction
+and real model waits are visible. Synthetic voices/ambience/illustration and
+simulated microphone/location/time are labelled. Watch/download links and
+provenance are in docs/submission/DEMO-V2.md. App runtime/guards unchanged.
 
 The main screen shows heard speech, its translation and three possible replies.
 During a live exchange, replies have pronunciation, playback and copy controls.

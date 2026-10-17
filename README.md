@@ -11,8 +11,7 @@ survives new conversations and reloads for a day; you control done/skip/previous
 Speech in your familiar language can now become **Say it in Kannada** (or your
 selected learning language), with meaning, pronunciation and playback. Heard
 Kannada still produces next-turn replies. **Help me say this** explicitly requests
-phrasing for an existing utterance. This functional update leaves the video
-transcript unchanged.
+phrasing for an existing utterance.
 
 
 Saved places now have geographic return checks: opt-in, max five places and three
@@ -25,9 +24,11 @@ inferred items stay **possible** until confirmed. Settings → **What LingoLive
 remembers** lets you edit, add, confirm or forget them. No GPS trails, extra model
 call or model-weight fine-tuning. See [memory design](MEMORY.md).
 
-The Bengaluru/Kannada demo script now includes memory over time, natural cadence
-and restrained environmental sound. It awaits transcript approval before any new
-voices or video are generated.
+[Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo-download.mp4)
+
+The user-approved Bengaluru/Kannada demonstration is now rendered: **2:59**,
+with Google Gemini TTS voices, actual app responses, a visible speech correction
+and learning introduced near the end as an extra. See [video provenance](docs/submission/DEMO-V2.md).
 
 LingoLive helps newcomers, interstate migrants and immigrants handle everyday
 conversations in a language they are still learning. A newcomer to Bengaluru can
@@ -54,10 +55,10 @@ new 1.6 mobile/network/cold-start guarantee. See [the comparison](docs/LATENCY.m
 Deployment uses the normal refreshable Cloud SDK login; no deployment credential
 is included in this repository.
 
-The revised [Bengaluru/Kannada video transcript](docs/submission/DEMO-TRANSCRIPT-V2.md)
-is **awaiting user approval**. No new narration, simulated voices, generated
-footage or v2 video has been produced. The earlier 2:53 video is an archived 1.5
-sample, not the revised demonstration.
+The [Bengaluru/Kannada transcript](docs/submission/DEMO-TRANSCRIPT-V2.md) was
+approved before production. The final video includes synthetic speech/ambience,
+a generated opening illustration and explicitly simulated location/time. Real
+Google APIs handle the app demonstrations. The earlier 2:53 video remains archived.
 
 Connect with **Use access code** to use your host's Google allowance, or
 **Use my Google API key** to use your own Google AI Studio account for both

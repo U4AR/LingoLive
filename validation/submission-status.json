@@ -32,19 +32,19 @@
   ],
   "material_status": {
     "proposal_pdf": "Generated and eight-page layout checked",
-    "writeup_pdf": "Updated web 1.9 detailed seven-page A4 PDF generated and inspected",
+    "writeup_pdf": "Updated web 1.9 detailed seven-page A4 PDF, including actual v2 audio, simulation and ASR limitations",
     "entry_text": "Prepared in ENTRY.md",
-    "demo": "Complete: 173.021 seconds, H.264/AAC, burned English captions, full decode and sample-frame inspection passed",
+    "demo": "V2 verified: 179.021 seconds, H.264 1080p/AAC, English captions, Kannada/English synthetic voices, actual app and speech correction",
     "registered_team": "User confirmed registration; team membership unconfirmed",
-    "public_downloads": "MP4, captions, PDFs and bundle uploaded; anonymous SHA-256 readback verified"
+    "public_downloads": "V2 MP4 (watch/attachment), captions, PDFs, submission ZIP and media assets uploaded; anonymous SHA-256 readback verified"
   },
   "repository_visibility": "private",
-  "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/index.html",
+  "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/index.html",
   "current_app_version": "1.9",
   "current_app_revision": "lingolive-00023-vef",
-  "demo_video_version": "1.5 archived",
+  "demo_video_version": "2 (web 1.9)",
   "demo_v2": {
-    "approval_status": "pending_user_transcript_approval",
+    "approval_status": "approved",
     "transcript": "docs/submission/DEMO-TRANSCRIPT-V2.md",
     "language": "Kannada",
     "city": "Bengaluru",
@@ -53,8 +53,8 @@
       "immigrants"
     ],
     "positioning": "Understand. Reply. Keep going.",
-    "new_audio_generated": false,
-    "new_video_generated": false,
+    "new_audio_generated": true,
+    "new_video_generated": true,
     "memory_story": "Opt-in saved places: useful notes recalled only on a fresh stable return nearby; editable and bounded.",
     "audio_direction": "Natural Kannada and Indian-English cadence, conversational gaps and restrained Bengaluru traffic/cafe ambience; actual response waits preserved.",
     "technical_depth": "General Google AI / Cloud Run credit only; focus on utility/functions. Algorithms, numeric guards, security and latency belong in the PDF.",
@@ -72,12 +72,25 @@
     "story_structure": "Problem first, then present LingoLive and demonstrate contextual conversation help; learning appears near the end as an additional feature.",
     "problem_only_opening_seconds": 28,
     "solution_starts_seconds": 28,
-    "learning_introduced_seconds": 138,
-    "learning_is_additional_feature": true
+    "learning_introduced_seconds": 142,
+    "learning_is_additional_feature": true,
+    "approved_by": "user",
+    "approval_message": "Ok make it",
+    "approved_transcript_sha256": "deb0b051fedf097f8a3e9b90effe4c5815faec2c1bc44c3c64ea2257fc15a6d9",
+    "approved_source_commit": "2b6ab6996763d97005c26310e85340e0cca6b655",
+    "production_status": "published_verified",
+    "actual_seconds": 179.021333,
+    "planned_learning_introduced_seconds": 138,
+    "voice_model": "gemini-3.1-flash-tts-preview",
+    "actual_asr_error_and_correction_shown": true,
+    "watch_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/index.html",
+    "video_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo.mp4",
+    "download_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo-download.mp4"
   },
   "functional_updates": {
     "pre_task_plan": true,
     "known_language_expression": true,
     "video_transcript_changed_for_this_request": false
-  }
+  },
+  "archived_demo_video_version": "1.5"
 }

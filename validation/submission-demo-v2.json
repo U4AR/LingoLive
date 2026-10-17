@@ -1,0 +1,51 @@
+{
+  "file": "LingoLive-Demo.mp4",
+  "bytes": 5874971,
+  "sha256": "b7b9c368f8b65987357c4777cd420a1d699c682fb0f669da4752a72015791e8c",
+  "seconds": 179.021333,
+  "video": "H.264 1920x1080 / 25fps",
+  "audio": "AAC stereo; Google Gemini 3.1 Flash TTS preview, Kannada and Indian English",
+  "voice_model": "gemini-3.1-flash-tts-preview",
+  "voices": {
+    "narrator": "Kore",
+    "newcomer": "Orus",
+    "driver": "Charon",
+    "shopkeeper": "Algieba"
+  },
+  "synthetic_speech_disclosed": true,
+  "synthetic_ambience_disclosed": true,
+  "generated_establishing_image_disclosed": true,
+  "physical_microphone": false,
+  "geolocation_and_elapsed_time_simulated": true,
+  "human_native_voice_review": false,
+  "independent_audio_transcription_checks": "source-voice-check.json and reply-voice-check.json",
+  "burned_english_captions": true,
+  "sidecar_captions": [
+    "LingoLive-Demo.srt",
+    "LingoLive-Demo.vtt"
+  ],
+  "decode_verified": true,
+  "scene_count": 9,
+  "live_google_lesson_requests_in_final_take": 7,
+  "raw_generation_calls_in_final_take": 14,
+  "previous_incomplete_take_lesson_requests": 3,
+  "google_mocked": false,
+  "visual_speed": "Original speed and complete inference waits, with end-frame holds for reading. No audio time stretching.",
+  "asr_error_and_typed_correction_visible": true,
+  "asr_notes": "Tea-stall Kannada was misidentified as Bengali; explicit typed correction shown. Return question had mixed Telugu/Kannada script but retained useful meaning/context.",
+  "learning_introduced_near_end_seconds": 142,
+  "public_submission_status": "Prepared media only; no Hack2skill receipt or accepted video-host link claimed",
+  "integrated_loudness_lufs": -16.75,
+  "true_peak_dbtp": -3.1,
+  "audio_clipping_detected": false,
+  "sample_frames_inspected": [
+    "conversation",
+    "correction",
+    "memory",
+    "learning",
+    "closing"
+  ],
+  "public_anonymous_browser_playback": true,
+  "webvtt_caption_cues": 33,
+  "attachment_download_verified": true
+}

@@ -1,0 +1,135 @@
+{
+  "bucket": "lingolive-demo-358650584819",
+  "project": "locateassist",
+  "demo_version": "2",
+  "app_version": "1.9",
+  "public_preview_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/index.html",
+  "public_video_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo.mp4",
+  "download_video_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo-download.mp4",
+  "artifacts": [
+    {
+      "file": "LingoLive-Demo.mp4",
+      "bytes": 5874971,
+      "sha256": "b7b9c368f8b65987357c4777cd420a1d699c682fb0f669da4752a72015791e8c",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo.mp4",
+      "generation": "1792258713020515",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"LingoLive-Demo.mp4\""
+    },
+    {
+      "file": "LingoLive-Demo-download.mp4",
+      "bytes": 5874971,
+      "sha256": "b7b9c368f8b65987357c4777cd420a1d699c682fb0f669da4752a72015791e8c",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo-download.mp4",
+      "generation": "1792258716758107",
+      "anonymous_download_verified": true,
+      "content_disposition": "attachment; filename=\"LingoLive-Demo.mp4\""
+    },
+    {
+      "file": "LingoLive-Demo.srt",
+      "bytes": 2895,
+      "sha256": "e6e7abae3f77b4a2b48ba68b5fbf8785ea4b635a3fd3e626548b36f0116e6fe9",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo.srt",
+      "generation": "1792258719669356",
+      "anonymous_download_verified": true,
+      "content_disposition": "attachment; filename=\"LingoLive-Demo.srt\""
+    },
+    {
+      "file": "LingoLive-Demo.vtt",
+      "bytes": 2903,
+      "sha256": "366db79fec5cff607dd74e70a548308cf06fb3d75d3eb8474455b85654637e17",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo.vtt",
+      "generation": "1792258720796941",
+      "anonymous_download_verified": true,
+      "content_disposition": "attachment; filename=\"LingoLive-Demo.vtt\""
+    },
+    {
+      "file": "LingoLive-Proposal.pdf",
+      "bytes": 181735,
+      "sha256": "62d07603c363f56882e84e4d4c8195f68e13db3ee38c9fd3df3789514afc95ad",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Proposal.pdf",
+      "generation": "1792258721915914",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"LingoLive-Proposal.pdf\""
+    },
+    {
+      "file": "LingoLive-Writeup.pdf",
+      "bytes": 88541,
+      "sha256": "de0bfb959ee181e55998be534d004d80fab67c08f827c0fb1db7740936726f8b",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Writeup.pdf",
+      "generation": "1792258723641908",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"LingoLive-Writeup.pdf\""
+    },
+    {
+      "file": "LingoLive-Media-Assets.zip",
+      "bytes": 13169997,
+      "sha256": "64c37c2aa75a3701ad4416a59a96736c4d779947c445f49cbc4395bdf25e66ad",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Media-Assets.zip",
+      "generation": "1792258729741894",
+      "anonymous_download_verified": true,
+      "content_disposition": "attachment; filename=\"LingoLive-Media-Assets.zip\""
+    },
+    {
+      "file": "video-verification.json",
+      "bytes": 1870,
+      "sha256": "d4c5177d48406c8ffe20950699ec8e9370ad45d35e90b310bcc181cdddacb94b",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/video-verification.json",
+      "generation": "1792258733352156",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"video-verification.json\""
+    },
+    {
+      "file": "poster.jpg",
+      "bytes": 63837,
+      "sha256": "6fe9f8c2c5e6e398abda6d0c53e581adb2fe9a0e16e29f8d6149893a0adf208a",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/poster.jpg",
+      "generation": "1792258734074309",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"poster.jpg\""
+    },
+    {
+      "file": "index.html",
+      "bytes": 3793,
+      "sha256": "26cfb15c47674bae800ab744a5f1df21c378b645232c2e5e3b035c57557999df",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/index.html",
+      "generation": "1792258735258711",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"index.html\""
+    },
+    {
+      "file": "index.html",
+      "bytes": 3793,
+      "sha256": "26cfb15c47674bae800ab744a5f1df21c378b645232c2e5e3b035c57557999df",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/index.html",
+      "generation": "1792258736670170",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"index.html\""
+    },
+    {
+      "file": "DEMO-TRANSCRIPT-V2.md",
+      "bytes": 9122,
+      "sha256": "27d9353cfd62af542fbb5b373b49329e2a3f3cd20f01180701c6b2e9ea4b5e1c",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/DEMO-TRANSCRIPT-V2.md",
+      "generation": "1792258905767998",
+      "anonymous_download_verified": true,
+      "content_disposition": "inline; filename=\"DEMO-TRANSCRIPT-V2.md\""
+    },
+    {
+      "file": "LingoLive-Submission.zip",
+      "bytes": 5581112,
+      "sha256": "993fbc6fc94b10b6c1355b15f0cf3ec2858dcb67d61ead4c0dc46e0dbacbbfcf",
+      "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Submission.zip",
+      "generation": "1792258908901413",
+      "anonymous_download_verified": true,
+      "content_disposition": "attachment; filename=\"LingoLive-Submission.zip\""
+    }
+  ],
+  "existing_v1_5_media_preserved": true,
+  "source_code_published_by_this_script": false,
+  "iam_changed": false,
+  "app_deployed_by_this_script": false,
+  "approved_hackathon_video_host_url": null,
+  "hack2skill_submitted": false,
+  "note": "Cloud Storage watch/download links are public; they are not a YouTube, Vimeo or Google Drive submission URL."
+}
