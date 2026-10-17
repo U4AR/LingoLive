@@ -1,0 +1,15 @@
+{
+  "file": "LingoLive-web-source.zip",
+  "bytes": 850102,
+  "sha256": "b1c8d07c37c288e6bb8177fab2a6150f2b56df5a9544227d0e08d84dc175c495",
+  "files": 78,
+  "source_version": "1.2-context-memory",
+  "cloud_deployed": false,
+  "deployment_blocker": "expired_operator_credential",
+  "existing_deployment_revision": "lingolive-00004-jzp",
+  "google_signin_enabled": false,
+  "google_signin_status": "optional_disabled_user_selected_private_access_code",
+  "existing_cloud_deployment": true,
+  "existing_deployment_google_inference_tested": true,
+  "existing_deployment_url": "https://lingolive-358650584819.us-central1.run.app"
+}

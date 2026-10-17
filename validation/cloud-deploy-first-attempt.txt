@@ -1,0 +1,7 @@
+Building using Dockerfile and deploying container to Cloud Run service [lingolive] in project [locateassist] region [us-central1]
+Building and deploying new service...
+Validating configuration...........done
+Uploading sources.............................done
+failed
+Deployment failed
+ERROR: (gcloud.run.deploy) INVALID_ARGUMENT: Invalid build request. could not resolve source: googleapi: Error 403: lingolive-build@locateassist.iam.gserviceaccount.com does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource '//storage.googleapis.com/projects/_/buckets/run-sources-locateassist-us-central1/objects/services/lingolive/1792214869.185079-8b3e94a40aac41e8bf2d2e0afd3304d9.zip' (or it may not exist)., forbidden

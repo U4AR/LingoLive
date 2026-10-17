@@ -1,0 +1,38 @@
+{
+  "passed": 8,
+  "checks": [
+    {
+      "name": "Saving an explicit goal makes no model request",
+      "passed": true
+    },
+    {
+      "name": "The current goal reaches a lesson without modifying the source words",
+      "passed": true
+    },
+    {
+      "name": "A spoken or typed phrase becomes user intent only when explicitly selected",
+      "passed": true
+    },
+    {
+      "name": "Reload remembers the goal and earlier context on this browser",
+      "passed": true
+    },
+    {
+      "name": "Changing the goal and refreshing replies uses the new intent",
+      "passed": true
+    },
+    {
+      "name": "New conversation clears intent/history sent to Google while retaining Saved",
+      "passed": true
+    },
+    {
+      "name": "Deleting a goal-source phrase clears its stored intent",
+      "passed": true
+    },
+    {
+      "name": "Late audio finals retain their original conversation and latest goal",
+      "passed": true
+    }
+  ],
+  "google_mocked": true
+}

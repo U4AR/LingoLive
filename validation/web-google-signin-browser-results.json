@@ -1,0 +1,27 @@
+{
+  "passed": 5,
+  "checks": [
+    {
+      "name": "Google is required before connecting with the private code",
+      "passed": true
+    },
+    {
+      "name": "Uninvited Google account is rejected without an AI call",
+      "passed": true
+    },
+    {
+      "name": "Invited Google account and private code create a secure session and lesson",
+      "passed": true
+    },
+    {
+      "name": "Reload preserves sign-in and stores no Google credential or access code",
+      "passed": true
+    },
+    {
+      "name": "Sign-out requires Google selection again and retains local lessons",
+      "passed": true
+    }
+  ],
+  "real_google_login": false,
+  "local_rsa_token_verification": true
+}

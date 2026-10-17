@@ -1,0 +1,5 @@
+{
+  "provider": "vertex",
+  "model": "gemini-3.5-transcribe-live",
+  "setup_complete": true
+}

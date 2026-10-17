@@ -1,0 +1,7 @@
+{
+  "health_http_status": 200,
+  "configured": false,
+  "protected_without_runtime_credentials": 503,
+  "cloud_run_deployed": false,
+  "real_google_api_tested": false
+}

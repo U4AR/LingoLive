@@ -1,0 +1,7 @@
+LingoLive
+Copyright 2026 U4AR
+
+Project source is licensed under Apache-2.0. Google ML Kit, AndroidX, OkHttp,
+Kotlin, FastAPI, Uvicorn, Pydantic, httpx and websockets retain their respective
+licenses and terms. Google model services require separate API access and terms.
+Google, Gemini and Android are trademarks of their respective owners.

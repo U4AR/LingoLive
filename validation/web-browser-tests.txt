@@ -1,0 +1,14 @@
+PASS Desktop layout and 83 language choices
+PASS Prepared example, tappable source and reply pronunciation, no fake history
+PASS Access-code rejection, real session cookie, no code in browser storage
+PASS Typed phrase reaches backend and becomes a complete saved lesson
+PASS Saved lessons, vocabulary search, reload and session persistence
+PASS Offline reload opens saved history and cached example without caching credentials or APIs
+PASS 429 retains transcript and allows a successful manual retry
+PASS Actual AudioWorklet PCM through authenticated WebSocket to lesson; final flush after stop
+PASS Opening Saved stops capture; deleting a phrase updates local history
+PASS Disconnect removes browser session and clears its access field
+PASS Mobile layout, visible listening control and word dialog
+PASS Denied microphone permission has a recoverable message
+PASS Clear history persists after reload
+All 13 browser checks passed.

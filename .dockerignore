@@ -1,0 +1,9 @@
+**
+!backend/
+!backend/app.py
+!backend/requirements.txt
+!shared/
+!shared/lesson_schema.json
+!shared/teach_prompt.txt
+!web/
+!web/**

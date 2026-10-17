@@ -1,0 +1,14 @@
+{
+  "url": "https://lingolive-358650584819.us-central1.run.app",
+  "ready_revision": "lingolive-00004-jzp",
+  "root_status": 200,
+  "html_matches_local": true,
+  "google_signin_js_matches_local": true,
+  "private_code_signin_works": true,
+  "google_signin_required": false,
+  "health": {
+    "service": "LingoLive",
+    "configured": true,
+    "version": "1.1"
+  }
+}

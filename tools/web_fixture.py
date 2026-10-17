@@ -1,0 +1,35 @@
+"""Local-only browser test fixture; never included in the Cloud Run image."""
+import asyncio,base64,copy,json
+from contextlib import asynccontextmanager
+from pathlib import Path
+from backend.app import Config,create_app
+EXAMPLE=json.loads((Path(__file__).resolve().parents[1]/'web/example.json').read_text())
+class FixtureSocket:
+    def __init__(self,provider):self.provider=provider;self.queue=asyncio.Queue();self.frames=0
+    async def send(self,raw):
+        value=json.loads(raw)
+        if 'setup' in value:
+            self.provider.setups.append(value);await self.queue.put(json.dumps({'setupComplete':{}}));return
+        audio=value['realtimeInput']
+        if audio.get('audioStreamEnd'):
+            await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':'Thank you.'}}}));return
+        pcm=base64.b64decode(audio['audio']['data']);self.provider.frames+=1;self.provider.bytes+=len(pcm);self.frames+=1
+        if self.frames==2:await self.queue.put(json.dumps({'serverContent':{'interimInputTranscription':{'text':'コーヒー…'}}}))
+        if self.frames==5:await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':EXAMPLE['text']}}}))
+    def __aiter__(self):return self
+    async def __anext__(self):return await self.queue.get()
+class Provider:
+    def __init__(self):self.requests=[];self.setups=[];self.frames=0;self.bytes=0
+    async def teach(self,value):
+        self.requests.append(value.model_dump())
+        if value.text=='I want to catch my train.':
+            return {'detected_language':'en-US','contains_learning_language':False,'translation':'','explanation':'The learner is talking about travel.','tip':'','words':[],'replies':[],'context_summary':'The learner may want to catch a train.','current_speaker':'user','speaker_confidence':'medium','inferred_user_intent':'Get to the train station.'}
+        if value.text!=EXAMPLE['text']:
+            return {'detected_language':'en-US','contains_learning_language':False,'translation':'','explanation':'This phrase is English, not the selected learning language.','tip':'','words':[],'replies':[],'context_summary':('A cafe conversation. '+value.user_goal)[:600]}
+        result=copy.deepcopy(EXAMPLE['lesson']);result['context_summary']=('A cafe conversation. '+value.user_goal)[:600];return result
+    @asynccontextmanager
+    async def live(self):yield FixtureSocket(self)
+provider=Provider()
+app=create_app(Config('test-only-google-key','test-only-browser-access-code-32-characters'),provider)
+@app.get('/fixture/status')
+async def status():return {'requests':provider.requests,'frames':provider.frames,'bytes':provider.bytes,'setups':provider.setups}

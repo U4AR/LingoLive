@@ -1,0 +1,72 @@
+{
+  "passed": 13,
+  "checks": [
+    {
+      "name": "Desktop layout and 83 language choices",
+      "passed": true,
+      "milliseconds": 1209
+    },
+    {
+      "name": "Prepared example, tappable source and reply pronunciation, no fake history",
+      "passed": true,
+      "milliseconds": 642
+    },
+    {
+      "name": "Access-code rejection, real session cookie, no code in browser storage",
+      "passed": true,
+      "milliseconds": 262
+    },
+    {
+      "name": "Typed phrase reaches backend and becomes a complete saved lesson",
+      "passed": true,
+      "milliseconds": 127
+    },
+    {
+      "name": "Saved lessons, vocabulary search, reload and session persistence",
+      "passed": true,
+      "milliseconds": 242
+    },
+    {
+      "name": "Offline reload opens saved history and cached example without caching credentials or APIs",
+      "passed": true,
+      "milliseconds": 330
+    },
+    {
+      "name": "429 retains transcript and allows a successful manual retry",
+      "passed": true,
+      "milliseconds": 2608
+    },
+    {
+      "name": "Actual AudioWorklet PCM through authenticated WebSocket to lesson; final flush after stop",
+      "passed": true,
+      "milliseconds": 5009
+    },
+    {
+      "name": "Opening Saved stops capture; deleting a phrase updates local history",
+      "passed": true,
+      "milliseconds": 232
+    },
+    {
+      "name": "Disconnect removes browser session and clears its access field",
+      "passed": true,
+      "milliseconds": 72
+    },
+    {
+      "name": "Mobile layout, visible listening control and word dialog",
+      "passed": true,
+      "milliseconds": 554
+    },
+    {
+      "name": "Denied microphone permission has a recoverable message",
+      "passed": true,
+      "milliseconds": 933
+    },
+    {
+      "name": "Clear history persists after reload",
+      "passed": true,
+      "milliseconds": 380
+    }
+  ],
+  "google": "mocked; browser microphone is Chromium synthetic audio",
+  "errors": []
+}

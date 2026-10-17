@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=LingoLive Development, O=U4AR, C=IN
+Signer #1 certificate SHA-256 digest: 6fd8873968d9373362ed4c27c6b42d913f7b194f47d55128855e99a29890a247
+Signer #1 certificate SHA-1 digest: dbeb1b7d3caef4070f6102f692c769079c8bd180
+Signer #1 certificate MD5 digest: 374136ef936332e8cd679fa87c7a2d1a
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 39eeb686cd6e89e10038f5b3da8b9371a9793387251abd77a64e063fb32afdd0
+Signer #1 public key SHA-1 digest: 0592485972a2cd805238a697e6eb83bcefbb382d
+Signer #1 public key MD5 digest: 460afbb83abcdd5124d5aa8db52569ce

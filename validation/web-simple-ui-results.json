@@ -1,0 +1,23 @@
+{
+  "passed": 4,
+  "checks": [
+    {
+      "name": "Settings start hidden and preserve goals, learner memory and opt-in sensors",
+      "passed": true
+    },
+    {
+      "name": "Heard speech and three replies are visible with explanation collapsed",
+      "passed": true
+    },
+    {
+      "name": "A word opens an anchored non-modal meaning bubble and outside tap closes it",
+      "passed": true
+    },
+    {
+      "name": "Mobile lesson fits the screen and retains the fixed speaking button",
+      "passed": true
+    }
+  ],
+  "model_calls": 0,
+  "errors": []
+}

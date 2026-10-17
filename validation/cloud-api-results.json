@@ -1,0 +1,21 @@
+{
+  "url": "https://lingolive-358650584819.us-central1.run.app",
+  "provider": "vertex",
+  "live_google": true,
+  "cloud_run_runtime_credentials": true,
+  "typed_lesson": {
+    "source": "コーヒーはいかがですか？",
+    "translation": "Would you like some coffee?",
+    "source_preserved": true,
+    "replies": 3
+  },
+  "audio_seconds": 2.128,
+  "transcript": "John chapter 3 verse 16",
+  "spoken_lesson": {
+    "source": "John chapter 3 verse 16",
+    "translation": "ヨハネによる福音書第3章16節",
+    "source_preserved": true,
+    "replies": 3
+  },
+  "physical_microphone": false
+}

@@ -1,0 +1,19 @@
+{
+  "source_google_signin_implemented": true,
+  "deployed_google_signin": false,
+  "live_ready_revision": "lingolive-00004-jzp",
+  "owner_invited_email": "ashish.t.vasant@gmail.com",
+  "additional_invites": [],
+  "blocker": null,
+  "backend_tests_passed": 46,
+  "existing_browser_checks_passed": 13,
+  "google_browser_fixture_checks_passed": 5,
+  "real_google_account_signin_tested": false,
+  "cloud_builds_for_google_signin": 1,
+  "support_code_deployed": true,
+  "current_private_code_login_verified": true,
+  "hosted_google_assets_match_source": true,
+  "authentication_mode": "private_access_code",
+  "google_signin_requested": false,
+  "google_registration_required_for_selected_mode": false
+}

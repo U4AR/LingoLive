@@ -1,0 +1,14 @@
+.git/
+.cache/
+.private/
+android/
+validation/
+dist/
+tools/
+**/.venv/
+**/__pycache__/
+**/.env
+**/.env.*
+!backend/.env.example
+**/*.keystore
+**/*.jks

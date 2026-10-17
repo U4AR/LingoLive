@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.u4ar.lingolive.CoreTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-16T17:53:24.902Z" hostname="7db65fb3750b" time="0.059">
+  <properties/>
+  <testcase name="languageAliasesAndRegionsMatchButDistinctLanguagesDoNot" classname="com.u4ar.lingolive.CoreTest" time="0.009"/>
+  <testcase name="unicodeAndRightToLeftOffsetsReferToTheSameWord" classname="com.u4ar.lingolive.CoreTest" time="0.014"/>
+  <testcase name="sourceAndAllReplyWordsHaveDefinitionsAndKeepExactCharacters" classname="com.u4ar.lingolive.CoreTest" time="0.015"/>
+  <testcase name="interimIsNeverCommittedAndFinalTextDoesNotUseAgentOutput" classname="com.u4ar.lingolive.CoreTest" time="0.002"/>
+  <testcase name="pronunciationKeepsEveryWordClickableWithNaturalSpacesAndPunctuation" classname="com.u4ar.lingolive.CoreTest" time="0.003"/>
+  <testcase name="onlyLearningLanguageEvidenceTriggersAutomaticTeaching" classname="com.u4ar.lingolive.CoreTest" time="0.001"/>
+  <testcase name="setupUsesDedicatedTranscriberAutomaticLanguagesAndLiteralMode" classname="com.u4ar.lingolive.CoreTest" time="0.0"/>
+  <testcase name="hostedOriginRequiresHttpsAndDoesNotAcceptEmbeddedCredentials" classname="com.u4ar.lingolive.CoreTest" time="0.007"/>
+  <testcase name="refusesRewrittenSourceAndUnexplainedWords" classname="com.u4ar.lingolive.CoreTest" time="0.002"/>
+  <testcase name="missingRepliesAreRejectedInsteadOfShowingPartialTeaching" classname="com.u4ar.lingolive.CoreTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

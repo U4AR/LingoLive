@@ -1,0 +1,8 @@
+fastapi==0.143.0
+uvicorn==0.54.0
+websockets==17.2
+httpx==0.28.1
+pydantic==2.14.1
+google-auth[cryptography]==2.62.0
+requests==2.34.2
+cryptography==50.0.2

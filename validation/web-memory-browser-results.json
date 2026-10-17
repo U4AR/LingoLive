@@ -1,0 +1,56 @@
+{
+  "passed": 12,
+  "checks": [
+    {
+      "name": "No goal is required; learner notes guide the same lesson request",
+      "passed": true
+    },
+    {
+      "name": "Earlier suggestions and previously seen words are included without pretending they were spoken",
+      "passed": true
+    },
+    {
+      "name": "I said this records a confirmed user turn without another model call",
+      "passed": true
+    },
+    {
+      "name": "A new learner starts with isolated notes, history and conversation",
+      "passed": true
+    },
+    {
+      "name": "Switching back restores only the first learner memory",
+      "passed": true
+    },
+    {
+      "name": "Location is opt-in, coarse and not written into saved lessons",
+      "passed": true
+    },
+    {
+      "name": "Switching learner stops sensor sharing and restores the other learner independently",
+      "passed": true
+    },
+    {
+      "name": "Optional real AudioWorklet samples reach the lesson but never the history",
+      "passed": true
+    },
+    {
+      "name": "Learner memory survives reload without mixing profiles",
+      "passed": true
+    },
+    {
+      "name": "Deleting a phrase during a lesson request does not recreate it on completion",
+      "passed": true
+    },
+    {
+      "name": "A distinctive spoken suggestion is automatically marked as likely learner speech",
+      "passed": true
+    },
+    {
+      "name": "Model-inferred learner intent is remembered without requiring a goal",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "geolocation_fixture": true,
+  "synthetic_browser_audio": true
+}

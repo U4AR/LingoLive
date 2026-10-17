@@ -1,0 +1,11 @@
+{
+  "root": 200,
+  "health": {
+    "service": "LingoLive",
+    "configured": false,
+    "version": "1.1"
+  },
+  "unconfigured_api": 503,
+  "example_rendered": true,
+  "current_source": true
+}

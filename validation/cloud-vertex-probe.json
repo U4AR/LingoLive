@@ -1,0 +1,8 @@
+{
+  "provider": "vertex",
+  "model": "gemini-3.6-flash",
+  "status": 200,
+  "source_preserved": true,
+  "replies": 3,
+  "translation": "Would you like some coffee?"
+}

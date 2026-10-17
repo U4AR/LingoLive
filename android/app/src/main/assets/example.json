@@ -1,0 +1,186 @@
+{
+  "text": "コーヒーはいかがですか？",
+  "lesson": {
+    "detected_language": "ja-JP",
+    "contains_learning_language": true,
+    "translation": "Would you like some coffee?",
+    "explanation": "Someone is politely offering you coffee. You can accept, thank them, or ask a follow-up question.",
+    "tip": "いかがですか is a polite way to ask “How about…?” or offer something.",
+    "words": [
+      {
+        "text": "コーヒー",
+        "reading": "kōhī",
+        "meaning": "coffee",
+        "note": "A loanword written in katakana.",
+        "is_word": true
+      },
+      {
+        "text": "は",
+        "reading": "wa",
+        "meaning": "as for; topic marker",
+        "note": "Written ha, but pronounced wa as a particle.",
+        "is_word": true
+      },
+      {
+        "text": "いかが",
+        "reading": "ikaga",
+        "meaning": "how; how about",
+        "note": "A polite form of asking how something is.",
+        "is_word": true
+      },
+      {
+        "text": "です",
+        "reading": "desu",
+        "meaning": "is; polite sentence ending",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": "か",
+        "reading": "ka",
+        "meaning": "question marker",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": "？",
+        "reading": "？",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      }
+    ],
+    "replies": [
+      {
+        "label": "Keep it simple",
+        "translation": "Yes, please.",
+        "words": [
+          {
+            "text": "はい",
+            "reading": "hai",
+            "meaning": "yes",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "、",
+            "reading": "、",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "お願いします",
+            "reading": "onegaishimasu",
+            "meaning": "please; I would appreciate it",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "。",
+            "reading": "。",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "A little warmer",
+        "translation": "Thank you. One coffee, please.",
+        "words": [
+          {
+            "text": "ありがとうございます",
+            "reading": "arigatō gozaimasu",
+            "meaning": "thank you",
+            "note": "A polite expression of thanks.",
+            "is_word": true
+          },
+          {
+            "text": "。",
+            "reading": "。",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "コーヒー",
+            "reading": "kōhī",
+            "meaning": "coffee",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "を",
+            "reading": "o",
+            "meaning": "object marker",
+            "note": "Marks what you are requesting.",
+            "is_word": true
+          },
+          {
+            "text": "一つ",
+            "reading": "hitotsu",
+            "meaning": "one",
+            "note": "A general counter for one item.",
+            "is_word": true
+          },
+          {
+            "text": "お願いします",
+            "reading": "onegaishimasu",
+            "meaning": "please",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "。",
+            "reading": "。",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Ask a question",
+        "translation": "Do you have milk?",
+        "words": [
+          {
+            "text": "ミルク",
+            "reading": "miruku",
+            "meaning": "milk",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "は",
+            "reading": "wa",
+            "meaning": "as for; topic marker",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "あります",
+            "reading": "arimasu",
+            "meaning": "there is; have",
+            "note": "Polite form used for things.",
+            "is_word": true
+          },
+          {
+            "text": "か",
+            "reading": "ka",
+            "meaning": "question marker",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "？",
+            "reading": "？",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+Building using Dockerfile and deploying container to Cloud Run service [lingolive] in project [locateassist] region [us-central1]
+Building and deploying...
+Validating configuration........done
+Uploading sources........................done
+Building Container....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................done
+Setting IAM Policy......................done
+Creating Revision...........................................................................................................................................done
+Routing traffic.....done
+Done.
+Service [lingolive] revision [lingolive-00004-jzp] has been deployed and is serving 100 percent of traffic.
+Service URL: https://lingolive-358650584819.us-central1.run.app

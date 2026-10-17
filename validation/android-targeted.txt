@@ -1,0 +1,41 @@
+INSTRUMENTATION_STATUS: class=com.u4ar.lingolive.AppTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.u4ar.lingolive.AppTest:
+INSTRUMENTATION_STATUS: test=failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.u4ar.lingolive.AppTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Cannot reach the lesson service. Your transcript is saved; check your connection and retry. / [localhost: java.net.ConnectException: Failed to connect to /172.31.0.29:8080]
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at com.u4ar.lingolive.AppTest.failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory(AppTest.kt:152)
+
+INSTRUMENTATION_STATUS: stream=
+Error in failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory(com.u4ar.lingolive.AppTest):
+java.lang.AssertionError: Cannot reach the lesson service. Your transcript is saved; check your connection and retry. / [localhost: java.net.ConnectException: Failed to connect to /172.31.0.29:8080]
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at com.u4ar.lingolive.AppTest.failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory(AppTest.kt:152)
+
+INSTRUMENTATION_STATUS: test=failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_RESULT: stream=
+
+Time: 2.146
+There was 1 failure:
+1) failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory(com.u4ar.lingolive.AppTest)
+java.lang.AssertionError: Cannot reach the lesson service. Your transcript is saved; check your connection and retry. / [localhost: java.net.ConnectException: Failed to connect to /172.31.0.29:8080]
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at com.u4ar.lingolive.AppTest.failedLessonLeavesTranscriptAndCanBeRetriedWithoutLosingLocalMemory(AppTest.kt:152)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1
+
+
+INSTRUMENTATION_CODE: -1

@@ -1,0 +1,19 @@
+{
+  "url": "https://lingolive-358650584819.us-central1.run.app",
+  "ready_revision": "lingolive-00004-jzp",
+  "unauthenticated_http_blocked": true,
+  "unauthenticated_websocket_blocked": true,
+  "limits": {
+    "LINGOLIVE_AI_ENABLED": "true",
+    "LINGOLIVE_REQUESTS_PER_MINUTE": "24",
+    "LINGOLIVE_LESSONS_PER_HOUR": "360",
+    "LINGOLIVE_LESSONS_PER_DAY": "400",
+    "LINGOLIVE_AUDIO_SECONDS_PER_HOUR": "2400",
+    "LINGOLIVE_AUDIO_SECONDS_PER_DAY": "3600",
+    "LINGOLIVE_MAX_OUTPUT_TOKENS": "4096"
+  },
+  "max_instances": 1,
+  "min_instances": 0,
+  "request_based_cpu": true,
+  "no_google_api_key_in_service": true
+}

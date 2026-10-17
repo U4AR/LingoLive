@@ -1,0 +1,4 @@
+Context checks passed: explicit goal, speaker roles, chronological bounds, session/language/example isolation, eight-turn truncation and local restoration.
+Learner namespace, note isolation, stale-scene expiry, prior-suggestion roles, coarse location and four-second WAV limits passed.
+Expired scene exclusion and bounded browser summaries passed.
+Automatic learner-role estimates stay distinct from confirmed speech; common greetings stay ambiguous.

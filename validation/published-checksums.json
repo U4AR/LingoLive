@@ -1,0 +1,34 @@
+{
+  "release": "https://github.com/U4AR/SyntheticDataGeneration/releases/tag/lingolive-v1.0",
+  "release_id": 415232086,
+  "downloaded_checksum_verified": true,
+  "all_artifact_digests_verified": true,
+  "main_unchanged": true,
+  "source_excludes_secrets": true,
+  "assets": [
+    {
+      "name": "LingoLive-SHA256SUMS.txt",
+      "size": 247,
+      "digest": "sha256:759b4b96e6cecc07236b38e2cdca2864e747438455040c2d4810ad9c169fdc63",
+      "browser_download_url": "https://github.com/U4AR/SyntheticDataGeneration/releases/download/lingolive-v1.0/LingoLive-SHA256SUMS.txt"
+    },
+    {
+      "name": "LingoLive-source.zip",
+      "size": 186493,
+      "digest": "sha256:8b771dbc8b93d1293dcdc7b9244479c667a17642b2bf29bfe0804356e79a4923",
+      "browser_download_url": "https://github.com/U4AR/SyntheticDataGeneration/releases/download/lingolive-v1.0/LingoLive-source.zip"
+    },
+    {
+      "name": "LingoLive.apk",
+      "size": 8434737,
+      "digest": "sha256:e2afc16e7246b8ad91fd559b15ef861cefec13dac16dfcc64f8123b26c15ded1",
+      "browser_download_url": "https://github.com/U4AR/SyntheticDataGeneration/releases/download/lingolive-v1.0/LingoLive.apk"
+    },
+    {
+      "name": "LingoLive.zip",
+      "size": 5633807,
+      "digest": "sha256:524d1aa2625d5700a7db1a1e80e351289dde367c490b202280f5b8389197d0c6",
+      "browser_download_url": "https://github.com/U4AR/SyntheticDataGeneration/releases/download/lingolive-v1.0/LingoLive.zip"
+    }
+  ]
+}

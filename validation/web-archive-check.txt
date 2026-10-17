@@ -1,0 +1,26 @@
+/workspace/LingoLive/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_authentication_precedes_any_model_call (test_app.ApiTests.test_authentication_precedes_any_model_call) ... ok
+test_health_and_unconfigured_service_require_real_runtime_setup (test_app.ApiTests.test_health_and_unconfigured_service_require_real_runtime_setup) ... ok
+test_only_bounded_even_sized_pcm_or_stream_end_is_allowed (test_app.ApiTests.test_only_bounded_even_sized_pcm_or_stream_end_is_allowed) ... ok
+test_rate_limit_does_not_call_google_again (test_app.ApiTests.test_rate_limit_does_not_call_google_again) ... ok
+test_rewritten_or_undefined_words_do_not_become_lessons (test_app.ApiTests.test_rewritten_or_undefined_words_do_not_become_lessons) ... ok
+test_valid_learning_response_keeps_full_source_and_definitions (test_app.ApiTests.test_valid_learning_response_keeps_full_source_and_definitions) ... ok
+test_validation_rejects_same_language_blank_and_oversized_text (test_app.ApiTests.test_validation_rejects_same_language_blank_and_oversized_text) ... ok
+test_websocket_relay_requires_auth_controls_model_and_forwards_pcm_and_final (test_app.ApiTests.test_websocket_relay_requires_auth_controls_model_and_forwards_pcm_and_final) ... ok
+test_window_reopens_after_rolling_minute (test_app.ApiTests.test_window_reopens_after_rolling_minute) ... ok
+test_google_flash_request_contract_and_validated_response (test_app.GoogleContractTests.test_google_flash_request_contract_and_validated_response) ... ok
+test_upstream_errors_do_not_expose_keys_and_truncated_lessons_fail (test_app.GoogleContractTests.test_upstream_errors_do_not_expose_keys_and_truncated_lessons_fail) ... ok
+test_bad_code_no_origin_and_cross_origin_cannot_sign_in (test_web.WebTests.test_bad_code_no_origin_and_cross_origin_cannot_sign_in) ... ok
+test_browser_websocket_accepts_only_same_origin_cookie (test_web.WebTests.test_browser_websocket_accepts_only_same_origin_cookie) ... ok
+test_cloud_host_sets_secure_cookie_and_rejects_plain_http_origin (test_web.WebTests.test_cloud_host_sets_secure_cookie_and_rejects_plain_http_origin) ... ok
+test_connection_attempts_are_bounded (test_web.WebTests.test_connection_attempts_are_bounded) ... ok
+test_cookie_session_signin_teach_and_signout (test_web.WebTests.test_cookie_session_signin_teach_and_signout) ... ok
+test_cookie_writes_require_same_origin_even_with_valid_session (test_web.WebTests.test_cookie_writes_require_same_origin_even_with_valid_session) ... ok
+test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_and_expired_cookies_are_rejected) ... ok
+test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.182s
+
+OK

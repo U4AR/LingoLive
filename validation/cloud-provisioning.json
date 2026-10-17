@@ -1,0 +1,32 @@
+{
+  "project_id": "locateassist",
+  "project_number": "358650584819",
+  "region": "us-central1",
+  "runtime_account": "lingolive@locateassist.iam.gserviceaccount.com",
+  "build_account": "lingolive-build@locateassist.iam.gserviceaccount.com",
+  "api_key_resource": "projects/358650584819/locations/global/keys/lingolive-gemini",
+  "secret_versions_created": {
+    "lingolive-google-key": "projects/358650584819/secrets/lingolive-google-key/versions/1",
+    "lingolive-private-access": "projects/358650584819/secrets/lingolive-private-access/versions/1"
+  },
+  "model_catalog_status": 200,
+  "relevant_models": [
+    "gemini-2.5-flash",
+    "gemini-flash-latest",
+    "gemini-3-flash-preview",
+    "gemini-3.5-flash",
+    "gemini-omni-flash-preview",
+    "gemini-omni-1.1-flash",
+    "gemini-3.5-transcribe",
+    "gemini-3.6-flash",
+    "gemini-3.7-flash",
+    "gemini-3.8-flash",
+    "gemini-3.5-transcribe-live",
+    "gemini-2.5-flash-native-audio-latest",
+    "gemini-2.5-flash-native-audio-preview-09-2025",
+    "gemini-2.5-flash-native-audio-preview-12-2025",
+    "gemini-3.1-flash-live-preview"
+  ],
+  "expected_flash_available": true,
+  "expected_transcribe_available": true
+}

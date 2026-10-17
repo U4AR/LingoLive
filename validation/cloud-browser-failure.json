@@ -1,0 +1,4 @@
+{
+  "message": "page.goto: net::ERR_CERT_AUTHORITY_INVALID at https://lingolive-358650584819.us-central1.run.app/\nCall log:\n\u001b[2m  - navigating to \"https://lingolive-358650584819.us-central1.run.app/\", waiting until \"load\"\u001b[22m\n",
+  "errors": []
+}
