@@ -1,7 +1,7 @@
 # Deploy LingoLive on Cloud Run
 
 Current source is **web 1.4**, defaulting to `gemini-3.8-flash` with low
-reasoning and compact single-call lesson output. It includes a minimal screen
+reasoning and bounded single-call lesson output. It includes a minimal screen
 and local first-visit tutorial. **The update is not deployed yet:** the previous
 temporary Cloud credential expired. Supply working deployment credentials and
 run the existing helper; then verify `/health` version `1.4`, source assets,

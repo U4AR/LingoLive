@@ -6,8 +6,7 @@
 
 Web 1.4 defaults to **Gemini 3.8 Flash with low reasoning**. One lesson call
 produces the translation, three replies, all word meanings and Latin
-pronunciations, plus conversation context. Compact model output avoids repeated
-word metadata; the public lesson format and saved history stay compatible.
+pronunciations, plus conversation context. Bounded readings and brief word notes reduce unnecessary output; the public lesson format and saved history stay compatible.
 Pronunciation switching and word taps make no AI call. Transcription still uses
 **Gemini 3.5 Transcribe Live** as a separate live speech service.
 

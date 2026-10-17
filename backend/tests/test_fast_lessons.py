@@ -1,18 +1,10 @@
-"""Single Google request, compact output, and complete pronunciation contract."""
+"""One Google request, bounded readings and complete translation/reply coverage."""
 import copy,json,unittest
 from unittest.mock import AsyncMock,patch
 import httpx
 from fastapi import HTTPException
-from backend.app import Config,GoogleProvider,TeachRequest,expand_model_lesson,validate_lesson
+from backend.app import Config,GoogleProvider,TeachRequest,normalize_model_lesson,validate_lesson
 from test_app import EXAMPLE,INPUT,TOKEN
-
-def compact(lesson):
-    lesson=copy.deepcopy(lesson)
-    def words(items):
-        return [dict(t=w['text'],r=w['reading'],m=w['meaning'],n=w['note']) if w['is_word'] else {'t':w['text']} for w in items]
-    lesson['words']=words(lesson['words'])
-    for reply in lesson['replies']:reply['words']=words(reply['words'])
-    return lesson
 
 class FastLessonTests(unittest.IsolatedAsyncioTestCase):
     async def test_both_providers_make_one_call_for_translation_replies_and_all_readings(self):
@@ -26,16 +18,16 @@ class FastLessonTests(unittest.IsolatedAsyncioTestCase):
                     generation=body['generationConfig']
                     self.assertEqual({'thinkingLevel':'low'},generation['thinkingConfig'])
                     self.assertEqual(4096,generation['maxOutputTokens'])
-                    self.assertEqual({'t','r','m','n'},set(generation['responseJsonSchema']['$defs']['word']['properties']))
-                    self.assertEqual(80,generation['responseJsonSchema']['$defs']['word']['properties']['r']['maxLength'])
+                    word=generation['responseJsonSchema']['$defs']['word']
+                    self.assertEqual({'text','reading','meaning','note','is_word'},set(word['required']))
+                    self.assertEqual(80,word['properties']['reading']['maxLength'])
                     self.assertIn('recent_turns',json.loads(body['contents'][0]['parts'][0]['text']))
-                    return httpx.Response(200,json={'candidates':[{'finishReason':'STOP','content':{'parts':[{'text':json.dumps(compact(EXAMPLE['lesson']))}]}}]})
+                    return httpx.Response(200,json={'candidates':[{'finishReason':'STOP','content':{'parts':[{'text':json.dumps(EXAMPLE['lesson'])}]}}]})
                 def client(**kwargs):return original(transport=httpx.MockTransport(handler),**kwargs)
                 model=GoogleProvider(Config('test-only-personal-api-key',TOKEN,provider=provider,project='locateassist'))
                 with patch.object(model,'_vertex_token',new=AsyncMock(return_value='test-only-oauth')),patch('backend.app.httpx.AsyncClient',side_effect=client):
                     lesson=await model.teach(TeachRequest.model_validate({**INPUT,'recent_turns':[{'speaker':'user','text':'I would like a coffee.'}]}))
                 self.assertEqual(1,len(received));self.assertEqual(EXAMPLE['lesson'],lesson)
-                self.assertEqual(3,len(lesson['replies']))
                 for group in [lesson['words']]+[r['words'] for r in lesson['replies']]:
                     self.assertTrue(all(w['reading'] and w['meaning'] for w in group if w['is_word']))
 
@@ -49,32 +41,33 @@ class FastLessonTests(unittest.IsolatedAsyncioTestCase):
             with self.assertRaises(HTTPException):await GoogleProvider(Config('test-only-api-key',TOKEN)).teach(TeachRequest.model_validate(INPUT))
         self.assertEqual(1,len(calls))
 
-    def test_compact_words_cannot_omit_definition_or_change_source(self):
-        for field in ('r','m'):
-            value=compact(EXAMPLE['lesson']);del value['words'][0][field]
-            with self.assertRaises(ValueError):validate_lesson(expand_model_lesson(value),EXAMPLE['text'])
-        value=compact(EXAMPLE['lesson']);value['words'][0]['t']='Changed'
-        with self.assertRaises(ValueError):validate_lesson(expand_model_lesson(value),EXAMPLE['text'])
-        with self.assertRaises(ValueError):expand_model_lesson({'words':[{'t':'word','m':12}],'replies':[]})
-        for words in ('text',['t'],[None]):
-            with self.assertRaises(ValueError):expand_model_lesson({'words':words,'replies':[]})
+    def test_words_cannot_omit_definitions_change_source_or_contain_runaway_readings(self):
+        for field in ('reading','meaning'):
+            value=copy.deepcopy(EXAMPLE['lesson']);del value['words'][0][field]
+            with self.assertRaises(ValueError):validate_lesson(normalize_model_lesson(value),EXAMPLE['text'])
+        value=copy.deepcopy(EXAMPLE['lesson']);value['words'][0]['text']='Changed'
+        with self.assertRaises(ValueError):validate_lesson(normalize_model_lesson(value),EXAMPLE['text'])
+        value=copy.deepcopy(EXAMPLE['lesson']);value['words'][0]['reading']='repeated '*100
+        with self.assertRaises(ValueError):normalize_model_lesson(value)
+        for words in ('text',['text'],[None]):
+            with self.assertRaises(ValueError):normalize_model_lesson({'words':words,'replies':[]})
 
-    def test_sparse_punctuation_and_optional_notes_expand_without_losing_exact_spacing(self):
-        value=compact(EXAMPLE['lesson'])
+    def test_spacing_and_empty_optional_detail_survive_normalization(self):
+        value=copy.deepcopy(EXAMPLE['lesson'])
         for group in [value['words']]+[r['words'] for r in value['replies']]:
-            for w in group:w.pop('n',None)
-        result=validate_lesson(expand_model_lesson(value),EXAMPLE['text'])
+            for w in group:w['note']=''
+        result=validate_lesson(normalize_model_lesson(value),EXAMPLE['text'])
+        self.assertEqual(value,result)
         self.assertEqual(EXAMPLE['text'],''.join(w['text'] for w in result['words']))
-        self.assertTrue(all(w['note']=='' for w in result['words']))
-        self.assertLess(len(json.dumps(value)),len(json.dumps(EXAMPLE['lesson'])))
 
-    def test_latin_words_and_numbers_need_no_generated_transliteration(self):
-        result=expand_model_lesson({'words':[{'t':'Hello','m':'こんにちは'},{'t':' '},{'t':'école','m':'学校'},{'t':'16','m':'十六'}],'replies':[]})
-        self.assertEqual(['Hello',' ','école','16'],[w['reading'] for w in result['words']])
-        self.assertEqual([True,False,True,True],[w['is_word'] for w in result['words']])
+    def test_latin_words_and_numbers_reuse_original_script_without_model_spellings(self):
+        words=[{'text':t,'reading':'unneeded alternative','meaning':'example','note':'','is_word':True} for t in ('Hello','école','16')]
+        result=normalize_model_lesson({'words':words,'replies':[]})
+        self.assertEqual(['Hello','école','16'],[w['reading'] for w in result['words']])
+        self.assertEqual('unneeded alternative',words[0]['reading'])
 
     def test_non_latin_words_still_require_a_generated_reading(self):
         from backend.app import Word
         for text in ('你好','Привет','ありがとう'):
-            value=expand_model_lesson({'words':[{'t':text,'m':'greeting'}],'replies':[]})
+            value=normalize_model_lesson({'words':[{'text':text,'reading':'','meaning':'greeting','note':'','is_word':True}],'replies':[]})
             with self.assertRaises(ValueError):Word.model_validate(value['words'][0])

@@ -81,7 +81,7 @@ opt-in audio can increase model usage; RAM quotas reset on a service restart and
 are not a hard billing cap.
 
 Local tests verify transport, bounds, isolation and UI with explicit Google
-fixtures. Web 1.4 uses a compact wire format and one Gemini 3.8 Flash request
+fixtures. Web 1.4 uses a bounded reading format and one Gemini 3.8 Flash request
 with low reasoning for all lesson work; it is not deployed or measured live yet.
 Web 1.3 remains deployed as `lingolive-00005-lch`. A real hosted test used
 synthesized audio, transcription, a blank goal, prior context and the optional

@@ -1,0 +1,30 @@
+{
+  "model": "gemini-3.8-flash",
+  "reasoning": "low",
+  "wire_format": "explicit required word fields",
+  "source": "コーヒーはいかがですか？",
+  "source_preserved": true,
+  "replies": 3,
+  "all_source_and_reply_readings_and_meanings": true,
+  "elapsed_seconds": 5.37,
+  "usage": {
+    "promptTokenCount": 2729,
+    "candidatesTokenCount": 670,
+    "totalTokenCount": 3399,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 2729
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 670
+      }
+    ]
+  },
+  "input": "prepared text fixture, not physical microphone",
+  "single_sample_not_a_latency_benchmark": true
+}

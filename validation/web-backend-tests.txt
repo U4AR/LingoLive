@@ -31,11 +31,11 @@ test_summary_limits_and_exact_current_source_coverage_still_apply (test_context.
 test_summary_may_be_returned_when_current_text_is_not_the_learning_language (test_context.ContextApiTests.test_summary_may_be_returned_when_current_text_is_not_the_learning_language) ... ok
 test_real_google_request_contains_context_in_user_data_with_system_boundaries (test_context.ContextProviderTests.test_real_google_request_contains_context_in_user_data_with_system_boundaries) ... ok
 test_both_providers_make_one_call_for_translation_replies_and_all_readings (test_fast_lessons.FastLessonTests.test_both_providers_make_one_call_for_translation_replies_and_all_readings) ... ok
-test_compact_words_cannot_omit_definition_or_change_source (test_fast_lessons.FastLessonTests.test_compact_words_cannot_omit_definition_or_change_source) ... ok
 test_incomplete_output_does_not_silently_retry_or_make_a_second_paid_call (test_fast_lessons.FastLessonTests.test_incomplete_output_does_not_silently_retry_or_make_a_second_paid_call) ... ok
-test_latin_words_and_numbers_need_no_generated_transliteration (test_fast_lessons.FastLessonTests.test_latin_words_and_numbers_need_no_generated_transliteration) ... ok
+test_latin_words_and_numbers_reuse_original_script_without_model_spellings (test_fast_lessons.FastLessonTests.test_latin_words_and_numbers_reuse_original_script_without_model_spellings) ... ok
 test_non_latin_words_still_require_a_generated_reading (test_fast_lessons.FastLessonTests.test_non_latin_words_still_require_a_generated_reading) ... ok
-test_sparse_punctuation_and_optional_notes_expand_without_losing_exact_spacing (test_fast_lessons.FastLessonTests.test_sparse_punctuation_and_optional_notes_expand_without_losing_exact_spacing) ... ok
+test_spacing_and_empty_optional_detail_survive_normalization (test_fast_lessons.FastLessonTests.test_spacing_and_empty_optional_detail_survive_normalization) ... ok
+test_words_cannot_omit_definitions_change_source_or_contain_runaway_readings (test_fast_lessons.FastLessonTests.test_words_cannot_omit_definitions_change_source_or_contain_runaway_readings) ... ok
 test_allowlist_removal_invalidates_existing_google_cookie (test_google_signin.GoogleSignInTests.test_allowlist_removal_invalidates_existing_google_cookie) ... ok
 test_bad_private_code_is_rejected_before_google_verification (test_google_signin.GoogleSignInTests.test_bad_private_code_is_rejected_before_google_verification) ... ok
 test_expiry_wrong_audience_and_wrong_issuer_fail_real_verification (test_google_signin.GoogleSignInTests.test_expiry_wrong_audience_and_wrong_issuer_fail_real_verification) ... ok
@@ -82,6 +82,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 80 tests in 1.617s
+Ran 80 tests in 1.606s
 
 OK

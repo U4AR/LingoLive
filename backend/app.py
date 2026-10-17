@@ -28,28 +28,15 @@ from websockets.asyncio.client import connect
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / 'shared/lesson_schema.json').read_text())
-# The public/stored lesson stays stable. Short wire keys and punctuation-only
-# entries avoid generating repeated metadata for every space and word.
+# Keep explicit field names: compact word aliases proved unreliable in live
+# multilingual output. Bound optional detail while preserving every definition.
 MODEL_SCHEMA = json.loads(json.dumps(SCHEMA))
-MODEL_SCHEMA['$defs']['word'] = {
-    'type':'object', 'properties': {key:{'type':'string','maxLength':limit}
-        for key,limit in (('t',1000),('r',80),('m',160),('n',120))},
-    'required':['t'], 'additionalProperties':False}
+for key,limit in (('text',1000),('reading',80),('meaning',160),('note',120)):
+    MODEL_SCHEMA['$defs']['word']['properties'][key]['maxLength']=limit
+MODEL_SCHEMA['$defs']['word']['properties']['reading']['description']='One short Latin transliteration only, for example kōhī. For Latin-script words copy text exactly. No alternatives, explanations or analysis.'
+MODEL_SCHEMA['$defs']['word']['properties']['meaning']['description']='Brief contextual word meaning in the learner known language.'
 INSTRUCTIONS = (ROOT / 'shared/teach_prompt.txt').read_text()
-MODEL_INSTRUCTIONS = INSTRUCTIONS + '''
-WEB RESPONSE WIRE FORMAT
-For this response, the schema uses compact word keys in both source and replies.
-Use t for exact text, r for Latin pronunciation/transliteration, m for contextual
-meaning in the known language, and optional n for an essential short usage note.
-Every word must have non-empty m. If t already uses Latin letters or is a number,
-OMIT r: the server copies t as its Latin-script reading. For other scripts,
-provide ONE concise Latin transliteration in r (at most 80 characters), never
-IPA, alternative spellings, lists of pronunciations or repeated syllables.
-Spaces/punctuation have ONLY t. Omit n for ordinary words.
-Do not output text/reading/meaning/note/is_word keys: the server
-restores those. This wire format overrides the earlier word-key descriptions;
-all source-preservation, meaning, context and reply requirements still apply.
-'''
+MODEL_INSTRUCTIONS = INSTRUCTIONS + "\nUse the full specified field names. Every source and reply word needs its meaning. Give ONE short Latin transliteration per word, for example kōhī, with no alternatives, IPA, repetition or analysis. For words already in Latin script, reading copies text exactly. Leave note empty unless essential. Supply exactly three short replies if contains_learning_language is true.\n"
 GOOGLE_WS = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent'
 VERTEX_WS = 'wss://aiplatform.googleapis.com/ws/google.cloud.aiplatform.v1.LlmBidiService/BidiGenerateContent'
 WEB = ROOT / 'web'
@@ -220,22 +207,20 @@ def validate_lesson(value, source):
             raise ValueError('Lesson must cover the exact source and supply three replies')
     return lesson.model_dump(exclude_unset=True)
 
-def expand_model_lesson(value):
-    """Expand compact model words before the normal strict lesson validation."""
+def normalize_model_lesson(value):
+    """Latin text is already transliterated; do not generate alternative spellings."""
     def words(items):
         if not isinstance(items,list):raise ValueError('Invalid word list')
         result=[]
         for word in items:
             if not isinstance(word,dict):raise ValueError('Invalid word')
-            if 't' not in word:
-                # Accept the previous schema for backwards-compatible providers.
-                result.append(word);continue
-            if set(word)-{'t','r','m','n'} or not all(isinstance(v,str) for v in word.values()):
-                raise ValueError('Invalid compact word')
-            text=word['t'];is_word=bool(word.get('r') or word.get('m')) or any(c.isalnum() for c in text)
-            latin=all(not c.isalpha() or 'LATIN' in unicodedata.name(c,'') for c in text)
-            result.append({'text':text,'reading':word.get('r',text if latin else '') if is_word else text,
-                'meaning':word.get('m',''),'note':word.get('n',''),'is_word':is_word})
+            word=dict(word);text=word.get('text')
+            if isinstance(text,str) and word.get('is_word') is True:
+                latin=all(not c.isalpha() or 'LATIN' in unicodedata.name(c,'') for c in text)
+                if latin:word['reading']=text
+                elif isinstance(word.get('reading'),str) and len(word['reading'])>80:
+                    raise ValueError('Word pronunciation is too long')
+            result.append(word)
         return result
     if not isinstance(value,dict):raise ValueError('Invalid lesson')
     value=dict(value);value['words']=words(value['words'])
@@ -357,7 +342,7 @@ class GoogleProvider:
             data=json.loads(b''.join(chunks));candidate=data.get('candidates',[{}])[0]
             if candidate.get('finishReason','STOP')!='STOP': raise ValueError('Incomplete lesson')
             text=''.join(p.get('text','') for p in candidate['content']['parts'] if not p.get('thought'))
-            return validate_lesson(expand_model_lesson(json.loads(text)),value.text)
+            return validate_lesson(normalize_model_lesson(json.loads(text)),value.text)
         except HTTPException: raise
         except httpx.HTTPError: raise HTTPException(502,'Cannot reach Google; the client can retry its saved transcript') from None
         except (ValueError,KeyError,IndexError,TypeError): raise HTTPException(502,'Google returned an incomplete lesson; retry the saved transcript') from None

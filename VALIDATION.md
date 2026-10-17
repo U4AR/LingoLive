@@ -2,8 +2,8 @@
 
 - **80 backend tests pass**, including six tests for the compact Gemini 3.8
   response: both providers make exactly one call for a complete lesson, all
-  readings/meanings survive expansion, malformed/missing/source-changing words
-  fail validation, sparse punctuation expands exactly, and truncated output
+  readings/meanings are retained, malformed/missing/source-changing words
+  fail validation, exact punctuation is retained, and truncated output
   makes no automatic second paid call. Both provider requests use `thinkingLevel:
   low` and the existing 4,096-token cap.
 - **57 real Chromium checks pass**: 13 baseline, 5 optional Google auth, 8
@@ -22,10 +22,12 @@
   is present. No latency improvement or successful real 3.8 inference is claimed.
   The existing v1.3 deployment and hosted evidence below predate these changes.
 
-The model wire response uses short word keys (`t/r/m/n`), leaves punctuation as
-`t` only, and omits ordinary usage notes. It is expanded and strictly validated
-before returning the unchanged public lesson shape. This reduces generated
-metadata while retaining every source character, word meaning and pronunciation.
+Live tests exposed unreliable readings and omitted meanings with abbreviated
+word fields. The final request uses explicit `text/reading/meaning/note/is_word`
+fields, all required, with bounded readings and brief notes. Words already using
+Latin script reuse their original text as their reading. Non-Latin readings must
+remain present, short and defined. Strict source/definition validation and the
+4,096-token cap remain. No automatic second paid model call is made.
 Transcription is a separate live service; all lesson work is one Flash request.
 The UI pronunciation toggle, word bubbles and tutorial need no extra model call.
 Authentication, key isolation, memory, optional signals and cost guards remain.
