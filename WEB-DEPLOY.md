@@ -53,8 +53,22 @@ invitation requirements continue to apply only to host-code access.
 
 ## Recommended: Vertex AI with the Cloud Run service account
 
+Use an existing signed-in Cloud Shell, or a normal persistent Cloud SDK login on
+the machine doing the deployment. On a workstation, `gcloud auth login` stores
+refreshable credentials in the SDK's private configuration; subsequent deploys
+normally refresh automatically. In an already authorized Cloud Shell, use that
+existing login. Check `gcloud auth list` before starting a new login.
+
+This agent workspace and a phone's Cloud Shell are different machines. A pasted
+`gcloud auth print-access-token` value is only a short-lived bearer token, without
+the refresh credential. It does not sign this workspace into gcloud permanently.
+Do not use repeated token copying as the normal deployment workflow. Never put
+SDK credential files, refresh tokens or access tokens in Git or the app image.
+The deployed runtime account obtains its own credentials automatically; operator
+token expiry does not sign users out or stop the existing app's Google access.
+
 Use a billing-enabled Google Cloud project. Enable Vertex AI (`aiplatform`),
-Cloud Run, Cloud Build, Artifact Registry, IAM and Secret Manager. The same
+Cloud Run, Cloud Build, Artifact Registry, IAM and Secret Manager.
 The v1.4 defaults are Gemini 3.8 Flash (low reasoning) and Gemini 3.5 Transcribe Live through Vertex;
 host-code operation needs **no Google API key** in the browser or recommended runtime. Personal-key mode accepts a key only at connection time; source contains no keys.
 Google authentication uses the runtime service account's automatically refreshed
