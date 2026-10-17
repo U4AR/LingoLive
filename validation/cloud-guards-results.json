@@ -1,6 +1,6 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00012-xot",
+  "ready_revision": "lingolive-00014-fog",
   "unauthenticated_http_blocked": true,
   "unauthenticated_websocket_blocked": true,
   "limits": {
@@ -23,5 +23,9 @@
     "per_hour": 180,
     "per_day": 200
   },
-  "combined_output_tokens_per_lesson": 4096
+  "combined_output_tokens_per_lesson": 4096,
+  "app_version": "1.7",
+  "checked_for_personal_memory_release": true,
+  "public_verified_at_utc": "2026-10-17T12:38:20.358979+00:00",
+  "unauthenticated_websocket_status": 403
 }

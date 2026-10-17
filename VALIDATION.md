@@ -1,4 +1,35 @@
-# Current source: web 1.6 — Reply now. Learn later.
+# Web 1.7 — Durable personal memory
+
+- **99 backend tests and 75 Chromium checks pass**, plus the core/context and
+  personal-memory JavaScript suites. Twelve new browser checks cover automatic
+  provisional memory, cross-conversation retrieval with no goal/history, editing,
+  confirmation, reload, broad places, learner isolation, in-flight forgetting,
+  pause/re-enable and keeping copied memory out of saved request snapshots.
+- Real Gemini on the staged revision learned a grounded weekday commute from an
+  explicitly learner-authored typed statement. It appeared as Possible, was
+  confirmed in the UI without another generation, then guided Kannada replies in
+  a new conversation with a blank goal and no previous turns. Both existing
+  branches still share the context: **no third AI call**.
+- The two functional requests took **2.040 s and 7.604 s**. A small interleaved
+  repeat check took **1.989 / 2.029 s with memory** (mean 2.009 s) and
+  **1.933 / 1.567 s without memory** (mean 1.750 s). All six requests succeeded.
+  These are small warm-path functional samples, not a new ten-request benchmark,
+  evidence of causality or a promise of sub-two-second mobile speech responses.
+  The slow result is retained; older latency evidence below predates this prompt.
+- Cloud metadata/health, eleven exact shell assets, authentication, revision
+  routing and unchanged model/resource budgets are recorded in
+  `cloud-current-deployment.json` and `cloud-v1.7-staged-deployment.json`.
+- `cloud-v1.7-api-results.json` and `cloud-v1.7-memory-timings.json` contain real
+  Google results. `web-personal-memory-results.json` uses explicit local Google
+  fixtures. No new audio/video was generated; physical-device/noisy capture was
+  not retested on this version. The realistic Kannada demo awaits script approval.
+- Memory adapts prompts and retrieval, not model weights. Local profiles are
+  separate browser data stores, not private authentication accounts or cloud sync.
+  Approximate sensor coordinates/audio remain temporary and are not durable facts.
+
+## Earlier web 1.6 evidence (historical)
+
+### Web 1.6 — Reply now. Learn later.
 
 - **93 backend tests and 63 Chromium checks pass**, plus JavaScript core/context
   checks. The six new browser checks verify no word-teaching controls in live

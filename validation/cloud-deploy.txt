@@ -1,10 +1,10 @@
 Building using Dockerfile and deploying container to Cloud Run service [lingolive] in project [locateassist] region [us-central1]
 Building and deploying...
 Validating configuration...........done
-Uploading sources...........................done
-Building Container.......................................................................................................................................................................................................................................................................done
-Setting IAM Policy........................done
-Creating Revision...................................................................................................done
+Uploading sources..........................done
+Building Container........................................................................................................................................................................................................................................................................................done
+Setting IAM Policy...................done
+Creating Revision.................................................................................................................................done
 Done.
-Service [lingolive] revision [lingolive-00012-xot] has been deployed and is serving 0 percent of traffic.
+Service [lingolive] revision [lingolive-00014-fog] has been deployed and is serving 0 percent of traffic.
 The revision can be reached directly at https://verify---lingolive-l5utioe5cq-uc.a.run.app

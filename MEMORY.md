@@ -1,4 +1,4 @@
-# Conversation memory (web 1.6 source)
+# Conversation memory (web 1.7 source)
 
 The main screen shows heard speech, its translation and three possible replies.
 During a live exchange, replies have pronunciation, playback and copy controls.
@@ -27,10 +27,58 @@ to a previous suggested reply is another tentative learner cue. Common greetings
 are excluded. **I said this**, under a reply's more menu, explicitly confirms a
 turn without another model request. Confirmed goals override tentative intent.
 
+## Memory that builds across conversations
+
+The earlier app had scene history and manual notes; web 1.7 adds **durable personal
+memory** for activities, broad places and preferences. This is personalized context
+retrieval, **not model weight fine-tuning**. It stays in the active learner's local
+profile. New conversation and scene expiry retain it; a new profile starts empty.
+
+The existing source-understanding call can propose at most two short memories.
+Each must cite an exact substring of the current utterance. Speaker estimates must
+be medium/high and point to the learner; otherwise nothing is learned. Proposals
+from inferred speech remain **possible**, with a count of distinct observations
+and scenes. Repetition improves retrieval relevance but never confirms a fact.
+Other people's statements, AI suggestions, GPS points and sound are not durable
+learner facts. Prompts exclude sensitive personal traits, precise addresses and
+credentials; local checks also reject recognizable credentials/contact details and
+coordinates. This is not a guarantee of semantic extraction accuracy.
+
+Settings → **What LingoLive remembers** shows the text, source evidence, date and
+status. Edit/confirm an item, add a useful broad named place or preference, forget
+an item or forget all and pause learning. A typed phrase can be explicitly marked
+as the learner's own words before submission; the checkbox resets after each
+phrase. “These are my words” also confirms an already understood utterance without
+another AI call. Speaker attribution alone is still an estimate unless confirmed.
+
+At most 60 items are retained. Up to five short items (160 characters each) go to
+both existing parallel branches. Retrieval ranks textual/setting relevance,
+confirmation, recency and distinct scenes; it does not require an extra embedding
+or model call. When the language differs, a bounded recent fallback lets Gemini
+judge relevance. A current explicit setting limits unrelated memories; goals and
+current statements override old routines. A possible commute is context for a
+clarifying suggestion, not proof of today's destination. Newly extracted memory
+helps the next turn; the reply branch does not wait for extraction.
+
+One-off plans expire after one day, possible routines after 30 days, and confirmed
+routines after 180 days since their update. Expired items are excluded when read.
+Forgetting a topic blocks its automatic re-learning while retained in a bounded
+120-topic suppression list. Clear-all empties that list, removes items and pauses
+learning until re-enabled. An epoch guard prevents an in-flight response from
+undoing a forget, correction or pause. There is no re-processing of old history.
+
+Forgetting personal memory does **not** delete the original saved conversation or
+manual notes. Those have separate controls. Recent conversation can still contain
+what was said; start a new conversation to reset it. Copied personal-memory payloads
+are excluded from saved lesson-context snapshots, so deleting a memory does not
+leave an additional copy of that payload in every lesson. Browser site-data
+clearing removes all local data. Storage requires a browser permitting persistence.
+
 ## Storage and lifetime
 
 | Memory | Where / lifetime |
 | --- | --- |
+| Activities, broad places, preferences | LocalStorage per learner, 60 items; one-off 1 day / possible routine 30 days / confirmed routine 180 days |
 | Learner name and editable notes (800 characters) | LocalStorage, separate per local profile |
 | Transcripts, lessons and vocabulary | IndexedDB, separate per profile; delete in Saved |
 | Explicit goal and inferred intent | Local conversation state; a scene expires after 90 minutes of inactivity |
@@ -40,7 +88,7 @@ turn without another model request. Confirmed goals override tentative intent.
 | Optional recent sound | RAM only, at most four seconds of mono 16 kHz PCM WAV; never saved in history |
 
 New conversation resets scene history and goals sent to Google while retaining
-saved lessons. Switching profiles stops capture and sensor sharing. Late speech
+saved lessons and durable personal memory. Switching profiles stops capture and sensor sharing. Late speech
 and model responses remain tied to the original learner/conversation. Deleting
 an in-flight lesson prevents its response from recreating the deleted record.
 
@@ -79,7 +127,7 @@ charge their own Google projects but still use the host's Cloud Run relay.
 
 Each lesson runs two Gemini 3.1 Flash-Lite requests in parallel: source understanding
 and replies. Both receive the same incoming goal, history, summary, previous
-suggestions and learner notes. There is no third summarization or classification
+suggestions, learner notes and up to five personal memories. There is no third summarization or classification
 call. The reply branch does not wait for the source branch's newly inferred scene;
 that inference enters the next turn's context. Optional recent sound goes only to
 the source branch. Reply generation uses the transcript and existing context.

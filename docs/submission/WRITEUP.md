@@ -12,7 +12,9 @@ and learning they can revisit.
 
 **Source:** https://github.com/U4AR/LingoLive
 
-## Current product update — web 1.6
+## Current product update — web 1.7
+
+The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant items, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
 
 The primary audience includes immigrants and people moving between Indian states.
 A Bengaluru/Kannada scenario illustrates the need: someone asks a question while
@@ -75,7 +77,7 @@ reliable diarization. Seen vocabulary is not presented as mastered vocabulary.
 
 Memory is bounded: at most eight recent turns, twelve seen words, editable notes
 of 800 characters and a scene that expires after 90 minutes of inactivity.
-New conversation resets the scene while preserving saved learning. Local learner
+New conversation resets the scene while preserving saved learning and up to 60 personal-memory items. One-off plans expire after a day, possible routines after 30 days and confirmed routines after 180 days. Settings provide edit, confirmation, forget and pause controls. Approximate coordinates are never turned into a location trail; broad named places come from learner statements or manual entries. Local learner
 profiles separate notes and history; they are not authenticated accounts, and
 anyone using the same browser can switch them.
 
@@ -123,14 +125,14 @@ splitting the original output into two parallel requests was insufficient:
 three prepared cases averaged 6.71 seconds with one call and 9.55 seconds with
 two original-format calls. Compact parallel output on 3.8 averaged 3.61 seconds.
 
-The final design combines parallel requests, Flash-Lite, concise output and warm
+The earlier web 1.5 measurement combines parallel requests, Flash-Lite, concise output and warm
 HTTP connection reuse. It averaged **1.79 seconds over ten complete, validated
 hosted lessons with zero failures**. The six sequential Japanese/Hindi/Spanish
 requests averaged 1.75 seconds. Two simultaneous independent sessions completed
 in 1.65 and 1.71 seconds. A separate functional context/audio check took 2.34
 seconds; including it gives an eleven-lesson mean of 1.84 seconds.
 
-These are small warm-path samples, not a promise for every language, long input,
+Those earlier latency samples predate the new personal-memory prompt. The current-version functional requests took 2.040 and 7.604 seconds. Two repeat memory requests took 1.989 and 2.029 seconds, while two without memory took 1.933 and 1.567 seconds. All six succeeded. The slow call remains in the evidence; two samples per mode do not establish causality or a new ten-request average. These are small warm-path samples, not a promise for every language, long input,
 mobile network or cold start. The synthesized speech test took 3.54 seconds from
 the end of audio to the complete lesson, including 1.11 seconds of test-client
 handoff. Thus the measured two-second lesson average does not describe the whole
@@ -168,14 +170,14 @@ In-memory counters reset after restarts and are usage guards, not a hard dollar 
 
 ## Validation and current readiness
 
-**93 backend tests** and **63 real Chromium browser checks** passed, along with
+**99 backend tests** and **75 real Chromium browser checks** passed, along with
 JavaScript source/word/audio/context checks. Local tests use explicit Google,
 microphone and location fixtures. Separate hosted checks used real Google
 transcription and lessons, validated exact text/readings/meanings, checked access
 controls and proved invalid personal keys do not produce a host-funded fallback.
 Valid personal-key inference and physical-phone capture remain unverified.
 
-Production revision `lingolive-00012-xot` serves web 1.6 on Cloud Run. The same
+Production deployment details in `validation/cloud-current-deployment.json` identify web 1.7 on Cloud Run. The same
 revision was checked through a temporary tag before promotion; public health,
 assets and routing were verified afterward. The normal persistent Cloud SDK
 operator login is separate from the runtime service account. No deployment

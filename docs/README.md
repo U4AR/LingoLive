@@ -1,3 +1,10 @@
+Current technical write-up: [LingoLive-Writeup.pdf](submission/LingoLive-Writeup.pdf)
+reflects web 1.7 personal memory and real-Google verification. The proposed
+Bengaluru/Kannada video script, including natural cadence and environmental
+sound, is [DEMO-TRANSCRIPT-V2.md](submission/DEMO-TRANSCRIPT-V2.md) and awaits
+approval before production. The presentation below and published 1.5 video are
+older materials and have not been relabelled as current.
+
 # Project explanation PDF
 
 [LingoLive — How it works](LingoLive-How-It-Works.pdf) is an eight-page English,

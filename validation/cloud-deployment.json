@@ -5,7 +5,7 @@
   "service": "lingolive",
   "url": "https://lingolive-358650584819.us-central1.run.app",
   "canonical_url": "https://lingolive-l5utioe5cq-uc.a.run.app",
-  "ready_revision": "lingolive-00012-xot",
+  "ready_revision": "lingolive-00014-fog",
   "condition": "CONDITION_SUCCEEDED",
   "provider": "vertex",
   "google_api_key_required": false,
@@ -37,13 +37,20 @@
   "traffic": [
     {
       "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION",
-      "revision": "lingolive-00012-xot",
+      "revision": "lingolive-00014-fog",
       "percent": 100
     }
   ],
   "max_instances": 1,
   "min_instances": 0,
   "cost_guards": {
+    "LINGOLIVE_FLASH_MODEL": "gemini-3.1-flash-lite",
+    "LINGOLIVE_LESSON_STRATEGY": "parallel",
+    "LINGOLIVE_THINKING_LEVEL": "auto",
+    "LINGOLIVE_TRANSCRIBE_MODEL": "gemini-3.5-transcribe-live",
+    "LINGOLIVE_BYOK_ENABLED": "true",
+    "LINGOLIVE_PROVIDER": "vertex",
+    "LINGOLIVE_GOOGLE_SIGNIN_REQUIRED": "false",
     "LINGOLIVE_AI_ENABLED": "true",
     "LINGOLIVE_REQUESTS_PER_MINUTE": "24",
     "LINGOLIVE_LESSONS_PER_HOUR": "360",
@@ -59,5 +66,7 @@
   "flash_model": "gemini-3.1-flash-lite",
   "persistent_sdk_login_verified": true,
   "lesson_strategy": "parallel",
-  "thinking_level": "minimal"
+  "thinking_level": "minimal",
+  "app_version": "1.7",
+  "checked_for_personal_memory_release": true
 }

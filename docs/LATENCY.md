@@ -1,3 +1,16 @@
+## Web 1.7 memory update
+
+Durable personal memory adds up to five 160-character items to both existing
+parallel prompts and at most two source-side proposals. It adds no third model
+request and preserves the combined 4,096-token cap. The older ten-request averages
+below predate these changes. The functional requests took 2.040 s and 7.604 s. Two subsequent memory
+requests took 1.989 s and 2.029 s (mean 2.009 s), while two without memory
+took 1.933 s and 1.567 s (mean 1.750 s). All succeeded; this tiny interleaved
+comparison does not establish causality. Full results, including the slow call,
+are in `validation/cloud-v1.7-api-results.json` and
+`validation/cloud-v1.7-memory-timings.json`; do not relabel them as a
+fresh ten-request average or a noisy physical-phone speech benchmark.
+
 > Web 1.6 moves teaching into Saved and prioritizes replies during a live exchange.
 > The measurements below were collected on web 1.5; they are not a fresh 1.6
 > benchmark. Models, request format, parallelism and budgets are unchanged.

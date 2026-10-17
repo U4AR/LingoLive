@@ -1,0 +1,64 @@
+{
+  "app_version": "1.7",
+  "url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "live_google": true,
+  "requests": 4,
+  "raw_generation_calls": 8,
+  "warm_path_small_sample": true,
+  "audio_or_video_generated": false,
+  "rows": [
+    {
+      "mode": "with_memory",
+      "seconds": 1.989,
+      "status": 200,
+      "source_preserved": true,
+      "replies": 3,
+      "reply_translations": [
+        "I need to go to Indiranagar.",
+        "I need to go to the city center.",
+        "I need to go to the station."
+      ]
+    },
+    {
+      "mode": "without_memory",
+      "seconds": 1.933,
+      "status": 200,
+      "source_preserved": true,
+      "replies": 3,
+      "reply_translations": [
+        "I need to go to the station.",
+        "I need to go to the hotel.",
+        "I don't know."
+      ]
+    },
+    {
+      "mode": "with_memory",
+      "seconds": 2.029,
+      "status": 200,
+      "source_preserved": true,
+      "replies": 3,
+      "reply_translations": [
+        "I need to go to Indiranagar.",
+        "Please tell me.",
+        "Where are you going?"
+      ]
+    },
+    {
+      "mode": "without_memory",
+      "seconds": 1.567,
+      "status": 200,
+      "source_preserved": true,
+      "replies": 3,
+      "reply_translations": [
+        "I need to go to the station",
+        "I need to go to the hotel",
+        "I need to go to the city"
+      ]
+    }
+  ],
+  "means": {
+    "with_memory": 2.009,
+    "without_memory": 1.75
+  },
+  "limits": "Two samples per mode; same deployed model/schema; network and upstream variance included. No physical speech benchmark or causal latency claim."
+}

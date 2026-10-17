@@ -1,0 +1,233 @@
+{
+  "url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "live_google": true,
+  "app_version": "1.7",
+  "live_google_transcription_tested_this_revision": false,
+  "physical_microphone": false,
+  "video_or_audio_generated": false,
+  "input": "Typed simulated newcomer commute and Kannada question; no physical location supplied",
+  "lesson_attempts": 2,
+  "google_generation_calls": 4,
+  "model": "gemini-3.1-flash-lite",
+  "lesson_strategy": "parallel",
+  "http_timings": [
+    {
+      "text": "Every weekday after work I go to Indiranagar metro station. I prefer short polite replies.",
+      "seconds": 2.04
+    },
+    {
+      "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "seconds": 7.604
+    }
+  ],
+  "small_functional_sample_not_latency_benchmark": true,
+  "automatic_grounded_memory": true,
+  "confirmed_in_ui_without_ai_call": true,
+  "new_conversation_blank_goal": true,
+  "new_conversation_no_history": true,
+  "recalled_personal_memories": [
+    {
+      "kind": "activity",
+      "text": "Goes to Indiranagar metro station after work on weekdays.",
+      "status": "confirmed",
+      "setting": "any",
+      "observations": 1
+    }
+  ],
+  "learned_items": [
+    "Goes to Indiranagar metro station after work on weekdays."
+  ],
+  "source_preserved": true,
+  "all_required_readings_and_meanings": true,
+  "live_replies": 3,
+  "live_word_controls": 0,
+  "saved_word_review_verified": true,
+  "review_makes_no_extra_model_call": true,
+  "mobile_fits": true,
+  "lesson": {
+    "detected_language": "kn-IN",
+    "contains_learning_language": true,
+    "translation": "Where should (I/we) go?",
+    "explanation": "Asking for directions or destination.",
+    "tip": "",
+    "words": [
+      {
+        "text": "ಎಲ್ಲಿಗೆ",
+        "reading": "ellige",
+        "meaning": "to where",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": " ",
+        "reading": " ",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      },
+      {
+        "text": "ಹೋಗಬೇಕು",
+        "reading": "hogabeku",
+        "meaning": "should go",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": "?",
+        "reading": "?",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      }
+    ],
+    "replies": [
+      {
+        "label": "Indiranagar",
+        "translation": "I need to go to Indiranagar.",
+        "words": [
+          {
+            "text": "ಇಂದಿರಾನಗರಕ್ಕೆ",
+            "reading": "Indiranagarakke",
+            "meaning": "to Indiranagar",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "reading": "hogabeku",
+            "meaning": "must go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": ".",
+            "reading": ".",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Nearby station",
+        "translation": "I need to go to the nearest station.",
+        "words": [
+          {
+            "text": "ಹತ್ತಿರದ",
+            "reading": "hattirada",
+            "meaning": "nearby",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+            "reading": "nildanakke",
+            "meaning": "to station",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "reading": "hogabeku",
+            "meaning": "must go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": ".",
+            "reading": ".",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Clarify",
+        "translation": "Where should I go?",
+        "words": [
+          {
+            "text": "ನಾನು",
+            "reading": "nanu",
+            "meaning": "I",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಎಲ್ಲಿಗೆ",
+            "reading": "ellige",
+            "meaning": "to where",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "reading": "hogabeku",
+            "meaning": "must go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "?",
+            "reading": "?",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      }
+    ],
+    "context_summary": "User asking about destination.",
+    "inferred_setting": "travelling",
+    "context_confidence": "high",
+    "current_speaker": "user",
+    "speaker_confidence": "high",
+    "inferred_user_intent": "asking for travel direction",
+    "memory_candidates": [
+      {
+        "kind": "activity",
+        "topic": "commute",
+        "text": "Goes to Indiranagar metro station after work on weekdays.",
+        "evidence": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+        "setting": "travelling",
+        "duration": "routine"
+      }
+    ]
+  },
+  "valid_personal_key_inference_tested": false
+}

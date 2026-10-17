@@ -2,7 +2,17 @@
 
 [Project PDF](docs/LingoLive-How-It-Works.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.6 — Reply now. Learn later.
+## Current source: web 1.7 — Memory that grows with the learner
+
+Useful activities, broad places and preferences now carry across conversations in
+each local learner profile. The existing source AI call proposes grounded memories;
+inferred items stay **possible** until confirmed. Settings → **What LingoLive
+remembers** lets you edit, add, confirm or forget them. No GPS trails, extra model
+call or model-weight fine-tuning. See [memory design](MEMORY.md).
+
+The Bengaluru/Kannada demo script now includes memory over time, natural cadence
+and restrained environmental sound. It awaits transcript approval before any new
+voices or video are generated.
 
 LingoLive helps newcomers, interstate migrants and immigrants handle everyday
 conversations in a language they are still learning. A newcomer to Bengaluru can
@@ -65,7 +75,7 @@ files, signing keys and generated APK/ZIP files are excluded from Git.
 A web and Android companion for learning from real conversations. Choose a language
 you know and a language you are learning, then tap **Start listening**. Google's
 **Gemini 3.5 Transcribe Live** transcribes speech across languages, including
-code-switching. Web 1.6 final learning-language phrases become short **Gemini 3.1 Flash-Lite**
+code-switching. Web 1.7 final learning-language phrases become short **Gemini 3.1 Flash-Lite**
 lessons: what was said, what each word means, a usage note, and three natural replies.
 
 In Saved, tap any word in the source or a suggested reply for its contextual meaning,

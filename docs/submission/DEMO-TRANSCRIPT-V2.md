@@ -1,87 +1,99 @@
-# Demo transcript v2 — Reply now. Learn later.
+# Demo transcript v2 — Your next words, shaped by your day
 
-**Status: awaiting the user's approval. No v2 narration, simulated voices,
+**Status: awaiting the user's transcript approval. No new actor voices, narration,
 generated footage or video recording has been produced.**
 
-**Setting:** Bengaluru. An English-speaking newcomer has moved from another
-Indian state and is still learning Kannada. The same situation applies to
-immigrants/newcomers who do not yet speak the local language.
+**Audience and setting:** an English-speaking newcomer from another Indian state,
+settling into Bengaluru and learning Kannada. The same problem affects immigrants
+learning the language of their new community.
 
-**Length:** target 2:57, strictly under three minutes after rendering.
+**Length:** target 2:57. Keep conversational pacing; trim narration or scenes to
+fit, rather than accelerate speakers or conceal the app's response time.
 
-**Voices:** natural, distinct Kannada and Indian-English voices, with a narrator,
-newcomer, driver and shopkeeper. Higher-quality Google multilingual TTS is the
-production target; synthesis and voice testing wait for transcript approval.
+**Central progression:** unfamiliar conversation → useful reply now → useful
+activities/places/preferences remembered across days → learn afterwards in Saved.
+Memory supplies context; it is not model weight fine-tuning or location tracking.
 
-**Visual approach:** begin with a short simulated real-life interaction, then
-show the actual deployed app. A generated establishing scene is optional and
-will be labelled as a dramatization. Live Google transcriptions/replies will not
-be substituted with prewritten results. Simulated microphone input will be
-disclosed. English captions translate the Kannada dialogue.
+## 0:00–0:23 — A real everyday difficulty
 
-## 0:00–0:20 — New to Bengaluru
+**Visual:** Bengaluru, leaving work. A newcomer approaches an auto driver.
+Restrained traffic/engine ambience begins before the first voice.
 
-**Visual:** a newcomer outside an office, about to speak with an auto driver.
-
-**Narrator:** “You’ve moved to Bengaluru for work. Outside the office, everyday
-conversations are in a language you’re still learning.”
+**Narrator:** “Moving to Bengaluru for work means learning more than a new job.
+Even getting home can mean a conversation in a language you don't yet speak.”
 
 **Driver, Kannada:** “ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?”
 
 **English subtitle:** “Where do you need to go?”
 
-**Newcomer, English:** “I need to get to the metro station. How do I say that?”
+**Direction:** leave a short, uncomfortable pause. The newcomer looks towards the
+metro sign; don't immediately cut to a narrator explaining the answer.
 
-## 0:20–0:35 — A useful reply in the moment
+**Newcomer, English, quietly:** “The metro… I know where I need to go. I just
+don't know how to say it.”
 
-**Visual:** the newcomer opens LingoLive. The phone becomes the main view.
+## 0:23–0:48 — Give help in the moment
 
-**Narrator:** “When someone is waiting, you need a reply you can use. LingoLive
-helps newcomers and interstate migrants keep the conversation going.”
+**Visual:** actual app on a phone-sized viewport, English/Kannada selected. One
+microphone press. The driver repeats the question at a normal speaking pace.
+Show real finalized transcription and the returned reply choices, preserving the
+actual processing wait. English captions make the exchange understandable.
 
-## 0:35–1:05 — Show the app working
+**Narrator:** “LingoLive helps with the next reply. Hear what was said, choose a
+response, and use pronunciation when you need it.”
 
-**Visual:** select English and Kannada, press the microphone, and show real
-transcription, translation and three suggested replies. Use pronunciation/playback
-as aids for saying the reply. Do not open word meanings or teaching controls.
-
-**Driver, Kannada:** “ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?”
-
-**English subtitle:** “Where do you need to go?”
-
-**Narrator:** “Choose the language you know and Kannada. Tap the microphone.
-LingoLive shows what the driver said and suggests short replies. See what each
-reply means, then read its pronunciation or play it aloud.”
-
-**Newcomer, Kannada:** “ಮೆಟ್ರೋ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು.”
+**Newcomer, Kannada, deliberate but conversational:** “ಮೆಟ್ರೋ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು.”
 
 **English subtitle:** “I need to go to the metro station.”
 
-## 1:05–1:35 — Keep the destination in context
+**Driver:** “ಸರಿ.” — “Okay.”
 
-**Visual:** a follow-up question in the same conversation. Preserve actual model
-output and uncertainty; the app has not verified the vehicle's physical location.
+**Direction:** this is a proposed reply, not a precomputed result to impersonate
+live output. Use a returned option or revise the recording script after inspection.
+No word-definition bubbles or grammar teaching during this scene.
 
-**Driver, Kannada:** “ಇಲ್ಲೇ ನಿಲ್ಲಿಸಬೇಕಾ?”
+## 0:48–1:13 — Build memory from the learner's life
 
-**English subtitle:** “Should I stop here?”
+**Visual:** “Later — same learner, same browser.” The newcomer shares a routine.
+For a reliable demonstration, explicitly mark a typed statement as their own words
+using the existing control; do not present typed input as microphone transcription.
 
-**Narrator:** “The next question should stay connected to the trip. Recent
-conversation and your destination help the suggestions follow what you’re trying
-to do. You can ask for clarification when the situation is unclear.”
+**Newcomer, English:** “Every weekday after work I go to Indiranagar metro station.
+I prefer short, polite replies.”
 
-**Newcomer, Kannada:** “ಇದು ಮೆಟ್ರೋ ನಿಲ್ದಾಣವೇ?”
+**Visual:** show the actual extracted memory in Settings → What LingoLive
+remembers. It begins as **Possible**. Confirm the useful routine, then close settings.
+If automatic extraction differs, show that result honestly; do not manufacture it.
 
-**English subtitle:** “Is this the metro station?”
+**Narrator:** “Useful details can build into local memory: your commute, broad
+places and preferences. Guesses stay possible. You can correct, confirm or forget
+them, and pause learning whenever you want.”
 
-## 1:35–2:00 — Another everyday conversation
+## 1:13–1:43 — A later conversation remembers the routine
 
-**Visual:** a tea stall in Bengaluru; start a new conversation with the goal of
-getting tea to take away. Show the real reply options promptly.
+**Visual:** clear title “Another day — same learner.” Start **New conversation**,
+leave its goal blank, choose Travelling, and keep this session separate from the
+previous scene. No GPS permission or fabricated journey/location trace.
 
-**Narrator:** “The same flow helps at a tea stall, a shop or a new workplace.
-State your goal for more specific replies, or leave it blank to follow the
-conversation.”
+**Driver, Kannada:** “ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?”
+
+**English subtitle:** “Where do you need to go?”
+
+**Visual:** show actual replies informed by the saved routine. Keep the whole wait
+at real speed. Prefer a returned route-relevant reply; a routine is not proof of
+where the learner intends to go today.
+
+**Narrator:** “A new conversation doesn't have to start from zero. Remembered
+context helps suggest a relevant reply, without deciding today's destination for
+you. Your current words and goal always come first.”
+
+**Newcomer:** speak the actual selected Kannada reply, with a brief glance at its
+pronunciation and a natural breath. Translate it in the English subtitle.
+
+## 1:43–2:05 — Carry it into another everyday setting
+
+**Visual:** tea stall; change to a café setting. Cups and distant voices replace
+the traffic smoothly. Briefly show useful replies, not learning controls.
 
 **Shopkeeper, Kannada:** “ಇಲ್ಲೇ ಕುಡಿಯುತ್ತೀರಾ ಅಥವಾ ಪಾರ್ಸೆಲ್ ಬೇಕಾ?”
 
@@ -91,39 +103,62 @@ conversation.”
 
 **English subtitle:** “To take away, please.”
 
-## 2:00–2:30 — Teach afterwards
+**Narrator:** “Keep the exchange moving. Give a goal when you want, or let the
+conversation guide the suggestions.”
 
-**Visual:** later at home. Open Saved and review the earlier trip. Only now show
-tappable word meanings, pronunciation, explanation and practice replies.
+## 2:05–2:32 — Teach after the moment
 
-**Narrator:** “Later, when the conversation is over, open Saved. Now there’s time
-to learn. Tap the words you encountered, see their meanings, check pronunciation
-and practise the replies. Your own conversations become material for learning.”
+**Visual:** later at home, a quiet room. Open Saved from the actual commute
+lesson. Only now tap source/reply words for meaning bubbles, change pronunciation
+and practise. Opening stored word details makes no new AI request.
 
-## 2:30–2:50 — Google AI and access
+**Narrator:** “Later, there's time to learn. Revisit the conversation in Saved.
+Tap the words you actually encountered, check their meanings and pronunciation,
+and practise your replies. Everyday conversations become material for learning.”
 
-**Visual:** a compact Google AI/Cloud Run architecture overlay beside the app;
-briefly show connection choices with empty fields.
+## 2:32–2:57 — How it works and why it matters
 
-**Narrator:** “Built with Google Gemini and deployed on Google Cloud Run,
-LingoLive combines live conversation support with local learning history.
-Use a host access code or your own Google key.”
+**Visual:** compact Google Gemini / Cloud Run overlay, then the simple app.
+Show empty connection choices only, with no keys, access codes or session data.
+End on LingoLive and the prototype link.
 
-## 2:50–2:57 — Closing
+**Narrator:** “Built with Google Gemini and deployed on Cloud Run. Personal memory
+stays in this browser's learner profile; relevant context goes with your requested
+AI replies. Connect with a host access code or your own Google key. For newcomers
+finding their feet in a new city: reply now, learn later, and build confidence
+over time.”
 
-**Visual:** the newcomer continuing their day; end with the app name and links.
+## Audio and timing direction — realistic, not rushed
 
-**Narrator:** “For everyone finding their feet in a new city. LingoLive.
-Reply now. Learn later.”
+- Use distinct, natural Kannada and Indian-English voices. Listen to native Kannada
+  pronunciation before accepting a take. Higher-quality Google multilingual TTS
+  or actor recordings are candidates; synthesis/auditions wait for approval.
+- English narration approximately 135–150 words/minute. Actor lines follow natural
+  Kannada phrasing, not a uniform words-per-minute target or word-by-word TTS.
+  Allow breaths, a small hesitation from the learner, and roughly 0.4–1.0 seconds
+  between turns where it sounds natural. Don't stretch every gap identically.
+- Traffic/engine, distant conversation and cups create an intelligible soundscape.
+  Keep ambience roughly 18–24 dB below dialogue, with no abrupt loud horns or
+  distracting intelligible third-party speech. The home review should sound quieter.
+- Feed an approved realistic noise mix into the actual microphone demo too if
+  using simulated input; do not add noise only in post and claim noisy-input
+  recognition was tested. Keep the original output, timing and any failed take
+  evidence. One successful noise scene is not a robustness benchmark.
+- No music underneath short Kannada exchanges. Light scene transitions are optional.
+  Avoid stock sound repeated mechanically after every utterance.
+- Never speed up live app capture, fake a transcript/reply, hide a wait behind a cut
+  while implying it was instant, or show a prepared animation as live inference.
+  If needed, shorten narration or drop the tea-stall scene to preserve a sub-three-
+  minute runtime at real speed.
+- Actor voices, simulated microphone input and any generated establishing footage
+  must be disclosed as a dramatization/simulated demonstration. Actual app capture
+  remains distinct. No voice cloning or impersonation of a real person.
 
-## Production notes
+## Approval and provenance
 
-- The learner dialogue above is a proposed simulated exchange. Actual generated
-  suggestions can vary; the recording will not pretend a fixed sentence was
-  produced if it was not returned by the model.
-- All actor voices, narration and any generated establishing footage require
-  approval of this transcript before production starts.
-- The earlier 2:53 video remains an archived web 1.5 demonstration, not this
-  updated Kannada/reply-first video. Do not relabel or replace it as v2.
-- This is a proposal for a demonstration, not a testimonial, user study, guarantee
-  of learning gains or claim of Hack2skill acceptance.
+The user requested transcript approval before new production. This revision,
+including dialogue, memory progression and sound direction, is still awaiting that
+approval. There is no new v2 audio, noise mix, generated footage or video yet.
+The earlier 2:53 video is an archived web 1.5 demonstration and must not be labelled
+as this new memory/Kannada demonstration. This is a proposed demonstration, not a
+user study, claim of educational outcomes or Hack2skill submission receipt.
