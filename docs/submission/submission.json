@@ -32,7 +32,7 @@
   ],
   "material_status": {
     "proposal_pdf": "Generated and eight-page layout checked",
-    "writeup_pdf": "Updated web 1.8 detailed six-page A4 PDF generated and inspected",
+    "writeup_pdf": "Updated web 1.9 detailed seven-page A4 PDF generated and inspected",
     "entry_text": "Prepared in ENTRY.md",
     "demo": "Complete: 173.021 seconds, H.264/AAC, burned English captions, full decode and sample-frame inspection passed",
     "registered_team": "User confirmed registration; team membership unconfirmed",
@@ -40,8 +40,8 @@
   },
   "repository_visibility": "private",
   "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/index.html",
-  "current_app_version": "1.8",
-  "current_app_revision": "lingolive-00018-wuj",
+  "current_app_version": "1.9",
+  "current_app_revision": "lingolive-00023-vef",
   "demo_video_version": "1.5 archived",
   "demo_v2": {
     "approval_status": "pending_user_transcript_approval",
@@ -58,5 +58,10 @@
     "memory_story": "Opt-in saved places: useful notes recalled only on a fresh stable return nearby; editable and bounded.",
     "audio_direction": "Natural Kannada and Indian-English cadence, conversational gaps and restrained Bengaluru traffic/cafe ambience; actual response waits preserved.",
     "technical_depth": "General Google AI / Cloud Run credit only; focus on utility/functions. Algorithms, numeric guards, security and latency belong in the PDF."
+  },
+  "functional_updates": {
+    "pre_task_plan": true,
+    "known_language_expression": true,
+    "video_transcript_changed_for_this_request": false
   }
 }

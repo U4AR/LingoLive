@@ -2,7 +2,18 @@
 
 [Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.8 — Useful memory when you return
+## Current source: web 1.9 — Plan ahead and find your words
+
+**My plan → Before you go** saves your intention before leaving home, with optional
+steps such as cab → tea stop → railway station. Save makes no AI request. The plan
+survives new conversations and reloads for a day; you control done/skip/previous.
+
+Speech in your familiar language can now become **Say it in Kannada** (or your
+selected learning language), with meaning, pronunciation and playback. Heard
+Kannada still produces next-turn replies. **Help me say this** explicitly requests
+phrasing for an existing utterance. This functional update leaves the video
+transcript unchanged.
+
 
 Saved places now have geographic return checks: opt-in, max five places and three
 notes per place; only two notes can join context when you return nearby. Fresh,

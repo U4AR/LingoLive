@@ -1,4 +1,13 @@
-# Conversation memory (web 1.8 source)
+# Conversation memory (web 1.9)
+
+Live: https://lingolive-358650584819.us-central1.run.app, revision
+`lingolive-00023-vef`, 100% traffic; verification tag removed. Runtime source
+`050fd58196b186b7d45a955a63e168b749c05852`. Public assets, unauthenticated
+HTTP/WebSocket rejection and unchanged resource/quota guards verified.
+112 backend / 91 browser / eight plan-core / sixteen place-core checks pass.
+Four real-Gemini typed cases passed; HTTP mean 2.065 s, a tiny functional
+sample, not a new latency guarantee or physical-microphone benchmark.
+The task-plan request did not change the video transcript or generate media.
 
 The main screen shows heard speech, its translation and three possible replies.
 During a live exchange, replies have pronunciation, playback and copy controls.
@@ -26,6 +35,71 @@ or `likely_other`; ambiguous speech stays unattributed. A distinctive exact matc
 to a previous suggested reply is another tentative learner cue. Common greetings
 are excluded. **I said this**, under a reply's more menu, explicitly confirms a
 turn without another model request. Confirmed goals override tentative intent.
+
+## Plan before leaving (web 1.9)
+
+Known-language text gets a dedicated meaning-preserving expression prompt when
+local langdetect has at least 12 letters and confidence >=0.95; otherwise the
+model routes it. Explicit Help me say this always selects that prompt. Source
+language flags remain honest. Neither local hints nor the model identify speakers.
+The detector runs locally with fixed seed and makes no API request. Expression
+source analysis still uses only original speech. Expression replies allow up to
+ten word rows to cover compound intentions; ordinary next replies retain six.
+The shared 4,096 output-token allowance is unchanged.
+
+
+An explicit task plan is separate from conversation goals, remembered habits and
+GPS place memory. Open **My plan → Before you go** and save a short intention,
+for example: “Reach the railway station by cab; probably stop for tea on the way.”
+No AI call or GPS is required to save it. Optional ordered steps can be entered
+one per line (up to six); a trailing `?` or `(optional)` marks a tentative stop,
+and each displayed step has an Optional checkbox. The plan lasts for one day
+from saving and survives new conversations, scene expiry and page reload for
+this learner on this browser. It is excluded from AI context while paused,
+expired or complete. The text stays available for editing until cleared.
+
+Both existing parallel calls receive intent (max600 characters), steps (max6,
+100 characters each), pending/done/skipped states and the current step. Current
+words and a conversation-specific explicit goal take precedence over the broader
+plan. A possible tea stop remains tentative, and a future destination is never
+inferred to be the current GPS position. Saved-place proximity guards do not
+suppress a deliberately entered future plan.
+
+**Done, next step**, **Skip step** and **Previous step** change progress only on
+user action; neither model output nor location marks a step complete or books a
+cab. A narrative-only plan already works on the first request. The existing source
+call may propose a draft step list for it; the learner must choose **Use suggested
+steps** before it replaces the empty list. A plan ID/revision ticket rejects late
+suggestions after editing, pausing, clearing or profile switching. No separate
+organizing model request is made. A single active plan per learner bounds storage.
+
+Clearing/pausing the plan withholds its explicit context. Plan-scoped old summaries
+and turns are excluded when the active plan changes; temporary inferred intent is
+cleared on that transition. Copied task-plan payloads are excluded from saved
+lesson-context snapshots. Original saved conversations remain available until
+separately deleted. Plans are user intentions, not permanent facts about activities
+or visited locations, and prompts prohibit copying the plan into durable memory.
+
+## Help the learner express their own words
+
+Previously, a phrase containing only the known language produced no target-language
+replies. In web 1.9, it can produce **express** suggestions: three natural ways to
+say the current intent in the learning language, with meanings and pronunciation.
+For example, English “Could we stop for tea first?” becomes a Kannada request,
+rather than treating it as the other participant's question and answering it.
+Negation, questions and tentative language should be preserved. **Help me say this**
+explicitly requests this behavior for any selected phrase; marking typed input as
+one's own words uses it too. The backend forces expression when detected source language matches the known language, even if a model mislabels the reply mode. Language detection is still an estimate,
+not verified speaker identity. Other participants' facts are not learned merely
+because a known-language phrase was rendered in the target language.
+
+`contains_learning_language` continues to describe the original utterance honestly.
+For English source without Kannada, it remains false and source `words=[]`; only
+the three generated target phrases carry Kannada word definitions/readings.
+`reply_mode=express` permits those target phrases to be saved/reviewed. For heard
+learning-language speech, `reply_mode=respond` offers contextual next replies.
+Live mode prioritizes speaking; stored target words become tappable in Saved.
+Both modes use the existing two calls and unchanged combined output cap.
 
 ## Return-only place memory (web 1.8)
 

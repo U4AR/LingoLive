@@ -1,9 +1,9 @@
 {
   "file": "LingoLive-web-source.zip",
-  "bytes": 1894172,
-  "sha256": "de1f208151df870cb6adf12117dcf09a7f6a20f11438c469a76ffcf64364e5b6",
-  "files": 162,
-  "source_version": "1.8-return-only-places",
+  "bytes": 2149474,
+  "sha256": "2d1ea466eef05f0dbff34fb44670f5e970f2cb77eae1ab18c7c2fc950052d00a",
+  "files": 179,
+  "source_version": "1.9-task-plans-and-expression",
   "connection_modes": [
     "access_code",
     "api_key"
@@ -11,8 +11,8 @@
   "personal_key_storage": "server_memory_one_hour",
   "cloud_deployed": true,
   "deployment_blocker": null,
-  "existing_deployment_revision": "lingolive-00018-wuj",
-  "deployed_app_source_commit": "7df789e82e60783658f6e3a3509e8ef6d89e1405",
+  "existing_deployment_revision": "lingolive-00023-vef",
+  "deployed_app_source_commit": "050fd58196b186b7d45a955a63e168b749c05852",
   "hosted_context_inference_verified": true,
   "valid_personal_key_inference_tested": false,
   "google_signin_enabled": false,

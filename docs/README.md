@@ -1,5 +1,5 @@
 Current technical write-up: [LingoLive-Writeup.pdf](submission/LingoLive-Writeup.pdf)
-covers web 1.8 return-only saved places, personal memory and real-Google verification. The proposed
+covers web 1.9 pre-task plans, learner-language expression, guarded saved places and real-Google verification. The proposed
 Bengaluru/Kannada video focuses on utility and functions, including natural
 cadence and environmental sound; its script is [DEMO-TRANSCRIPT-V2.md](submission/DEMO-TRANSCRIPT-V2.md) and awaits
 approval before production. The presentation below and published 1.5 video are

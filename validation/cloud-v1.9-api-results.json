@@ -1,0 +1,1002 @@
+{
+  "url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "app_version": "1.9",
+  "live_google": true,
+  "typed_inputs": true,
+  "google_transcription_retested": false,
+  "new_actor_audio_or_video_generated": false,
+  "plan_saved_without_ai_call": true,
+  "plan_survived_reload_and_new_conversation": true,
+  "no_gps_required": true,
+  "source_language_honest": true,
+  "known_language_generates_target_phrases": true,
+  "source_english_words_not_invented": true,
+  "optional_stop_preserved": true,
+  "explicit_progress_sent": true,
+  "saved_word_review_verified": true,
+  "review_makes_no_extra_model_call": true,
+  "lesson_attempts": 4,
+  "google_generation_calls": 8,
+  "current_negative_overrides_optional_stop": true,
+  "model": "gemini-3.1-flash-lite",
+  "lesson_strategy": "parallel",
+  "http_timings": [
+    {
+      "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "http_seconds": 2.196,
+      "interaction_seconds": 2.34
+    },
+    {
+      "text": "Could we stop for tea first?",
+      "http_seconds": 1.894,
+      "interaction_seconds": 1.939
+    },
+    {
+      "text": "ಇಲ್ಲೇ ಕುಡಿಯುತ್ತೀರಾ ಅಥವಾ ಪಾರ್ಸೆಲ್ ಬೇಕಾ?",
+      "http_seconds": 1.914,
+      "interaction_seconds": 1.972
+    },
+    {
+      "text": "No tea. Please take me straight to the station.",
+      "http_seconds": 2.255,
+      "interaction_seconds": 2.307
+    }
+  ],
+  "small_functional_sample_not_latency_benchmark": true,
+  "plan": {
+    "intent": "Reach Bengaluru railway station by cab. I might stop for tea on the way, before reaching the station.",
+    "steps": [
+      {
+        "label": "Get a cab",
+        "optional": false,
+        "state": "pending"
+      },
+      {
+        "label": "Tea stop",
+        "optional": true,
+        "state": "pending"
+      },
+      {
+        "label": "Reach Bengaluru railway station",
+        "optional": false,
+        "state": "pending"
+      }
+    ],
+    "current_step": 0
+  },
+  "lessons": [
+    {
+      "detected_language": "kn-IN",
+      "contains_learning_language": true,
+      "translation": "Where should I go?",
+      "explanation": "Asking for a destination or where to go.",
+      "tip": "",
+      "words": [
+        {
+          "text": "ಎಲ್ಲಿಗೆ",
+          "reading": "elligē",
+          "meaning": "to where",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": " ",
+          "reading": " ",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        },
+        {
+          "text": "ಹೋಗಬೇಕು",
+          "reading": "hōgabēku",
+          "meaning": "must go",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": "?",
+          "reading": "?",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        }
+      ],
+      "replies": [
+        {
+          "label": "Cab request",
+          "translation": "Please go to Bengaluru railway station.",
+          "words": [
+            {
+              "text": "ದಯವಿಟ್ಟು",
+              "reading": "Dayavittu",
+              "meaning": "Please",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಬೆಂಗಳೂರು",
+              "reading": "Bengaluru",
+              "meaning": "Bengaluru",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ರೈಲ್ವೆ",
+              "reading": "Railve",
+              "meaning": "Railway",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+              "reading": "Nildanakke",
+              "meaning": "to station",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಹೋಗಿ",
+              "reading": "Hogi",
+              "meaning": "go",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        },
+        {
+          "label": "Coffee stop",
+          "translation": "Stop for tea on the way.",
+          "words": [
+            {
+              "text": "ದಾರಿಯಲ್ಲಿ",
+              "reading": "Daariyalli",
+              "meaning": "on the way",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಚಹಾಗಾಗಿ",
+              "reading": "Chahagaagi",
+              "meaning": "for tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ಲಿಸಿ",
+              "reading": "Nillisi",
+              "meaning": "stop",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        },
+        {
+          "label": "Confirmation",
+          "translation": "We are going to Bengaluru railway station.",
+          "words": [
+            {
+              "text": "ನಾವು",
+              "reading": "Naavu",
+              "meaning": "we",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಬೆಂಗಳೂರು",
+              "reading": "Bengaluru",
+              "meaning": "Bengaluru",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ರೈಲ್ವೆ",
+              "reading": "Railve",
+              "meaning": "Railway",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+              "reading": "Nildanakke",
+              "meaning": "to station",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಹೋಗುತ್ತಿದ್ದೇವೆ",
+              "reading": "Hoguttiddheve",
+              "meaning": "are going",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        }
+      ],
+      "context_summary": "User is planning to travel to Bengaluru railway station via cab, possibly stopping for tea.",
+      "inferred_setting": "unknown",
+      "context_confidence": "medium",
+      "current_speaker": "user",
+      "speaker_confidence": "high",
+      "inferred_user_intent": "Asking about travel destination during transit planning.",
+      "memory_candidates": [],
+      "reply_mode": "respond"
+    },
+    {
+      "detected_language": "en-US",
+      "contains_learning_language": false,
+      "translation": "ನಾವು ಮೊದಲು ಚಹಾಗಾಗಿ ನಿಲ್ಲಬಹುದೇ?",
+      "explanation": "Translates to Kannada inquiry about stopping for tea.",
+      "tip": "",
+      "words": [],
+      "replies": [
+        {
+          "label": "Polite request",
+          "translation": "Could we stop for tea first?",
+          "words": [
+            {
+              "text": "ಮೊದಲು",
+              "reading": "modalu",
+              "meaning": "first",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಚಹಾಗಾಗಿ",
+              "reading": "chahagagi",
+              "meaning": "for tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ಲಿಸಬಹುದೇ?",
+              "reading": "nillisabahude?",
+              "meaning": "could stop?",
+              "note": "",
+              "is_word": true
+            }
+          ]
+        },
+        {
+          "label": "Direct request",
+          "translation": "Could we stop to drink tea first?",
+          "words": [
+            {
+              "text": "ನಾವು",
+              "reading": "navu",
+              "meaning": "we",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಮೊದಲು",
+              "reading": "modalu",
+              "meaning": "first",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಚಹಾ",
+              "reading": "chaha",
+              "meaning": "tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಕುಡಿಯಲು",
+              "reading": "kudiyalu",
+              "meaning": "to drink",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ಲಿಸಬಹುದೇ?",
+              "reading": "nillisabahude?",
+              "meaning": "could stop?",
+              "note": "",
+              "is_word": true
+            }
+          ]
+        },
+        {
+          "label": "Simple question",
+          "translation": "Will you stop for tea first?",
+          "words": [
+            {
+              "text": "ಚಹಾಗಾಗಿ",
+              "reading": "chahagagi",
+              "meaning": "for tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಮೊದಲು",
+              "reading": "modalu",
+              "meaning": "first",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ಲಿಸುತ್ತೀರಾ?",
+              "reading": "nillisuttira?",
+              "meaning": "will you stop?",
+              "note": "",
+              "is_word": true
+            }
+          ]
+        }
+      ],
+      "context_summary": "Planning a cab trip to Bengaluru railway station with a requested tea stop.",
+      "inferred_setting": "travelling",
+      "context_confidence": "high",
+      "current_speaker": "user",
+      "speaker_confidence": "high",
+      "inferred_user_intent": "Confirming a stop for tea during the commute.",
+      "memory_candidates": [
+        {
+          "kind": "preference",
+          "topic": "tea_break",
+          "text": "User prefers stopping for tea during long commutes.",
+          "evidence": "Could we stop for tea first?",
+          "setting": "travelling",
+          "duration": "routine"
+        }
+      ],
+      "reply_mode": "express"
+    },
+    {
+      "detected_language": "kn-IN",
+      "contains_learning_language": true,
+      "translation": "Will you drink here or do you want a parcel?",
+      "explanation": "Asking if a drink is for dine-in or take-away.",
+      "tip": "",
+      "words": [
+        {
+          "text": "ಇಲ್ಲೇ",
+          "reading": "ille",
+          "meaning": "right here",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": " ",
+          "reading": " ",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        },
+        {
+          "text": "ಕುಡಿಯುತ್ತೀರಾ",
+          "reading": "kudiyuttira",
+          "meaning": "will you drink",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": " ",
+          "reading": " ",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        },
+        {
+          "text": "ಅಥವಾ",
+          "reading": "athava",
+          "meaning": "or",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": " ",
+          "reading": " ",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        },
+        {
+          "text": "ಪಾರ್ಸೆಲ್",
+          "reading": "paarsel",
+          "meaning": "parcel/takeaway",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": " ",
+          "reading": " ",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        },
+        {
+          "text": "ಬೇಕಾ",
+          "reading": "beka",
+          "meaning": "is needed",
+          "note": "",
+          "is_word": true
+        },
+        {
+          "text": "?",
+          "reading": "?",
+          "meaning": "",
+          "note": "",
+          "is_word": false
+        }
+      ],
+      "replies": [
+        {
+          "label": "Drink here",
+          "translation": "I will drink here.",
+          "words": [
+            {
+              "text": "ಇಲ್ಲೇ",
+              "reading": "ille",
+              "meaning": "right here",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಕುಡಿಯುತ್ತೇನೆ",
+              "reading": "kudiyuttene",
+              "meaning": "will drink",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        },
+        {
+          "label": "Take parcel",
+          "translation": "I need a parcel.",
+          "words": [
+            {
+              "text": "ಪಾರ್ಸೆಲ್",
+              "reading": "paarsel",
+              "meaning": "parcel",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಬೇಕು",
+              "reading": "beku",
+              "meaning": "need",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        },
+        {
+          "label": "Yes please",
+          "translation": "Yes, I will drink here.",
+          "words": [
+            {
+              "text": "ಹೌದು",
+              "reading": "haudu",
+              "meaning": "yes",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ", ",
+              "reading": ", ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಇಲ್ಲೇ",
+              "reading": "ille",
+              "meaning": "right here",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಕುಡಿಯುತ್ತೇನೆ",
+              "reading": "kudiyuttene",
+              "meaning": "will drink",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        }
+      ],
+      "context_summary": "Planning a cab trip to Bengaluru railway station, currently at a tea stop.",
+      "inferred_setting": "cafe",
+      "context_confidence": "medium",
+      "current_speaker": "other",
+      "speaker_confidence": "high",
+      "inferred_user_intent": "Confirming tea order type at a stop.",
+      "memory_candidates": [],
+      "reply_mode": "respond"
+    },
+    {
+      "detected_language": "en-US",
+      "contains_learning_language": false,
+      "translation": "No tea. Please take me straight to the station.",
+      "explanation": "User cancels the tea stop to head directly to station.",
+      "tip": "",
+      "words": [],
+      "replies": [
+        {
+          "label": "Direct/Polite",
+          "translation": "No tea. Please take me directly to the railway station.",
+          "words": [
+            {
+              "text": "ಟೀ",
+              "reading": "Tea",
+              "meaning": "tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಬೇಡ",
+              "reading": "Beda",
+              "meaning": "do not want",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ". ",
+              "reading": ". ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ದಯವಿಟ್ಟು",
+              "reading": "Dayavittu",
+              "meaning": "please",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನನ್ನನ್ನು",
+              "reading": "Nannannu",
+              "meaning": "me",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನೇರವಾಗಿ",
+              "reading": "Neravagi",
+              "meaning": "straight",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ರೈಲ್ವೆ",
+              "reading": "Railway",
+              "meaning": "railway",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+              "reading": "Nildanakke",
+              "meaning": "to station",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಕರೆದೊಯ್ಯಿರಿ",
+              "reading": "Karedoyyiri",
+              "meaning": "take me",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        },
+        {
+          "label": "Short/Direct",
+          "translation": "No tea. Let's go straight to the railway station.",
+          "words": [
+            {
+              "text": "ಟೀ",
+              "reading": "Tea",
+              "meaning": "tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಬೇಡ",
+              "reading": "Beda",
+              "meaning": "do not want",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ". ",
+              "reading": ". ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನೇರವಾಗಿ",
+              "reading": "Neravagi",
+              "meaning": "straight",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ರೈಲ್ವೆ",
+              "reading": "Railway",
+              "meaning": "railway",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+              "reading": "Nildanakke",
+              "meaning": "to station",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಹೋಗೋಣ",
+              "reading": "Hogona",
+              "meaning": "let us go",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        },
+        {
+          "label": "Instructional",
+          "translation": "No tea, go to the railway station.",
+          "words": [
+            {
+              "text": "ಟೀ",
+              "reading": "Tea",
+              "meaning": "tea",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಬೇಡ",
+              "reading": "Beda",
+              "meaning": "do not want",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ", ",
+              "reading": ", ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ರೈಲ್ವೆ",
+              "reading": "Railway",
+              "meaning": "railway",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+              "reading": "Nildanakke",
+              "meaning": "to station",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": " ",
+              "reading": " ",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            },
+            {
+              "text": "ಹೋಗಿ",
+              "reading": "Hogi",
+              "meaning": "go",
+              "note": "",
+              "is_word": true
+            },
+            {
+              "text": ".",
+              "reading": ".",
+              "meaning": "",
+              "note": "",
+              "is_word": false
+            }
+          ]
+        }
+      ],
+      "context_summary": "User is in a cab heading to Bengaluru railway station and opted out of tea.",
+      "inferred_setting": "travelling",
+      "context_confidence": "high",
+      "current_speaker": "user",
+      "speaker_confidence": "high",
+      "inferred_user_intent": "Proceed directly to the railway station skipping the tea break.",
+      "memory_candidates": [],
+      "reply_mode": "express"
+    }
+  ],
+  "valid_personal_key_inference_tested": false
+}

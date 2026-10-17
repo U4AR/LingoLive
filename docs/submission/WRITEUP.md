@@ -12,7 +12,7 @@ and learning they can revisit.
 
 **Source:** https://github.com/U4AR/LingoLive
 
-## Current product update — web 1.8
+## Current product update — web 1.9
 
 The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant general items and at most two notes from a saved place matched on a return visit, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
 
@@ -80,6 +80,40 @@ of 800 characters and a scene that expires after 90 minutes of inactivity.
 New conversation resets the scene while preserving saved learning and up to 60 personal-memory items. One-off plans expire after a day, possible routines after 30 days and confirmed routines after 180 days. Settings provide edit, confirmation, forget and pause controls. Approximate coordinates are never turned into a location trail; broad named places come from learner statements or manual entries. Local learner
 profiles separate notes and history; they are not authenticated accounts, and
 anyone using the same browser can switch them.
+
+## Prepare an intention before the task
+
+The learner can prepare an itinerary at home without an AI request: “Reach the
+railway station by cab; maybe stop for tea on the way.” One explicit local plan
+per learner survives page reload, conversation changes and temporary scene expiry
+for a day. It contains a 600-character intention and at most six ordered steps,
+with Optional controls, a current step and explicit Done/Skip/Previous actions.
+The learner can pause, clear or edit it; optional stops are not commitments.
+
+Both existing AI branches receive that plan so the destination and intermediate
+intent stay available throughout the exchange. Current words and a specific
+conversation goal override broader plans. Source understanding may draft steps
+for an unstructured plan in the same request; they require user acceptance.
+Neither GPS nor AI suggestions mark tasks done or execute transport/booking
+operations. A future destination is not a current location or a place-memory fact.
+Plan/revision checks reject late drafts after changes, and plan-scoped old context
+is excluded after the plan changes. Copied plan payloads are not retained in each
+saved lesson request snapshot. Expired plans are withheld until edited/resaved.
+
+## Help when the learner replies in the wrong language
+
+Previously, known-language-only speech could end at a saved transcript. The new
+expression path offers three ways to say that intent in the selected learning
+language, with translation and pronunciation, rather than answering it as though
+the other person spoke. A learner saying “Could we stop for tea first?” can get a
+Kannada request. Known-language expression is automatic; **Help me say this** is
+an explicit correction action. The backend enforces this routing for a detected known-language source even if the model mislabels its response mode. Before the parallel calls, a small deterministic local language detector selects a dedicated meaning-preserving expression prompt for high-confidence known-language text (at least 12 letters, probability at least 0.95). Short or uncertain input keeps model routing; the explicit action always selects expression. There is no third paid classifier call. Role/language detection remains an estimate.
+
+Original language detection remains honest: English input without Kannada has
+contains_learning_language=false and no invented Kannada source words, while
+reply_mode=express carries the three actual target phrases. Learning-language
+input otherwise receives conversational replies. Both flows save target-word
+meanings for later review and retain the same two-call cost/latency architecture.
 
 ## Meaningful use of Google AI and Google Cloud
 
@@ -207,18 +241,20 @@ In-memory counters reset after restarts and are usage guards, not a hard dollar 
 
 ## Validation and current readiness
 
-**104 backend tests** and **83 real Chromium browser checks**, plus 16 guarded-place core checks passed, along with
+**112 backend tests** and **91 real Chromium browser checks**, plus eight plan-core and 16 guarded-place core checks passed, along with
 JavaScript source/word/audio/context checks. Local tests use explicit Google,
 microphone and location fixtures. Separate hosted checks used real Google
 transcription and lessons, validated exact text/readings/meanings, checked access
 controls and proved invalid personal keys do not produce a host-funded fallback.
 Valid personal-key inference and physical-phone capture remain unverified.
 
-Production deployment details in `validation/cloud-current-deployment.json` identify web 1.8 on Cloud Run. The same
+Production deployment details in `validation/cloud-current-deployment.json` identify web 1.9 on Cloud Run. The same
 revision was checked through a temporary tag before promotion; public health,
 assets and routing were verified afterward. The normal persistent Cloud SDK
 operator login is separate from the runtime service account. No deployment
 credentials are included in the repository or demonstration.
+
+Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds (mean 2.065); browser interactions took 2.340, 1.939, 1.972, 2.307 seconds. All four cases passed: Kannada cab directions, an English tea request expressed in Kannada, a Kannada café exchange with explicit plan progress, and declining tea to go to the station. These are four functional cases, not a stable latency average, physical speech capture test or evidence of sub-two-second performance across users. Three earlier staged failures and direct diagnostics remain in the evidence; they are not included in this final passing sample.
 
 ## Differentiation and growth
 

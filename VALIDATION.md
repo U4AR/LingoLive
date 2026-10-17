@@ -1,3 +1,51 @@
+# Web 1.9 — Pre-task intent and learner-language expression
+
+- **112 backend tests and 91 Chromium browser checks pass**, plus eight plan-core,
+  sixteen place-core and the existing JavaScript checks. The new browser flow
+  prepares a cab / optional tea / railway-station plan with zero AI calls, reloads
+  it, starts a new scene, advances/skips/undoes steps, pauses/clears, changes local
+  learners and transports known-language speech through the actual AudioWorklet/
+  WebSocket path using explicitly mocked Google transcription and inference.
+- Known-language input produces target-language phrases even while original
+  contains_learning_language=false and source words are empty. Saved target
+  word meanings remain usable; **Help me say this** is an explicit override.
+- A real-model pre-promotion test exposed an English request labelled respond,
+  which discarded target phrases. The backend now enforces expression routing
+  when detected source language matches the learner's known language, independently
+  of that mode estimate, in both parallel and single strategies. A regression
+  covers the mismatch. A second staged attempt returned generic trip alternatives
+  instead of preserving the English tea request. A deterministic local langdetect
+  hint (at least 12 letters, confidence >=0.95, abstain otherwise) now selects a
+  dedicated expression prompt BEFORE the two parallel branches run. Explicit
+  “Help me say this” always selects it. Short/uncertain inputs retain model routing;
+  neither route determines speaker identity. Both original failures are retained.
+  A later negative-request case returned 502: direct branch diagnostics found
+  invented Kannada source words and a dropped target verb. The expression source
+  prompt now explicitly analyzes original text; expression replies allow ten rows
+  (ordinary next replies still six), within the unchanged combined token cap.
+  A direct corrected two-branch diagnostic covered the negative meaning and all
+  target words. Failed responses and diagnostics are retained separately.
+- One explicit plan per learner expires from context after 24 hours, independently
+  of the 90-minute scene. Intent<=600 characters, steps<=6, each<=100 characters;
+  optional/done/skipped/current state goes to both existing calls. No location or
+  extra model request is needed to save it. Location/model output never completes
+  a step. AI step drafts from the existing source call require user acceptance.
+- Copied plan payloads are excluded from saved lesson-request snapshots. Plan-scoped
+  prior context is withheld on plan changes. Original saved conversations stay in
+  Saved until separately deleted. Future destinations never become current GPS
+  positions or visited-place facts. Saved-place guards remain unchanged.
+- Current real-Google typed functional results and separate HTTP/UI timings are in
+  `cloud-v1.9-api-results.json`. These are small functional
+  cases, not a physical-microphone/noisy-speech/mobile-network latency benchmark.
+- **The video transcript and media are unchanged for this functional request.**
+  The technical write-up/PDF describes the new behavior. Operator persistent SDK
+  auth, host/BYOK isolation, two-call output caps and Cloud Run resource limits
+  remain unchanged. New actor voices/video still require prior transcript approval.
+
+Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds (mean 2.065); browser interactions took 2.340, 1.939, 1.972, 2.307 seconds. All four cases passed: Kannada cab directions, an English tea request expressed in Kannada, a Kannada café exchange with explicit plan progress, and declining tea to go to the station. These are four functional cases, not a stable latency average, physical speech capture test or evidence of sub-two-second performance across users. Three earlier staged failures and direct diagnostics remain in the evidence; they are not included in this final passing sample.
+
+## Earlier web 1.8 evidence (historical)
+
 # Web 1.8 — Guarded return-only place memory
 
 - **104 backend tests and 83 real Chromium checks pass**, plus 16 guarded-place

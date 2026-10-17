@@ -5,7 +5,7 @@
   "service": "lingolive",
   "url": "https://lingolive-358650584819.us-central1.run.app",
   "canonical_url": "https://lingolive-l5utioe5cq-uc.a.run.app",
-  "ready_revision": "lingolive-00018-wuj",
+  "ready_revision": "lingolive-00023-vef",
   "condition": "CONDITION_SUCCEEDED",
   "provider": "vertex",
   "google_api_key_required": false,
@@ -37,7 +37,7 @@
   "traffic": [
     {
       "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION",
-      "revision": "lingolive-00018-wuj",
+      "revision": "lingolive-00023-vef",
       "percent": 100
     }
   ],
@@ -67,6 +67,6 @@
   "persistent_sdk_login_verified": true,
   "lesson_strategy": "parallel",
   "thinking_level": "minimal",
-  "app_version": "1.8",
+  "app_version": "1.9",
   "checked_for_personal_memory_release": true
 }

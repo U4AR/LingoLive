@@ -1,3 +1,14 @@
+## Web 1.9 task plans and learner-language expression
+
+Saving a pre-task plan makes no inference request. At lesson time the bounded
+plan goes to the same source/reply branches, and known-language expression uses
+those existing calls. A plan adds up to six short steps and a 600-character intent;
+no paid planner/classifier or increased 4,096-token combined cap is introduced.
+Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds (mean 2.065); browser interactions took 2.340, 1.939, 1.972, 2.307 seconds. All four cases passed: Kannada cab directions, an English tea request expressed in Kannada, a Kannada café exchange with explicit plan progress, and declining tea to go to the station. These are four functional cases, not a stable latency average, physical speech capture test or evidence of sub-two-second performance across users. Three earlier staged failures and direct diagnostics remain in the evidence; they are not included in this final passing sample.
+
+Current-version functional timings are in `validation/cloud-v1.9-api-results.json`; older averages below must not be relabelled as current. Original
+routing failures are retained. No new actor voices or video were generated.
+
 ## Web 1.8 place memory and mobile submit correction
 
 Place extraction uses the existing source branch and returned place notes are

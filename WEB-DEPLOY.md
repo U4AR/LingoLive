@@ -1,10 +1,10 @@
 # Deploy LingoLive on Cloud Run
 
-Web 1.8 adds guarded saved-place memory and prioritizes live replies; word meanings and practice open separately in
+Web 1.9 adds pre-task plans, learner-language expression and guarded saved-place memory and prioritizes live replies; word meanings and practice open separately in
 Saved. The UI change adds no model request for later review. The proposed new
 video has not been produced: `docs/submission/DEMO-TRANSCRIPT-V2.md` awaits approval.
 
-The web 1.8 deployment defaults to `gemini-3.1-flash-lite`, minimal thinking and
+The web 1.9 deployment defaults to `gemini-3.1-flash-lite`, minimal thinking and
 two parallel requests per lesson. Source understanding and replies are validated
 and merged into the same public format. Transcription remains
 `gemini-3.5-transcribe-live`. Current live revision and measured timings are
