@@ -5,11 +5,22 @@ hold for reading. One real ASR error and the visible typed correction are kept.
 Synthetic voices/ambience/illustration and simulated place/time are disclosed.
 """
 import argparse,hashlib,json,math,os,re,subprocess,textwrap,wave
+from check_submission_audio_v2 import verify_audio
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 W,H,FPS=1920,1080,25
 RAW_OFFSET=-.90 # Cross-checked against four recorded microphone-button changes.
-DURATIONS={'problem':26,'solution':12,'plan':15,'cab':23,'express':20,'cafe':21,'place':25,'learn':24,'close':13}
+DURATIONS={'problem':26,'solution':11,'plan':9,'cab':17,'express':15,'cafe':16,'place':23,'learn':14,'close':11}
+
+def speech_gain(file):
+ # Analyze independently, then apply a constant gain. loudnorm can emit NOPTS
+ # while flushing short WAVs; applying adelay to that stream lost dialogue.
+ result=subprocess.run(['ffmpeg','-hide_banner','-i',str(file),'-af',
+  'loudnorm=I=-18:TP=-2:LRA=7:print_format=json','-f','null','-'],
+  capture_output=True,text=True,check=True)
+ stats=json.JSONDecoder().raw_decode(result.stderr[result.stderr.rfind('{'):])[0];level=float(stats['input_i']);peak=float(stats['input_tp'])
+ assert math.isfinite(level) and math.isfinite(peak),str(file)
+ return round(min(-18-level,-2.5-peak),3)
 
 def duration(p):
  with wave.open(str(p)) as f:return f.getnframes()/f.getframerate()
@@ -24,15 +35,17 @@ def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,default=Path('/tmp/lingolive-video-v2'));p.add_argument('--only',choices=list(DURATIONS));a=p.parse_args();out=a.output.resolve();audio=out/'audio';renders=out/'renders';renders.mkdir(exist_ok=True)
  r=json.loads((out/'recording.json').read_text());assert r['success'] and r['no_place_context_away'] and r['saved_review_without_ai']
  rows={x['id']:x for x in r['scenes']};specs={x['id']:x for x in json.loads((out/'scene-plan.json').read_text())};selected=r['selected']
- assert sum(DURATIONS.values())==179 and json.loads((ROOT/'docs/submission/submission.json').read_text())['demo_v2']['approval_status']=='approved'
+ assert sum(DURATIONS.values())<180 and json.loads((ROOT/'docs/submission/submission.json').read_text())['demo_v2']['approval_status']=='approved'
  offsets={};off=0
  for name,D in DURATIONS.items():offsets[name]=off;off+=D
  all_cues=[];timeline=[];clips=[]
  for name,D in DURATIONS.items():
   narration=specs[name]['narration'];events=[]
   def voice(id,start,text,role='Narrator',mic=False):
-   file=audio/(id+'.wav');end=start+duration(file);assert start>=0 and end<=D-.1,(name,id,start,end,D)
-   events.append(dict(id=id,file=str(file),start=round(start,3),end=round(end,3),text=text,role=role,microphone_mix=mic));return end
+   # The recorded microphone mixes remain evidence; use the same dry voice
+   # in the film so the artificial traffic tone is not in the soundtrack.
+   file=audio/(id.removesuffix('-mic')+'.wav');end=start+duration(file);assert start>=0 and end<=D-.1,(name,id,start,end,D)
+   events.append(dict(id=id,file=str(file),start=round(start,3),end=round(end,3),text=text,role=role,microphone_mix=mic,gain_db=speech_gain(file)));return end
   if name=='problem':
    t=voice('narration-problem',.4,narration)+.55
    t=voice('driver-question',t,'Where do you need to go?','Driver · Kannada')+.7
@@ -87,10 +100,12 @@ def main():
   else:
    row=rows[name];length=row['seconds']-(.65 if name=='plan' else 0);args+=['-ss',str(max(0,row['start']+RAW_OFFSET)),'-i',str(out/'raw/app.webm')];filters.append(f"[1:v]trim=duration={length},setpts=PTS-STARTPTS,fps=25,tpad=stop_mode=clone:stop_duration={D},trim=duration={D},scale=500:978[phone];[0:v][phone]overlay=1300:50[base]");vi=2
   filters.append(f"[base]ass='{ass}'[v]")
-  kind='home' if name in ('plan','learn','close','solution') else 'cafe' if name in ('cafe','place') else 'street';args+=['-stream_loop','-1','-i',str(audio/('ambience-'+kind+'.wav'))];ambient_index=vi;vi+=1
-  mic_ranges=[(e['start'],e['end']) for e in events if e['microphone_mix']];duck='+'.join(f'between(t,{s},{e})' for s,e in mic_ranges) or '0';filters.append(f"[{ambient_index}:a]atrim=duration={D},asetpts=PTS-STARTPTS,volume='if({duck},0,0.75)':eval=frame[amb]");labels=['[amb]']
+  # No generated ambience bed. Keep dialogue clear and preserve source cadence.
+  labels=[]
   for i,event in enumerate(events):
-   args+=['-i',event['file']];norm='' if event['microphone_mix'] else 'loudnorm=I=-18:TP=-2:LRA=7,';filters.append(f"[{vi}:a]{norm}aresample=48000,adelay={round(event['start']*1000)}:all=1,apad,atrim=duration={D},asetpts=PTS-STARTPTS[a{i}]");labels.append(f'[a{i}]');vi+=1
+   args+=['-i',event['file']]
+   filters.append(f"[{vi}:a]aresample=48000,asetpts=N/SR/TB,volume={event['gain_db']}dB,adelay={round(event['start']*1000)}:all=1,asetpts=N/SR/TB,apad,atrim=duration={D}[a{i}]")
+   labels.append(f'[a{i}]');vi+=1
   filters.append(''.join(labels)+f'amix=inputs={len(labels)}:normalize=0:duration=longest,alimiter=limit=0.95:level=false:latency=true[a]')
   clip=renders/(name+'.mp4');run([*args,'-filter_complex',';'.join(filters),'-map','[v]','-map','[a]','-t',str(D),'-r','25','-c:v','libx264','-preset','veryfast','-crf','23','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-ar','48000','-ac','2','-threads','2',str(clip)]);clips.append(clip);print('Rendered '+name,flush=True)
  (out/'edit-timeline.json').write_text(json.dumps({'raw_time_offset_seconds':RAW_OFFSET,'alignment_method':'Four microphone-button colour transitions; raw starts about 0.90 s after recorder wall origin; original frame timing retained.','scenes':timeline,'seconds':sum(DURATIONS.values())},ensure_ascii=False,indent=2)+'\n')
@@ -98,6 +113,7 @@ def main():
  all_cues.sort(key=lambda c:c['start']);srt='\n\n'.join(f"{i}\n{clock(c['start'])} --> {clock(c['end'])}\n"+('' if c['role']=='Narrator' else '['+c['role']+'] ')+c['text'] for i,c in enumerate(all_cues,1))+'\n';(out/'LingoLive-Demo.srt').write_text(srt);(out/'LingoLive-Demo.vtt').write_text('WEBVTT\n\n'+re.sub(r'(\d{2}:\d{2}:\d{2}),(\d{3})',r'\1.\2',srt))
  concat=renders/'concat.txt';concat.write_text(''.join("file '"+str(p)+"'\n" for p in clips));target=out/'LingoLive-Demo.mp4';run(['-f','concat','-safe','0','-i',str(concat),'-c','copy','-movflags','+faststart',str(target)])
  info=metadata(target);seconds=float(info['format']['duration']);assert 0<seconds<180;assert any(s['codec_name']=='h264' and s['width']==W and s['height']==H for s in info['streams']);assert any(s['codec_name']=='aac' for s in info['streams']);run(['-i',str(target),'-f','null','-'])
- report={'file':target.name,'bytes':target.stat().st_size,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'seconds':seconds,'video':'H.264 1920x1080 / 25fps','audio':'AAC stereo; Google Gemini 3.1 Flash TTS preview, Kannada and Indian English','voice_model':'gemini-3.1-flash-tts-preview','voices':{'narrator':'Kore','newcomer':'Orus','driver':'Charon','shopkeeper':'Algieba'},'synthetic_speech_disclosed':True,'synthetic_ambience_disclosed':True,'generated_establishing_image_disclosed':True,'physical_microphone':False,'geolocation_and_elapsed_time_simulated':True,'human_native_voice_review':False,'independent_audio_transcription_checks':'source-voice-check.json and reply-voice-check.json','burned_english_captions':True,'sidecar_captions':['LingoLive-Demo.srt','LingoLive-Demo.vtt'],'decode_verified':True,'scene_count':9,'live_google_lesson_requests_in_final_take':r['lesson_requests'],'raw_generation_calls_in_final_take':r['google_generation_calls'],'previous_incomplete_take_lesson_requests':3,'google_mocked':False,'visual_speed':'Original speed and complete inference waits, with end-frame holds for reading. No audio time stretching.','asr_error_and_typed_correction_visible':True,'asr_notes':'Tea-stall Kannada was misidentified as Bengali; explicit typed correction shown. Return question had mixed Telugu/Kannada script but retained useful meaning/context.','learning_introduced_near_end_seconds':sum(DURATIONS[x] for x in ['problem','solution','plan','cab','express','cafe','place']),'public_submission_status':'Prepared media only; no Hack2skill receipt or accepted video-host link claimed'}
+ report={'file':target.name,'bytes':target.stat().st_size,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'seconds':seconds,'video':'H.264 1920x1080 / 25fps','audio':'AAC stereo; Google Gemini 3.1 Flash TTS preview, Kannada and Indian English','voice_model':'gemini-3.1-flash-tts-preview','voices':{'narrator':'Kore','newcomer':'Orus','driver':'Charon','shopkeeper':'Algieba'},'synthetic_speech_disclosed':True,'synthetic_ambience_disclosed':True,'soundtrack_ambience':'Removed artificial ambience; dry source voices. Original noisy microphone inputs retained as recording evidence.','generated_establishing_image_disclosed':True,'physical_microphone':False,'geolocation_and_elapsed_time_simulated':True,'human_native_voice_review':False,'independent_audio_transcription_checks':'source-voice-check.json and reply-voice-check.json','burned_english_captions':True,'sidecar_captions':['LingoLive-Demo.srt','LingoLive-Demo.vtt'],'decode_verified':True,'scene_count':9,'live_google_lesson_requests_in_final_take':r['lesson_requests'],'raw_generation_calls_in_final_take':r['google_generation_calls'],'previous_incomplete_take_lesson_requests':3,'google_mocked':False,'visual_speed':'Original speed and complete inference waits, with end-frame holds for reading. No audio time stretching.','asr_error_and_typed_correction_visible':True,'asr_notes':'Tea-stall Kannada was misidentified as Bengali; explicit typed correction shown. Return question had mixed Telugu/Kannada script but retained useful meaning/context.','learning_introduced_near_end_seconds':sum(DURATIONS[x] for x in ['problem','solution','plan','cab','express','cafe','place']),'public_submission_status':'Prepared media only; no Hack2skill receipt or accepted video-host link claimed'}
+ report.update(verify_audio(target,out/'edit-timeline.json',out/'audio-verification.json'))
  (out/'video-verification.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()

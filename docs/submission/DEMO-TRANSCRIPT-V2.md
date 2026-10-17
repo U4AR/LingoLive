@@ -1,8 +1,9 @@
 # LingoLive demo transcript — Understand. Reply. Keep going.
 
 **Status:** approved by the user ("Ok make it"); video produced, verified and published.
-The script below is the approved version. The final edit is 2:59.021, preserving
-a real recognition error and typed correction, with learning introduced at 2:22.
+The script below is the approved version. V2.1 repairs exported dialogue timing
+and removes the artificial ambience at the user's request; speech is unchanged. The final edit is 2:22.021, preserving
+a real recognition error and typed correction, with learning introduced at 1:57.
 Actual selected Kannada replies and captions are documented in DEMO-V2.md.
 The web 1.5 video remains explicitly archived.
 

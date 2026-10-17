@@ -1,0 +1,359 @@
+{
+  "all_expected_voices_audible": true,
+  "expected_voice_events": 23,
+  "events": [
+    {
+      "scene": "problem",
+      "voice": "narration-problem",
+      "start": 0.4,
+      "end": 8.44,
+      "waveform_correlation": 0.9897,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.868,
+      "passed": true
+    },
+    {
+      "scene": "problem",
+      "voice": "driver-question",
+      "start": 8.99,
+      "end": 10.51,
+      "waveform_correlation": 0.9956,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.397,
+      "passed": true
+    },
+    {
+      "scene": "problem",
+      "voice": "learner-problem",
+      "start": 11.21,
+      "end": 16.05,
+      "waveform_correlation": 0.989,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.918,
+      "passed": true
+    },
+    {
+      "scene": "problem",
+      "voice": "driver-confused",
+      "start": 16.75,
+      "end": 20.23,
+      "waveform_correlation": 0.9923,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.253,
+      "passed": true
+    },
+    {
+      "scene": "problem",
+      "voice": "learner-unsure",
+      "start": 21.03,
+      "end": 25.31,
+      "waveform_correlation": 0.9955,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.635,
+      "passed": true
+    },
+    {
+      "scene": "solution",
+      "voice": "narration-solution",
+      "start": 26.4,
+      "end": 36.16,
+      "waveform_correlation": 0.9818,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.613,
+      "passed": true
+    },
+    {
+      "scene": "plan",
+      "voice": "narration-plan",
+      "start": 37.4,
+      "end": 44.6,
+      "waveform_correlation": 0.983,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.223,
+      "passed": true
+    },
+    {
+      "scene": "cab",
+      "voice": "driver-question-mic",
+      "start": 47.552,
+      "end": 49.072,
+      "waveform_correlation": 0.9956,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.399,
+      "passed": true
+    },
+    {
+      "scene": "cab",
+      "voice": "narration-cab",
+      "start": 49.522,
+      "end": 56.642,
+      "waveform_correlation": 0.9838,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.808,
+      "passed": true
+    },
+    {
+      "scene": "cab",
+      "voice": "learner-cab",
+      "start": 57.192,
+      "end": 60.672,
+      "waveform_correlation": 0.9907,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.061,
+      "passed": true
+    },
+    {
+      "scene": "cab",
+      "voice": "driver-okay",
+      "start": 61.272,
+      "end": 62.032,
+      "waveform_correlation": 0.8628,
+      "alignment_lag_seconds": 0.0271,
+      "active_speech_rms_dbfs": -18.765,
+      "passed": true
+    },
+    {
+      "scene": "express",
+      "voice": "learner-english-mic",
+      "start": 64.53,
+      "end": 66.73,
+      "waveform_correlation": 0.9941,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -17.432,
+      "passed": true
+    },
+    {
+      "scene": "express",
+      "voice": "narration-express",
+      "start": 67.18,
+      "end": 71.82,
+      "waveform_correlation": 0.9829,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.026,
+      "passed": true
+    },
+    {
+      "scene": "express",
+      "voice": "learner-express",
+      "start": 72.37,
+      "end": 75.29,
+      "waveform_correlation": 0.9871,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.917,
+      "passed": true
+    },
+    {
+      "scene": "express",
+      "voice": "driver-okay",
+      "start": 75.89,
+      "end": 76.65,
+      "waveform_correlation": 0.863,
+      "alignment_lag_seconds": 0.0271,
+      "active_speech_rms_dbfs": -18.768,
+      "passed": true
+    },
+    {
+      "scene": "cafe",
+      "voice": "cafe-question-mic",
+      "start": 79.873,
+      "end": 82.713,
+      "waveform_correlation": 0.9912,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.784,
+      "passed": true
+    },
+    {
+      "scene": "cafe",
+      "voice": "narration-cafe",
+      "start": 83.163,
+      "end": 89.963,
+      "waveform_correlation": 0.9824,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -21.034,
+      "passed": true
+    },
+    {
+      "scene": "cafe",
+      "voice": "learner-cafe",
+      "start": 90.553,
+      "end": 92.033,
+      "waveform_correlation": 0.9913,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.344,
+      "passed": true
+    },
+    {
+      "scene": "place",
+      "voice": "narration-place",
+      "start": 94.35,
+      "end": 107.47,
+      "waveform_correlation": 0.9882,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -20.547,
+      "passed": true
+    },
+    {
+      "scene": "place",
+      "voice": "shop-question-mic",
+      "start": 107.929,
+      "end": 109.369,
+      "waveform_correlation": 0.9938,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.508,
+      "passed": true
+    },
+    {
+      "scene": "place",
+      "voice": "learner-place",
+      "start": 113.101,
+      "end": 115.941,
+      "waveform_correlation": 0.9867,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -18.505,
+      "passed": true
+    },
+    {
+      "scene": "learn",
+      "voice": "narration-learn",
+      "start": 117.4,
+      "end": 129.72,
+      "waveform_correlation": 0.9811,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.229,
+      "passed": true
+    },
+    {
+      "scene": "close",
+      "voice": "narration-close",
+      "start": 131.4,
+      "end": 140.6,
+      "waveform_correlation": 0.9864,
+      "alignment_lag_seconds": 0.0214,
+      "active_speech_rms_dbfs": -19.057,
+      "passed": true
+    }
+  ],
+  "silence_threshold_dbfs": -35,
+  "silences_over_0_8_seconds": [
+    {
+      "start": 8.110833,
+      "end": 9.309458,
+      "seconds": 1.198625
+    },
+    {
+      "start": 10.185542,
+      "end": 11.442875,
+      "seconds": 1.257333
+    },
+    {
+      "start": 15.709729,
+      "end": 17.084812,
+      "seconds": 1.375083
+    },
+    {
+      "start": 19.725687,
+      "end": 21.356646,
+      "seconds": 1.630958
+    },
+    {
+      "start": 24.966313,
+      "end": 26.758958,
+      "seconds": 1.792646
+    },
+    {
+      "start": 35.751479,
+      "end": 37.694688,
+      "seconds": 1.943208
+    },
+    {
+      "start": 44.348979,
+      "end": 47.871458,
+      "seconds": 3.522479
+    },
+    {
+      "start": 48.747542,
+      "end": 49.825875,
+      "seconds": 1.078333
+    },
+    {
+      "start": 56.263,
+      "end": 57.536604,
+      "seconds": 1.273604
+    },
+    {
+      "start": 60.367792,
+      "end": 61.549812,
+      "seconds": 1.182021
+    },
+    {
+      "start": 61.795542,
+      "end": 64.817167,
+      "seconds": 3.021625
+    },
+    {
+      "start": 66.426917,
+      "end": 67.508458,
+      "seconds": 1.081542
+    },
+    {
+      "start": 71.492917,
+      "end": 72.683667,
+      "seconds": 1.19075
+    },
+    {
+      "start": 74.940896,
+      "end": 76.167812,
+      "seconds": 1.226917
+    },
+    {
+      "start": 76.413562,
+      "end": 80.256,
+      "seconds": 3.842437
+    },
+    {
+      "start": 82.324562,
+      "end": 83.521875,
+      "seconds": 1.197313
+    },
+    {
+      "start": 89.625917,
+      "end": 90.874354,
+      "seconds": 1.248437
+    },
+    {
+      "start": 91.693187,
+      "end": 94.689667,
+      "seconds": 2.996479
+    },
+    {
+      "start": 107.100792,
+      "end": 108.208583,
+      "seconds": 1.107792
+    },
+    {
+      "start": 109.045563,
+      "end": 113.402583,
+      "seconds": 4.357021
+    },
+    {
+      "start": 115.443292,
+      "end": 117.697771,
+      "seconds": 2.254479
+    },
+    {
+      "start": 129.415333,
+      "end": 131.752688,
+      "seconds": 2.337354
+    },
+    {
+      "start": 140.327458,
+      "end": 142.029333,
+      "seconds": 1.701875
+    }
+  ],
+  "longest_silence_seconds": 4.357021,
+  "integrated_loudness_lufs": -18.76,
+  "true_peak_dbtp": -5.36,
+  "audio_clipping_detected": false,
+  "verification_method": "Decoded final MP4 compared with each source waveform (correlation >=0.82 and active speech RMS >-30 dBFS). AAC alignment tolerance 100 ms; no new model calls."
+}

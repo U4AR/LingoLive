@@ -24,10 +24,10 @@ inferred items stay **possible** until confirmed. Settings → **What LingoLive
 remembers** lets you edit, add, confirm or forget them. No GPS trails, extra model
 call or model-weight fine-tuning. See [memory design](MEMORY.md).
 
-[Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2/LingoLive-Demo-download.mp4)
+[Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2.1/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2.1/LingoLive-Demo-download.mp4)
 
-The user-approved Bengaluru/Kannada demonstration is now rendered: **2:59**,
-with Google Gemini TTS voices, actual app responses, a visible speech correction
+The corrected Bengaluru/Kannada demonstration is now rendered: **2:22**,
+with clear Google Gemini TTS dialogue, no artificial noise bed, actual app responses, a visible speech correction
 and learning introduced near the end as an extra. See [video provenance](docs/submission/DEMO-V2.md).
 
 LingoLive helps newcomers, interstate migrants and immigrants handle everyday
@@ -56,7 +56,7 @@ Deployment uses the normal refreshable Cloud SDK login; no deployment credential
 is included in this repository.
 
 The [Bengaluru/Kannada transcript](docs/submission/DEMO-TRANSCRIPT-V2.md) was
-approved before production. The final video includes synthetic speech/ambience,
+approved before production. The final video includes synthetic speech,
 a generated opening illustration and explicitly simulated location/time. Real
 Google APIs handle the app demonstrations. The earlier 2:53 video remains archived.
 

@@ -22,7 +22,7 @@ the newcomer needs a useful reply. Live Conversation now prioritizes translation
 three suggested replies and pronunciation/playback/copy aids. Word meanings and
 practice open afterwards in a separate Saved review, using already prepared data
 without another AI request. The earlier video is archived. The user approved the new Kannada transcript;
-the completed 2:59 demonstration introduces learning near the end as an extra.
+the completed 2:22 demonstration introduces learning near the end as an extra.
 
 ## The problem
 
@@ -258,11 +258,15 @@ Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds 
 
 ## Current video demonstration
 
-The approved Bengaluru/Kannada video runs 2:59.021, with 1080p H.264, AAC and
+The approved Bengaluru/Kannada video runs 2:22.021, with 1080p H.264, AAC and
 English captions. It presents the communication problem before the solution;
-learning is an additional feature at 2:22. Google Gemini 3.1 Flash TTS preview
-provides four distinct preset voices. The generated opening illustration,
-synthetic speech/ambience and simulated location/time are disclosed. Actual
+learning is an additional feature at 1:57. Google Gemini 3.1 Flash TTS preview
+provides four distinct preset voices. The v2.1 repair preserves those voices,
+removes artificial soundtrack ambience and trims redundant end-frame holds.
+A timestamp defect in the first export misplaced short dialogue; every expected
+voice is now checked against the decoded final MP4, rather than relying only
+on overall loudness. The generated opening illustration,
+synthetic speech and simulated location/time are disclosed. Actual
 speech/noise WAVs pass through the real microphone worklet and Google service.
 Seven final-take lesson requests use real Google responses; no output is replaced.
 An earlier incomplete take made three requests and is retained as evidence.
