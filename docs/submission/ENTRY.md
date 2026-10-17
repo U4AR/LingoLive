@@ -1,5 +1,10 @@
 # AI Builder Cup — prepared entry
 
+Product positioning update: help immigrants and interstate newcomers keep
+conversations moving with useful live replies, then teach from Saved afterwards.
+The revised Bengaluru/Kannada demonstration awaits transcript approval; the
+existing video is the older 1.5 sample, not this new production.
+
 Prepared for **Ashish T. Vasant**. Use the existing registered team; do not replace
 its legal identity, membership or eligibility declarations with inferred data.
 
@@ -21,15 +26,15 @@ Understand the conversation. Learn the words. Find your next reply.
 
 LingoLive is a Google Cloud Run language-learning companion for real
 conversations. It uses Gemini live transcription and two parallel Flash-Lite
-requests to show what was said, contextual word meanings, pronunciation and three
-replies. Goals are optional; bounded conversation memory helps replies follow
+requests to show what was said and three useful replies, with pronunciation aids.
+Word meanings and practice open afterwards in Saved. Goals are optional; bounded conversation memory helps replies follow
 the exchange. Lessons stay on the browser. Users connect with a host access code
 or their own Google key. Ten measured complete lessons averaged 1.79 seconds;
 speech-to-result and real-device latency remain longer or unverified.
 
 ## Problem and intended impact
 
-Travellers, newcomers and adults working in another language often understand
+Immigrants, interstate newcomers and adults working in another language often understand
 part of a sentence but cannot formulate an appropriate next reply. Moving between
 translation, pronunciation and notes breaks the conversation. LingoLive puts a
 short lesson into that moment: understand the words, choose a context-aware
@@ -61,7 +66,7 @@ retry or third generation call.
 ## Feasibility, validation and scalability
 
 The web prototype is deployed and has passed real Google speech-to-lesson checks.
-There are 93 passing backend tests and 57 Chromium checks with explicit local
+There are 93 passing backend tests and 63 Chromium checks with explicit local
 fixtures. Ten hosted complete lessons averaged 1.79 seconds with zero failures,
 compared with 9.26 seconds in the earlier deployment; two simultaneous sessions
 completed in 1.65 and 1.71 seconds. These are small warm-path samples, not mobile

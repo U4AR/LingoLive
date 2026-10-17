@@ -12,25 +12,35 @@ and learning they can revisit.
 
 **Source:** https://github.com/U4AR/LingoLive
 
+## Current product update — web 1.6
+
+The primary audience includes immigrants and people moving between Indian states.
+A Bengaluru/Kannada scenario illustrates the need: someone asks a question while
+the newcomer needs a useful reply. Live Conversation now prioritizes translation,
+three suggested replies and pronunciation/playback/copy aids. Word meanings and
+practice open afterwards in a separate Saved review, using already prepared data
+without another AI request. The earlier video is archived; the revised Kannada
+transcript awaits approval before any new narration, simulated voices or footage.
+
 ## The problem
 
 Knowing individual words does not always help someone respond in a real
-conversation. Travellers, newcomers and people working in another language may
+conversation. Immigrants, interstate newcomers and people working in another language may
 understand part of a sentence but struggle with the next turn. A separate
 translation screen, pronunciation tool and vocabulary notebook interrupt the
 exchange. A suggested reply can also be wrong when it forgets what the learner
 already wanted to do.
 
-LingoLive turns the conversation itself into a short lesson: what was said,
-what the words mean, and three things the learner could say next. Its intended
+LingoLive helps the learner find a useful reply during the exchange, then turns
+the saved conversation into learning material afterwards. Its intended
 benefit is more accessible, contextual language practice. Learning gains and
 real-world accessibility outcomes have not yet been measured.
 
 ## What the prototype does
 
 The learner chooses a language they understand and one they want to learn.
-A first-use tutorial demonstrates word meanings and pronunciation using a
-clearly labelled prepared example. It makes no paid model call and starts no
+A first-use tutorial introduces live replies, then later word review using a
+clearly labelled Kannada example. It makes no paid model call and starts no
 microphone or location request. The main screen then presents one large
 listening button; typed and pasted phrases are also supported.
 
@@ -40,8 +50,8 @@ available as a transcript. Mixed-language phrases can be handled, although
 language detection is an estimate. Interim captions remain temporary.
 
 The lesson shows the source, a translation and three short suggested replies.
-Tapping a source or reply word opens its contextual meaning and pronunciation
-in a bubble. Original-script and pronunciation views use the same stored word
+After the conversation, opening that phrase in Saved makes source and reply
+words tappable for their contextual meanings and pronunciation. Original-script and pronunciation views use the same stored word
 data. Hearing or copying a reply, switching views and opening a word meaning
 do not require another model call. Voice playback depends on device voices.
 
@@ -158,14 +168,14 @@ In-memory counters reset after restarts and are usage guards, not a hard dollar 
 
 ## Validation and current readiness
 
-**93 backend tests** and **57 real Chromium browser checks** passed, along with
+**93 backend tests** and **63 real Chromium browser checks** passed, along with
 JavaScript source/word/audio/context checks. Local tests use explicit Google,
 microphone and location fixtures. Separate hosted checks used real Google
 transcription and lessons, validated exact text/readings/meanings, checked access
 controls and proved invalid personal keys do not produce a host-funded fallback.
 Valid personal-key inference and physical-phone capture remain unverified.
 
-Production revision `lingolive-00010-naj` serves web 1.5 on Cloud Run. The same
+Production revision `lingolive-00012-xot` serves web 1.6 on Cloud Run. The same
 revision was checked through a temporary tag before promotion; public health,
 assets and routing were verified afterward. The normal persistent Cloud SDK
 operator login is separate from the runtime service account. No deployment

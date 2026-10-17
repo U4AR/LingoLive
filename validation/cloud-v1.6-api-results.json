@@ -1,0 +1,253 @@
+{
+  "url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "live_google": true,
+  "live_google_transcription_tested_this_revision": false,
+  "physical_microphone": false,
+  "video_or_audio_generated": false,
+  "lesson_attempts": 1,
+  "google_generation_calls": 2,
+  "source_preserved": true,
+  "all_required_readings_and_meanings": true,
+  "live_replies": 3,
+  "live_word_controls": 0,
+  "live_teaching_explanations": 0,
+  "saved_word_review_verified": true,
+  "review_makes_no_extra_model_call": true,
+  "mobile_fits": true,
+  "http_lesson_seconds": 2.241,
+  "model": "gemini-3.1-flash-lite",
+  "lesson_strategy": "parallel",
+  "goal": "Get to Indiranagar metro station",
+  "lesson": {
+    "detected_language": "Kannada",
+    "contains_learning_language": true,
+    "translation": "Where should I go?",
+    "explanation": "Asking for directions or destination.",
+    "tip": "",
+    "words": [
+      {
+        "text": "ಎಲ್ಲಿಗೆ",
+        "reading": "ellige",
+        "meaning": "to where",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": " ",
+        "reading": " ",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      },
+      {
+        "text": "ಹೋಗಬೇಕು",
+        "reading": "hogabeku",
+        "meaning": "should go",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": "?",
+        "reading": "?",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      }
+    ],
+    "replies": [
+      {
+        "label": "Indiranagar station",
+        "translation": "I need to go to Indiranagar metro station.",
+        "words": [
+          {
+            "text": "ಇಂದಿರಾನಗರ",
+            "reading": "Indiranagar",
+            "meaning": "Indiranagar",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಮೆಟ್ರೋ",
+            "reading": "Metro",
+            "meaning": "metro",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಸ್ಟೇಷನ್‌ಗೆ",
+            "reading": "Stationge",
+            "meaning": "to station",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "reading": "Hogabeku",
+            "meaning": "must go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": ".",
+            "reading": ".",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Direct route",
+        "translation": "Which is the way to Indiranagar metro station?",
+        "words": [
+          {
+            "text": "ಇಂದಿರಾನಗರ",
+            "reading": "Indiranagar",
+            "meaning": "Indiranagar",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಮೆಟ್ರೋ",
+            "reading": "Metro",
+            "meaning": "metro",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಸ್ಟೇಷನ್‌ಗೆ",
+            "reading": "Stationge",
+            "meaning": "to station",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ದಾರಿ",
+            "reading": "Daari",
+            "meaning": "way",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಯಾವುದು",
+            "reading": "Yaavudu",
+            "meaning": "which",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "?",
+            "reading": "?",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Help needed",
+        "translation": "Please show me the way.",
+        "words": [
+          {
+            "text": "ದಯವಿಟ್ಟು",
+            "reading": "Dayavittu",
+            "meaning": "please",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ದಾರಿ",
+            "reading": "Daari",
+            "meaning": "way",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ತೋರಿಸಿ",
+            "reading": "Thorisi",
+            "meaning": "show",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": ".",
+            "reading": ".",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      }
+    ],
+    "context_summary": "User needs directions to Indiranagar metro station.",
+    "inferred_setting": "travelling",
+    "context_confidence": "high",
+    "current_speaker": "user",
+    "speaker_confidence": "high",
+    "inferred_user_intent": "Asking for navigation instructions."
+  },
+  "valid_personal_key_inference_tested": false
+}

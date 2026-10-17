@@ -1,0 +1,32 @@
+{
+  "passed": 6,
+  "checks": [
+    {
+      "name": "Live conversation prioritizes three replies and has no word-meaning controls or teaching explanation",
+      "passed": true
+    },
+    {
+      "name": "Reply pronunciation leaves heard text unchanged; copying preserves original wording without another model call",
+      "passed": true
+    },
+    {
+      "name": "Learn later opens a saved review with word meanings, independent pronunciation and no paid request",
+      "passed": true
+    },
+    {
+      "name": "Returning to Conversation restores replies without retaining study controls or losing its reading choice",
+      "passed": true
+    },
+    {
+      "name": "Saved reviews survive reload/offline and deletion removes the learning record",
+      "passed": true
+    },
+    {
+      "name": "The Kannada prepared review stays in Saved and never creates a conversation or a paid request",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "physical_microphone": false,
+  "errors": []
+}

@@ -5,7 +5,7 @@
   "service": "lingolive",
   "url": "https://lingolive-358650584819.us-central1.run.app",
   "canonical_url": "https://lingolive-l5utioe5cq-uc.a.run.app",
-  "ready_revision": "lingolive-00010-naj",
+  "ready_revision": "lingolive-00012-xot",
   "condition": "CONDITION_SUCCEEDED",
   "provider": "vertex",
   "google_api_key_required": false,
@@ -37,7 +37,7 @@
   "traffic": [
     {
       "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION",
-      "revision": "lingolive-00010-naj",
+      "revision": "lingolive-00012-xot",
       "percent": 100
     }
   ],
@@ -53,9 +53,9 @@
     "LINGOLIVE_MAX_OUTPUT_TOKENS": "4096"
   },
   "request_based_cpu": true,
-  "source_commit": "a0a91d9e9cd8b236edf31f2286c864c6b4e4f509",
+  "source_commit": "0bad942c6d13cef4c1b239a8a16a6ada168df7ca",
   "personal_keys_enabled": true,
-  "version": "1.5",
+  "version": "1.6",
   "flash_model": "gemini-3.1-flash-lite",
   "persistent_sdk_login_verified": true,
   "lesson_strategy": "parallel",

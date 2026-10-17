@@ -1,4 +1,43 @@
-# Current source: web 1.5 — October 17, 2026
+# Current source: web 1.6 — Reply now. Learn later.
+
+- **93 backend tests and 63 Chromium checks pass**, plus JavaScript core/context
+  checks. The six new browser checks verify no word-teaching controls in live
+  Conversation, three replies with translation/pronunciation/copy, unchanged heard
+  text, a separate Saved review, independent reading choices, no extra model
+  request on review, offline reload/deletion and the labelled Kannada example.
+  Settings are reachable from a saved review. Existing auth, profile/sensor memory,
+  context, personal-key, microphone/flush and tutorial coverage is retained.
+- The three-step tutorial introduces conversation replies before later learning.
+  The prepared Kannada review is public, labelled and never inserted into history.
+  Complete lesson data is still generated with the existing two parallel calls;
+  changing when teaching is shown adds no inference request or new service.
+- **Real staged Kannada check passed** on `lingolive-00012-xot`: the source
+  “ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?” stayed exact; all required definitions/readings and three
+  replies were complete; replies reflected the explicit Indiranagar metro goal.
+  The live view contained zero word buttons/teaching explanations. Saved word
+  review worked without another model request. One HTTP sample took **2.241 s**;
+  this is not a new average or an under-two-second guarantee.
+- The tested revision was promoted to **100% public traffic**. Ten public assets,
+  including the Kannada example, health 1.6, model settings, usage/resource guards,
+  unauthorized HTTP rejection and tag removal were verified. Source runtime commit
+  is `0bad942c6d13cef4c1b239a8a16a6ada168df7ca`.
+- The real speech stream was previously verified on web 1.5; no new live Google
+  speech test, physical-microphone test, valid personal-key inference or fresh
+  multilingual latency benchmark is claimed for this UI update. The original
+  inference pipeline, auth and cost limits remain unchanged.
+- **New media is pending transcript approval.** The v2 script uses Bengaluru and
+  Kannada for immigrants/interstate newcomers: useful replies during a commute
+  or tea order, word learning afterwards at home. No v2 audio/voices, footage or
+  video were generated. The old 2:53 video remains an archived 1.5 sample.
+
+Evidence: `cloud-current-deployment.json`, `cloud-current-api-results.json`,
+`cloud-v1.6-api-results.json`, `web-reply-flow-results.json`, all previous browser
+result files, and `web-replies-*-cloud.png` in `validation/`. The prior 1.5 runtime
+and API reports are archived as `cloud-v1.5-deployment.json` / `cloud-v1.5-api-results.json`.
+
+---
+
+# Historical web 1.5 evidence — October 17, 2026
 
 - **93 backend tests pass** (previous 80 plus 13 parallel/format/usage checks).
   Tests prove both branches overlap, exact Unicode/spacing survives compact word

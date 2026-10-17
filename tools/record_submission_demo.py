@@ -13,6 +13,9 @@ def main():
     parser.add_argument('--output',type=Path,default=Path('/tmp/lingolive-submission'))
     args=parser.parse_args()
     if not args.run_live:parser.error('--run-live is required for real Google calls')
+    health=requests.get('https://lingolive-358650584819.us-central1.run.app/health',timeout=20)
+    health.raise_for_status()
+    if health.json().get('version')!='1.5':parser.error('This is the archived v1.5 recorder. The revised Kannada/reply-first video requires transcript approval and an updated recorder.')
     if not (args.output/'audio/microphone.wav').is_file():parser.error('Prepare the disclosed synthesized microphone WAV first')
     sdk=shutil.which('gcloud') or '/workspace/.cloud-tools/gcloud'
     token=subprocess.check_output([sdk,'auth','print-access-token'],text=True).strip()

@@ -1,0 +1,32 @@
+{
+  "url": "https://lingolive-358650584819.us-central1.run.app",
+  "ready_revision": "lingolive-00010-naj",
+  "live_google": true,
+  "physical_microphone": false,
+  "audio_seconds": 2.128,
+  "transcript": "John chapter 3 verse 16",
+  "hosted_multimodal_context_lesson": {
+    "model": "gemini-3.1-flash-lite",
+    "reasoning": "minimal",
+    "http_status": 200,
+    "elapsed_seconds": 2.34,
+    "source_preserved": true,
+    "replies": 3,
+    "context_summary": "User is finding a specific Bible verse.",
+    "current_speaker": "user",
+    "speaker_confidence": "high",
+    "inferred_user_intent": "Locate specific Bible passage",
+    "explanation_language": "Japanese",
+    "four_second_audio_input_accepted": true,
+    "blank_user_goal": true
+  },
+  "personal_key_session_verified": true,
+  "invalid_personal_key_http_status": 502,
+  "invalid_key_did_not_produce_host_lesson": true,
+  "valid_personal_key_inference_tested": false,
+  "key_cookie_revoked_on_disconnect": true,
+  "unauthenticated_http_blocked": true,
+  "unauthenticated_websocket_blocked": true,
+  "tested_tag_url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "same_tested_revision_promoted": true
+}

@@ -22,7 +22,7 @@ def main():
  parser=argparse.ArgumentParser(description=__doc__)
  parser.add_argument('--resume',action='store_true',help='Continue unmeasured cases in the same report without repeating completed calls')
  parser.add_argument('--run-live',action='store_true',help='Authorize up to ten lessons (twenty model calls) and one short speech stream')
- parser.add_argument('--output',type=Path,default=ROOT/'validation/cloud-parallel-latency-results.json')
+ parser.add_argument('--output',type=Path,default=ROOT/'validation/cloud-v1.6-latency-results.json')
  parser.add_argument('--wav',type=Path,default=ROOT/'tools/fixtures/reference.wav',help='Synthesized John chapter 3 verse 16, mono PCM16/16kHz, at most four seconds')
  parser.add_argument('--url',default=BASE,help='Verified public or tagged service URL')
  parser.add_argument('--expected-traffic',type=int,choices=(0,100),default=100)
@@ -52,7 +52,7 @@ def main():
  for name,digest in record['asset_sha256'].items():
   route='/' if name=='index.html' else '/sw.js' if name=='sw.js' else '/assets/'+name
   fetched=requests.get(base+route,timeout=30);fetched.raise_for_status();assert hashlib.sha256(fetched.content).hexdigest()==digest,'Hosted asset changed'
- health=requests.get(base+'/health',timeout=30);health.raise_for_status();assert health.json()['version']=='1.5'
+ health=requests.get(base+'/health',timeout=30);health.raise_for_status();assert health.json()['version']==record['health']['version']
  secret=requests.get('https://secretmanager.googleapis.com/v1/projects/locateassist/secrets/lingolive-private-access/versions/latest:access',headers=admin,timeout=30);secret.raise_for_status()
  code=base64.b64decode(secret.json()['payload']['data']).decode().strip()
  clients=[requests.Session(),requests.Session()]

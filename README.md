@@ -2,27 +2,37 @@
 
 [Project PDF](docs/LingoLive-How-It-Works.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.5
+## Current source: web 1.6 — Reply now. Learn later.
 
-The web 1.5 deployment uses **Gemini 3.1 Flash-Lite with minimal thinking**.
-Two requests run in parallel: source understanding, and suggested replies. Compact
-word triples are expanded and validated into the existing lesson format, including
-all required word meanings and Latin readings. Replies and explanations are brief;
-optional per-word notes and a separate tip are empty. Pronunciation switching and
-word taps make no AI call. Transcription still uses **Gemini 3.5 Transcribe Live**.
-The tested complete-lesson average is **1.79 seconds** (ten requests, zero failures),
-versus 9.26 seconds previously. This is a small warm-path sample; speech-to-result,
-cold starts and phone networks have different latency. See [the comparison](docs/LATENCY.md).
+LingoLive helps newcomers, interstate migrants and immigrants handle everyday
+conversations in a language they are still learning. A newcomer to Bengaluru can
+use Kannada replies for a commute or a tea order, then study those words later.
 
-The single-column screen keeps recent phrases collapsed, with one large
-microphone button. A three-step first-visit tutorial lets learners select their
-languages and try word meanings/pronunciation without a paid request or sensor
-permission. Skip/complete is remembered on this browser; replay it in Settings.
+**Conversation** shows what was said, its translation and three useful replies.
+Original-script/pronunciation switching, playback and copy help the learner say
+something immediately. Word-meaning buttons and teaching explanations are kept
+out of this live view. **Saved** opens a separate review with tappable source and
+reply words, meanings, pronunciation and practice. Opening a review, switching
+its script or tapping a word makes no extra AI request and works offline with
+saved data. The prepared Kannada review is labelled and creates no fake history.
 
-**Web 1.5 is live and verified.** Deployment uses a normal refreshable Cloud SDK
-login; the saved refresh credential and a real refresh exchange were checked.
-No deployment credentials are included in this repository. The hosted Google
-transcription-to-lesson path is verified; latency varies with language and context.
+The existing Google pipeline remains **Gemini 3.5 Transcribe Live** plus two
+parallel **Gemini 3.1 Flash-Lite** requests with minimal thinking. Both branches
+still prepare and validate the full compatible lesson data; the UI surfaces
+teaching later without another paid call. Authentication, model/audio quotas and
+cost guards stay in force. The three-step tutorial now introduces live replies
+before later learning, with a Kannada illustration.
+
+The prior web 1.5 complete-lesson benchmark averaged **1.79 seconds** over ten
+warm-path requests, with zero failures. It is historical backend evidence, not a
+new 1.6 mobile/network/cold-start guarantee. See [the comparison](docs/LATENCY.md).
+Deployment uses the normal refreshable Cloud SDK login; no deployment credential
+is included in this repository.
+
+The revised [Bengaluru/Kannada video transcript](docs/submission/DEMO-TRANSCRIPT-V2.md)
+is **awaiting user approval**. No new narration, simulated voices, generated
+footage or v2 video has been produced. The earlier 2:53 video is an archived 1.5
+sample, not the revised demonstration.
 
 Connect with **Use access code** to use your host's Google allowance, or
 **Use my Google API key** to use your own Google AI Studio account for both
@@ -37,14 +47,14 @@ and requires reconnecting. Google checks key validity/model access on use;
 opening a session alone does not verify Google access. Restricted keys must allow
 these server-side Gemini API calls; browser-referrer-only keys are unsuitable.
 
-The simple screen shows heard speech, three suggested replies, and word meanings
-in a tap bubble. Goals are optional; replies use recent conversation, earlier
+The live screen shows heard speech and three suggested replies. Word meanings
+open in a tap bubble when reviewing a conversation in Saved. Goals are optional; replies use recent conversation, earlier
 suggestions and this learner's local memory. The gear opens profile, goal, place
 and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 
-**Deployment status:** web 1.5 is live on Cloud Run as revision
-`lingolive-00010-naj`, including contextual replies, local memory, word bubbles
-and both connection options. A real Google audio-to-context-lesson check passed;
+**Deployment status:** the current verified revision is recorded in
+`validation/cloud-current-deployment.json`. A real Google audio-to-context-lesson
+check passed on 1.5; the new reply-first UI is verified separately.
 valid personal-key inference and physical-phone capture remain unverified.
 Live latency measurements (10 successful lessons) and reproduction instructions
 are in [docs/LATENCY.md](docs/LATENCY.md).
@@ -55,10 +65,10 @@ files, signing keys and generated APK/ZIP files are excluded from Git.
 A web and Android companion for learning from real conversations. Choose a language
 you know and a language you are learning, then tap **Start listening**. Google's
 **Gemini 3.5 Transcribe Live** transcribes speech across languages, including
-code-switching. Web 1.5 final learning-language phrases become short **Gemini 3.1 Flash-Lite**
+code-switching. Web 1.6 final learning-language phrases become short **Gemini 3.1 Flash-Lite**
 lessons: what was said, what each word means, a usage note, and three natural replies.
 
-Tap any word in the source or a suggested reply for its contextual meaning,
+In Saved, tap any word in the source or a suggested reply for its contextual meaning,
 pronunciation and usage. Switch between original script and pronunciation text.
 Hear a reply with the phone's text-to-speech voice or copy its original text.
 Transcripts, lessons, reply vocabulary and word meanings are saved locally (IndexedDB in the browser; SQLite on Android) and can be searched, reopened or deleted. No audio recordings are
@@ -70,7 +80,7 @@ It does not use their models, corpus, API keys or application storage.
 ## Host access: private access code
 
 Google sign-in and an explicit invited-email allowlist are implemented and tested
-and included in live revision `lingolive-00010-naj`. Host-funded access still
+and included in live revision the current verified revision. Host-funded access still
 requires the private access code; **Google sign-in is not active there yet**.
 The user chose simple private-access-code sign-in. No Google OAuth registration
 is needed for either the selected host-code flow or personal-key mode. Optional Google account support remains
@@ -111,8 +121,9 @@ pending queue. Each lesson reserves two model-call units; existing allowances
 permit at most 12 lessons/minute, 180/hour and 200/day in parallel mode. The browser
 does not add an artificial delay between completed lessons.
 
-Tap any word, switch between original script and pronunciation, hear or copy a
-reply, and search, revisit or delete your history in **Saved**. Phrases, explanations
+During a conversation, use the reply pronunciation, playback and copy controls.
+Afterwards, open **Saved** to tap words, switch reading modes, practise replies,
+search, revisit or delete your history. Phrases, explanations
 and vocabulary are stored in **IndexedDB on this browser**, not the server. The
 prepared Japanese example is clearly labeled and never saved as captured speech.
 The public application shell is cached for offline reload and saved-lesson access;

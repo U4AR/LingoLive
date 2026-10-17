@@ -1,6 +1,10 @@
 # Deploy LingoLive on Cloud Run
 
-The web 1.5 deployment defaults to `gemini-3.1-flash-lite`, minimal thinking and
+Web 1.6 prioritizes live replies; word meanings and practice open separately in
+Saved. The UI change adds no model request for later review. The approved new
+video has not been produced: `docs/submission/DEMO-TRANSCRIPT-V2.md` awaits approval.
+
+The web 1.6 deployment defaults to `gemini-3.1-flash-lite`, minimal thinking and
 two parallel requests per lesson. Source understanding and replies are validated
 and merged into the same public format. Transcription remains
 `gemini-3.5-transcribe-live`. Current live revision and measured timings are

@@ -6,7 +6,7 @@
       "passed": true
     },
     {
-      "name": "Heard speech and three replies are visible with explanation collapsed",
+      "name": "Prepared learning opens in Saved with three practice replies and explanation collapsed",
       "passed": true
     },
     {
@@ -14,7 +14,7 @@
       "passed": true
     },
     {
-      "name": "Mobile lesson fits the screen and retains the fixed speaking button",
+      "name": "Study fits mobile; returning to Conversation restores the speaking button",
       "passed": true
     }
   ],

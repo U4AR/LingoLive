@@ -31,3 +31,8 @@ claim a completed event submission or a published demo video.
 The complete AI Builder Cup package is in [submission/](submission/WRITEUP.md):
 project write-up, prepared entry fields, proposal PDF, narrated-demo script,
 captions, artifact links and submission status.
+
+Web 1.6 changes the live experience to replies first and learning later in Saved.
+The revised [Bengaluru/Kannada demo transcript](submission/DEMO-TRANSCRIPT-V2.md)
+is pending approval. The proposal PDF and video describe the earlier prototype; the full write-up PDF
+has been refreshed. No v2 narration, simulated voices or video has been produced.

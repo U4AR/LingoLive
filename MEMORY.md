@@ -1,8 +1,10 @@
-# Conversation memory (web 1.5 source)
+# Conversation memory (web 1.6 source)
 
 The main screen shows heard speech, its translation and three possible replies.
-Tap a word for a small meaning bubble. Pronunciation, playback, copy, typed input,
-saved history and optional explanation remain available. The gear opens learning
+During a live exchange, replies have pronunciation, playback and copy controls.
+Afterwards, open Saved to review words in a meaning bubble, explanations and
+practice replies. Review uses already saved data and makes no extra model call.
+Typed input and the same saved history remain available. The gear opens learning
 settings; no goal is required to start.
 
 ## What a lesson receives

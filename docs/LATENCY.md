@@ -1,7 +1,11 @@
+> Web 1.6 moves teaching into Saved and prioritizes replies during a live exchange.
+> The measurements below were collected on web 1.5; they are not a fresh 1.6
+> benchmark. Models, request format, parallelism and budgets are unchanged.
+
 # Live latency comparison — October 17, 2026
 
 [Open LingoLive](https://lingolive-358650584819.us-central1.run.app).
-Web 1.5 revision `lingolive-00010-naj` now serves 100% of public traffic.
+Web 1.5 revision `lingolive-00010-naj` was the measured deployment.
 Runtime source: `a0a91d9e9cd8b236edf31f2286c864c6b4e4f509`.
 
 The optimized deployment averaged **1.79 seconds for ten complete,

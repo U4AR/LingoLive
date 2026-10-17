@@ -1,4 +1,9 @@
-# Recorded demonstration
+# Archived web 1.5 demonstration
+
+The app now uses a reply-first/live and learn-later/Saved flow. The revised
+Bengaluru/Kannada transcript is in [DEMO-TRANSCRIPT-V2.md](DEMO-TRANSCRIPT-V2.md),
+awaiting approval. The video linked below is the earlier version; it has not been
+relabelled or replaced as v2.
 
 [Watch the demo and download all materials](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/index.html).
 The final MP4 is **2 minutes 53 seconds**, H.264/AAC at 1280×720, approximately
