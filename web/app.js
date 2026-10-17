@@ -11,7 +11,7 @@ const element=(tag,className,text)=>{const node=document.createElement(tag);if(c
 const welcomeTemplate=$('lesson-panel').firstElementChild.cloneNode(true);
 const conversationTemplate=$('transcripts').firstElementChild.cloneNode(true);
 const learners=new Learners(),profileStores=new Map(),audioSamples=new Map(),deletedRecords=new Set();
-const state={records:[],selected:null,languages:[],pronunciation:false,connected:false,queue:[],processing:false,storage:null,view:'conversation',memoryFailed:false,queueEpoch:0,conversation:newConversation(),learner:learners.current,location:null};
+const state={records:[],selected:null,reviewing:null,reviewPronunciation:false,languages:[],pronunciation:false,connected:false,queue:[],processing:false,storage:null,view:'conversation',memoryFailed:false,queueEpoch:0,conversation:newConversation(),learner:learners.current,location:null};
 const learnerKey=base=>learners.key(base);
 let noticeTimer,locationWatch=null;
 function notice(message,error=false){$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').hidden=true,error?14000:6000);}
@@ -23,7 +23,7 @@ async function api(path,options={}){
   try {response=await fetch(path,{credentials:'same-origin',...options,headers:{'Content-Type':'application/json',...options.headers}});}catch{throw new Error('Could not reach your learning space. Check your internet connection; saved lessons are still available.');}
   if(response.status===204)return null;
   let data;try{data=await response.json();}catch{throw new Error('The service returned an unreadable response. Try again shortly.');}
-  if(!response.ok){if(response.status===401)connected(false);const error=new Error(response.status===429?'A little pause: the lesson limit was reached. Your phrase is saved; try again shortly.':typeof data.detail==='string'?data.detail:'That phrase could not be processed. Try a shorter phrase.');error.status=response.status;throw error;}
+  if(!response.ok){if(response.status===401)connected(false);const error=new Error(response.status===429?'A little pause: the request limit was reached. Your phrase is saved; try again shortly.':typeof data.detail==='string'?data.detail:'That phrase could not be processed. Try a shorter phrase.');error.status=response.status;throw error;}
   return data;
 }
 async function save(record){const store=profileStores.get(record.profile_id)||state.storage;if(!store||deletedRecords.has(record.id))return;try{const {audio_context,context_location,lesson_context,...stored}=record;if(lesson_context){const {location_context,...textContext}=lesson_context;stored.lesson_context=textContext;}await store.put(stored);}catch{state.memoryFailed=true;notice('Browser storage is full or unavailable. This conversation is only kept until you close the page.',true);}}
@@ -46,43 +46,64 @@ function wordDialog(word,anchor){
   const above=rect.bottom+height+12>innerHeight;const left=Math.max(10,Math.min(innerWidth-width-10,rect.left+rect.width/2-width/2));
   bubble.style.left=left+'px';bubble.style.top=Math.max(10,above?rect.top-height-10:rect.bottom+10)+'px';bubble.dataset.placement=above?'above':'below';
 }
-$('settings-open').onclick=()=>{const settings=$('context-settings');settings.open=!settings.open;$('settings-open').setAttribute('aria-expanded',String(settings.open));if(settings.open)settings.scrollIntoView({block:'start',behavior:'smooth'});};
+$('settings-open').onclick=()=>{const fromSaved=state.view==='saved';if(fromSaved)setView('conversation');const settings=$('context-settings');settings.open=fromSaved||!settings.open;$('settings-open').setAttribute('aria-expanded',String(settings.open));if(settings.open)settings.scrollIntoView({block:'start',behavior:'smooth'});};
 $('settings-close').onclick=()=>{$('context-settings').open=false;$('settings-open').setAttribute('aria-expanded','false');$('settings-open').focus();};
 document.addEventListener('click',event=>{if($('word-dialog').open&&!event.target.closest('#word-dialog,.word'))$('word-dialog').close();});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('word-dialog').open)$('word-dialog').close();});
 window.addEventListener('resize',()=>{if($('word-dialog').open)$('word-dialog').close();});
-function renderWords(words,className){const node=element('div',className);node.dir='auto';for(const piece of wordPieces(words,state.pronunciation)){if(piece.prefix)node.append(document.createTextNode(piece.prefix));if(piece.word.is_word){const button=element('button','word',piece.text);button.type='button';button.setAttribute('aria-label',piece.text+' · word meaning');button.onclick=()=>wordDialog(piece.word,button);node.append(button);}else node.append(document.createTextNode(piece.text));}return node;}
+function renderWords(words,className,{interactive=true,pronunciation=state.pronunciation}={}){const node=element('div',className);node.dir='auto';for(const piece of wordPieces(words,pronunciation)){if(piece.prefix)node.append(document.createTextNode(piece.prefix));if(interactive&&piece.word.is_word){const button=element('button','word',piece.text);button.type='button';button.setAttribute('aria-label',piece.text+' · word meaning');button.onclick=()=>wordDialog(piece.word,button);node.append(button);}else node.append(document.createTextNode(piece.text));}return node;}
 async function speak(text,code){await stopListening();if(!('speechSynthesis' in window)){notice('Pronunciation playback is not supported by this browser.',true);return;}speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=code;utterance.rate=.88;utterance.onerror=()=>notice('This voice is unavailable. Install a voice for the learning language or read the pronunciation text.',true);speechSynthesis.speak(utterance);}
-function renderLesson(){
-  const record=state.selected;if(!record){$('lesson-panel').replaceChildren(welcomeTemplate.cloneNode(true));$('try-example').onclick=showExample;return;}
-  const panel=$('lesson-panel');panel.replaceChildren();
-  if(record.example)panel.append(element('div','example-banner','Prepared Japanese / English example · not saved to your history'));
-  const content=element('div','lesson-content');panel.append(content);
-  if(!record.example){
-    const intent=element('details','intent-actions reply-context-tools');intent.append(element('summary','','More options'));const goal=element('button','text-button','Use these words as my goal');goal.type='button';
-    goal.onclick=async()=>{
-      $('conversation-goal').value=record.text.slice(0,600);$('context-settings').open=true;$('settings-open').setAttribute('aria-expanded','true');
-      if(record.text.length>600){$('conversation-goal').focus();notice('Shorten this to the part you want to do, then save your goal.');return;}
-      record.speaker='user';await save(record);setGoal(record.text,record.id);notice('Goal saved. New replies will use what you want to do.');
-    };intent.append(goal);content.append(intent);
+function modeSwitch(studying){
+  const toggle=element('div','mode-switch');toggle.setAttribute('role','group');toggle.setAttribute('aria-label',studying?'Study text display':'Reply text display');
+  for(const [value,label]of [[false,'Original'],[true,'Pronunciation']]){const current=studying?state.reviewPronunciation:state.pronunciation;const button=element('button',current===value?'active':'',label);button.setAttribute('aria-pressed',String(current===value));button.onclick=()=>{if(studying){state.reviewPronunciation=value;renderReview();}else{state.pronunciation=value;renderLesson();}};toggle.append(button);}
+  return toggle;
+}
+function renderReplies(content,record,studying=false){
+  for(const reply of record.lesson.replies){
+    const card=element('div','reply');card.append(element('div','reply-label',reply.label),renderWords(reply.words,'reply-words',{interactive:studying,pronunciation:studying?state.reviewPronunciation:state.pronunciation}));
+    const foot=element('div','reply-footer');foot.append(element('p','reply-translation',reply.translation));const actions=element('div','reply-actions');const text=reply.words.map(x=>x.text).join('');
+    const listen=element('button','icon-button','▷');listen.setAttribute('aria-label','Hear reply: '+reply.label);listen.onclick=()=>speak(text,record.pair.learning_code);
+    if(!studying&&!record.example){const said=element('button','text-button','I said this');said.onclick=()=>confirmReply(reply,record);const more=element('details','reply-more');const menu=element('summary','','⋯');menu.setAttribute('aria-label','More reply options');more.append(menu,said);actions.append(more);}
+    const copy=element('button','icon-button','⧉');copy.setAttribute('aria-label','Copy reply: '+reply.label);copy.onclick=async()=>{try{await navigator.clipboard.writeText(text);notice('Reply copied.');}catch{notice('Copy is unavailable. You can select and copy the original text.',true);}};
+    actions.append(listen,copy);foot.append(actions);card.append(foot);content.append(card);
   }
-  if(!record.lesson?.contains_learning_language||['queued','loading'].includes(record.status)){
-    content.classList.add('lesson-status');content.append(element('p','eyebrow',record.pair.learning_name.toUpperCase()+' → '+record.pair.known_name.toUpperCase()));
-    const phrase=element('div','source-words',record.text);phrase.dir='auto';content.append(phrase);
-    content.append(element('h2','',record.status==='loading'?'Finding the meaning…':record.status==='queued'?'A little lesson is on its way.':record.status==='familiar'?'A phrase to keep.':'Your phrase is here.'));
-    content.append(element('p','',record.error||record.lesson?.explanation||(record.status==='queued'||record.status==='loading'?'Preparing your translation, pronunciation and replies…':'Turn it into a word-by-word lesson whenever you’re ready.')));
-    if(!['loading','queued'].includes(record.status)){const retry=element('button','small-button','Teach this phrase →');retry.onclick=()=>queueLesson(record);content.append(retry);}return;
-  }
-  const lesson=record.lesson;content.append(element('p','heard-label',record.speaker==='user'||record.speaker==='likely_user'?'You said':'Heard'));const replyGoal=record.lesson_context?.user_goal??record.context_goal;
-  if(record.error)content.append(element('p','reply-goal',record.error));
-  const top=element('div','lesson-top');top.append(element('p','eyebrow',record.pair.learning_name.toUpperCase()+' → '+record.pair.known_name.toUpperCase()));
-  const toggle=element('div','mode-switch');toggle.setAttribute('role','group');toggle.setAttribute('aria-label','Text display');for(const [value,label]of [[false,'Original'],[true,'Pronunciation']]){const button=element('button',state.pronunciation===value?'active':'',label);button.setAttribute('aria-pressed',String(state.pronunciation===value));button.onclick=()=>{state.pronunciation=value;renderLesson();};toggle.append(button);}top.append(toggle);content.append(top,renderWords(lesson.words,'source-words'),element('p','translation',lesson.translation));
+}
+function openReview(record){state.reviewing=record;state.reviewPronunciation=false;setView('saved');}
+function renderReview(){
+  const panel=$('review-panel');let record=state.reviewing;
+  if(record&&!record.example)record=state.records.find(r=>r.id===record.id);
+  state.reviewing=record||null;panel.hidden=!record;$('saved-library').hidden=!!record;panel.replaceChildren();if(!record)return;
+  const back=element('button','text-button','← Back to saved');back.onclick=()=>{state.reviewing=null;renderSaved();};panel.append(back,element('p','eyebrow','LEARN FROM YOUR CONVERSATIONS'),element('h1','review-title','A little practice for later'));
+  if(record.example)panel.append(element('div','example-banner','Prepared '+record.pair.learning_name+' / '+record.pair.known_name+' example · not saved to your history'));
+  const content=element('div','lesson-content study-content');panel.append(content);
+  if(!record.lesson?.contains_learning_language){content.append(element('div','source-words',record.text),element('p','translation',record.lesson?.explanation||'Your transcript is saved. Return to Conversation to request replies.'));return;}
+  const lesson=record.lesson;const top=element('div','lesson-top');top.append(element('p','eyebrow',record.pair.learning_name.toUpperCase()+' → '+record.pair.known_name.toUpperCase()),modeSwitch(true));
+  content.append(top,renderWords(lesson.words,'source-words',{pronunciation:state.reviewPronunciation}),element('p','translation',lesson.translation));
   const explanation=element('details','phrase-explanation');explanation.append(element('summary','','Meaning & usage'),element('p','explanation',lesson.explanation));if(lesson.tip)explanation.append(element('div','tip',lesson.tip));content.append(explanation);
-  const heading=element('div','reply-heading');heading.append(element('h3','','Try saying'),element('span','',''));content.append(heading);
-  if(replyGoal)explanation.append(element('p','reply-goal','Your goal · '+replyGoal));
-  else if(lesson.context_summary)explanation.append(element('p','reply-goal','Possible context · '+lesson.context_summary.slice(0,180)+(lesson.context_summary.length>180?'…':'')));
-  if(!record.example&&record.conversation_id===state.conversation.id){const refresh=element('button','text-button','Update replies for my goal');refresh.onclick=()=>{record.context_goal=state.conversation.goal;record.context_notes=state.learner.notes||'';record.context_setting=state.conversation.place||'auto';queueLesson(record);};content.querySelector('.reply-context-tools')?.append(refresh);}
-  for(const reply of lesson.replies){const card=element('div','reply');card.append(element('div','reply-label',reply.label),renderWords(reply.words,'reply-words'));const foot=element('div','reply-footer');foot.append(element('p','reply-translation',reply.translation));const actions=element('div','reply-actions');const text=reply.words.map(x=>x.text).join('');const listen=element('button','icon-button','▷');listen.setAttribute('aria-label','Hear reply: '+reply.label);listen.onclick=()=>speak(text,record.pair.learning_code);const said=element('button','text-button','I said this');said.onclick=()=>confirmReply(reply,record);const more=element('details','reply-more');const menu=element('summary','','⋯');menu.setAttribute('aria-label','More reply options');more.append(menu,said);actions.append(more);const copy=element('button','icon-button','⧉');copy.setAttribute('aria-label','Copy reply: '+reply.label);copy.onclick=async()=>{try{await navigator.clipboard.writeText(text);notice('Reply copied.');}catch{notice('Copy is unavailable. You can select and copy the original text.',true);}};actions.append(listen,copy);foot.append(actions);card.append(foot);content.append(card);}
+  const heading=element('div','reply-heading');heading.append(element('h2','','Practise your replies'));content.append(heading);renderReplies(content,record,true);
+}
+function renderConversationTools(content,record){
+  const lesson=record.lesson;
+  const intent=element('details','intent-actions reply-context-tools');intent.append(element('summary','','More options'));const replyGoal=record.lesson_context?.user_goal??record.context_goal;if(replyGoal)intent.append(element('p','reply-goal','Your goal · '+replyGoal));else if(lesson?.context_summary)intent.append(element('p','reply-goal','Possible context · '+lesson.context_summary));const goal=element('button','text-button','Use these words as my goal');goal.type='button';
+  goal.onclick=async()=>{$('conversation-goal').value=record.text.slice(0,600);$('context-settings').open=true;$('settings-open').setAttribute('aria-expanded','true');if(record.text.length>600){$('conversation-goal').focus();notice('Shorten this to the part you want to do, then save your goal.');return;}record.speaker='user';await save(record);setGoal(record.text,record.id);notice('Goal saved. New replies will use what you want to do.');};intent.append(goal);
+  if(record.conversation_id===state.conversation.id){const refresh=element('button','text-button','Update replies for my goal');refresh.onclick=()=>{record.context_goal=state.conversation.goal;record.context_notes=state.learner.notes||'';record.context_setting=state.conversation.place||'auto';queueLesson(record);};intent.append(refresh);}content.append(intent);
+}
+function renderLesson(){
+  const panel=$('lesson-panel');panel.replaceChildren();if(state.view!=='conversation')return;
+  const record=state.selected;if(!record){panel.append(welcomeTemplate.cloneNode(true));$('try-example').onclick=showExample;return;}
+  const content=element('div','lesson-content live-content');panel.append(content);
+  if(!record.lesson?.contains_learning_language||['queued','loading'].includes(record.status)){
+    content.classList.add('lesson-status');content.append(element('div','source-words',record.text));
+    content.append(element('h2','',record.status==='loading'?'Finding replies…':record.status==='queued'?'Your replies are on their way.':'Your phrase is here.'));
+    content.append(element('p','',record.error||record.lesson?.explanation||(['queued','loading'].includes(record.status)?'Getting replies ready.':'Your transcript is saved.')));
+    if(!['loading','queued'].includes(record.status)){const retry=element('button','small-button','Get replies →');retry.onclick=()=>queueLesson(record);content.append(retry);}renderConversationTools(content,record);return;
+  }
+  const lesson=record.lesson;content.append(element('p','heard-label',record.speaker==='user'||record.speaker==='likely_user'?'You said':'Heard'));
+  content.append(element('div','source-words heard-text',record.text),element('p','translation heard-translation',lesson.translation));
+  if(record.error)content.append(element('p','reply-goal',record.error));
+  const heading=element('div','reply-heading live-reply-heading');heading.append(element('h2','','You could say'),modeSwitch(false));content.append(heading);renderReplies(content,record);
+  const later=element('p','learn-later-hint');later.append(document.createTextNode('Saved automatically. '));const review=element('button','text-button','Learn later in Saved');review.onclick=()=>openReview(record);later.append(review);content.append(later);
+  renderConversationTools(content,record);
 }
 function refresh(record){updateCount();renderTranscripts();if(state.selected?.id===record.id)renderLesson();if(state.view==='saved')renderSaved();}
 async function accept(text,pair=profile(),conversation=state.conversation){
@@ -122,10 +143,11 @@ async function processQueue(){
   }}finally{state.processing=false;}
 }
 function renderSaved(){
+  renderReview();
   const query=$('saved-search').value.toLocaleLowerCase();const list=$('saved-list');list.replaceChildren();
   const found=state.records.filter(record=>JSON.stringify([record.text,record.lesson,record.pair]).toLocaleLowerCase().includes(query)).slice().reverse();
   if(!found.length){list.append(element('div','saved-empty',query?'No matching phrases yet. Try a different word.':'A little library starts with one conversation. Your saved phrases will appear here.'));return;}
-  for(const record of found){const card=element('article','saved-card');card.dataset.record=record.id;const meta=element('div','saved-meta');meta.append(element('span','',record.pair.learning_name+' · '+new Date(record.created).toLocaleDateString()));const remove=element('button','text-button','Remove');remove.setAttribute('aria-label','Remove saved phrase: '+record.text);remove.onclick=async()=>{deletedRecords.add(record.id);audioSamples.delete(record.id);state.records=state.records.filter(x=>x.id!==record.id);state.queue=state.queue.filter(x=>x.id!==record.id);try{await state.storage?.remove(record.id);}catch{notice('Could not remove this phrase from browser storage.',true);}if(state.selected?.id===record.id)state.selected=null;if(state.conversation.goal_source_id===record.id)setGoal('');updateCount();renderTranscripts();renderLesson();renderSaved();};meta.append(remove);card.append(meta);const button=element('button','open-saved');const phrase=element('h2','',record.text);phrase.dir='auto';button.append(phrase,element('p','',record.lesson?.translation||statusLabel(record)));button.onclick=()=>{state.selected=record;setView('conversation');renderLesson();renderTranscripts();$('lesson-panel').scrollIntoView({behavior:'smooth',block:'start'});};card.append(button);list.append(card);}
+  for(const record of found){const card=element('article','saved-card');card.dataset.record=record.id;const meta=element('div','saved-meta');meta.append(element('span','',record.pair.learning_name+' · '+new Date(record.created).toLocaleDateString()));const remove=element('button','text-button','Remove');remove.setAttribute('aria-label','Remove saved phrase: '+record.text);remove.onclick=async()=>{deletedRecords.add(record.id);audioSamples.delete(record.id);state.records=state.records.filter(x=>x.id!==record.id);state.queue=state.queue.filter(x=>x.id!==record.id);try{await state.storage?.remove(record.id);}catch{notice('Could not remove this phrase from browser storage.',true);}if(state.selected?.id===record.id)state.selected=null;if(state.conversation.goal_source_id===record.id)setGoal('');updateCount();renderTranscripts();renderLesson();renderSaved();};meta.append(remove);card.append(meta);const button=element('button','open-saved');const phrase=element('h2','',record.text);phrase.dir='auto';button.append(phrase,element('p','',record.lesson?.translation||statusLabel(record)));button.onclick=()=>openReview(record);card.append(button);list.append(card);}
 }
 function seenVocabulary(record){
   const index=state.records.findIndex(r=>r.id===record.id),words=[],seen=new Set();
@@ -149,7 +171,7 @@ function clearSignals(){
 }
 async function switchLearner(id){
   state.queueEpoch++;await stopListening();for(const r of state.queue){r.status='transcribed';await save(r);}state.queue=[];clearSignals();
-  state.learner=learners.select(id);state.selected=null;state.records=[];state.storage=null;
+  state.learner=learners.select(id);state.selected=null;state.reviewing=null;state.records=[];state.storage=null;
   try{state.conversation=restoreConversation(JSON.parse(localStorage.getItem(learnerKey('lingolive-conversation'))||'null'));}catch{state.conversation=newConversation();}
   state.conversation.profile_id=state.learner.id;
   try{state.storage=profileStores.get(id)||await new Memory(learners.key('lingolive-learning')).open();profileStores.set(id,state.storage);state.records=await state.storage.all();for(const r of state.records)r.profile_id=id;}catch{notice('Saved lessons are unavailable for this learner.',true);}
@@ -195,7 +217,7 @@ $('new-conversation').onclick=async()=>{
 };
 async function stopListening(){if(microphone.running||microphone.context){$('listen-button').disabled=true;await microphone.stop();$('listen-button').disabled=false;}listeningUI(false);}
 function listeningUI(listening){$('listen-label').textContent=listening?'Stop listening':'Start listening';$('listen-button').classList.toggle('recording',listening);$('listening-wave').hidden=!listening;$('live-state').classList.toggle('live',listening);$('listen-button').setAttribute('aria-pressed',String(listening));}
-function setView(view){state.view=view;const saved=view==='saved';$('saved-view').hidden=!saved;$('conversation-view').hidden=saved;$('listen-dock').hidden=saved;$('saved-tab').classList.toggle('active',saved);$('conversation-tab').classList.toggle('active',!saved);$('saved-tab').setAttribute('aria-current',saved?'page':'false');$('conversation-tab').setAttribute('aria-current',saved?'false':'page');if(saved){stopListening();renderSaved();}window.scrollTo({top:0});}
+function setView(view){if($('word-dialog').open)$('word-dialog').close();state.view=view;const saved=view==='saved';$('saved-view').hidden=!saved;$('conversation-view').hidden=saved;$('listen-dock').hidden=saved;$('saved-tab').classList.toggle('active',saved);$('conversation-tab').classList.toggle('active',!saved);$('saved-tab').setAttribute('aria-current',saved?'page':'false');$('conversation-tab').setAttribute('aria-current',saved?'false':'page');if(saved){stopListening();renderSaved();}else{state.reviewing=null;renderReview();}renderLesson();window.scrollTo({top:0});}
 let serverConfigured=false,googleRequired=false,googleCredential='',connectionAttempt=0,connectionConfig=null;
 function connectionMode(){return $('method-key').checked?'api_key':'access_code';}
 function clearCredentials(){$('access-code').value='';$('personal-api-key').value='';googleCredential='';}
@@ -237,7 +259,7 @@ $('listen-button').onclick=async()=>{
   try{await api('/v1/session');microphone.pair=profile();microphone.conversationSnapshot=state.conversation;listeningUI(true);await microphone.start();if(!microphone.running)listeningUI(false);}catch(error){listeningUI(false);notice(error.message,true);}
 };
 $('phrase-form').onsubmit=async event=>{event.preventDefault();if(!validProfile())return;if(!state.connected){await openConnection();return;}const text=$('phrase-input').value;if(!text.trim())return;$('phrase-input').value='';await accept(text);};
-async function showExample(){try{await stopListening();const example=await fetch('/assets/example.json').then(r=>r.json());state.selected={...example,id:'example',example:true,pair:{known_code:'en-US',known_name:'English',learning_code:'ja-JP',learning_name:'Japanese'},status:'ready'};state.pronunciation=false;renderLesson();}catch{notice('The example could not be loaded. Reconnect and refresh the page.',true);}}
+async function showExample(){try{await stopListening();const example=await fetch('/assets/example-kn.json').then(r=>r.json());openReview({...example,id:'example',example:true,pair:{known_code:'en-US',known_name:'English',learning_code:'kn-IN',learning_name:'Kannada'},status:'ready'});}catch{notice('The example could not be loaded. Reconnect and refresh the page.',true);}}
 $('try-example').onclick=showExample;
 $('connection-dialog').addEventListener('cancel',()=>{clearCredentials();connectionAttempt++;});
 $('connection-open').onclick=openConnection;$('connection-close').onclick=()=>{clearCredentials();connectionAttempt++;$('connection-dialog').close();};$('word-close').onclick=()=>$('word-dialog').close();
@@ -250,7 +272,7 @@ $('connection-form').onsubmit=async event=>{
   catch(error){$('connection-message').textContent=error.message;}finally{$('connect-submit').disabled=false;}
 };
 $('disconnect').onclick=async()=>{await stopListening();try{await api('/v1/session',{method:'DELETE'});connected(false);clearCredentials();connectionAttempt++;forgetGoogleSelection();$('connection-dialog').close();notice('Disconnected. Your saved lessons stay on this browser.');}catch(error){$('connection-message').textContent=error.message;}};
-$('conversation-tab').onclick=()=>setView('conversation');$('saved-tab').onclick=()=>setView('saved');$('saved-search').oninput=renderSaved;
+$('conversation-tab').onclick=()=>setView('conversation');$('saved-tab').onclick=()=>{state.reviewing=null;setView('saved');};$('saved-search').oninput=renderSaved;
 $('clear-saved').onclick=()=>$('clear-dialog').showModal();$('clear-cancel').onclick=()=>$('clear-dialog').close();$('clear-confirm').onclick=async()=>{try{for(const r of state.records)deletedRecords.add(r.id);audioSamples.clear();await state.storage?.clear();state.records=[];state.queue=[];state.selected=null;localStorage.removeItem(learnerKey('lingolive-conversation'));updateCount();renderSaved();$('clear-dialog').close();location.reload();}catch{notice('Could not clear browser storage. Try clearing this site’s data in browser settings.',true);}};
 for(const id of ['known-language','learning-language'])$(id).onchange=async()=>{await stopListening();state.conversation=newConversation(state.conversation.goal);state.conversation.profile_id=state.learner.id;persistConversation();renderContext();renderTranscripts();state.selected=null;renderLesson();try{localStorage.setItem(learnerKey('lingolive-profile'),JSON.stringify(profile()));}catch{}validProfile();};
 $('swap-languages').onclick=async()=>{await stopListening();state.conversation=newConversation(state.conversation.goal);state.conversation.profile_id=state.learner.id;persistConversation();renderContext();renderTranscripts();state.selected=null;renderLesson();const known=$('known-language').value;$('known-language').value=$('learning-language').value;$('learning-language').value=known;try{localStorage.setItem(learnerKey('lingolive-profile'),JSON.stringify(profile()));}catch{}};

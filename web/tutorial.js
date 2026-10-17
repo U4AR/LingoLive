@@ -5,11 +5,11 @@ const KEY='lingolive-tutorial-v1';
 // microphone/location permissions until the learner chooses those actions.
 export function setupTutorial(onConnect,onReplay=()=>{}){
   const $=id=>document.getElementById(id),dialog=$('tutorial-dialog');let step=0;
-  const titles=['Your languages','A little help, word by word','Listen. Understand. Reply.'];
+  const titles=['Your languages','Keep the conversation going','Learn later in Saved'];
   function render(){
     $('tutorial-progress').textContent=`${step+1} of 3`;
     $('tutorial-title').textContent=titles[step];
-    ['languages','words','listen'].forEach((name,index)=>{$('tutorial-'+name).hidden=index!==step;});
+    ['languages','listen','words'].forEach((name,index)=>{$('tutorial-'+name).hidden=index!==step;});
     $('tutorial-back').hidden=step===0;$('tutorial-next').textContent=step===2?'Let’s start':'Next →';
     $('tutorial-error').hidden=true;$('tutorial-title').focus();
   }
@@ -18,7 +18,7 @@ export function setupTutorial(onConnect,onReplay=()=>{}){
     for(const [target,source]of [['tutorial-known','known-language'],['tutorial-learning','learning-language']]){
       $(target).replaceChildren(...[...$(source).options].map(option=>option.cloneNode(true)));$(target).value=$(source).value;
     }
-    step=0;$('tutorial-meaning').hidden=true;$('tutorial-word').textContent='ありがとう';$('tutorial-pronunciation').setAttribute('aria-pressed','false');
+    step=0;$('tutorial-meaning').hidden=true;$('tutorial-word').textContent='ಧನ್ಯವಾದಗಳು';$('tutorial-pronunciation').setAttribute('aria-pressed','false');
     dialog.showModal();render();
   }
   function finish(){try{localStorage.setItem(KEY,'done');}catch{}dialog.close();$('listen-button').focus();}
@@ -40,7 +40,7 @@ export function setupTutorial(onConnect,onReplay=()=>{}){
   $('tutorial-word').onclick=()=>{$('tutorial-meaning').hidden=!$('tutorial-meaning').hidden;};
   $('tutorial-pronunciation').onclick=()=>{
     const reading=$('tutorial-pronunciation').getAttribute('aria-pressed')!=='true';
-    $('tutorial-pronunciation').setAttribute('aria-pressed',String(reading));$('tutorial-word').textContent=reading?'arigatō':'ありがとう';
+    $('tutorial-pronunciation').setAttribute('aria-pressed',String(reading));$('tutorial-word').textContent=reading?'dhanyavaadagalu':'ಧನ್ಯವಾದಗಳು';
   };
   $('tutorial-replay').onclick=async()=>{await onReplay();show();};
   let seen=false;try{seen=localStorage.getItem(KEY)==='done';}catch{}

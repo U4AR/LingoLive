@@ -1,0 +1,158 @@
+{
+  "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+  "lesson": {
+    "detected_language": "kn-IN",
+    "contains_learning_language": true,
+    "translation": "Where do you need to go?",
+    "explanation": "A driver is asking for your destination. You can name a place or ask about the fare.",
+    "tip": "The ending ಕ್ಕೆ marks a destination, as in ನಿಲ್ದಾಣಕ್ಕೆ: to the station.",
+    "words": [
+      {
+        "text": "ಎಲ್ಲಿಗೆ",
+        "reading": "ellige",
+        "meaning": "where to",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": " ",
+        "reading": " ",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      },
+      {
+        "text": "ಹೋಗಬೇಕು",
+        "reading": "hogabeku",
+        "meaning": "need to go",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": "?",
+        "reading": "?",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      }
+    ],
+    "replies": [
+      {
+        "label": "Metro station",
+        "translation": "I need to go to the metro station.",
+        "words": [
+          {
+            "text": "ಮೆಟ್ರೋ",
+            "reading": "metro",
+            "meaning": "metro",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+            "reading": "nildaanakke",
+            "meaning": "to the station",
+            "note": "The destination ending ಕ್ಕೆ means “to”.",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "reading": "hogabeku",
+            "meaning": "need to go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": ".",
+            "reading": ".",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Indiranagar",
+        "translation": "I need to go to Indiranagar.",
+        "words": [
+          {
+            "text": "ಇಂದಿರಾನಗರಕ್ಕೆ",
+            "reading": "Indiranagarakke",
+            "meaning": "to Indiranagar",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "reading": "hogabeku",
+            "meaning": "need to go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": ".",
+            "reading": ".",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      },
+      {
+        "label": "Ask the fare",
+        "translation": "How much will it cost?",
+        "words": [
+          {
+            "text": "ಎಷ್ಟು",
+            "reading": "eshtu",
+            "meaning": "how much",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಖರ್ಚಾಗುತ್ತದೆ",
+            "reading": "kharchaaguttade",
+            "meaning": "will cost",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "?",
+            "reading": "?",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -30,7 +30,7 @@ const sdk=`window.google={accounts:{id:{initialize(config){this.config=config},r
   await page.locator('#connect-submit').click();await page.locator('#connection-dialog').waitFor({state:'hidden'});
   assert.equal(await page.locator('#connection-label').textContent(),'Connected');
   const cookie=(await context.cookies()).find(c=>c.name==='lingolive_session');assert.ok(cookie.httpOnly);assert.equal(cookie.value.split('.').length,4);
-  await page.locator('#type-details').evaluate(n=>n.open=true);await page.locator('#phrase-input').fill('コーヒーはいかがですか？');await page.getByRole('button',{name:'Teach me this phrase'}).click();
+  await page.locator('#type-details').evaluate(n=>n.open=true);await page.locator('#phrase-input').fill('コーヒーはいかがですか？');await page.locator('#phrase-form button[type=submit]').click();
   await page.locator('#lesson-panel .translation').waitFor();assert.equal(await page.locator('#saved-count').textContent(),'1');
  });
  await check('Reload preserves sign-in and stores no Google credential or access code',async()=>{

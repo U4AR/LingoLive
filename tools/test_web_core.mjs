@@ -3,6 +3,8 @@ import {readFileSync} from 'node:fs';
 import {PcmResampler,validateLesson,wordPieces,baseLanguage} from '../web/core.mjs';
 const example=JSON.parse(readFileSync(new URL('../web/example.json',import.meta.url)));
 validateLesson(example.lesson,example.text);
+const kannada=JSON.parse(readFileSync(new URL('../web/example-kn.json',import.meta.url)));
+validateLesson(kannada.lesson,kannada.text);
 const bad=structuredClone(example.lesson);bad.words[0].text='altered';assert.throws(()=>validateLesson(bad,example.text));
 const missing=structuredClone(example.lesson);missing.replies.pop();assert.throws(()=>validateLesson(missing,example.text));
 const undefinedWord=structuredClone(example.lesson);undefinedWord.words[0].meaning='';assert.throws(()=>validateLesson(undefinedWord,example.text));

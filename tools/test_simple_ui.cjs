@@ -13,17 +13,17 @@ async function check(name,fn){await fn();checks.push({name,passed:true});console
   await page.locator('#settings-close').click();assert.equal(await page.locator('#context-settings').isVisible(),false);
  });
  await page.locator('#try-example').click();await page.locator('.source-words').waitFor();
- await check('Heard speech and three replies are visible with explanation collapsed',async()=>{
-  assert.equal(await page.getByText('Heard',{exact:true}).isVisible(),true);assert.equal(await page.getByRole('heading',{name:'Try saying',exact:true}).isVisible(),true);assert.equal(await page.locator('.reply').count(),3);
+ await check('Prepared learning opens in Saved with three practice replies and explanation collapsed',async()=>{
+  assert.equal(await page.locator('#saved-tab').getAttribute('aria-current'),'page');assert.equal(await page.getByRole('heading',{name:'Practise your replies',exact:true}).isVisible(),true);assert.equal(await page.locator('.reply').count(),3);
   assert.equal(await page.locator('.explanation').isVisible(),false);assert.equal(await page.locator('.translation').isVisible(),true);
  });
  await check('A word opens an anchored non-modal meaning bubble and outside tap closes it',async()=>{
   const word=page.locator('.source-words .word').first();await word.click();const dialog=page.locator('#word-dialog');assert.equal(await dialog.isVisible(),true);assert.equal(await dialog.evaluate(n=>n.matches(':modal')),false);
-  const box=await dialog.boundingBox(),anchor=await word.boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390&&box.y>=0&&box.y+box.height<=844);assert.ok(Math.abs(box.y-anchor.y)<350);assert.equal(await page.locator('#word-meaning').textContent(),'coffee');
+  const box=await dialog.boundingBox(),anchor=await word.boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390&&box.y>=0&&box.y+box.height<=844);assert.ok(Math.abs(box.y-anchor.y)<350);assert.equal(await page.locator('#word-meaning').textContent(),'where to');
   await page.screenshot({path:path.join(ROOT,'validation/web-word-bubble.png'),fullPage:false});await page.locator('.translation').click();assert.equal(await dialog.isVisible(),false);
  });
- await check('Mobile lesson fits the screen and retains the fixed speaking button',async()=>{
-  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);const b=await page.locator('#listen-button').boundingBox();assert.ok(b.y>=0&&b.y+b.height<=844);await page.screenshot({path:path.join(ROOT,'validation/web-simple-mobile.png'),fullPage:true});
+ await check('Study fits mobile; returning to Conversation restores the speaking button',async()=>{
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.equal(await page.locator('#listen-dock').isVisible(),false);await page.locator('#conversation-tab').click();const b=await page.locator('#listen-button').boundingBox();assert.ok(b.y>=0&&b.y+b.height<=844);await page.screenshot({path:path.join(ROOT,'validation/web-simple-mobile.png'),fullPage:true});
  });
  assert.deepEqual(errors,[]);fs.writeFileSync(path.join(ROOT,'validation/web-simple-ui-results.json'),JSON.stringify({passed:checks.length,checks,model_calls:0,errors},null,2)+'\n');
 }catch(e){console.error(e);process.exitCode=1;}finally{await browser?.close();}})();
