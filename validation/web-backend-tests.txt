@@ -88,6 +88,7 @@ test_express_mode_rejects_partial_target_phrases_or_invented_source_words (test_
 test_known_language_expression_keeps_source_detection_honest_and_all_target_words (test_plans.PlanValidationTests.test_known_language_expression_keeps_source_detection_honest_and_all_target_words) ... ok
 test_plan_and_active_step_are_bounded_and_do_not_accept_coordinates (test_plans.PlanValidationTests.test_plan_and_active_step_are_bounded_and_do_not_accept_coordinates) ... ok
 test_both_existing_parallel_calls_receive_plan_current_stage_and_expression_mode (test_plans.PlannedProviderTests.test_both_existing_parallel_calls_receive_plan_current_stage_and_expression_mode) ... ok
+test_known_language_routing_does_not_depend_on_a_correct_model_mode_estimate (test_plans.PlannedProviderTests.test_known_language_routing_does_not_depend_on_a_correct_model_mode_estimate) ... ok
 test_audio_is_inline_media_not_base64_text_and_stale_location_is_discarded (test_signals.SignalContractTests.test_audio_is_inline_media_not_base64_text_and_stale_location_is_discarded) ... ok
 test_no_goal_or_sensors_still_sends_conversation_and_prior_reply_context (test_signals.SignalContractTests.test_no_goal_or_sensors_still_sends_conversation_and_prior_reply_context) ... ok
 test_audio_allows_at_most_four_seconds_of_mono_pcm_wav (test_signals.SignalTests.test_audio_allows_at_most_four_seconds_of_mono_pcm_wav) ... ok
@@ -112,6 +113,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 110 tests in 2.213s
+Ran 111 tests in 1.641s
 
 OK

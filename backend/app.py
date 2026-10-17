@@ -37,7 +37,7 @@ for key,limit in (('text',1000),('reading',80),('meaning',160),('note',120)):
 MODEL_SCHEMA['$defs']['word']['properties']['reading']['description']='One short Latin transliteration only, for example kōhī. For Latin-script words copy text exactly. No alternatives, explanations or analysis.'
 MODEL_SCHEMA['$defs']['word']['properties']['meaning']['description']='Brief contextual word meaning in the learner known language.'
 INSTRUCTIONS = (ROOT / 'shared/teach_prompt.txt').read_text()
-MODEL_INSTRUCTIONS = INSTRUCTIONS + "\nUse the full specified field names. Every source and reply word needs its meaning. Give ONE short Latin transliteration per word, for example kōhī, with no alternatives, IPA, repetition or analysis. For words already in Latin script, reading copies text exactly. Leave note empty unless essential. Supply exactly three short replies if contains_learning_language is true.\n"
+MODEL_INSTRUCTIONS = INSTRUCTIONS + "\nUse the full specified field names. Every source and reply word needs its meaning. Give ONE short Latin transliteration per word, for example kōhī, with no alternatives, IPA, repetition or analysis. For words already in Latin script, reading copies text exactly. Leave note empty unless essential. Supply exactly three short replies if contains_learning_language is true OR source is the known language OR assistance_mode=say_this. For known-language/say_this input express the current intention in the target language instead of answering it.\n"
 GOOGLE_WS = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent'
 VERTEX_WS = 'wss://aiplatform.googleapis.com/ws/google.cloud.aiplatform.v1.LlmBidiService/BidiGenerateContent'
 WEB = ROOT / 'web'
@@ -431,6 +431,11 @@ class GoogleProvider:
             if candidate.get('finishReason','STOP')!='STOP': raise ValueError('Incomplete lesson')
             text=''.join(p.get('text','') for p in candidate['content']['parts'] if not p.get('thought'))
             return json.loads(text)
+        aliases={'cmn':'zh','zho':'zh','iw':'he','in':'id','tl':'fil','no':'nb'}
+        def language_base(code):
+            base=str(code).lower().split('-')[0];return aliases.get(base,base)
+        def express_source(source):
+            return value.assistance_mode=='say_this' or (not source.get('contains_learning_language') and language_base(source.get('detected_language'))==language_base(value.known_code))
         try:
             async with self._http_session() as client:
                 if self.config.lesson_strategy=='parallel':
@@ -443,8 +448,10 @@ class GoogleProvider:
                         for task in tasks:task.cancel()
                         await asyncio.gather(*tasks,return_exceptions=True)
                         raise
-                    result=merge_parallel(source,replies,value.text,force_express=value.assistance_mode=='say_this')
-                else:result=normalize_model_lesson(await generate(client,body(MODEL_INSTRUCTIONS,MODEL_SCHEMA,parts,self.config.max_output_tokens)))
+                    result=merge_parallel(source,replies,value.text,force_express=express_source(source))
+                else:
+                    result=normalize_model_lesson(await generate(client,body(MODEL_INSTRUCTIONS,MODEL_SCHEMA,parts,self.config.max_output_tokens)))
+                    if express_source(result):result['reply_mode']='express'
             if not value.learn_personal_memory:result.pop('memory_candidates',None)
             elif result.get('current_speaker')!='user' or result.get('speaker_confidence') not in ('medium','high'):
                 result['memory_candidates']=[]

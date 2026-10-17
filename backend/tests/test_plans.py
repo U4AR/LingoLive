@@ -31,6 +31,19 @@ class PlanValidationTests(unittest.TestCase):
   self.assertEqual('express',merge(source,replies,'My own words',force_express=True)['reply_mode'])
 
 class PlannedProviderTests(unittest.IsolatedAsyncioTestCase):
+ async def test_known_language_routing_does_not_depend_on_a_correct_model_mode_estimate(self):
+  original=httpx.AsyncClient;source,replies=responses();source.update(detected_language='en-US',contains_learning_language=False,words=[],reply_mode='respond')
+  for strategy in ('single','parallel'):
+   def handler(request):
+    b=json.loads(request.content)
+    if strategy=='single':
+     d=copy.deepcopy(EXAMPLE['lesson']);d.update(detected_language='en-US',contains_learning_language=False,words=[],reply_mode='respond')
+    else:d=replies if 'replies' in b['generationConfig']['responseJsonSchema']['properties'] else source
+    return httpx.Response(200,json={'candidates':[{'finishReason':'STOP','content':{'parts':[{'text':json.dumps(d)}]}}]})
+   def client(**kwargs):return original(transport=httpx.MockTransport(handler),**kwargs)
+   model=GoogleProvider(replace(CONFIG,lesson_strategy=strategy));self.addAsyncCleanup(model.aclose)
+   with patch('backend.app.httpx.AsyncClient',side_effect=client):lesson=await model.teach(TeachRequest.model_validate({**INPUT,'text':'Could we stop for tea first?'}))
+   self.assertEqual('express',lesson['reply_mode']);self.assertEqual(3,len(lesson['replies']));self.assertFalse(lesson['contains_learning_language'])
  async def test_both_existing_parallel_calls_receive_plan_current_stage_and_expression_mode(self):
   original=httpx.AsyncClient;seen=[];source,replies=responses();source.update(contains_learning_language=False,words=[],reply_mode='express',suggested_plan_steps=[{'label':'Must not replace the explicit steps','optional':False}])
   def handler(request):
