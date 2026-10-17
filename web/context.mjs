@@ -5,13 +5,13 @@ export function newConversation(goal='') {
 export function restoreConversation(value) {
   if(!value||typeof value.id!=='string'||!/^[a-f0-9-]{36}$/i.test(value.id))return newConversation();
   if(value.updated&&Date.now()-value.updated>90*60*1000)return newConversation();
-  return {id:value.id,inferred_goal:typeof value.inferred_goal==='string'?value.inferred_goal.slice(0,300):'',place:['auto','home','office','travelling','train','cafe','restaurant','shop','other'].includes(value.place)?value.place:'auto',goal:typeof value.goal==='string'?value.goal.slice(0,600):'',goal_source_id:typeof value.goal_source_id==='string'?value.goal_source_id:'',updated:Number(value.updated)||Date.now()};
+  return {id:value.id,last_place_id:typeof value.last_place_id==='string'?value.last_place_id.slice(0,40):'',inferred_goal:typeof value.inferred_goal==='string'?value.inferred_goal.slice(0,300):'',place:['auto','home','office','travelling','train','cafe','restaurant','shop','other'].includes(value.place)?value.place:'auto',goal:typeof value.goal==='string'?value.goal.slice(0,600):'',goal_source_id:typeof value.goal_source_id==='string'?value.goal_source_id:'',updated:Number(value.updated)||Date.now()};
 }
 const samePair=(a,b)=>a?.known_code===b?.known_code&&a?.learning_code===b?.learning_code;
 export function contextForRecord(records,record) {
   const index=records.findIndex(r=>r.id===record.id);
   if(index<0||!record.conversation_id)return {user_goal:record.context_goal||'',conversation_summary:'',recent_turns:[]};
-  const earlier=records.slice(0,index).filter(r=>r.conversation_id===record.conversation_id&&samePair(r.pair,record.pair)&&(!record.profile_id||r.profile_id===record.profile_id)&&(!r.created||!record.created||record.created-r.created<=90*60*1000)&&!r.example&&typeof r.text==='string'&&r.text.trim());
+  const earlier=records.slice(0,index).filter(r=>r.conversation_id===record.conversation_id&&(!r.context_place_id||r.context_place_id===record.context_place_id)&&samePair(r.pair,record.pair)&&(!record.profile_id||r.profile_id===record.profile_id)&&(!r.created||!record.created||record.created-r.created<=90*60*1000)&&!r.example&&typeof r.text==='string'&&r.text.trim());
   const summary=[...earlier].reverse().find(r=>typeof r.lesson?.context_summary==='string')?.lesson.context_summary||'';
   const last=[...earlier].reverse().find(r=>r.lesson?.replies?.length);
   const previous=last?{previous_reply_source:last.text.slice(0,400),previous_replies:last.lesson.replies.slice(0,3).map(r=>({text:r.words.map(w=>w.text).join('').slice(0,300),translation:r.translation.slice(0,300)}))}:{};

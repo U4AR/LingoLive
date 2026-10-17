@@ -2,6 +2,7 @@ import {baseLanguage,validateLesson,wordPieces} from './core.mjs';
 import {Memory} from './memory.js';
 import {Learners} from './learners.mjs';
 import {PersonalMemory} from './personal-memory.mjs';
+import {Places} from './places.mjs';
 import {approximateLocation} from './signals.mjs';
 import {newConversation,restoreConversation,contextForRecord,latestContextSummary,matchesSuggestedReply} from './context.mjs';
 import {LiveMicrophone} from './microphone.js';
@@ -11,11 +12,12 @@ const $=id=>document.getElementById(id);
 const element=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;};
 const welcomeTemplate=$('lesson-panel').firstElementChild.cloneNode(true);
 const conversationTemplate=$('transcripts').firstElementChild.cloneNode(true);
-const learners=new Learners(),profileStores=new Map(),audioSamples=new Map(),deletedRecords=new Set();
+const learners=new Learners(),profileStores=new Map(),audioSamples=new Map(),deletedRecords=new Set(),placeStores=new Map(),placeTickets=new Map();
 const state={records:[],selected:null,reviewing:null,reviewPronunciation:false,languages:[],pronunciation:false,connected:false,queue:[],processing:false,storage:null,view:'conversation',memoryFailed:false,queueEpoch:0,conversation:newConversation(),learner:learners.current,location:null};
 const learnerKey=base=>learners.key(base);
-let noticeTimer,locationWatch=null;
+let noticeTimer,locationWatch=null,locationPoll=null;
 const personalMemory=()=>new PersonalMemory(state.learner,()=>learners.persist());
+function places(){if(!placeStores.has(state.learner.id))placeStores.set(state.learner.id,new Places(state.learner,()=>learners.persist()));return placeStores.get(state.learner.id);}
 function notice(message,error=false){$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').hidden=true,error?14000:6000);}
 function profile(){const known=state.languages.find(x=>x.code===$('known-language').value);const learning=state.languages.find(x=>x.code===$('learning-language').value);return {known_code:known.code,known_name:known.name,learning_code:learning.code,learning_name:learning.name};}
 function validProfile(){if(!state.languages.length){notice('The language list is still loading. Try again in a moment.',true);return false;}const pair=profile();if(baseLanguage(pair.known_code)===baseLanguage(pair.learning_code)){notice('Choose different languages to understand and learn.',true);return false;}return true;}
@@ -28,7 +30,7 @@ async function api(path,options={}){
   if(!response.ok){if(response.status===401)connected(false);const error=new Error(response.status===429?'A little pause: the request limit was reached. Your phrase is saved; try again shortly.':typeof data.detail==='string'?data.detail:'That phrase could not be processed. Try a shorter phrase.');error.status=response.status;throw error;}
   return data;
 }
-async function save(record){const store=profileStores.get(record.profile_id)||state.storage;if(!store||deletedRecords.has(record.id))return;try{const {audio_context,context_location,lesson_context,...stored}=record;if(lesson_context){const {location_context,personal_memories,...textContext}=lesson_context;stored.lesson_context=textContext;}await store.put(stored);}catch{state.memoryFailed=true;notice('Browser storage is full or unavailable. This conversation is only kept until you close the page.',true);}}
+async function save(record){const store=profileStores.get(record.profile_id)||state.storage;if(!store||deletedRecords.has(record.id))return;try{const {audio_context,context_location,lesson_context,...stored}=record;if(lesson_context){const {location_context,personal_memories,place_context,...textContext}=lesson_context;stored.lesson_context=textContext;}await store.put(stored);}catch{state.memoryFailed=true;notice('Browser storage is full or unavailable. This conversation is only kept until you close the page.',true);}}
 function updateCount(){$('saved-count').textContent=state.records.length.toString();}
 function statusLabel(record){const prefix=record.speaker==='likely_user'?'Likely you · ':record.speaker==='likely_other'?'Likely other speaker · ':'';return prefix+({confirmed:'You said this',queued:'Waiting for a lesson',loading:'Understanding…',error:'Lesson needs a retry',familiar:'Not the learning language',transcribed:'Transcript saved',ready:'Lesson saved'}[record.status]||'Transcript saved');}
 function timeLabel(stamp){return new Date(stamp).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
@@ -130,7 +132,7 @@ async function processQueue(){
   try{while(state.queue.length){const record=state.queue.shift();if(!state.records.some(x=>x.id===record.id))continue;
     if(record.queue_epoch!==state.queueEpoch){record.status='transcribed';await save(record);refresh(record);continue;}
     record.status='loading';refresh(record);
-    try{record.memory_epoch=personalMemory().epoch;const context={...contextForRecord(state.records,record),memory_notes:state.learner.notes||'',personal_memories:personalMemory().relevant(record.text+' '+(record.context_goal||'')+' '+latestContextSummary(state.records,record.conversation_id),record.context_setting||'auto'),learn_personal_memory:personalMemory().enabled,setting:record.context_setting||'auto',...seenVocabulary(record)};
+    try{const pm=places(),placeContext=pm.context();record.context_place_id=placeContext.length?pm.nearby().id:'';if(state.conversation.last_place_id&&state.conversation.last_place_id!==record.context_place_id){state.conversation.inferred_goal='';record.inferred_goal='';}state.conversation.last_place_id=record.context_place_id;const ticket=pm.canPropose()?pm.ticket():null;if(ticket)placeTickets.set(record.id,ticket);record.memory_epoch=personalMemory().epoch;const context={place_context:placeContext,learn_place_memory:!!ticket,...contextForRecord(state.records,record),memory_notes:state.learner.notes||'',personal_memories:personalMemory().relevant(record.text+' '+(record.context_goal||'')+' '+latestContextSummary(state.records,record.conversation_id),record.context_setting||'auto'),learn_personal_memory:personalMemory().enabled,setting:record.context_setting||'auto',...seenVocabulary(record)};
       if(record.context_location&&Date.now()/1000-record.context_location.captured_at<=300)context.location_context=record.context_location;
       const sample=audioSamples.get(record.id);const lesson=await api('/v1/teach',{method:'POST',body:JSON.stringify({text:record.text,...record.pair,...context,...(sample?{audio_context:sample}:{})})});record.lesson=validateLesson(lesson,record.text);record.lesson_context=context;
       if(record.speaker!=='user'){
@@ -143,7 +145,7 @@ async function processQueue(){
       record.status=lesson.contains_learning_language?'ready':'familiar';delete record.error;
       if(record.queue_epoch===state.queueEpoch)rememberFrom(record);}
     catch(error){record.status='error';record.error=error.message;if(error.status===401)notice('Your connection expired. Open Connect to sign in again; your phrases are saved.',true);}
-    audioSamples.delete(record.id);await save(record);const present=state.records.findIndex(x=>x.id===record.id);if(present>=0&&!deletedRecords.has(record.id)){state.records[present]=record;if(state.selected?.id===record.id)state.selected=record;refresh(record);renderContext();persistConversation();}
+    audioSamples.delete(record.id);placeTickets.delete(record.id);await save(record);const present=state.records.findIndex(x=>x.id===record.id);if(present>=0&&!deletedRecords.has(record.id)){state.records[present]=record;if(state.selected?.id===record.id)state.selected=record;refresh(record);renderContext();persistConversation();}
   }}finally{state.processing=false;}
 }
 function renderSaved(){
@@ -156,6 +158,7 @@ function renderSaved(){
 function seenVocabulary(record){
   const index=state.records.findIndex(r=>r.id===record.id),words=[],seen=new Set();
   for(const old of state.records.slice(0,index).reverse()){
+    if(old.context_place_id&&old.context_place_id!==record.context_place_id)continue;
     if(old.pair?.learning_code!==record.pair.learning_code||old.pair?.known_code!==record.pair.known_code)continue;
     for(const word of old.lesson?.words||[]){if(word.is_word&&word.text.length<=40&&!seen.has(word.text)){seen.add(word.text);words.push({text:word.text,meaning:word.meaning.slice(0,120)});if(words.length===12)return {previously_seen_words:words};}}
   }
@@ -167,11 +170,11 @@ async function confirmReply(reply,source){
   state.records.push(record);await save(record);updateCount();renderTranscripts();persistConversation();notice('Remembered as something you said.');
 }
 function renderLearners(){
-  renderPersonalMemory();
+  renderPersonalMemory();renderPlaces();
   $('learner-profile').replaceChildren();for(const p of learners.data.profiles){const option=element('option','',p.name);option.value=p.id;$('learner-profile').append(option);}$('learner-profile').value=state.learner.id;
 }
 function clearSignals(){
-  if(locationWatch!==null)navigator.geolocation?.clearWatch(locationWatch);locationWatch=null;state.location=null;audioSamples.clear();microphone.includeAmbience=false;microphone.ambience=[];
+  if(locationWatch!==null)navigator.geolocation?.clearWatch(locationWatch);locationWatch=null;clearInterval(locationPoll);locationPoll=null;state.location=null;audioSamples.clear();placeTickets.clear();places().enable(false);$('use-place-memory').checked=false;microphone.includeAmbience=false;microphone.ambience=[];
   $('use-location').checked=false;$('use-audio-context').checked=false;$('location-state').textContent='Location is off';$('open-map').hidden=true;
 }
 async function switchLearner(id){
@@ -187,7 +190,7 @@ $('learner-profile').onchange=()=>switchLearner($('learner-profile').value);
 $('add-learner').onclick=()=>{try{const p=learners.create($('learner-name').value);$('learner-name').value='';switchLearner(p.id);}catch(error){notice(error.message,true);}};
 function rememberFrom(record,confirmed=false){
   if(record.profile_id!==state.learner.id||deletedRecords.has(record.id)||!state.records.some(r=>r.id===record.id))return;
-  const memory=personalMemory();memory.observe(record.lesson?.memory_candidates,{text:record.text,speaker:confirmed?'user':record.lesson?.current_speaker,confidence:record.lesson?.speaker_confidence,scene:record.conversation_id,record:record.id,epoch:record.memory_epoch,confirmed});renderPersonalMemory();
+  const memory=personalMemory();memory.observe(record.lesson?.memory_candidates,{text:record.text,speaker:confirmed?'user':record.lesson?.current_speaker,confidence:record.lesson?.speaker_confidence,scene:record.conversation_id,record:record.id,epoch:record.memory_epoch,confirmed});places().observe(record.lesson?.place_candidates,{text:record.text,speaker:confirmed?'user':record.lesson?.current_speaker,confidence:record.lesson?.speaker_confidence,confirmed:record.speaker==='user',ticket:placeTickets.get(record.id)});renderPersonalMemory();renderPlaces();
 }
 function renderPersonalMemory(){
   const memory=personalMemory();$('learn-memory').checked=memory.enabled;const list=$('personal-memory-list');list.replaceChildren();
@@ -202,21 +205,39 @@ function renderPersonalMemory(){
   }
 }
 $('learn-memory').onchange=()=>{personalMemory().enable($('learn-memory').checked);notice($('learn-memory').checked?'Learning useful memories for this learner.':'New memory learning paused. Existing memories can still guide replies.');};
-$('forget-personal-memory').onclick=()=>{personalMemory().clear();renderPersonalMemory();notice('Personal memory cleared and learning paused. Saved conversations are still in Saved.');};
+$('forget-personal-memory').onclick=()=>{personalMemory().clear();places().clear();restartLocation();renderPlaces();renderPersonalMemory();notice('Personal memory cleared and learning paused. Saved conversations are still in Saved.');};
 $('add-personal-memory').onsubmit=event=>{event.preventDefault();try{personalMemory().add({kind:$('memory-kind').value,text:$('memory-value').value,setting:$('memory-setting').value});$('memory-value').value='';renderPersonalMemory();notice('Memory saved for '+state.learner.name+'.');}catch(error){notice(error.message,true);}};
 $('save-memory').onclick=()=>{learners.setNotes($('memory-notes').value);state.learner=learners.current;persistConversation();notice('Memory notes saved for '+state.learner.name+'.');};
 $('context-setting').onchange=()=>{state.conversation.place=$('context-setting').value;persistConversation();};
 $('use-audio-context').onchange=()=>{microphone.includeAmbience=$('use-audio-context').checked;if(!microphone.includeAmbience){audioSamples.clear();microphone.ambience=[];}};
-$('use-location').onchange=()=>{
-  if(locationWatch!==null)navigator.geolocation?.clearWatch(locationWatch);locationWatch=null;state.location=null;
-  if(!$('use-location').checked){$('location-state').textContent='Location is off';$('open-map').hidden=true;return;}
-  if(!navigator.geolocation){$('use-location').checked=false;notice('Location is unavailable. Replies can still use the conversation.',true);return;}
-  const owner=state.learner.id;$('location-state').textContent='Requesting approximate location…';
-  locationWatch=navigator.geolocation.watchPosition(position=>{
-    if(owner!==state.learner.id||!$('use-location').checked)return;
-    try{state.location=approximateLocation(position);$('location-state').textContent='Approximate location is on';$('open-map').href='https://www.google.com/maps?q='+state.location.latitude+','+state.location.longitude;$('open-map').hidden=false;}catch(error){notice(error.message,true);}
-  },()=>{if(owner!==state.learner.id)return;if(owner===state.learner.id){$('location-state').textContent='Location unavailable; using conversation only';$('use-location').checked=false;}if(locationWatch!==null)navigator.geolocation.clearWatch(locationWatch);locationWatch=null;}, {enableHighAccuracy:false,maximumAge:60000,timeout:12000});
-};
+function renderPlaces(){
+ const pm=places();$('use-place-memory').checked=pm.enabled;$('place-count').textContent=String(pm.items().length)+' / 5';
+ const near=pm.nearby();$('place-state').textContent=!pm.enabled?'Saved place location is off':!pm.ready()?'Waiting for a fresh accurate location and a minute here':near?(near.returning?'Back near '+near.label:'First visit · '+near.label):'Ready to remember this area';
+ $('save-place-button').disabled=!pm.ready();const list=$('place-list');list.replaceChildren();
+ for(const p of pm.items()){
+  const card=element('article','personal-memory-item');card.dataset.place=p.id;const label=element('input','place-label');label.value=p.label;label.maxLength=60;label.setAttribute('aria-label','Saved place name');card.append(label);
+  for(const f of p.facts){const text=element('textarea','place-fact');text.value=f.text;text.maxLength=160;text.rows=2;text.setAttribute('aria-label','Place note');const actions=element('div','context-actions');const edit=element('button','text-button',f.status==='confirmed'?'Save place note':'Confirm place note');edit.type='button';edit.onclick=()=>{try{pm.edit(p.id,label.value,f.id,text.value);renderPlaces();}catch(error){notice(error.message,true);}};const remove=element('button','text-button','Forget note');remove.type='button';remove.onclick=()=>{pm.forgetFact(p.id,f.id);renderPlaces();};actions.append(edit,remove);card.append(element('p','fine-print',f.status==='confirmed'?'Confirmed by you':'Possible · suggested from your words'),text,actions);}
+  const forget=element('button','text-button','Forget place');forget.type='button';forget.onclick=()=>{pm.forget(p.id);renderPlaces();notice('Place forgotten.');};card.append(forget);list.append(card);
+ }
+}
+$('use-place-memory').onchange=()=>{places().enable($('use-place-memory').checked);restartLocation();renderPlaces();};
+$('save-place-form').onsubmit=event=>{event.preventDefault();try{places().add($('place-name').value,$('place-note').value);$('place-name').value='';$('place-note').value='';renderPlaces();notice('Place saved. Its notes will be recalled when you return nearby.');}catch(error){notice(error.message,true);}};
+$('forget-places').onclick=()=>{places().clear();restartLocation();renderPlaces();notice('Saved places forgotten and place location is off.');};
+$('use-location').onchange=restartLocation;
+function restartLocation(){
+ if(locationWatch!==null)navigator.geolocation?.clearWatch(locationWatch);locationWatch=null;clearInterval(locationPoll);locationPoll=null;state.location=null;places().reset();
+ const useApprox=$('use-location').checked,usePlaces=places().enabled;
+ if(!useApprox){$('location-state').textContent='Location is off';$('open-map').hidden=true;}
+ if(!useApprox&&!usePlaces)return;
+ if(!navigator.geolocation){$('use-location').checked=false;places().enable(false);renderPlaces();notice('Location is unavailable. Replies still work without saved place context.',true);return;}
+ const owner=state.learner.id;if(useApprox)$('location-state').textContent='Requesting approximate location…';
+ const onPosition=position=>{
+  if(owner!==state.learner.id)return;
+  if($('use-location').checked){try{state.location=approximateLocation(position);$('location-state').textContent='Approximate location is on';$('open-map').href='https://www.google.com/maps?q='+state.location.latitude+','+state.location.longitude;$('open-map').hidden=false;}catch(error){notice(error.message,true);}}
+  if(places().enabled){places().update(position);renderPlaces();}
+ };const onError=()=>{if(owner!==state.learner.id)return;state.location=null;$('location-state').textContent='Location unavailable; using conversation only';$('use-location').checked=false;$('open-map').hidden=true;places().enable(false);renderPlaces();if(locationWatch!==null)navigator.geolocation.clearWatch(locationWatch);locationWatch=null;clearInterval(locationPoll);locationPoll=null;};const options={enableHighAccuracy:false,maximumAge:30000,timeout:12000};
+ locationWatch=navigator.geolocation.watchPosition(onPosition,onError,options);if(usePlaces)locationPoll=setInterval(()=>{if(owner===state.learner.id&&places().enabled)navigator.geolocation.getCurrentPosition(onPosition,onError,{...options,maximumAge:0});},30000);
+}
 function persistConversation(){
   state.conversation.memory_notes=state.learner.notes||'';state.conversation.profile_id=state.learner.id;
   state.conversation.updated=Date.now();

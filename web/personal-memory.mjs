@@ -33,7 +33,7 @@ export class PersonalMemory {
     if(!this.enabled||epoch!==this.epoch||speaker!=='user'||(!confirmed&&!['medium','high'].includes(confidence))||!Array.isArray(candidates))return;
     const now=this.now();
     for(const c of candidates.slice(0,2)){
-      if(!c||!KINDS.includes(c.kind)||!SETTINGS.includes(c.setting)||!['recent','routine'].includes(c.duration))continue;
+      if(!c||!KINDS.includes(c.kind)||c.kind==='place'||!SETTINGS.includes(c.setting)||!['recent','routine'].includes(c.duration))continue;
       if(!clean(c.text)||c.text.length>160||!clean(c.topic)||c.topic.length>40||!clean(c.evidence)||c.evidence.length>200||!text.includes(c.evidence)||unsafe(c.text+' '+c.evidence))continue;
       const topic=c.kind+':'+key(c.topic);if(this.data.blocked.includes(topic))continue;
       let m=this.data.items.find(m=>m.kind===c.kind&&key(m.topic)===key(c.topic)&&m.status==='possible');
@@ -49,7 +49,7 @@ export class PersonalMemory {
   }
   relevant(text,setting='auto'){
     const words=tokens(text),now=this.now();
-    return this.items().map(m=>{
+    return this.items().filter(m=>m.kind!=='place').map(m=>{
       const overlap=[...tokens(m.text+' '+m.topic)].filter(t=>words.has(t)).length;
       const match=setting!=='auto'&&m.setting===setting;
       const general=m.kind==='preference'&&m.setting==='any';

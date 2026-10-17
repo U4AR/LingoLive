@@ -1,0 +1,40 @@
+{
+  "passed": 8,
+  "checks": [
+    {
+      "name": "Place memory is off by default and sends no saved place context",
+      "passed": true
+    },
+    {
+      "name": "An accurate stationary minute is required before save or AI proposals",
+      "passed": true
+    },
+    {
+      "name": "The existing AI response can save one grounded possible note without exporting its anchor",
+      "passed": true
+    },
+    {
+      "name": "Returning nearby with fresh dwell supplies place notes to a new blank-goal conversation",
+      "passed": true
+    },
+    {
+      "name": "Leaving, inaccurate GPS and turning location off all suppress recalled context",
+      "passed": true
+    },
+    {
+      "name": "Reload retains saved places but keeps location off and coordinates out of lesson snapshots",
+      "passed": true
+    },
+    {
+      "name": "Local learner profiles cannot automatically reuse one another saved places",
+      "passed": true
+    },
+    {
+      "name": "Forgetting during an in-flight AI proposal prevents restoring a saved place",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "geolocation_and_clock_fixtures": true,
+  "no_media_generated": true
+}

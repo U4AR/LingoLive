@@ -150,6 +150,18 @@ class MemoryCandidate(BaseModel):
     setting: Literal['any','home','office','travelling','train','cafe','restaurant','shop','other']
     duration: Literal['recent','routine']
 
+class PlaceContext(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    label: str = Field(min_length=1,max_length=60)
+    fact: str = Field(min_length=1,max_length=160)
+    status: Literal['possible','confirmed']
+
+class PlaceCandidate(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    label: str = Field(min_length=1,max_length=60)
+    fact: str = Field(min_length=1,max_length=160)
+    evidence: str = Field(min_length=1,max_length=200)
+
 class TeachRequest(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
     text: str = Field(min_length=1, max_length=1000)
@@ -163,6 +175,8 @@ class TeachRequest(BaseModel):
     memory_notes: str = Field(default='',max_length=800)
     personal_memories: list[PersonalMemoryItem] = Field(default_factory=list,max_length=5)
     learn_personal_memory: bool = False
+    place_context: list[PlaceContext] = Field(default_factory=list,max_length=2)
+    learn_place_memory: bool = False
     setting: Literal['auto','home','office','travelling','train','cafe','restaurant','shop','other'] = 'auto'
     previous_reply_source: str = Field(default='',max_length=400)
     previous_replies: list[PreviousReply] = Field(default_factory=list,max_length=3)
@@ -224,12 +238,15 @@ class Lesson(BaseModel):
     speaker_confidence: Literal['low','medium','high'] = 'low'
     inferred_user_intent: str = Field(default='',max_length=300)
     memory_candidates: list[MemoryCandidate] = Field(default_factory=list,max_length=2)
+    place_candidates: list[PlaceCandidate] = Field(default_factory=list,max_length=1)
 
 def validate_lesson(value, source):
     lesson = Lesson.model_validate(value)
     # A model's memory proposal must cite the current utterance verbatim, not a suggestion.
     if 'memory_candidates' in value:
         lesson.memory_candidates=[m for m in lesson.memory_candidates if m.evidence in source]
+    if 'place_candidates' in value:
+        lesson.place_candidates=[m for m in lesson.place_candidates if m.evidence in source]
     if lesson.contains_learning_language:
         if ''.join(w.text for w in lesson.words) != source or not any(w.is_word for w in lesson.words) or len(lesson.replies) != 3:
             raise ValueError('Lesson must cover the exact source and supply three replies')
@@ -402,6 +419,9 @@ class GoogleProvider:
             if not value.learn_personal_memory:result.pop('memory_candidates',None)
             elif result.get('current_speaker')!='user' or result.get('speaker_confidence') not in ('medium','high'):
                 result['memory_candidates']=[]
+            if not value.learn_place_memory:result.pop('place_candidates',None)
+            elif result.get('current_speaker')!='user' or (value.current_speaker_hint!='user' and result.get('speaker_confidence')!='high'):
+                result['place_candidates']=[]
             return validate_lesson(result,value.text)
         except HTTPException: raise
         except httpx.HTTPError: raise HTTPException(502,'Cannot reach Google; the client can retry its saved transcript') from None
@@ -543,7 +563,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
         return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.7'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.8'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
         ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))

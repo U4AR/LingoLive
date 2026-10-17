@@ -1,0 +1,70 @@
+{
+  "passed": 16,
+  "checks": [
+    {
+      "name": "Places start off and require explicit enable plus a stationary minute",
+      "passed": true
+    },
+    {
+      "name": "Stale, inaccurate, moving, invalid and future fixes are rejected",
+      "passed": true
+    },
+    {
+      "name": "Movement resets dwell rather than building a route",
+      "passed": true
+    },
+    {
+      "name": "Manual save stores a rounded area and at most three distinct notes",
+      "passed": true
+    },
+    {
+      "name": "First-visit save does not immediately replay place notes",
+      "passed": true
+    },
+    {
+      "name": "Observed departure and stationary return recalls at most two notes",
+      "passed": true
+    },
+    {
+      "name": "Nearby borderline or inaccurate position cannot match merely through a large accuracy circle",
+      "passed": true
+    },
+    {
+      "name": "Location off or stale excludes place context immediately",
+      "passed": true
+    },
+    {
+      "name": "Reload restores anchors without enabling tracking or leaking notes",
+      "passed": true
+    },
+    {
+      "name": "Five-place limit prevents unbounded growth without silently evicting places",
+      "passed": true
+    },
+    {
+      "name": "AI needs current verbatim learner evidence and an unchanged visit ticket",
+      "passed": true
+    },
+    {
+      "name": "Automatic saves are limited to two per rolling day and one per stay",
+      "passed": true
+    },
+    {
+      "name": "Forget blocks in-flight saves; another learner starts empty",
+      "passed": true
+    },
+    {
+      "name": "Expired anchors are excluded and a later session needs fresh dwell",
+      "passed": true
+    },
+    {
+      "name": "Coordinates and recognized credentials cannot be stored in labels or notes",
+      "passed": true
+    },
+    {
+      "name": "History and summaries from a recalled place do not enter a different-place request",
+      "passed": true
+    }
+  ],
+  "geolocation_and_clock_fixtures": true
+}

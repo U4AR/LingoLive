@@ -18,7 +18,7 @@ const stale=memory.epoch;memory.forget(m.id);memory.observe([candidate],{...obse
 memory.observe([candidate],{...observation,epoch:memory.epoch,record:'new'});assert.equal(memory.items().length,0,'Forgotten topic must not be relearned');
 const fresh=new PersonalMemory({},()=>{},()=>clock);fresh.observe([candidate],{...observation,epoch:fresh.epoch});const routine=fresh.items()[0];clock+=31*DAY;assert.equal(fresh.items().length,0);clock-=31*DAY;
 fresh.observe([{...candidate,duration:'recent'}],{...observation,epoch:fresh.epoch,record:'recent'});clock+=2*DAY;assert.equal(fresh.items().length,0);clock-=2*DAY;
-fresh.add({kind:'place',text:'Home area: Indiranagar',setting:'home'});assert.equal(fresh.items()[0].status,'confirmed');
+fresh.add({kind:'place',text:'Home area: Indiranagar',setting:'home'});assert.equal(fresh.items()[0].status,'confirmed');assert.ok(fresh.relevant('Indiranagar','home').every(m=>m.kind!=='place'));
 for(const text of ['password secret','12.971234, 77.594123','person@example.com','access token: secret'])assert.throws(()=>fresh.add({kind:'preference',text}));
 for(let i=0;i<70;i++)fresh.add({kind:'preference',text:'Preference '+i});assert.equal(fresh.items().length,60);assert.ok(fresh.relevant('hello').length<=5);
 const epoch=fresh.epoch;fresh.clear();assert.equal(fresh.enabled,false);assert.deepEqual(fresh.relevant('metro'),[]);fresh.observe([candidate],{...observation,epoch});assert.equal(fresh.items().length,0);fresh.enable(true);fresh.observe([candidate],{...observation,epoch:fresh.epoch,record:'after-clear'});assert.equal(fresh.items().length,1);

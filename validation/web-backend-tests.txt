@@ -77,6 +77,11 @@ test_other_speakers_and_invented_evidence_do_not_become_personal_memory (test_pe
 test_memory_proposals_require_current_verbatim_evidence (test_personal_memory.MemoryValidationTests.test_memory_proposals_require_current_verbatim_evidence) ... ok
 test_old_saved_lessons_and_requests_remain_compatible (test_personal_memory.MemoryValidationTests.test_old_saved_lessons_and_requests_remain_compatible) ... ok
 test_personal_context_is_bounded_and_cannot_hold_sensor_or_secret_fields (test_personal_memory.MemoryValidationTests.test_personal_context_is_bounded_and_cannot_hold_sensor_or_secret_fields) ... ok
+test_disabled_or_other_speaker_cannot_request_a_place_save (test_places.PlaceProviderTests.test_disabled_or_other_speaker_cannot_request_a_place_save) ... ok
+test_place_learning_uses_existing_source_call_and_both_branches_receive_returned_context (test_places.PlaceProviderTests.test_place_learning_uses_existing_source_call_and_both_branches_receive_returned_context) ... ok
+test_uncertain_estimates_require_explicit_own_words_confirmation (test_places.PlaceProviderTests.test_uncertain_estimates_require_explicit_own_words_confirmation) ... ok
+test_place_candidate_requires_bounded_verbatim_evidence (test_places.PlaceValidationTests.test_place_candidate_requires_bounded_verbatim_evidence) ... ok
+test_place_context_caps_notes_and_rejects_coordinates_or_unbounded_fields (test_places.PlaceValidationTests.test_place_context_caps_notes_and_rejects_coordinates_or_unbounded_fields) ... ok
 test_audio_is_inline_media_not_base64_text_and_stale_location_is_discarded (test_signals.SignalContractTests.test_audio_is_inline_media_not_base64_text_and_stale_location_is_discarded) ... ok
 test_no_goal_or_sensors_still_sends_conversation_and_prior_reply_context (test_signals.SignalContractTests.test_no_goal_or_sensors_still_sends_conversation_and_prior_reply_context) ... ok
 test_audio_allows_at_most_four_seconds_of_mono_pcm_wav (test_signals.SignalTests.test_audio_allows_at_most_four_seconds_of_mono_pcm_wav) ... ok
@@ -101,6 +106,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 99 tests in 1.710s
+Ran 104 tests in 1.850s
 
 OK

@@ -22,6 +22,8 @@ class Provider:
     def __init__(self):self.requests=[];self.setups=[];self.frames=0;self.bytes=0
     async def teach(self,value):
         self.requests.append(value.model_dump())
+        if value.text=='I am at my usual tea stall. I order ginger tea here.':
+            return {'detected_language':'en-US','contains_learning_language':False,'translation':'','explanation':'Your tea order is saved for later review.','tip':'','words':[],'replies':[],'current_speaker':'user','speaker_confidence':'high','place_candidates':[{'label':'Tea stall','fact':'Usually orders ginger tea here','evidence':'I order ginger tea here.'}] if value.learn_place_memory else []}
         if value.text=='Every weekday I take the metro from Indiranagar.':
             return {'detected_language':'en-US','contains_learning_language':False,'translation':'','explanation':'Your commute is part of the conversation.','tip':'','words':[],'replies':[],'current_speaker':'user','speaker_confidence':'high','memory_candidates':[{'kind':'activity','topic':'commute','text':'Usually takes the metro from Indiranagar','evidence':'Every weekday I take the metro from Indiranagar.','setting':'travelling','duration':'routine'}] if value.learn_personal_memory else []}
         if value.text=='I want to catch my train.':
