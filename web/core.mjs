@@ -5,6 +5,7 @@ export function validateLesson(lesson, source) {
   const wordsOK = words => Array.isArray(words) && words.every(w => typeof w.text === 'string' && w.text && typeof w.reading === 'string' && typeof w.meaning === 'string' && typeof w.note === 'string' && typeof w.is_word === 'boolean' && (w.is_word ? w.meaning.trim() && w.reading.trim() : !/[\p{L}\p{N}]/u.test(w.text)));
   if (![lesson.translation, lesson.explanation, lesson.tip, lesson.detected_language].every(x => typeof x === 'string') || !wordsOK(lesson.words) || !Array.isArray(lesson.replies)) throw new Error('The lesson was incomplete. Try this phrase again.');
   if (lesson.contains_learning_language && (lesson.words.map(w => w.text).join('') !== source || !lesson.words.some(w => w.is_word) || lesson.replies.length !== 3 || !lesson.replies.every(r => typeof r.label === 'string' && typeof r.translation === 'string' && wordsOK(r.words) && r.words.some(w => w.is_word)))) throw new Error('The lesson changed or missed words. Your phrase is saved; try again.');
+  if(lesson.reply_mode==='express'&&(lesson.replies.length!==3||!lesson.contains_learning_language&&lesson.words.length||!lesson.replies.every(r=>typeof r.label==='string'&&typeof r.translation==='string'&&wordsOK(r.words)&&r.words.some(w=>w.is_word))))throw new Error('The phrases for saying this were incomplete. Please retry.');
   return lesson;
 }
 export function wordPieces(words, pronunciation) {

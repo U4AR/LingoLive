@@ -1,0 +1,39 @@
+{
+  "passed": 8,
+  "checks": [
+    {
+      "name": "Plan can be prepared without an AI request, including a tentative stop",
+      "passed": true
+    },
+    {
+      "name": "Reload and a new scene do not erase the explicit trip intention",
+      "passed": true
+    },
+    {
+      "name": "Done and skipped steps advance while preserving final destination and uncertainty",
+      "passed": true
+    },
+    {
+      "name": "Completion ends context; explicit previous-step action can undo it",
+      "passed": true
+    },
+    {
+      "name": "Pausing and clearing withhold the plan immediately",
+      "passed": true
+    },
+    {
+      "name": "A plan expires after a day without becoming a permanent learner fact",
+      "passed": true
+    },
+    {
+      "name": "Steps are bounded; other learners have no inherited plan",
+      "passed": true
+    },
+    {
+      "name": "AI steps remain a draft until accepted; late suggestions cannot replace an edit",
+      "passed": true
+    }
+  ],
+  "clock_fixture": true,
+  "no_ai_calls": true
+}

@@ -15,13 +15,23 @@ class FixtureSocket:
             await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':'Thank you.'}}}));return
         pcm=base64.b64decode(audio['audio']['data']);self.provider.frames+=1;self.provider.bytes+=len(pcm);self.frames+=1
         if self.frames==2:await self.queue.put(json.dumps({'serverContent':{'interimInputTranscription':{'text':'コーヒー…'}}}))
-        if self.frames==5:await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':EXAMPLE['text']}}}))
+        if self.frames==5:await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':getattr(self.provider,'next_text',EXAMPLE['text'])}}}))
     def __aiter__(self):return self
     async def __anext__(self):return await self.queue.get()
 class Provider:
     def __init__(self):self.requests=[];self.setups=[];self.frames=0;self.bytes=0
     async def teach(self,value):
         self.requests.append(value.model_dump())
+        if value.text in ('I need a cab to the railway station.','Please stop for tea first.') or value.assistance_mode=='say_this' and value.text.isascii() and value.text not in ('Every weekday I take the metro from Indiranagar.','I am at my usual tea stall. I order ginger tea here.'):
+            target=[('ನನಗೆ','nanage','for me'),('ರೈಲ್ವೇ','railve','railway'),('ನಿಲ್ದಾಣಕ್ಕೆ','nildanakke','to station'),('ಹೋಗಬೇಕು','hogabeku','need to go')]
+            if 'tea' in value.text:target=[('ಮೊದಲು','modalu','first'),('ಚಹಾಕ್ಕೆ','chahakke','for tea'),('ನಿಲ್ಲಿಸಿ','nillisi','please stop')]
+            def words():
+                result=[]
+                for index,(text,reading,meaning) in enumerate(target):
+                    if index:result.append({'text':' ','reading':' ','meaning':'','note':'','is_word':False})
+                    result.append({'text':text,'reading':reading,'meaning':meaning,'note':'','is_word':True})
+                return result
+            return {'detected_language':'en-US','contains_learning_language':False,'reply_mode':'express','translation':'','explanation':'Say your intention in the learning language.','tip':'','words':[],'replies':[{'label':label,'translation':value.text,'words':words()} for label in ('Simple','Polite','Another way')],'current_speaker':'user' if value.current_speaker_hint=='user' else 'unknown','speaker_confidence':'high' if value.current_speaker_hint=='user' else 'low'}
         if value.text=='I am at my usual tea stall. I order ginger tea here.':
             return {'detected_language':'en-US','contains_learning_language':False,'translation':'','explanation':'Your tea order is saved for later review.','tip':'','words':[],'replies':[],'current_speaker':'user','speaker_confidence':'high','place_candidates':[{'label':'Tea stall','fact':'Usually orders ginger tea here','evidence':'I order ginger tea here.'}] if value.learn_place_memory else []}
         if value.text=='Every weekday I take the metro from Indiranagar.':
@@ -40,3 +50,5 @@ def personal_provider(config):
 app=create_app(Config('test-only-google-key','test-only-browser-access-code-32-characters'),provider,key_provider_factory=personal_provider)
 @app.get('/fixture/status')
 async def status():return {'requests':provider.requests,'frames':provider.frames,'bytes':provider.bytes,'setups':provider.setups,'personal':[{'requests':p.requests,'frames':p.frames,'bytes':p.bytes,'setups':p.setups} for p in personal_providers]}
+@app.post('/fixture/speech')
+async def next_speech():provider.next_text='I need a cab to the railway station.';return {'fixture':True}

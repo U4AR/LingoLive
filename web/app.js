@@ -3,6 +3,7 @@ import {Memory} from './memory.js';
 import {Learners} from './learners.mjs';
 import {PersonalMemory} from './personal-memory.mjs';
 import {Places} from './places.mjs';
+import {Plans} from './plans.mjs';
 import {approximateLocation} from './signals.mjs';
 import {newConversation,restoreConversation,contextForRecord,latestContextSummary,matchesSuggestedReply} from './context.mjs';
 import {LiveMicrophone} from './microphone.js';
@@ -17,6 +18,7 @@ const state={records:[],selected:null,reviewing:null,reviewPronunciation:false,l
 const learnerKey=base=>learners.key(base);
 let noticeTimer,locationWatch=null,locationPoll=null;
 const personalMemory=()=>new PersonalMemory(state.learner,()=>learners.persist());
+const plans=()=>new Plans(state.learner,()=>learners.persist());
 function places(){if(!placeStores.has(state.learner.id))placeStores.set(state.learner.id,new Places(state.learner,()=>learners.persist()));return placeStores.get(state.learner.id);}
 function notice(message,error=false){$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').hidden=true,error?14000:6000);}
 function profile(){const known=state.languages.find(x=>x.code===$('known-language').value);const learning=state.languages.find(x=>x.code===$('learning-language').value);return {known_code:known.code,known_name:known.name,learning_code:learning.code,learning_name:learning.name};}
@@ -30,7 +32,7 @@ async function api(path,options={}){
   if(!response.ok){if(response.status===401)connected(false);const error=new Error(response.status===429?'A little pause: the request limit was reached. Your phrase is saved; try again shortly.':typeof data.detail==='string'?data.detail:'That phrase could not be processed. Try a shorter phrase.');error.status=response.status;throw error;}
   return data;
 }
-async function save(record){const store=profileStores.get(record.profile_id)||state.storage;if(!store||deletedRecords.has(record.id))return;try{const {audio_context,context_location,lesson_context,...stored}=record;if(lesson_context){const {location_context,personal_memories,place_context,...textContext}=lesson_context;stored.lesson_context=textContext;}await store.put(stored);}catch{state.memoryFailed=true;notice('Browser storage is full or unavailable. This conversation is only kept until you close the page.',true);}}
+async function save(record){const store=profileStores.get(record.profile_id)||state.storage;if(!store||deletedRecords.has(record.id))return;try{const {audio_context,context_location,lesson_context,...stored}=record;if(lesson_context){const {location_context,personal_memories,place_context,task_plan,...textContext}=lesson_context;stored.lesson_context=textContext;}await store.put(stored);}catch{state.memoryFailed=true;notice('Browser storage is full or unavailable. This conversation is only kept until you close the page.',true);}}
 function updateCount(){$('saved-count').textContent=state.records.length.toString();}
 function statusLabel(record){const prefix=record.speaker==='likely_user'?'Likely you · ':record.speaker==='likely_other'?'Likely other speaker · ':'';return prefix+({confirmed:'You said this',queued:'Waiting for a lesson',loading:'Understanding…',error:'Lesson needs a retry',familiar:'Not the learning language',transcribed:'Transcript saved',ready:'Lesson saved'}[record.status]||'Transcript saved');}
 function timeLabel(stamp){return new Date(stamp).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
@@ -80,33 +82,33 @@ function renderReview(){
   const back=element('button','text-button','← Back to saved');back.onclick=()=>{state.reviewing=null;renderSaved();};panel.append(back,element('p','eyebrow','LEARN FROM YOUR CONVERSATIONS'),element('h1','review-title','A little practice for later'));
   if(record.example)panel.append(element('div','example-banner','Prepared '+record.pair.learning_name+' / '+record.pair.known_name+' example · not saved to your history'));
   const content=element('div','lesson-content study-content');panel.append(content);
-  if(!record.lesson?.contains_learning_language){content.append(element('div','source-words',record.text),element('p','translation',record.lesson?.explanation||'Your transcript is saved. Return to Conversation to request replies.'));return;}
+  if(!record.lesson?.replies?.length){content.append(element('div','source-words',record.text),element('p','translation',record.lesson?.explanation||'Your transcript is saved. Return to Conversation to request replies.'));return;}
   const lesson=record.lesson;const top=element('div','lesson-top');top.append(element('p','eyebrow',record.pair.learning_name.toUpperCase()+' → '+record.pair.known_name.toUpperCase()),modeSwitch(true));
-  content.append(top,renderWords(lesson.words,'source-words',{pronunciation:state.reviewPronunciation}),element('p','translation',lesson.translation));
+  content.append(top,lesson.contains_learning_language?renderWords(lesson.words,'source-words',{pronunciation:state.reviewPronunciation}):element('div','source-words',record.text),element('p','translation',lesson.translation));
   const explanation=element('details','phrase-explanation');explanation.append(element('summary','','Meaning & usage'),element('p','explanation',lesson.explanation));if(lesson.tip)explanation.append(element('div','tip',lesson.tip));content.append(explanation);
-  const heading=element('div','reply-heading');heading.append(element('h2','','Practise your replies'));content.append(heading);renderReplies(content,record,true);
+  const heading=element('div','reply-heading');heading.append(element('h2','',lesson.reply_mode==='express'?'Practise saying it':'Practise your replies'));content.append(heading);renderReplies(content,record,true);
 }
 function renderConversationTools(content,record){
   const lesson=record.lesson;
   const intent=element('details','intent-actions reply-context-tools');intent.append(element('summary','','More options'));const replyGoal=record.lesson_context?.user_goal??record.context_goal;if(replyGoal)intent.append(element('p','reply-goal','Your goal · '+replyGoal));else if(lesson?.context_summary)intent.append(element('p','reply-goal','Possible context · '+lesson.context_summary));const goal=element('button','text-button','Use these words as my goal');goal.type='button';
   goal.onclick=async()=>{$('conversation-goal').value=record.text.slice(0,600);$('context-settings').open=true;$('settings-open').setAttribute('aria-expanded','true');if(record.text.length>600){$('conversation-goal').focus();notice('Shorten this to the part you want to do, then save your goal.');return;}record.speaker='user';await save(record);setGoal(record.text,record.id);notice('Goal saved. New replies will use what you want to do.');};intent.append(goal);
-  const mine=element('button','text-button','These are my words');mine.onclick=async()=>{record.speaker='user';rememberFrom(record,true);await save(record);renderTranscripts();renderLesson();notice('Marked as your words. Useful memory suggestions are confirmed for you.');};intent.append(mine);
+  const mine=element('button','text-button','These are my words');mine.onclick=async()=>{record.speaker='user';rememberFrom(record,true);await save(record);renderTranscripts();renderLesson();notice('Marked as your words. Useful memory suggestions are confirmed for you.');};intent.append(mine);const express=element('button','text-button','Help me say this');express.onclick=()=>{record.assistance_mode='say_this';record.speaker='user';queueLesson(record);};intent.append(express);
   if(record.conversation_id===state.conversation.id){const refresh=element('button','text-button','Update replies for my goal');refresh.onclick=()=>{record.context_goal=state.conversation.goal;record.context_notes=state.learner.notes||'';record.context_setting=state.conversation.place||'auto';queueLesson(record);};intent.append(refresh);}content.append(intent);
 }
 function renderLesson(){
   const panel=$('lesson-panel');panel.replaceChildren();if(state.view!=='conversation')return;
   const record=state.selected;if(!record){panel.append(welcomeTemplate.cloneNode(true));$('try-example').onclick=showExample;return;}
   const content=element('div','lesson-content live-content');panel.append(content);
-  if(!record.lesson?.contains_learning_language||['queued','loading'].includes(record.status)){
+  if(!record.lesson?.replies?.length||['queued','loading'].includes(record.status)){
     content.classList.add('lesson-status');content.append(element('div','source-words',record.text));
     content.append(element('h2','',record.status==='loading'?'Finding replies…':record.status==='queued'?'Your replies are on their way.':'Your phrase is here.'));
     content.append(element('p','',record.error||record.lesson?.explanation||(['queued','loading'].includes(record.status)?'Getting replies ready.':'Your transcript is saved.')));
     if(!['loading','queued'].includes(record.status)){const retry=element('button','small-button','Get replies →');retry.onclick=()=>queueLesson(record);content.append(retry);}renderConversationTools(content,record);return;
   }
-  const lesson=record.lesson;content.append(element('p','heard-label',record.speaker==='user'||record.speaker==='likely_user'?'You said':'Heard'));
+  const lesson=record.lesson;content.append(element('p','heard-label',lesson.reply_mode==='express'?'You want to say':record.speaker==='user'||record.speaker==='likely_user'?'You said':'Heard'));
   content.append(element('div','source-words heard-text',record.text),element('p','translation heard-translation',lesson.translation));
   if(record.error)content.append(element('p','reply-goal',record.error));
-  const heading=element('div','reply-heading live-reply-heading');heading.append(element('h2','','You could say'),modeSwitch(false));content.append(heading);renderReplies(content,record);
+  const heading=element('div','reply-heading live-reply-heading');heading.append(element('h2','',lesson.reply_mode==='express'?'Say it in '+record.pair.learning_name:'You could say'),modeSwitch(false));content.append(heading);renderReplies(content,record);
   const later=element('p','learn-later-hint');later.append(document.createTextNode('Saved automatically. '));const review=element('button','text-button','Learn later in Saved');review.onclick=()=>openReview(record);later.append(review);content.append(later);
   renderConversationTools(content,record);
 }
@@ -132,7 +134,7 @@ async function processQueue(){
   try{while(state.queue.length){const record=state.queue.shift();if(!state.records.some(x=>x.id===record.id))continue;
     if(record.queue_epoch!==state.queueEpoch){record.status='transcribed';await save(record);refresh(record);continue;}
     record.status='loading';refresh(record);
-    try{const pm=places(),placeContext=pm.context();record.context_place_id=placeContext.length?pm.nearby().id:'';if(state.conversation.last_place_id&&state.conversation.last_place_id!==record.context_place_id){state.conversation.inferred_goal='';record.inferred_goal='';}state.conversation.last_place_id=record.context_place_id;const ticket=pm.canPropose()?pm.ticket():null;if(ticket)placeTickets.set(record.id,ticket);record.memory_epoch=personalMemory().epoch;const context={place_context:placeContext,learn_place_memory:!!ticket,...contextForRecord(state.records,record),memory_notes:state.learner.notes||'',personal_memories:personalMemory().relevant(record.text+' '+(record.context_goal||'')+' '+latestContextSummary(state.records,record.conversation_id),record.context_setting||'auto'),learn_personal_memory:personalMemory().enabled,setting:record.context_setting||'auto',...seenVocabulary(record)};
+    try{const planTicket=plans().ticket(),planContext=plans().context();record.context_plan_id=planContext?planTicket.id:'';if(state.conversation.last_plan_id&&state.conversation.last_plan_id!==record.context_plan_id){state.conversation.inferred_goal='';record.inferred_goal='';}state.conversation.last_plan_id=record.context_plan_id;const pm=places(),placeContext=pm.context();record.context_place_id=placeContext.length?pm.nearby().id:'';if(state.conversation.last_place_id&&state.conversation.last_place_id!==record.context_place_id){state.conversation.inferred_goal='';record.inferred_goal='';}state.conversation.last_place_id=record.context_place_id;const ticket=pm.canPropose()?pm.ticket():null;if(ticket)placeTickets.set(record.id,ticket);record.memory_epoch=personalMemory().epoch;const context={...(planContext?{task_plan:planContext}:{}),assistance_mode:record.assistance_mode||(record.speaker==='user'?'say_this':'auto'),place_context:placeContext,learn_place_memory:!!ticket,...contextForRecord(state.records,record),memory_notes:state.learner.notes||'',personal_memories:personalMemory().relevant(record.text+' '+(record.context_goal||'')+' '+latestContextSummary(state.records,record.conversation_id),record.context_setting||'auto'),learn_personal_memory:personalMemory().enabled,setting:record.context_setting||'auto',...seenVocabulary(record)};
       if(record.context_location&&Date.now()/1000-record.context_location.captured_at<=300)context.location_context=record.context_location;
       const sample=audioSamples.get(record.id);const lesson=await api('/v1/teach',{method:'POST',body:JSON.stringify({text:record.text,...record.pair,...context,...(sample?{audio_context:sample}:{})})});record.lesson=validateLesson(lesson,record.text);record.lesson_context=context;
       if(record.speaker!=='user'){
@@ -142,7 +144,8 @@ async function processQueue(){
         else record.speaker='unattributed';
       }
       if(record.conversation_id===state.conversation.id&&record.profile_id===state.learner.id&&!state.conversation.goal&&['user','likely_user'].includes(record.speaker)&&lesson.inferred_user_intent){state.conversation.inferred_goal=lesson.inferred_user_intent.slice(0,300);}
-      record.status=lesson.contains_learning_language?'ready':'familiar';delete record.error;
+      record.status=lesson.replies?.length?'ready':'familiar';delete record.error;
+      if(record.profile_id===state.learner.id&&record.queue_epoch===state.queueEpoch&&!deletedRecords.has(record.id)){plans().suggestions(lesson.suggested_plan_steps,planTicket);renderPlan();}
       if(record.queue_epoch===state.queueEpoch)rememberFrom(record);}
     catch(error){record.status='error';record.error=error.message;if(error.status===401)notice('Your connection expired. Open Connect to sign in again; your phrases are saved.',true);}
     audioSamples.delete(record.id);placeTickets.delete(record.id);await save(record);const present=state.records.findIndex(x=>x.id===record.id);if(present>=0&&!deletedRecords.has(record.id)){state.records[present]=record;if(state.selected?.id===record.id)state.selected=record;refresh(record);renderContext();persistConversation();}
@@ -170,7 +173,7 @@ async function confirmReply(reply,source){
   state.records.push(record);await save(record);updateCount();renderTranscripts();persistConversation();notice('Remembered as something you said.');
 }
 function renderLearners(){
-  renderPersonalMemory();renderPlaces();
+  renderPersonalMemory();renderPlaces();renderPlan(true);
   $('learner-profile').replaceChildren();for(const p of learners.data.profiles){const option=element('option','',p.name);option.value=p.id;$('learner-profile').append(option);}$('learner-profile').value=state.learner.id;
 }
 function clearSignals(){
@@ -244,6 +247,7 @@ function persistConversation(){
   try{localStorage.setItem(learnerKey('lingolive-conversation'),JSON.stringify(state.conversation));}catch{notice('Your goal is available for this visit, but could not be saved on this browser.',true);}
 }
 function renderContext(){
+  renderPlan();
   $('goal-summary').textContent=state.conversation.goal?'Your goal: '+state.conversation.goal:state.conversation.inferred_goal?'Likely goal: '+state.conversation.inferred_goal:'Replies follow the conversation';
   $('context-setting').value=state.conversation.place||'auto';
   const summary=latestContextSummary(state.records,state.conversation.id);$('inferred-context').textContent=summary?'From this conversation · '+summary:'';$('inferred-context').hidden=!summary;
@@ -253,6 +257,18 @@ function setGoal(text,sourceId=''){
   state.conversation.profile_id=state.learner.id;renderLearners();$('memory-notes').value=state.learner.notes||'';
   $('conversation-goal').value=state.conversation.goal;persistConversation();renderContext();
 }
+function renderPlan(syncForm=false){
+ const p=plans().plan,active=plans().context(),summary=$('plan-summary');summary.textContent=!p?'Before you go':!active?p.paused?'Plan paused':p.expires<=Date.now()?'Plan expired':'Plan complete':p.steps.length?'Now: '+p.steps[p.current].label:p.intent;
+ if(syncForm){$('plan-intent').value=p?.intent||'';$('plan-steps').value=p?.steps.map(s=>s.label+(s.optional?' (optional)':'')).join('\n')||'';}
+ const list=$('plan-progress');list.replaceChildren();$('pause-plan').hidden=!p;$('pause-plan').textContent=p?.paused?'Resume plan':'Pause plan';$('clear-plan').hidden=!p;
+ if(p){const description=element('p','fine-print',p.intent);list.append(description);p.steps.forEach((step,index)=>{const row=element('div','plan-step'+(index===p.current?' current':''));row.append(element('span','',step.state==='done'?'✓ ':step.state==='skipped'?'↷ ':index===p.current?'→ ':''),element('span','',step.label));const optional=element('label','plan-optional');const box=element('input');box.type='checkbox';box.checked=step.optional;box.onchange=()=>{plans().optional(index,box.checked);renderPlan();};optional.append(box,document.createTextNode('Optional'));row.append(optional);list.append(row);});
+  if(p.steps.length){const actions=element('div','context-actions');for(const [label,fn] of [['Done, next step',()=>plans().advance()],['Skip step',()=>plans().advance(true)],['Previous step',()=>plans().back()]]){const button=element('button','text-button',label);button.type='button';button.disabled=label==='Previous step'?p.current===0||p.paused||p.expires<=Date.now():!active;button.onclick=()=>{fn();renderPlan();};actions.append(button);}list.append(actions);}
+  if(!p.steps.length&&p.suggested?.length){const preview=element('p','fine-print','Suggested steps: '+p.suggested.map(s=>s.label+(s.optional?' (optional)':'')).join(' → '));const use=element('button','text-button','Use suggested steps');use.onclick=()=>{plans().useSuggestions();renderPlan(true);};list.append(preview,use);}
+ }
+}
+$('plan-open').onclick=()=>{setView('conversation');$('context-settings').open=true;$('settings-open').setAttribute('aria-expanded','true');$('plan-settings').open=true;$('plan-settings').scrollIntoView({block:'center'});$('plan-intent').focus();};
+$('plan-form').onsubmit=event=>{event.preventDefault();try{plans().save($('plan-intent').value,$('plan-steps').value);renderPlan(true);notice('Plan saved. It will guide replies across conversations for the next day.');}catch(error){notice(error.message,true);}};
+$('pause-plan').onclick=()=>{plans().pause(!plans().plan?.paused);renderPlan();};$('clear-plan').onclick=()=>{plans().clear();renderPlan(true);notice('Plan cleared.');};
 $('goal-form').onsubmit=event=>{event.preventDefault();setGoal($('conversation-goal').value);notice(state.conversation.goal?'Goal saved. It will guide your next replies.':'Goal cleared. Replies will follow the conversation.');};
 $('clear-goal').onclick=()=>{setGoal('');notice('Goal cleared.');};
 $('new-conversation').onclick=async()=>{

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {Plans} from '../web/plans.mjs';
+import {contextForRecord} from '../web/context.mjs';
+let clock=1700000000000,writes=0;const owner={},p=new Plans(owner,()=>writes++,()=>clock),checks=[];
+const check=(name,fn)=>{fn();checks.push({name,passed:true});};
+check('Plan can be prepared without an AI request, including a tentative stop',()=>{p.save('Reach the railway station by cab; probably stop for tea first.','Get a cab\nTea stop?\nRailway station');assert.equal(p.context().steps[1].optional,true);assert.equal(p.context().current_step,0);assert.equal(writes,1);});
+check('Reload and a new scene do not erase the explicit trip intention',()=>{const restored=new Plans(JSON.parse(JSON.stringify(owner)),()=>{},()=>clock);assert.equal(restored.context().intent,p.context().intent);});
+check('Done and skipped steps advance while preserving final destination and uncertainty',()=>{p.advance();assert.equal(p.context().current_step,1);assert.equal(p.context().steps[0].state,'done');p.advance(true);assert.equal(p.context().current_step,2);assert.equal(p.context().steps[1].state,'skipped');assert.match(p.context().intent,/railway/);});
+check('Completion ends context; explicit previous-step action can undo it',()=>{p.advance();assert.equal(p.context(),null);p.back();assert.equal(p.context().current_step,2);assert.equal(p.context().steps[2].state,'pending');});
+check('Pausing and clearing withhold the plan immediately',()=>{p.pause(true);assert.equal(p.context(),null);p.pause(false);assert.ok(p.context());p.clear();assert.equal(p.context(),null);const pair={known_code:'en-US',learning_code:'kn-IN'},old={id:'a',conversation_id:'scene',context_plan_id:'old-plan',pair,text:'Earlier words',lesson:{context_summary:'Station trip'}},now={id:'b',conversation_id:'scene',context_plan_id:'',pair,text:'New words'};assert.deepEqual(contextForRecord([old,now],now).recent_turns,[]);assert.equal(contextForRecord([old,now],now).conversation_summary,'');});
+check('A plan expires after a day without becoming a permanent learner fact',()=>{p.save('Station later');clock+=86400001;assert.equal(p.context(),null);});
+check('Steps are bounded; other learners have no inherited plan',()=>{assert.throws(()=>p.save('Trip',Array(7).fill('Stop').join('\n')));assert.throws(()=>p.save('Trip','x'.repeat(101)));assert.equal(new Plans({}).context(),null);});
+check('AI steps remain a draft until accepted; late suggestions cannot replace an edit',()=>{p.save('Cab then maybe tea then station');const ticket=p.ticket();p.suggestions([{label:'Cab',optional:false},{label:'Tea',optional:true}],ticket);assert.equal(p.context().steps.length,0);p.useSuggestions();assert.equal(p.context().steps[1].optional,true);p.save('A different trip');p.suggestions([{label:'Old step',optional:false}],ticket);assert.equal(p.plan.suggested,undefined);});
+fs.writeFileSync(new URL('../validation/web-plan-core-results.json',import.meta.url),JSON.stringify({passed:checks.length,checks,clock_fixture:true,no_ai_calls:true},null,2)+'\n');console.log('All '+checks.length+' plan-core checks passed.');

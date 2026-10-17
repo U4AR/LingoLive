@@ -19,3 +19,5 @@
 
 /* Status messages announce updates without blocking conversation controls. */
 .notice{pointer-events:none}
+
+.plan-shortcut{display:flex;gap:12px;align-items:center;justify-content:space-between;width:100%;text-align:start;font-size:12px;padding:12px 0;margin-bottom:12px;border-bottom:1px solid var(--line)}#plan-summary{color:var(--muted);overflow-wrap:anywhere;max-width:75%}.plan-step{display:flex;gap:6px;align-items:center;padding:8px 0;font-size:12px}.plan-step.current{font-weight:600}.plan-optional{display:flex!important;align-items:center;gap:4px;margin:0 0 0 auto!important;font-size:10px!important}

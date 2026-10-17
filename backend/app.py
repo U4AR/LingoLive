@@ -162,6 +162,29 @@ class PlaceCandidate(BaseModel):
     fact: str = Field(min_length=1,max_length=160)
     evidence: str = Field(min_length=1,max_length=200)
 
+class PlanStep(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    label: str = Field(min_length=1,max_length=100)
+    optional: bool
+    state: Literal['pending','done','skipped']
+
+class TaskPlan(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    intent: str = Field(min_length=1,max_length=600)
+    steps: list[PlanStep] = Field(default_factory=list,max_length=6)
+    current_step: int | None = Field(default=None,ge=0,le=5)
+    @model_validator(mode='after')
+    def active_step_exists(self):
+        if self.steps and (self.current_step is None or self.current_step>=len(self.steps) or self.steps[self.current_step].state!='pending'):
+            raise ValueError('Choose a pending current step')
+        if not self.steps and self.current_step is not None:raise ValueError('No current step without steps')
+        return self
+
+class SuggestedPlanStep(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    label: str = Field(min_length=1,max_length=100)
+    optional: bool
+
 class TeachRequest(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
     text: str = Field(min_length=1, max_length=1000)
@@ -170,6 +193,8 @@ class TeachRequest(BaseModel):
     learning_code: str = Field(pattern=r'^[a-z]{2,3}(?:-[A-Za-z0-9]+)*$', max_length=40)
     learning_name: str = Field(min_length=1, max_length=80)
     user_goal: str = Field(default='',max_length=600)
+    task_plan: TaskPlan | None = None
+    assistance_mode: Literal['auto','say_this'] = 'auto'
     inferred_user_goal: str = Field(default='',max_length=300)
     current_speaker_hint: Literal['auto','user'] = 'auto'
     memory_notes: str = Field(default='',max_length=800)
@@ -239,6 +264,8 @@ class Lesson(BaseModel):
     inferred_user_intent: str = Field(default='',max_length=300)
     memory_candidates: list[MemoryCandidate] = Field(default_factory=list,max_length=2)
     place_candidates: list[PlaceCandidate] = Field(default_factory=list,max_length=1)
+    reply_mode: Literal['none','respond','express'] = 'none'
+    suggested_plan_steps: list[SuggestedPlanStep] = Field(default_factory=list,max_length=6)
 
 def validate_lesson(value, source):
     lesson = Lesson.model_validate(value)
@@ -250,6 +277,8 @@ def validate_lesson(value, source):
     if lesson.contains_learning_language:
         if ''.join(w.text for w in lesson.words) != source or not any(w.is_word for w in lesson.words) or len(lesson.replies) != 3:
             raise ValueError('Lesson must cover the exact source and supply three replies')
+    elif lesson.reply_mode=='express' and (lesson.words or len(lesson.replies)!=3):
+        raise ValueError('Express mode needs three complete target-language phrases, without invented source words')
     return lesson.model_dump(exclude_unset=True)
 
 def normalize_model_lesson(value):
@@ -414,11 +443,12 @@ class GoogleProvider:
                         for task in tasks:task.cancel()
                         await asyncio.gather(*tasks,return_exceptions=True)
                         raise
-                    result=merge_parallel(source,replies,value.text)
+                    result=merge_parallel(source,replies,value.text,force_express=value.assistance_mode=='say_this')
                 else:result=normalize_model_lesson(await generate(client,body(MODEL_INSTRUCTIONS,MODEL_SCHEMA,parts,self.config.max_output_tokens)))
             if not value.learn_personal_memory:result.pop('memory_candidates',None)
             elif result.get('current_speaker')!='user' or result.get('speaker_confidence') not in ('medium','high'):
                 result['memory_candidates']=[]
+            if not value.task_plan or value.task_plan.steps:result.pop('suggested_plan_steps',None)
             if not value.learn_place_memory:result.pop('place_candidates',None)
             elif result.get('current_speaker')!='user' or (value.current_speaker_hint!='user' and result.get('speaker_confidence')!='high'):
                 result['place_candidates']=[]
@@ -563,7 +593,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
         return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.8'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.9'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
         ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))

@@ -1,0 +1,40 @@
+{
+  "passed": 8,
+  "checks": [
+    {
+      "name": "Before leaving, a multi-step plan saves offline from AI with an optional tea stop",
+      "passed": true
+    },
+    {
+      "name": "Reload and new conversation keep the whole plan without GPS or previous chat",
+      "passed": true
+    },
+    {
+      "name": "Learner-language utterances produce target-language phrases without falsifying source language",
+      "passed": true
+    },
+    {
+      "name": "Progress and skip are explicit, and remaining plan reaches later replies",
+      "passed": true
+    },
+    {
+      "name": "Pause and clear remove plan context while source phrases stay saved",
+      "passed": true
+    },
+    {
+      "name": "Another learner has an independent plan and no inherited itinerary",
+      "passed": true
+    },
+    {
+      "name": "Actual microphone transport can deliver known-language speech and show Kannada phrases",
+      "passed": true
+    },
+    {
+      "name": "An explicit Help me say this action works on a saved familiar-language phrase",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "synthetic_browser_microphone": true,
+  "no_new_actor_audio_or_video": true
+}
