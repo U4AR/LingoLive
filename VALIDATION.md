@@ -25,10 +25,11 @@ credential is needed. New personal-key inference and model access have not been
 verified with a real Google key. Prior live inference below does not validate
 these changes. Android APK and container image were not rebuilt for web 1.3.
 
-Source is in the standalone local Git repository `/workspace/LingoLive`. Device
-login succeeded as U4AR, but creating the GitHub repository still returned
-“Resource not accessible by integration”. The original repository remains
-unchanged at `b059f0b2f65df02a0d1a5b03a8cabd1ae57e43cb`. No real credentials or
+Source is in the independent repository https://github.com/U4AR/LingoLive.
+The user created the repository; GitHub reported it as private at upload time.
+The complete local history was scanned for credential patterns and private files;
+only explicit dummy test credentials were found and reviewed. The original
+repository remains unchanged at `b059f0b2f65df02a0d1a5b03a8cabd1ae57e43cb`. No real credentials or
 signing keys are bundled. See `MEMORY.md` for session/storage/cost limitations.
 
 ---

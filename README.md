@@ -23,9 +23,9 @@ and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 **Deployment status:** the existing Cloud Run service is still revision
 `lingolive-00004-jzp`. These web 1.3 changes are locally tested and await a fresh
 deployment credential. The Android binary is unchanged; its existing direct-key
-option remains separate. GitHub device login succeeded as U4AR, but repository
-creation still returns integration permission errors; the standalone local Git
-repository is prepared. No credentials are included.
+option remains separate. The independent GitHub repository is
+[U4AR/LingoLive](https://github.com/U4AR/LingoLive). Credentials, local environment
+files, signing keys and generated APK/ZIP files are excluded from Git.
 
 A web and Android companion for learning from real conversations. Choose a language
 you know and a language you are learning, then tap **Start listening**. Google's
