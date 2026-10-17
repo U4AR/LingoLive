@@ -1,0 +1,200 @@
+{
+  "url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "app_version": "1.8",
+  "live_google": true,
+  "google_transcription_retested": false,
+  "geolocation_and_clock_simulated": true,
+  "physical_location_tested": false,
+  "new_audio_or_video_generated": false,
+  "lesson_attempts": 3,
+  "google_generation_calls": 6,
+  "automatic_place_candidate": {
+    "label": "local tea stall",
+    "fact": "The user regularly orders ginger tea at this location.",
+    "evidence": "I am at my usual tea stall. I order ginger tea here."
+  },
+  "confirmed_in_ui_without_ai_call": true,
+  "no_place_context_while_away": true,
+  "return_context": [
+    {
+      "label": "local tea stall",
+      "fact": "The user regularly orders ginger tea at this location.",
+      "status": "confirmed"
+    }
+  ],
+  "no_saved_coordinates_sent": true,
+  "no_extra_call_for_memory": true,
+  "new_conversation_blank_goal": true,
+  "source_preserved": true,
+  "all_readings_and_meanings": true,
+  "live_replies": 3,
+  "live_word_controls": 0,
+  "saved_word_review_verified": true,
+  "review_makes_no_extra_model_call": true,
+  "model": "gemini-3.1-flash-lite",
+  "lesson_strategy": "parallel",
+  "small_functional_sample_not_latency_benchmark": true,
+  "lesson": {
+    "detected_language": "kn-IN",
+    "contains_learning_language": true,
+    "translation": "What do you want?",
+    "explanation": "Asking for someone's needs or desires in Kannada.",
+    "tip": "",
+    "words": [
+      {
+        "text": "\u0c8f\u0ca8\u0cc1",
+        "reading": "enu",
+        "meaning": "what",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": " ",
+        "reading": " ",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      },
+      {
+        "text": "\u0cac\u0cc7\u0c95\u0cc1",
+        "reading": "beku",
+        "meaning": "want",
+        "note": "",
+        "is_word": true
+      },
+      {
+        "text": "?",
+        "reading": "?",
+        "meaning": "",
+        "note": "",
+        "is_word": false
+      }
+    ],
+    "replies": [
+      {
+        "label": "Order tea",
+        "translation": "I want ginger tea",
+        "words": [
+          {
+            "text": "\u0cb6\u0cc1\u0c82\u0ca0\u0cbf",
+            "reading": "Shunti",
+            "meaning": "ginger",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "\u0c9a\u0cb9\u0cbe",
+            "reading": "Chaha",
+            "meaning": "tea",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "\u0cac\u0cc7\u0c95\u0cc1",
+            "reading": "Beku",
+            "meaning": "want",
+            "note": "",
+            "is_word": true
+          }
+        ]
+      },
+      {
+        "label": "Coffee",
+        "translation": "I want coffee",
+        "words": [
+          {
+            "text": "\u0c95\u0cbe\u0cab\u0cbf",
+            "reading": "Kafi",
+            "meaning": "coffee",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "\u0cac\u0cc7\u0c95\u0cc1",
+            "reading": "Beku",
+            "meaning": "want",
+            "note": "",
+            "is_word": true
+          }
+        ]
+      },
+      {
+        "label": "Nothing",
+        "translation": "I want nothing",
+        "words": [
+          {
+            "text": "\u0c8f\u0ca8\u0cc2",
+            "reading": "Enu",
+            "meaning": "nothing",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "\u0cac\u0cc7\u0ca1",
+            "reading": "Beda",
+            "meaning": "do not want",
+            "note": "",
+            "is_word": true
+          }
+        ]
+      }
+    ],
+    "context_summary": "Learner asking 'what do you want?' in Kannada.",
+    "inferred_setting": "unknown",
+    "context_confidence": "low",
+    "current_speaker": "user",
+    "speaker_confidence": "high",
+    "inferred_user_intent": "practice asking questions in Kannada",
+    "memory_candidates": []
+  },
+  "away_reply_translations": [
+    "I want ginger tea",
+    "I don't want anything",
+    "What is available?"
+  ],
+  "valid_personal_key_inference_tested": false,
+  "interaction_timings_including_ui_click_wait": [
+    {
+      "text": "I am at my usual tea stall. I order ginger tea here.",
+      "seconds": 2.745
+    },
+    {
+      "text": "\u0c8f\u0ca8\u0cc1 \u0cac\u0cc7\u0c95\u0cc1?",
+      "seconds": 7.761
+    },
+    {
+      "text": "\u0c8f\u0ca8\u0cc1 \u0cac\u0cc7\u0c95\u0cc1?",
+      "seconds": 7.375
+    }
+  ],
+  "timing_note": "Timer started before the browser click, including a notice-overlay wait. These are interaction times, not isolated HTTP inference times.",
+  "tested_revision": "lingolive-00017-kow"
+}

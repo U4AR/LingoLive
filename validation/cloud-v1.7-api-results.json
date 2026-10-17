@@ -16,7 +16,7 @@
       "seconds": 2.04
     },
     {
-      "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "text": "\u0c8e\u0cb2\u0ccd\u0cb2\u0cbf\u0c97\u0cc6 \u0cb9\u0ccb\u0c97\u0cac\u0cc7\u0c95\u0cc1?",
       "seconds": 7.604
     }
   ],
@@ -52,7 +52,7 @@
     "tip": "",
     "words": [
       {
-        "text": "ಎಲ್ಲಿಗೆ",
+        "text": "\u0c8e\u0cb2\u0ccd\u0cb2\u0cbf\u0c97\u0cc6",
         "reading": "ellige",
         "meaning": "to where",
         "note": "",
@@ -66,7 +66,7 @@
         "is_word": false
       },
       {
-        "text": "ಹೋಗಬೇಕು",
+        "text": "\u0cb9\u0ccb\u0c97\u0cac\u0cc7\u0c95\u0cc1",
         "reading": "hogabeku",
         "meaning": "should go",
         "note": "",
@@ -86,7 +86,7 @@
         "translation": "I need to go to Indiranagar.",
         "words": [
           {
-            "text": "ಇಂದಿರಾನಗರಕ್ಕೆ",
+            "text": "\u0c87\u0c82\u0ca6\u0cbf\u0cb0\u0cbe\u0ca8\u0c97\u0cb0\u0c95\u0ccd\u0c95\u0cc6",
             "reading": "Indiranagarakke",
             "meaning": "to Indiranagar",
             "note": "",
@@ -100,7 +100,7 @@
             "is_word": false
           },
           {
-            "text": "ಹೋಗಬೇಕು",
+            "text": "\u0cb9\u0ccb\u0c97\u0cac\u0cc7\u0c95\u0cc1",
             "reading": "hogabeku",
             "meaning": "must go",
             "note": "",
@@ -120,7 +120,7 @@
         "translation": "I need to go to the nearest station.",
         "words": [
           {
-            "text": "ಹತ್ತಿರದ",
+            "text": "\u0cb9\u0ca4\u0ccd\u0ca4\u0cbf\u0cb0\u0ca6",
             "reading": "hattirada",
             "meaning": "nearby",
             "note": "",
@@ -134,7 +134,7 @@
             "is_word": false
           },
           {
-            "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+            "text": "\u0ca8\u0cbf\u0cb2\u0ccd\u0ca6\u0cbe\u0ca3\u0c95\u0ccd\u0c95\u0cc6",
             "reading": "nildanakke",
             "meaning": "to station",
             "note": "",
@@ -148,7 +148,7 @@
             "is_word": false
           },
           {
-            "text": "ಹೋಗಬೇಕು",
+            "text": "\u0cb9\u0ccb\u0c97\u0cac\u0cc7\u0c95\u0cc1",
             "reading": "hogabeku",
             "meaning": "must go",
             "note": "",
@@ -168,7 +168,7 @@
         "translation": "Where should I go?",
         "words": [
           {
-            "text": "ನಾನು",
+            "text": "\u0ca8\u0cbe\u0ca8\u0cc1",
             "reading": "nanu",
             "meaning": "I",
             "note": "",
@@ -182,7 +182,7 @@
             "is_word": false
           },
           {
-            "text": "ಎಲ್ಲಿಗೆ",
+            "text": "\u0c8e\u0cb2\u0ccd\u0cb2\u0cbf\u0c97\u0cc6",
             "reading": "ellige",
             "meaning": "to where",
             "note": "",
@@ -196,7 +196,7 @@
             "is_word": false
           },
           {
-            "text": "ಹೋಗಬೇಕು",
+            "text": "\u0cb9\u0ccb\u0c97\u0cac\u0cc7\u0c95\u0cc1",
             "reading": "hogabeku",
             "meaning": "must go",
             "note": "",
@@ -223,11 +223,12 @@
         "kind": "activity",
         "topic": "commute",
         "text": "Goes to Indiranagar metro station after work on weekdays.",
-        "evidence": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+        "evidence": "\u0c8e\u0cb2\u0ccd\u0cb2\u0cbf\u0c97\u0cc6 \u0cb9\u0ccb\u0c97\u0cac\u0cc7\u0c95\u0cc1?",
         "setting": "travelling",
         "duration": "routine"
       }
     ]
   },
-  "valid_personal_key_inference_tested": false
+  "valid_personal_key_inference_tested": false,
+  "timing_note": "Historical browser functional http_timings began before click and include UI auto-wait; use the separate direct-HTTP timing report for isolated request comparison."
 }
