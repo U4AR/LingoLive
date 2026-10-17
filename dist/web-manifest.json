@@ -1,8 +1,8 @@
 {
   "file": "LingoLive-web-source.zip",
-  "bytes": 921410,
-  "sha256": "08bd2820aa9d11aec523c707c264af9184281c8762e43f761862972b082c1ec2",
-  "files": 82,
+  "bytes": 1060575,
+  "sha256": "eea5e679f607b50caa50fa0d0a492da7e2b7808167e8ac1c29513962bcdbc810",
+  "files": 86,
   "source_version": "1.3-personal-keys",
   "connection_modes": [
     "access_code",

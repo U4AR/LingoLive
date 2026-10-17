@@ -1,5 +1,7 @@
 # LingoLive
 
+[Read the illustrated project PDF](docs/LingoLive-How-It-Works.pdf) · [Editable source](docs/how-it-works.html)
+
 ## Current source: web 1.3
 
 Connect with **Use access code** to use your host's Google allowance, or
