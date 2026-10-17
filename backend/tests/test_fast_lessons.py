@@ -27,6 +27,7 @@ class FastLessonTests(unittest.IsolatedAsyncioTestCase):
                     self.assertEqual({'thinkingLevel':'low'},generation['thinkingConfig'])
                     self.assertEqual(4096,generation['maxOutputTokens'])
                     self.assertEqual({'t','r','m','n'},set(generation['responseJsonSchema']['$defs']['word']['properties']))
+                    self.assertEqual(80,generation['responseJsonSchema']['$defs']['word']['properties']['r']['maxLength'])
                     self.assertIn('recent_turns',json.loads(body['contents'][0]['parts'][0]['text']))
                     return httpx.Response(200,json={'candidates':[{'finishReason':'STOP','content':{'parts':[{'text':json.dumps(compact(EXAMPLE['lesson']))}]}}]})
                 def client(**kwargs):return original(transport=httpx.MockTransport(handler),**kwargs)
@@ -66,3 +67,14 @@ class FastLessonTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(EXAMPLE['text'],''.join(w['text'] for w in result['words']))
         self.assertTrue(all(w['note']=='' for w in result['words']))
         self.assertLess(len(json.dumps(value)),len(json.dumps(EXAMPLE['lesson'])))
+
+    def test_latin_words_and_numbers_need_no_generated_transliteration(self):
+        result=expand_model_lesson({'words':[{'t':'Hello','m':'こんにちは'},{'t':' '},{'t':'école','m':'学校'},{'t':'16','m':'十六'}],'replies':[]})
+        self.assertEqual(['Hello',' ','école','16'],[w['reading'] for w in result['words']])
+        self.assertEqual([True,False,True,True],[w['is_word'] for w in result['words']])
+
+    def test_non_latin_words_still_require_a_generated_reading(self):
+        from backend.app import Word
+        for text in ('你好','Привет','ありがとう'):
+            value=expand_model_lesson({'words':[{'t':text,'m':'greeting'}],'replies':[]})
+            with self.assertRaises(ValueError):Word.model_validate(value['words'][0])

@@ -7,7 +7,7 @@ hackathon/personal deployment; a public multi-user service should use user auth.
 """
 from __future__ import annotations
 import io, wave
-import asyncio, base64, binascii, collections, hashlib, hmac, json, os, re, secrets, time
+import asyncio, base64, binascii, collections, hashlib, hmac, json, os, re, secrets, time, unicodedata
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -32,7 +32,8 @@ SCHEMA = json.loads((ROOT / 'shared/lesson_schema.json').read_text())
 # entries avoid generating repeated metadata for every space and word.
 MODEL_SCHEMA = json.loads(json.dumps(SCHEMA))
 MODEL_SCHEMA['$defs']['word'] = {
-    'type':'object', 'properties': {key:{'type':'string'} for key in ('t','r','m','n')},
+    'type':'object', 'properties': {key:{'type':'string','maxLength':limit}
+        for key,limit in (('t',1000),('r',80),('m',160),('n',120))},
     'required':['t'], 'additionalProperties':False}
 INSTRUCTIONS = (ROOT / 'shared/teach_prompt.txt').read_text()
 MODEL_INSTRUCTIONS = INSTRUCTIONS + '''
@@ -40,8 +41,12 @@ WEB RESPONSE WIRE FORMAT
 For this response, the schema uses compact word keys in both source and replies.
 Use t for exact text, r for Latin pronunciation/transliteration, m for contextual
 meaning in the known language, and optional n for an essential short usage note.
-Every word must have non-empty r and m. Spaces/punctuation have ONLY t. Omit n for
-ordinary words. Do not output text/reading/meaning/note/is_word keys: the server
+Every word must have non-empty m. If t already uses Latin letters or is a number,
+OMIT r: the server copies t as its Latin-script reading. For other scripts,
+provide ONE concise Latin transliteration in r (at most 80 characters), never
+IPA, alternative spellings, lists of pronunciations or repeated syllables.
+Spaces/punctuation have ONLY t. Omit n for ordinary words.
+Do not output text/reading/meaning/note/is_word keys: the server
 restores those. This wire format overrides the earlier word-key descriptions;
 all source-preservation, meaning, context and reply requirements still apply.
 '''
@@ -228,7 +233,8 @@ def expand_model_lesson(value):
             if set(word)-{'t','r','m','n'} or not all(isinstance(v,str) for v in word.values()):
                 raise ValueError('Invalid compact word')
             text=word['t'];is_word=bool(word.get('r') or word.get('m')) or any(c.isalnum() for c in text)
-            result.append({'text':text,'reading':word.get('r','') if is_word else text,
+            latin=all(not c.isalpha() or 'LATIN' in unicodedata.name(c,'') for c in text)
+            result.append({'text':text,'reading':word.get('r',text if latin else '') if is_word else text,
                 'meaning':word.get('m',''),'note':word.get('n',''),'is_word':is_word})
         return result
     if not isinstance(value,dict):raise ValueError('Invalid lesson')

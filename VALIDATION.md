@@ -1,6 +1,6 @@
 # Current source: web 1.4 — October 17, 2026
 
-- **78 backend tests pass**, including four tests for the compact Gemini 3.8
+- **80 backend tests pass**, including six tests for the compact Gemini 3.8
   response: both providers make exactly one call for a complete lesson, all
   readings/meanings survive expansion, malformed/missing/source-changing words
   fail validation, sparse punctuation expands exactly, and truncated output

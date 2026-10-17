@@ -17,7 +17,7 @@ results=json.loads((ROOT/'validation/web-browser-results.json').read_text())
 assert results.get('passed')==13 and not results.get('error') and not results.get('errors')
 google_results=json.loads((ROOT/'validation/web-google-signin-browser-results.json').read_text())
 assert google_results.get('passed')==5 and google_results['real_google_login'] is False
-assert 'Ran 78 tests' in (ROOT/'validation/web-backend-tests.txt').read_text()
+assert 'Ran 80 tests' in (ROOT/'validation/web-backend-tests.txt').read_text()
 assert (ROOT/'validation/web-backend-tests.txt').read_text().rstrip().endswith('OK')
 for name,count in [('context-browser',8),('memory-browser',12),('simple-ui',4),('byok-browser',8),('tutorial',7)]:
  result=json.loads((ROOT/('validation/web-'+name+'-results.json')).read_text())
