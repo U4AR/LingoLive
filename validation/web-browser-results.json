@@ -4,67 +4,67 @@
     {
       "name": "Desktop layout and 83 language choices",
       "passed": true,
-      "milliseconds": 464
+      "milliseconds": 2360
     },
     {
       "name": "Prepared example, tappable source and reply pronunciation, no fake history",
       "passed": true,
-      "milliseconds": 393
+      "milliseconds": 1345
     },
     {
       "name": "Access-code rejection, real session cookie, no code in browser storage",
       "passed": true,
-      "milliseconds": 336
+      "milliseconds": 481
     },
     {
       "name": "Typed phrase reaches backend and becomes a complete saved lesson",
       "passed": true,
-      "milliseconds": 128
+      "milliseconds": 109
     },
     {
       "name": "Saved lessons, vocabulary search, reload and session persistence",
       "passed": true,
-      "milliseconds": 319
+      "milliseconds": 218
     },
     {
       "name": "Offline reload opens saved history and cached example without caching credentials or APIs",
       "passed": true,
-      "milliseconds": 585
+      "milliseconds": 318
     },
     {
       "name": "429 retains transcript and allows a successful manual retry",
       "passed": true,
-      "milliseconds": 175
+      "milliseconds": 168
     },
     {
       "name": "Actual AudioWorklet PCM through authenticated WebSocket to lesson; final flush after stop",
       "passed": true,
-      "milliseconds": 937
+      "milliseconds": 844
     },
     {
       "name": "Opening Saved stops capture; deleting a phrase updates local history",
       "passed": true,
-      "milliseconds": 299
+      "milliseconds": 252
     },
     {
       "name": "Disconnect removes browser session and clears its access field",
       "passed": true,
-      "milliseconds": 143
+      "milliseconds": 167
     },
     {
       "name": "Mobile layout, visible listening control and word dialog",
       "passed": true,
-      "milliseconds": 604
+      "milliseconds": 663
     },
     {
       "name": "Denied microphone permission has a recoverable message",
       "passed": true,
-      "milliseconds": 885
+      "milliseconds": 983
     },
     {
       "name": "Clear history persists after reload",
       "passed": true,
-      "milliseconds": 398
+      "milliseconds": 395
     }
   ],
   "google": "mocked; browser microphone is Chromium synthetic audio",

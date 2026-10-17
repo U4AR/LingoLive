@@ -71,6 +71,12 @@ test_missing_reply_or_word_is_not_hidden_by_parallel_merge (test_parallel.Parall
 test_non_learning_phrase_is_authoritative_even_if_reply_branch_disagrees (test_parallel.ParallelWordsTests.test_non_learning_phrase_is_authoritative_even_if_reply_branch_disagrees) ... ok
 test_punctuation_rows_are_ignored_and_original_punctuation_is_restored (test_parallel.ParallelWordsTests.test_punctuation_rows_are_ignored_and_original_punctuation_is_restored) ... ok
 test_reconstructs_exact_unicode_punctuation_spaces_and_repeated_words (test_parallel.ParallelWordsTests.test_reconstructs_exact_unicode_punctuation_spaces_and_repeated_words) ... ok
+test_existing_parallel_calls_both_receive_memory_and_source_can_propose_updates (test_personal_memory.MemoryProviderTests.test_existing_parallel_calls_both_receive_memory_and_source_can_propose_updates) ... ok
+test_memory_disabled_does_not_return_learning_candidates (test_personal_memory.MemoryProviderTests.test_memory_disabled_does_not_return_learning_candidates) ... ok
+test_other_speakers_and_invented_evidence_do_not_become_personal_memory (test_personal_memory.MemoryProviderTests.test_other_speakers_and_invented_evidence_do_not_become_personal_memory) ... ok
+test_memory_proposals_require_current_verbatim_evidence (test_personal_memory.MemoryValidationTests.test_memory_proposals_require_current_verbatim_evidence) ... ok
+test_old_saved_lessons_and_requests_remain_compatible (test_personal_memory.MemoryValidationTests.test_old_saved_lessons_and_requests_remain_compatible) ... ok
+test_personal_context_is_bounded_and_cannot_hold_sensor_or_secret_fields (test_personal_memory.MemoryValidationTests.test_personal_context_is_bounded_and_cannot_hold_sensor_or_secret_fields) ... ok
 test_audio_is_inline_media_not_base64_text_and_stale_location_is_discarded (test_signals.SignalContractTests.test_audio_is_inline_media_not_base64_text_and_stale_location_is_discarded) ... ok
 test_no_goal_or_sensors_still_sends_conversation_and_prior_reply_context (test_signals.SignalContractTests.test_no_goal_or_sensors_still_sends_conversation_and_prior_reply_context) ... ok
 test_audio_allows_at_most_four_seconds_of_mono_pcm_wav (test_signals.SignalTests.test_audio_allows_at_most_four_seconds_of_mono_pcm_wav) ... ok
@@ -95,6 +101,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 93 tests in 1.768s
+Ran 99 tests in 1.710s
 
 OK

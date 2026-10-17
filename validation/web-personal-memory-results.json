@@ -1,0 +1,55 @@
+{
+  "passed": 12,
+  "checks": [
+    {
+      "name": "Useful learner speech builds provisional personal memory in the existing lesson call",
+      "passed": true
+    },
+    {
+      "name": "A new conversation retrieves durable memory with a blank goal and no prior turns",
+      "passed": true
+    },
+    {
+      "name": "Editing and confirming a routine changes context sent in later conversations",
+      "passed": true
+    },
+    {
+      "name": "Personal memory survives browser reload without extra inference",
+      "passed": true
+    },
+    {
+      "name": "Named broad places can be remembered and retrieved for an explicit setting",
+      "passed": true
+    },
+    {
+      "name": "Another local learner starts without the first learner activities or places",
+      "passed": true
+    },
+    {
+      "name": "Switching back restores only this learner memory; raw location is absent from storage",
+      "passed": true
+    },
+    {
+      "name": "Forgetting during an in-flight response prevents late memory resurrection",
+      "passed": true
+    },
+    {
+      "name": "Paused memory learning remains off across reload and sends no old memories",
+      "passed": true
+    },
+    {
+      "name": "Re-enabling learns repeated activities without presenting them as confirmed",
+      "passed": true
+    },
+    {
+      "name": "Confirming these are my words promotes grounded memory without another model call",
+      "passed": true
+    },
+    {
+      "name": "Reply-first mobile layout still fits and saved snapshots omit copied personal memory",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "media_generated": false
+}
