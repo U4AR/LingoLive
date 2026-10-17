@@ -25,6 +25,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from websockets.asyncio.client import connect
+from backend.fast_lessons import SOURCE_SCHEMA, REPLY_SCHEMA, SOURCE_PROMPT, REPLY_PROMPT, merge as merge_parallel
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / 'shared/lesson_schema.json').read_text())
@@ -64,6 +65,8 @@ class Config:
     google_signin_required: bool = False
     allowed_google_emails: tuple[str, ...] = ()
     byok_enabled: bool = True
+    lesson_strategy: str = 'single'
+    thinking_level: str = 'auto'
     @classmethod
     def environment(cls):
         return cls(os.getenv('GEMINI_API_KEY', ''), os.getenv('LINGOLIVE_ACCESS_TOKEN', ''),
@@ -77,6 +80,8 @@ class Config:
             audio_seconds_per_day=int(os.getenv('LINGOLIVE_AUDIO_SECONDS_PER_DAY','3600')),
             max_output_tokens=int(os.getenv('LINGOLIVE_MAX_OUTPUT_TOKENS','4096')),
             byok_enabled=os.getenv('LINGOLIVE_BYOK_ENABLED','true').lower()=='true',
+            lesson_strategy=os.getenv('LINGOLIVE_LESSON_STRATEGY','single'),
+            thinking_level=os.getenv('LINGOLIVE_THINKING_LEVEL','auto'),
             google_client_id=os.getenv('LINGOLIVE_GOOGLE_CLIENT_ID',''),
             google_signin_required=os.getenv('LINGOLIVE_GOOGLE_SIGNIN_REQUIRED','false').lower()=='true',
             allowed_google_emails=tuple(e.strip().casefold() for e in os.getenv('LINGOLIVE_ALLOWED_GOOGLE_EMAILS','').split(',') if e.strip()))
@@ -250,11 +255,11 @@ def validate_audio(message):
 
 class Window:
     def __init__(self, limit): self.limit=limit; self.starts=collections.deque()
-    def allow(self):
+    def allow(self,amount=1):
         now=time.monotonic()
         while self.starts and now-self.starts[0]>=60: self.starts.popleft()
-        if len(self.starts)>=self.limit: return False
-        self.starts.append(now); return True
+        if len(self.starts)+amount>self.limit: return False
+        self.starts.extend([now]*amount); return True
 
 class Budget:
     """Rolling per-instance usage; reserve before upstream access, including idle time."""
@@ -298,7 +303,7 @@ class GoogleIdentityVerifier:
 
 class GoogleProvider:
     def __init__(self, config: Config):
-        self.config=config;self._credentials=None;self._credential_lock=asyncio.Lock()
+        self.config=config;self._credentials=None;self._credential_lock=asyncio.Lock();self._http_client=None
     async def _vertex_token(self):
         async with self._credential_lock:
             try:
@@ -310,16 +315,31 @@ class GoogleProvider:
     def _vertex_model(self,model):
         if not re.fullmatch(r'[a-z][a-z0-9-]{4,61}[a-z0-9]',self.config.project) or not re.fullmatch(r'[a-z0-9-]{1,40}',self.config.location):raise HTTPException(503,'Invalid Vertex project configuration')
         return f'projects/{self.config.project}/locations/{self.config.location}/publishers/google/models/{model}'
+    @asynccontextmanager
+    async def _http_session(self):
+        if self.config.lesson_strategy=='parallel':
+            if self._http_client is None or self._http_client.is_closed:
+                self._http_client=httpx.AsyncClient(timeout=httpx.Timeout(90,connect=15),
+                    limits=httpx.Limits(max_connections=4,max_keepalive_connections=4,keepalive_expiry=60))
+            yield self._http_client
+        else:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(90,connect=15)) as client:yield client
+    async def aclose(self):
+        if self._http_client is not None:await self._http_client.aclose()
     async def teach(self, value: TeachRequest):
         payload=value.model_dump(exclude_defaults=True,exclude={'audio_context'})
         if value.location_context and not 0<=time.time()-value.location_context.captured_at<=300:
             payload.pop('location_context',None)
         parts=[{'text':json.dumps(payload,ensure_ascii=False)}]
         if value.audio_context:parts.append({'inlineData':{'mimeType':'audio/wav','data':value.audio_context.data}})
-        body={'systemInstruction': {'parts':[{'text':MODEL_INSTRUCTIONS}]},
-            'contents':[{'role':'user','parts':parts}],
-            'generationConfig':{'responseMimeType':'application/json','responseJsonSchema':MODEL_SCHEMA,
-                'maxOutputTokens':self.config.max_output_tokens,'thinkingConfig':{'thinkingLevel':'low'}}}
+        if self.config.lesson_strategy not in ('single','parallel'):raise HTTPException(503,'Invalid lesson strategy')
+        thinking=self.config.thinking_level
+        if thinking=='auto':thinking='minimal' if self.config.flash_model=='gemini-3.1-flash-lite' else 'low'
+        if thinking not in ('minimal','low','medium','high'):raise HTTPException(503,'Invalid reasoning setting')
+        def body(prompt,schema,content,cap):
+            return {'systemInstruction':{'parts':[{'text':prompt}]},'contents':[{'role':'user','parts':content}],
+                'generationConfig':{'responseMimeType':'application/json','responseJsonSchema':schema,
+                    'maxOutputTokens':cap,'thinkingConfig':{'thinkingLevel':thinking}}}
         if not re.fullmatch(r'gemini-[a-zA-Z0-9.-]{1,80}',self.config.flash_model): raise HTTPException(503,'Invalid Flash model configuration')
         if self.config.provider=='vertex':
             url='https://aiplatform.googleapis.com/v1/'+self._vertex_model(self.config.flash_model)+':generateContent'
@@ -327,22 +347,36 @@ class GoogleProvider:
         else:
             url=f'https://generativelanguage.googleapis.com/v1beta/models/{self.config.flash_model}:generateContent'
             headers={'x-goog-api-key':self.config.api_key}
-        try:
-            async with httpx.AsyncClient(timeout=httpx.Timeout(90,connect=15)) as client:
-                async with client.stream('POST',url,headers=headers,json=body) as response:
-                    if response.status_code==429: raise HTTPException(429,'Google rate limit reached; retry shortly',headers={'Retry-After':'15'})
-                    if response.status_code==402: raise HTTPException(503,'Google AI billing needs credit. Check the API key’s AI Studio billing, then retry this saved phrase.')
-                    if response.status_code in (400,401,403,404): raise HTTPException(502,'Google model access failed; check the API key or server credentials and model availability')
-                    if not response.is_success: raise HTTPException(502,'Google could not complete the lesson')
-                    chunks=[];size=0
-                    async for chunk in response.aiter_bytes():
-                        size+=len(chunk)
-                        if size>500000: raise HTTPException(502,'Lesson response too large')
-                        chunks.append(chunk)
+        async def generate(client,request_body):
+            async with client.stream('POST',url,headers=headers,json=request_body) as response:
+                if response.status_code==429: raise HTTPException(429,'Google rate limit reached; retry shortly',headers={'Retry-After':'15'})
+                if response.status_code==402: raise HTTPException(503,'Google AI billing needs credit. Check the API key’s AI Studio billing, then retry this saved phrase.')
+                if response.status_code in (400,401,403,404): raise HTTPException(502,'Google model access failed; check the API key or server credentials and model availability')
+                if not response.is_success: raise HTTPException(502,'Google could not complete the lesson')
+                chunks=[];size=0
+                async for chunk in response.aiter_bytes():
+                    size+=len(chunk)
+                    if size>500000: raise HTTPException(502,'Lesson response too large')
+                    chunks.append(chunk)
             data=json.loads(b''.join(chunks));candidate=data.get('candidates',[{}])[0]
             if candidate.get('finishReason','STOP')!='STOP': raise ValueError('Incomplete lesson')
             text=''.join(p.get('text','') for p in candidate['content']['parts'] if not p.get('thought'))
-            return validate_lesson(normalize_model_lesson(json.loads(text)),value.text)
+            return json.loads(text)
+        try:
+            async with self._http_session() as client:
+                if self.config.lesson_strategy=='parallel':
+                    source_cap=self.config.max_output_tokens//2;reply_cap=self.config.max_output_tokens-source_cap
+                    if source_cap<128:raise HTTPException(503,'Output allowance is too small for two branches')
+                    tasks=[asyncio.create_task(generate(client,body(SOURCE_PROMPT,SOURCE_SCHEMA,parts,source_cap))),
+                        asyncio.create_task(generate(client,body(REPLY_PROMPT,REPLY_SCHEMA,parts[:1],reply_cap)))]
+                    try:source,replies=await asyncio.gather(*tasks)
+                    except BaseException:
+                        for task in tasks:task.cancel()
+                        await asyncio.gather(*tasks,return_exceptions=True)
+                        raise
+                    result=merge_parallel(source,replies,value.text)
+                else:result=normalize_model_lesson(await generate(client,body(MODEL_INSTRUCTIONS,MODEL_SCHEMA,parts,self.config.max_output_tokens)))
+            return validate_lesson(result,value.text)
         except HTTPException: raise
         except httpx.HTTPError: raise HTTPException(502,'Cannot reach Google; the client can retry its saved transcript') from None
         except (ValueError,KeyError,IndexError,TypeError): raise HTTPException(502,'Google returned an incomplete lesson; retry the saved transcript') from None
@@ -371,7 +405,15 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
     key_sessions: dict[str, KeySession] = {}
     key_provider_factory=key_provider_factory or GoogleProvider
     signing_key=config.access_token.encode() if len(config.access_token)>=32 else secrets.token_bytes(32)
-    app=FastAPI(title='LingoLive',docs_url=None,redoc_url=None,openapi_url=None)
+    cleanup_tasks=set()
+    @asynccontextmanager
+    async def lifespan(_):
+        try:yield
+        finally:
+            for nonce in list(key_sessions):forget_key(nonce)
+            if callable(getattr(provider,'aclose',None)):await provider.aclose()
+            if cleanup_tasks:await asyncio.gather(*list(cleanup_tasks),return_exceptions=True)
+    app=FastAPI(title='LingoLive',docs_url=None,redoc_url=None,openapi_url=None,lifespan=lifespan)
     lessons=Window(config.requests_per_minute);sessions=Window(12);signins=Window(12)
     live_slots=asyncio.Semaphore(2); connections=asyncio.Semaphore(4); lesson_slots=asyncio.Semaphore(2)
     lesson_budget=Budget(config.lessons_per_hour,config.lessons_per_day)
@@ -385,6 +427,8 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if entry:
             entry.revoked.set()
             if entry.timer:entry.timer.cancel()
+            if callable(getattr(entry.provider,'aclose',None)):
+                task=asyncio.create_task(entry.provider.aclose());cleanup_tasks.add(task);task.add_done_callback(cleanup_tasks.discard)
     def prune_keys():
         for nonce,entry in list(key_sessions.items()):
             if entry.expires_at<=time.time():forget_key(nonce)
@@ -473,7 +517,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
         return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.4'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.5'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
         ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))
@@ -543,15 +587,16 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         response=Response(status_code=204);response.delete_cookie(COOKIE,path='/v1');return response
     @app.post('/v1/teach')
     async def teach(value: TeachRequest,request: Request):
-        selected,_,key_entry=selection(request)
+        selected,selected_config,key_entry=selection(request)
+        call_units=2 if selected_config.lesson_strategy=='parallel' else 1
         rate=key_lessons if key_entry else lessons
         budget=key_lesson_budget if key_entry else lesson_budget
         if not config.ai_enabled: raise HTTPException(503,'AI is paused by the host. Your saved lessons remain available.')
-        if not rate.allow(): raise HTTPException(429,'Lesson limit reached; retry your saved transcript shortly',headers={'Retry-After':'15'})
+        if not rate.allow(call_units): raise HTTPException(429,'Lesson limit reached; retry your saved transcript shortly',headers={'Retry-After':'15'})
         try: await asyncio.wait_for(lesson_slots.acquire(),timeout=1)
         except asyncio.TimeoutError: raise HTTPException(429,'Two lessons are being prepared; retry shortly',headers={'Retry-After':'5'}) from None
         try:
-            if budget.reserve(1) is None:
+            if budget.reserve(call_units) is None:
                 raise HTTPException(429,'The demo lesson allowance has been reached. Saved lessons remain available.',headers={'Retry-After':'3600'})
             if key_entry and (key_entry.revoked.is_set() or key_entry.expires_at<=time.time()):raise HTTPException(401,'Reconnect with your Google API key.')
             result=await selected.teach(value)

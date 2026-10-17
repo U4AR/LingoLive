@@ -8,11 +8,10 @@ import {renderGoogleSignIn,forgetGoogleSelection} from './google-signin.js';
 import {setupTutorial} from './tutorial.js';
 const $=id=>document.getElementById(id);
 const element=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;};
-const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const welcomeTemplate=$('lesson-panel').firstElementChild.cloneNode(true);
 const conversationTemplate=$('transcripts').firstElementChild.cloneNode(true);
 const learners=new Learners(),profileStores=new Map(),audioSamples=new Map(),deletedRecords=new Set();
-const state={records:[],selected:null,languages:[],pronunciation:false,connected:false,queue:[],processing:false,lastRequest:0,storage:null,view:'conversation',memoryFailed:false,queueEpoch:0,conversation:newConversation(),learner:learners.current,location:null};
+const state={records:[],selected:null,languages:[],pronunciation:false,connected:false,queue:[],processing:false,storage:null,view:'conversation',memoryFailed:false,queueEpoch:0,conversation:newConversation(),learner:learners.current,location:null};
 const learnerKey=base=>learners.key(base);
 let noticeTimer,locationWatch=null;
 function notice(message,error=false){$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').hidden=true,error?14000:6000);}
@@ -71,7 +70,7 @@ function renderLesson(){
     content.classList.add('lesson-status');content.append(element('p','eyebrow',record.pair.learning_name.toUpperCase()+' → '+record.pair.known_name.toUpperCase()));
     const phrase=element('div','source-words',record.text);phrase.dir='auto';content.append(phrase);
     content.append(element('h2','',record.status==='loading'?'Finding the meaning…':record.status==='queued'?'A little lesson is on its way.':record.status==='familiar'?'A phrase to keep.':'Your phrase is here.'));
-    content.append(element('p','',record.error||record.lesson?.explanation||(record.status==='queued'||record.status==='loading'?'Translation, pronunciation and replies are being prepared together.':'Turn it into a word-by-word lesson whenever you’re ready.')));
+    content.append(element('p','',record.error||record.lesson?.explanation||(record.status==='queued'||record.status==='loading'?'Preparing your translation, pronunciation and replies…':'Turn it into a word-by-word lesson whenever you’re ready.')));
     if(!['loading','queued'].includes(record.status)){const retry=element('button','small-button','Teach this phrase →');retry.onclick=()=>queueLesson(record);content.append(retry);}return;
   }
   const lesson=record.lesson;content.append(element('p','heard-label',record.speaker==='user'||record.speaker==='likely_user'?'You said':'Heard'));const replyGoal=record.lesson_context?.user_goal??record.context_goal;
@@ -105,9 +104,8 @@ function queueLesson(record){
 async function processQueue(){
   if(state.processing)return;state.processing=true;
   try{while(state.queue.length){const record=state.queue.shift();if(!state.records.some(x=>x.id===record.id))continue;
-    await sleep(Math.max(0,2500-(Date.now()-state.lastRequest)));if(!state.records.some(x=>x.id===record.id))continue;
     if(record.queue_epoch!==state.queueEpoch){record.status='transcribed';await save(record);refresh(record);continue;}
-    record.status='loading';refresh(record);state.lastRequest=Date.now();
+    record.status='loading';refresh(record);
     try{const context={...contextForRecord(state.records,record),memory_notes:record.context_notes||'',setting:record.context_setting||'auto',...seenVocabulary(record)};
       if(record.context_location&&Date.now()/1000-record.context_location.captured_at<=300)context.location_context=record.context_location;
       const sample=audioSamples.get(record.id);const lesson=await api('/v1/teach',{method:'POST',body:JSON.stringify({text:record.text,...record.pair,...context,...(sample?{audio_context:sample}:{})})});record.lesson=validateLesson(lesson,record.text);record.lesson_context=context;
