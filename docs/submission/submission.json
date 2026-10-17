@@ -52,7 +52,7 @@
       "interstate newcomers",
       "immigrants"
     ],
-    "positioning": "Reply now. Learn later.",
+    "positioning": "Understand. Reply. Keep going.",
     "new_audio_generated": false,
     "new_video_generated": false,
     "memory_story": "Opt-in saved places: useful notes recalled only on a fresh stable return nearby; editable and bounded.",
@@ -69,9 +69,11 @@
       "permission-based return-place memory",
       "learn afterwards in Saved"
     ],
-    "story_structure": "Problem first: show a stalled conversation before introducing the solution and demonstrating its functions.",
+    "story_structure": "Problem first, then present LingoLive and demonstrate contextual conversation help; learning appears near the end as an additional feature.",
     "problem_only_opening_seconds": 28,
-    "solution_starts_seconds": 28
+    "solution_starts_seconds": 28,
+    "learning_introduced_seconds": 138,
+    "learning_is_additional_feature": true
   },
   "functional_updates": {
     "pre_task_plan": true,

@@ -1,4 +1,4 @@
-# LingoLive demo transcript — Reply now. Learn later.
+# LingoLive demo transcript — Understand. Reply. Keep going.
 
 **Status:** revised for user approval, covering the deployed web 1.9 functions.
 No new narration, actor voices, noise mix, generated footage or video has been
@@ -6,14 +6,15 @@ produced. The user's earlier instruction requires transcript approval before
 media production. The web 1.5 video remains archived and is not this demonstration.
 
 **Audience:** immigrants and people moving between Indian states. An
-English-speaking newcomer in Bengaluru is learning Kannada.
+English-speaking newcomer is navigating everyday Kannada conversations in Bengaluru.
 
 **Target:** 2:55, with natural dialogue and actual app response waits. Timing is a
 production target, not a measured finished-video duration. Trim narration or a
 transition if necessary; never speed up speech or conceal inference waits.
 
-**Style:** utility first. Show live replies during the exchange, teaching in Saved
-later. Only a general Google AI / Google Cloud credit is narrated. Architecture,
+**Style:** communication first. Introduce the learning feature only at 2:18,
+near the end, as an additional benefit. Show live replies during exchanges and
+word teaching only in the later Saved scene. Only a general Google AI / Google Cloud credit is narrated. Architecture,
 exact memory guards, limitations, costs and measured latency belong in the PDF.
 
 ## 0:00–0:28 — Show the problem before introducing the app
@@ -40,12 +41,12 @@ simple journey can mean a difficult conversation.”
 ## 0:28–0:40 — Present the solution
 
 **Visual:** transition from the stalled exchange to the actual LingoLive screen.
-Show the large microphone button and a simple title: **Reply now. Learn later.**
+Show the large microphone button and a simple title: **Understand. Reply. Keep going.**
 Then establish the following scenes as a demonstration of how the same journey
 can work with the app. Do not display prerecorded results as a new live response.
 
 **Narrator:** “Meet LingoLive: understand what's being said, find a reply, and say
-it in the other person's language. Learn from that conversation afterwards.”
+it in the other person's language. Keep the conversation moving.”
 
 ## 0:40–0:55 — Prepare before leaving home
 
@@ -131,15 +132,15 @@ can change or forget them.”
 
 **English subtitle:** “I'd like ginger tea to take away.”
 
-## 2:18–2:42 — Learn after the moment has passed
+## 2:18–2:42 — An additional feature: learn afterwards
 
 **Visual:** “Later, at home.” Quiet room tone. Open a saved conversation. Only now
 show a tappable word, its meaning bubble, pronunciation and practice replies.
 These are stored results, without a fake new-inference spinner.
 
-**Narrator:** “Later, when nobody is waiting, open Saved. Tap a word to see its
-meaning, check pronunciation and practise. Keep learning from conversations you
-actually needed, at your own pace.”
+**Narrator:** “And there's a learning feature for later. In Saved, tap words for
+their meanings, hear the pronunciation and practise. Learn from your own
+conversations, at your own pace.”
 
 ## 2:42–2:55 — Close on the benefit
 
@@ -147,7 +148,7 @@ actually needed, at your own pace.”
 credit and the live prototype URL, all readable at phone size.
 
 **Narrator:** “Powered by Google AI on Google Cloud, LingoLive helps newcomers take
-part today and keep learning afterwards. Reply now. Learn later.”
+part in everyday conversations—with growing confidence.”
 
 ## Production conditions for approval
 
