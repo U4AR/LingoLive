@@ -1,0 +1,304 @@
+{
+  "request_count": 2,
+  "request": {
+    "text": "Could we stop for tea first?",
+    "known_code": "en-US",
+    "known_name": "English",
+    "learning_code": "kn-IN",
+    "learning_name": "Kannada",
+    "task_plan": {
+      "intent": "Reach Bengaluru railway station by cab. I might stop for tea on the way, before reaching the station.",
+      "steps": [
+        {
+          "label": "Get a cab",
+          "optional": false,
+          "state": "pending"
+        },
+        {
+          "label": "Tea stop",
+          "optional": true,
+          "state": "pending"
+        },
+        {
+          "label": "Reach Bengaluru railway station",
+          "optional": false,
+          "state": "pending"
+        }
+      ],
+      "current_step": 0
+    },
+    "assistance_mode": "auto",
+    "place_context": [],
+    "learn_place_memory": false,
+    "previous_reply_source": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+    "previous_replies": [
+      {
+        "text": "ನನಗೆ ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು.",
+        "translation": "I need to go to Bengaluru railway station."
+      },
+      {
+        "text": "ದಾರಿಯಲ್ಲಿ ಟೀ ಕುಡಿಯಲು ನಿಲ್ಲಬಹುದೇ?",
+        "translation": "Can we stop for tea on the way?"
+      },
+      {
+        "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಎಷ್ಟು ದರ?",
+        "translation": "What is the fare to Bengaluru railway station?"
+      }
+    ],
+    "inferred_user_goal": "Inquiring about direction for the planned commute to the railway station.",
+    "user_goal": "",
+    "conversation_summary": "User is planning to travel to Bengaluru railway station, possibly stopping for tea.",
+    "recent_turns": [
+      {
+        "speaker": "likely_user",
+        "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?"
+      }
+    ],
+    "memory_notes": "",
+    "personal_memories": [],
+    "learn_personal_memory": true,
+    "setting": "auto",
+    "previously_seen_words": [
+      {
+        "text": "ಎಲ್ಲಿಗೆ",
+        "meaning": "to where"
+      },
+      {
+        "text": "ಹೋಗಬೇಕು",
+        "meaning": "must go"
+      }
+    ]
+  },
+  "lesson": {
+    "detected_language": "en-US",
+    "contains_learning_language": false,
+    "translation": "ದಾರಿಯಲ್ಲಿ ಟೀ ಕುಡಿಯಲು ನಿಲ್ಲಬಹುದೇ?",
+    "explanation": "Translates to asking if a tea stop is possible.",
+    "tip": "",
+    "words": [],
+    "replies": [
+      {
+        "label": "Tea request",
+        "translation": "Can we stop for tea on the way?",
+        "words": [
+          {
+            "text": "ದಾರಿಯಲ್ಲಿ",
+            "reading": "daariyalli",
+            "meaning": "on the way",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಟೀ",
+            "reading": "tee",
+            "meaning": "tea",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಕುಡಿಯಲು",
+            "reading": "kudiyalu",
+            "meaning": "to drink",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ನಿಲ್ಲಬಹುದೇ?",
+            "reading": "nillabahude?",
+            "meaning": "can stop?",
+            "note": "",
+            "is_word": true
+          }
+        ]
+      },
+      {
+        "label": "Ask duration",
+        "translation": "How much time is needed to reach the station?",
+        "words": [
+          {
+            "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+            "reading": "nildaanakke",
+            "meaning": "to station",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಲು",
+            "reading": "hogalu",
+            "meaning": "to go",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಎಷ್ಟು",
+            "reading": "eshtu",
+            "meaning": "how much",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಸಮಯ",
+            "reading": "samaya",
+            "meaning": "time",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಬೇಕು?",
+            "reading": "beku?",
+            "meaning": "needed?",
+            "note": "",
+            "is_word": true
+          }
+        ]
+      },
+      {
+        "label": "Cab request",
+        "translation": "Please go to Bengaluru railway station.",
+        "words": [
+          {
+            "text": "ದಯವಿಟ್ಟು",
+            "reading": "dayavittu",
+            "meaning": "please",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಬೆಂಗಳೂರು",
+            "reading": "bengaluru",
+            "meaning": "Bengaluru",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ರೈಲ್ವೆ",
+            "reading": "railve",
+            "meaning": "railway",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ನಿಲ್ದಾಣಕ್ಕೆ",
+            "reading": "nildaanakke",
+            "meaning": "to station",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "ಹೋಗಿ.",
+            "reading": "hogi.",
+            "meaning": "go.",
+            "note": "",
+            "is_word": true
+          }
+        ]
+      }
+    ],
+    "context_summary": "Planning a trip to Bengaluru railway station with a possible tea stop.",
+    "inferred_setting": "unknown",
+    "context_confidence": "medium",
+    "current_speaker": "user",
+    "speaker_confidence": "high",
+    "inferred_user_intent": "Confirming a tea stop during the commute to the station.",
+    "memory_candidates": [
+      {
+        "kind": "preference",
+        "topic": "commute_tea",
+        "text": "Likes to stop for tea during trips.",
+        "evidence": "Could we stop for tea first?",
+        "setting": "travelling",
+        "duration": "routine"
+      }
+    ],
+    "reply_mode": "express"
+  },
+  "timings": [
+    {
+      "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "http_seconds": 2.304,
+      "interaction_seconds": 2.442
+    },
+    {
+      "text": "Could we stop for tea first?",
+      "http_seconds": 2.197,
+      "interaction_seconds": 2.244
+    }
+  ]
+}

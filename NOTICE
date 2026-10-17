@@ -5,3 +5,9 @@ Project source is licensed under Apache-2.0. Google ML Kit, AndroidX, OkHttp,
 Kotlin, FastAPI, Uvicorn, Pydantic, httpx and websockets retain their respective
 licenses and terms. Google model services require separate API access and terms.
 Google, Gemini and Android are trademarks of their respective owners.
+
+Local language-routing hints use langdetect 1.0.9 (MIT, Copyright 2014-2015
+Michal "Mimino" Danilak), a port of Nakatani Shuyo's language-detection library;
+its bundled notices and license accompany the installed dependency. six 1.17.0
+is MIT licensed, Copyright Benjamin Peterson. These dependencies retain their
+respective licenses; language hints are probabilistic and not speaker identity.

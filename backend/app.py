@@ -25,7 +25,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from websockets.asyncio.client import connect
-from backend.fast_lessons import SOURCE_SCHEMA, REPLY_SCHEMA, SOURCE_PROMPT, REPLY_PROMPT, merge as merge_parallel
+from backend.fast_lessons import SOURCE_SCHEMA, REPLY_SCHEMA, SOURCE_PROMPT, REPLY_PROMPT, EXPRESS_PROMPT, known_language_hint, language_base, merge as merge_parallel
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / 'shared/lesson_schema.json').read_text())
@@ -397,6 +397,8 @@ class GoogleProvider:
         if self._http_client is not None:await self._http_client.aclose()
     async def teach(self, value: TeachRequest):
         payload=value.model_dump(exclude_defaults=True,exclude={'audio_context'})
+        express_hint=value.assistance_mode=='say_this' or known_language_hint(value.text,value.known_code,value.learning_code)
+        if express_hint:payload['assistance_mode']='say_this'
         if value.location_context and not 0<=time.time()-value.location_context.captured_at<=300:
             payload.pop('location_context',None)
         parts=[{'text':json.dumps(payload,ensure_ascii=False)}]
@@ -431,9 +433,6 @@ class GoogleProvider:
             if candidate.get('finishReason','STOP')!='STOP': raise ValueError('Incomplete lesson')
             text=''.join(p.get('text','') for p in candidate['content']['parts'] if not p.get('thought'))
             return json.loads(text)
-        aliases={'cmn':'zh','zho':'zh','iw':'he','in':'id','tl':'fil','no':'nb'}
-        def language_base(code):
-            base=str(code).lower().split('-')[0];return aliases.get(base,base)
         def express_source(source):
             return value.assistance_mode=='say_this' or (not source.get('contains_learning_language') and language_base(source.get('detected_language'))==language_base(value.known_code))
         try:
@@ -442,7 +441,7 @@ class GoogleProvider:
                     source_cap=self.config.max_output_tokens//2;reply_cap=self.config.max_output_tokens-source_cap
                     if source_cap<128:raise HTTPException(503,'Output allowance is too small for two branches')
                     tasks=[asyncio.create_task(generate(client,body(SOURCE_PROMPT,SOURCE_SCHEMA,parts,source_cap))),
-                        asyncio.create_task(generate(client,body(REPLY_PROMPT,REPLY_SCHEMA,parts[:1],reply_cap)))]
+                        asyncio.create_task(generate(client,body(EXPRESS_PROMPT if express_hint else REPLY_PROMPT,REPLY_SCHEMA,parts[:1],reply_cap)))]
                     try:source,replies=await asyncio.gather(*tasks)
                     except BaseException:
                         for task in tasks:task.cancel()

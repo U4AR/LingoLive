@@ -3,12 +3,19 @@ from dataclasses import replace
 from unittest.mock import patch
 import httpx
 from backend.app import TeachRequest,GoogleProvider,validate_lesson
-from backend.fast_lessons import merge
+from backend.fast_lessons import merge,known_language_hint,EXPRESS_PROMPT
 from test_app import INPUT,EXAMPLE,CONFIG
 from test_parallel import responses
 
 PLAN={'intent':'Reach the railway station by cab, maybe stop for tea first.','steps':[{'label':'Get a cab','optional':False,'state':'pending'},{'label':'Tea stop','optional':True,'state':'pending'},{'label':'Railway station','optional':False,'state':'pending'}],'current_step':0}
 class PlanValidationTests(unittest.TestCase):
+ def test_local_hint_is_deterministic_and_abstains_for_short_uncertain_or_target_text(self):
+  for _ in range(3):
+   self.assertTrue(known_language_hint('Could we stop for tea first?','en-US','kn-IN'))
+   self.assertTrue(known_language_hint('No tea. Please take me straight to the station.','en-US','kn-IN'))
+  for text in ['Yes','I need a cab','ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?','ಇಲ್ಲೇ ಕುಡಿಯುತ್ತೀರಾ ಅಥವಾ ಪಾರ್ಸೆಲ್ ಬೇಕಾ?','']:
+   self.assertFalse(known_language_hint(text,'en-US','kn-IN'))
+  self.assertFalse(known_language_hint('Could we stop for tea first?','en-US','en-GB'))
  def test_plan_and_active_step_are_bounded_and_do_not_accept_coordinates(self):
   self.assertEqual(3,len(TeachRequest.model_validate({**INPUT,'task_plan':PLAN}).task_plan.steps))
   for plan in [{**PLAN,'steps':PLAN['steps']*3},{**PLAN,'current_step':4},{**PLAN,'current_step':None},{**PLAN,'latitude':12.97},{**PLAN,'intent':'x'*601}]:
@@ -34,8 +41,9 @@ class PlannedProviderTests(unittest.IsolatedAsyncioTestCase):
  async def test_known_language_routing_does_not_depend_on_a_correct_model_mode_estimate(self):
   original=httpx.AsyncClient;source,replies=responses();source.update(detected_language='en-US',contains_learning_language=False,words=[],reply_mode='respond')
   for strategy in ('single','parallel'):
+   seen=[]
    def handler(request):
-    b=json.loads(request.content)
+    b=json.loads(request.content);seen.append(b)
     if strategy=='single':
      d=copy.deepcopy(EXAMPLE['lesson']);d.update(detected_language='en-US',contains_learning_language=False,words=[],reply_mode='respond')
     else:d=replies if 'replies' in b['generationConfig']['responseJsonSchema']['properties'] else source
@@ -44,6 +52,9 @@ class PlannedProviderTests(unittest.IsolatedAsyncioTestCase):
    model=GoogleProvider(replace(CONFIG,lesson_strategy=strategy));self.addAsyncCleanup(model.aclose)
    with patch('backend.app.httpx.AsyncClient',side_effect=client):lesson=await model.teach(TeachRequest.model_validate({**INPUT,'text':'Could we stop for tea first?'}))
    self.assertEqual('express',lesson['reply_mode']);self.assertEqual(3,len(lesson['replies']));self.assertFalse(lesson['contains_learning_language'])
+   self.assertEqual(2 if strategy=='parallel' else 1,len(seen))
+   for b in seen:self.assertEqual('say_this',json.loads(b['contents'][0]['parts'][0]['text'])['assistance_mode'])
+   if strategy=='parallel':self.assertEqual(EXPRESS_PROMPT,seen[1]['systemInstruction']['parts'][0]['text'])
  async def test_both_existing_parallel_calls_receive_plan_current_stage_and_expression_mode(self):
   original=httpx.AsyncClient;seen=[];source,replies=responses();source.update(contains_learning_language=False,words=[],reply_mode='express',suggested_plan_steps=[{'label':'Must not replace the explicit steps','optional':False}])
   def handler(request):
@@ -55,3 +66,4 @@ class PlannedProviderTests(unittest.IsolatedAsyncioTestCase):
   self.assertEqual(2,len(seen));self.assertEqual(3,len(lesson['replies']));self.assertNotIn('suggested_plan_steps',lesson)
   for b in seen:
    d=json.loads(b['contents'][0]['parts'][0]['text']);self.assertEqual(PLAN,d['task_plan']);self.assertEqual('say_this',d['assistance_mode'])
+  self.assertEqual(EXPRESS_PROMPT,seen[1]['systemInstruction']['parts'][0]['text'])

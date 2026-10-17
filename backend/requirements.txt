@@ -6,3 +6,5 @@ pydantic==2.14.1
 google-auth[cryptography]==2.62.0
 requests==2.34.2
 cryptography==50.0.2
+langdetect==1.0.9
+six==1.17.0

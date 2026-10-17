@@ -1,5 +1,19 @@
 """Independent source/reply tasks with lossless, deterministic punctuation recovery."""
 import copy
+from langdetect import DetectorFactory, PROFILES_DIRECTORY, LangDetectException
+
+# Local routing hint only, never an extra model request or a speaker identity.
+_languages=DetectorFactory();_languages.load_profile(PROFILES_DIRECTORY);_languages.set_seed(0)
+def language_base(code):
+ base=str(code).lower().replace('_','-').split('-')[0]
+ return {'cmn':'zh','zho':'zh','iw':'he','in':'id','tl':'fil','no':'nb'}.get(base,base)
+
+def known_language_hint(text,known,learning):
+ if language_base(known)==language_base(learning) or sum(c.isalpha() for c in text)<12:return False
+ try:
+  detector=_languages.create();detector.append(text);ranked=detector.get_probabilities()
+  return bool(ranked and ranked[0].prob>=.95 and language_base(ranked[0].lang)==language_base(known))
+ except LangDetectException:return False
 
 ROW={'type':'array','items':{'type':'string','minLength':1},'minItems':3,'maxItems':3,'description':'[exact word text, one Latin pronunciation, brief contextual meaning]. Latin-script words copy their text as pronunciation. All three entries must be non-empty.'}
 def object_schema(properties):return {'type':'object','properties':properties,'required':list(properties),'additionalProperties':False}
@@ -33,6 +47,9 @@ PLAN_RULES='''
 task_plan is an explicit short-lived intention supplied before a task, not an observed location or permanent learner fact. It can include a final destination, transport, ordered steps and optional stops. A future destination never establishes current location. Follow current text / explicit user_goal first, then the current pending step in task_plan and relevant remaining intent. Keep optional/maybe/probably stops tentative, allow clarification and never turn them into commitments. Don't repeat done/skipped steps, claim a booking/action happened, or mark progress from suggestions/GPS. User controls progress. If task_plan has no steps, source may return suggested_plan_steps (max6 ordered label/optional pairs) preserving explicit order and uncertainty; these are a draft only, not automatically applied. Otherwise suggested_plan_steps=[]. This isn't a new task or a memory of completed events. Do not persist the plan in general or place memory.'''
 SOURCE_PROMPT+='''\nreply_mode=express for assistance_mode=say_this or a current KNOWN-language utterance without learning-language content; respond for other learning-language utterances; none for unrelated languages. Still report contains_learning_language honestly; it must not become true merely because target phrases are generated. For express input without learning-language content keep source words=[]; replies carry target words.\n'''+PLAN_RULES
 REPLY_PROMPT+=PLAN_RULES
+EXPRESS_PROMPT=RULES+'''
+Your ONLY task: translate the learner's CURRENT text into the LEARNING language so the learner can SAY IT to another person. This is NOT a conversation to answer. Return exactly THREE concise natural phrasings of the SAME meaning, each with label, target text, known-language translation, and word rows for EVERY target word. All three must preserve the current question/request, negation, destination and uncertainty. Do not substitute other trip steps or suggest different actions. For "Could we stop for tea first?" every option asks to stop for tea first; no option asks travel time or gives the final destination. For "No tea. Please take me straight to the station." every option declines tea and requests going directly to the station. Context may resolve a pronoun only; it is not a menu of alternative intentions. If necessary use identical short phrasings rather than change meaning. Maximum six lexical rows per phrase. Meanings and labels in KNOWN language; short Latin readings for target words. Never answer the request, invent a reply by the other person, or claim an action happened.
+'''
 
 def parts(payload,audio=None):
  import json
