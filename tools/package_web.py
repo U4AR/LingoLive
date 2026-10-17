@@ -6,7 +6,7 @@ files=[ROOT/name for name in ['README.md','MEMORY.md','WEB-DEPLOY.md','VALIDATIO
 files+=list((ROOT/'web').glob('*'))+list((ROOT/'shared').glob('*'))
 files += [ROOT/'backend'/name for name in ['app.py','requirements.txt','.env.example']]
 files+=list((ROOT/'backend/tests').glob('*.py'))
-files += [ROOT/'tools'/name for name in ['deploy_cloud_run.sh','enable_google_signin.sh','web_fixture.py','test_web_core.mjs','test_web_browser.cjs','package_web.py','test_context.mjs','test_context_browser.cjs','test_memory_browser.cjs','test_simple_ui.cjs','google_auth_fixture.py','test_google_signin_browser.cjs']]
+files += [ROOT/'tools'/name for name in ['deploy_cloud_run.sh','enable_google_signin.sh','web_fixture.py','test_web_core.mjs','test_web_browser.cjs','package_web.py','test_context.mjs','test_context_browser.cjs','test_memory_browser.cjs','test_simple_ui.cjs','test_byok_browser.cjs','google_auth_fixture.py','test_google_signin_browser.cjs']]
 files+=list((ROOT/'validation').glob('web-*'))
 files += [ROOT/'validation'/name for name in ['cloud-deployment.json','cloud-public-check.json','cloud-api-results.json','cloud-guards-results.json'] if (ROOT/'validation'/name).is_file()]
 files=sorted({p for p in files if p.is_file()})
@@ -16,9 +16,9 @@ results=json.loads((ROOT/'validation/web-browser-results.json').read_text())
 assert results.get('passed')==13 and not results.get('error') and not results.get('errors')
 google_results=json.loads((ROOT/'validation/web-google-signin-browser-results.json').read_text())
 assert google_results.get('passed')==5 and google_results['real_google_login'] is False
-assert 'Ran 62 tests' in (ROOT/'validation/web-backend-tests.txt').read_text()
+assert 'Ran 74 tests' in (ROOT/'validation/web-backend-tests.txt').read_text()
 assert (ROOT/'validation/web-backend-tests.txt').read_text().rstrip().endswith('OK')
-for name,count in [('context-browser',8),('memory-browser',12),('simple-ui',4)]:
+for name,count in [('context-browser',8),('memory-browser',12),('simple-ui',4),('byok-browser',8)]:
  result=json.loads((ROOT/('validation/web-'+name+'-results.json')).read_text())
  assert result.get('passed')==count and not result.get('error') and not result.get('errors')
 destination=ROOT/'dist';destination.mkdir(exist_ok=True)
@@ -29,7 +29,7 @@ with zipfile.ZipFile(archive) as z:
  assert z.testzip() is None
  for name in ['web/index.html','backend/app.py','shared/lesson_schema.json','Dockerfile','tools/deploy_cloud_run.sh']:
   assert z.read('LingoLive-web/'+name)==(ROOT/name).read_bytes()
-manifest={'file':archive.name,'bytes':archive.stat().st_size,'sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'files':len(files),'source_version':'1.2-context-memory','cloud_deployed':False,'deployment_blocker':'expired_operator_credential','existing_deployment_revision':'lingolive-00004-jzp','google_signin_enabled':False,'google_signin_status':'optional_disabled_user_selected_private_access_code','existing_cloud_deployment':(ROOT/'validation/cloud-deployment.json').is_file(),'existing_deployment_google_inference_tested':(ROOT/'validation/cloud-api-results.json').is_file(),'existing_deployment_url':'https://lingolive-358650584819.us-central1.run.app'}
+manifest={'file':archive.name,'bytes':archive.stat().st_size,'sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'files':len(files),'source_version':'1.3-personal-keys','connection_modes':['access_code','api_key'],'personal_key_storage':'server_memory_one_hour','cloud_deployed':False,'deployment_blocker':'expired_operator_credential','existing_deployment_revision':'lingolive-00004-jzp','google_signin_enabled':False,'google_signin_status':'optional_disabled_user_selected_private_access_code','existing_cloud_deployment':(ROOT/'validation/cloud-deployment.json').is_file(),'existing_deployment_google_inference_tested':(ROOT/'validation/cloud-api-results.json').is_file(),'existing_deployment_url':'https://lingolive-358650584819.us-central1.run.app'}
 (destination/'web-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 (destination/'LingoLive-web-SHA256SUMS.txt').write_text(manifest['sha256']+'  '+archive.name+'\n')
 print(json.dumps(manifest,indent=2))

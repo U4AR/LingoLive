@@ -11,6 +11,18 @@ test_websocket_relay_requires_auth_controls_model_and_forwards_pcm_and_final (te
 test_window_reopens_after_rolling_minute (test_app.ApiTests.test_window_reopens_after_rolling_minute) ... ok
 test_google_flash_request_contract_and_validated_response (test_app.GoogleContractTests.test_google_flash_request_contract_and_validated_response) ... ok
 test_upstream_errors_do_not_expose_keys_and_truncated_lessons_fail (test_app.GoogleContractTests.test_upstream_errors_do_not_expose_keys_and_truncated_lessons_fail) ... ok
+test_expiry_tampering_restart_and_replacement_do_not_fall_back (test_byok.PersonalKeyTests.test_expiry_tampering_restart_and_replacement_do_not_fall_back) ... ok
+test_host_can_disable_keys_and_pause_all_ai (test_byok.PersonalKeyTests.test_host_can_disable_keys_and_pause_all_ai) ... ok
+test_key_routes_to_its_provider_and_cookie_and_responses_never_contain_the_key (test_byok.PersonalKeyTests.test_key_routes_to_its_provider_and_cookie_and_responses_never_contain_the_key) ... ok
+test_keys_are_isolated_between_clients (test_byok.PersonalKeyTests.test_keys_are_isolated_between_clients) ... ok
+test_logout_revokes_copied_cookie_and_closes_personal_live_stream (test_byok.PersonalKeyTests.test_logout_revokes_copied_cookie_and_closes_personal_live_stream) ... ok
+test_options_offer_both_modes_and_personal_keys_without_host_billing_setup (test_byok.PersonalKeyTests.test_options_offer_both_modes_and_personal_keys_without_host_billing_setup) ... ok
+test_origin_auth_and_credential_validation_precede_paid_calls_without_echoing_keys (test_byok.PersonalKeyTests.test_origin_auth_and_credential_validation_precede_paid_calls_without_echoing_keys) ... ok
+test_own_key_does_not_bypass_host_google_requirements (test_byok.PersonalKeyTests.test_own_key_does_not_bypass_host_google_requirements) ... ok
+test_personal_key_failure_never_uses_host_credentials (test_byok.PersonalKeyTests.test_personal_key_failure_never_uses_host_credentials) ... ok
+test_personal_live_audio_uses_personal_model_path_and_separate_allowance (test_byok.PersonalKeyTests.test_personal_live_audio_uses_personal_model_path_and_separate_allowance) ... ok
+test_quotas_are_separate_from_host_and_survive_key_session_rotation (test_byok.PersonalKeyTests.test_quotas_are_separate_from_host_and_survive_key_session_rotation) ... ok
+test_both_upstreams_receive_only_personal_key_with_no_vertex_access (test_byok.PersonalTransportTests.test_both_upstreams_receive_only_personal_key_with_no_vertex_access) ... ok
 test_context_does_not_bypass_authentication_or_change_the_output_cap (test_context.ContextApiTests.test_context_does_not_bypass_authentication_or_change_the_output_cap) ... ok
 test_goal_and_chronological_roles_reach_the_lesson_provider (test_context.ContextApiTests.test_goal_and_chronological_roles_reach_the_lesson_provider) ... ok
 test_old_clients_can_still_request_lessons_without_context_fields (test_context.ContextApiTests.test_old_clients_can_still_request_lessons_without_context_fields) ... ok
@@ -64,6 +76,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 62 tests in 1.496s
+Ran 74 tests in 1.596s
 
 OK

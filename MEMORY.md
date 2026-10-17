@@ -1,4 +1,4 @@
-# Conversation memory (web 1.2)
+# Conversation memory (web 1.3)
 
 The main screen shows heard speech, its translation and three possible replies.
 Tap a word for a small meaning bubble. Pronunciation, playback, copy, typed input,
@@ -41,7 +41,7 @@ an in-flight lesson prevents its response from recreating the deleted record.
 Profiles isolate learning state; they are not separate authenticated accounts.
 Anyone using the same browser can switch local profiles. Clearing browser site
 data removes local memory. There is no cloud history, account sync or server-side
-conversation database. The private access code protects paid requests.
+conversation database. Paid requests require a private-code session or an active personal-key session.
 
 Location and recent sound start off and require opt-in. The browser rounds
 location before transmission; the backend also rounds it and rejects stale data.
@@ -52,6 +52,24 @@ broad and uncertain; prompts prohibit guessing private addresses or exact venues
 
 ## Cost and verification
 
+Personal keys live only in an expiring server-memory session, separate from
+learner memory. Cookies contain a signed opaque session ID; key fields clear on
+successful connection, method changes and closing the dialog. Keys are never
+added to prompts, transcript records, IndexedDB, LocalStorage or service-worker
+caches. They are sent over HTTPS to the host and require trusting that host.
+Disconnect removes the key session, invalidates copied session cookies and stops
+its active streams. Expiry and restarts require re-entering the key. An already
+started lesson may finish after disconnect. Local profiles share this browser's
+connection; they are not separate authentication accounts.
+
+Personal-key requests always use the Gemini Developer API with that key, even
+when host-code mode uses Vertex. There is no fallback to host credentials.
+Host and personal-key users have separate shared rolling model allowances;
+all personal-key sessions share their allowance, so reconnecting does not reset
+it. Two concurrent lessons/two listeners and connection pacing remain shared
+infrastructure guards. All AI can still be paused by the host. Personal keys
+charge their own Google projects but still use the host's Cloud Run relay.
+
 Context travels in the existing lesson call; there is no extra summarization or
 speaker-classification call. Authentication, audio pacing, shared quotas, two
 concurrent lessons and one Cloud Run instance remain in force. Longer context or
@@ -60,5 +78,5 @@ are not a hard billing cap.
 
 Local tests verify transport, bounds, isolation and UI with explicit Google
 fixtures. Semantic accuracy of inferred intent, ambient audio and speaker labels
-has not been validated with real Google inference. Web 1.2 is not yet deployed:
+has not been validated with real Google inference. Web 1.3 is not yet deployed:
 the deployment credential expired. The live revision remains 00004-jzp.

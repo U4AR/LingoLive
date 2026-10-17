@@ -1,9 +1,14 @@
 {
   "file": "LingoLive-web-source.zip",
-  "bytes": 850102,
-  "sha256": "b1c8d07c37c288e6bb8177fab2a6150f2b56df5a9544227d0e08d84dc175c495",
-  "files": 78,
-  "source_version": "1.2-context-memory",
+  "bytes": 921378,
+  "sha256": "db987212231f8b7e8c3ca5e0cbb0a22c782b3b082725a2ca687780eae5722ee1",
+  "files": 82,
+  "source_version": "1.3-personal-keys",
+  "connection_modes": [
+    "access_code",
+    "api_key"
+  ],
+  "personal_key_storage": "server_memory_one_hour",
   "cloud_deployed": false,
   "deployment_blocker": "expired_operator_credential",
   "existing_deployment_revision": "lingolive-00004-jzp",

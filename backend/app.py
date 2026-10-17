@@ -1,14 +1,15 @@
 """Cloud Run relay for Google Transcribe Live and Gemini Flash.
 
 No audio, transcripts or lessons are persisted by the service. Credentials are
-runtime bindings, never mobile build inputs. The access token is for a private
+runtime bindings or expiring personal-key sessions, never mobile build inputs.
+The access token is for a private
 hackathon/personal deployment; a public multi-user service should use user auth.
 """
 from __future__ import annotations
 import io, wave
 import asyncio, base64, binascii, collections, hashlib, hmac, json, os, re, secrets, time
 from contextlib import asynccontextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from urllib.parse import urlencode
 from typing import Literal
@@ -18,6 +19,8 @@ from google.auth.transport.requests import Request as GoogleAuthRequest
 from google.oauth2 import id_token as google_id_token
 from google.auth.exceptions import GoogleAuthError
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -52,6 +55,7 @@ class Config:
     google_client_id: str = ''
     google_signin_required: bool = False
     allowed_google_emails: tuple[str, ...] = ()
+    byok_enabled: bool = True
     @classmethod
     def environment(cls):
         return cls(os.getenv('GEMINI_API_KEY', ''), os.getenv('LINGOLIVE_ACCESS_TOKEN', ''),
@@ -64,6 +68,7 @@ class Config:
             audio_seconds_per_hour=int(os.getenv('LINGOLIVE_AUDIO_SECONDS_PER_HOUR','2400')),
             audio_seconds_per_day=int(os.getenv('LINGOLIVE_AUDIO_SECONDS_PER_DAY','3600')),
             max_output_tokens=int(os.getenv('LINGOLIVE_MAX_OUTPUT_TOKENS','4096')),
+            byok_enabled=os.getenv('LINGOLIVE_BYOK_ENABLED','true').lower()=='true',
             google_client_id=os.getenv('LINGOLIVE_GOOGLE_CLIENT_ID',''),
             google_signin_required=os.getenv('LINGOLIVE_GOOGLE_SIGNIN_REQUIRED','false').lower()=='true',
             allowed_google_emails=tuple(e.strip().casefold() for e in os.getenv('LINGOLIVE_ALLOWED_GOOGLE_EMAILS','').split(',') if e.strip()))
@@ -143,7 +148,9 @@ class TeachRequest(BaseModel):
 
 class SessionRequest(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
-    token: str = Field(min_length=1, max_length=2048)
+    token: str = Field(default='', max_length=2048)
+    mode: Literal['access_code','api_key'] = 'access_code'
+    api_key: str = Field(default='', max_length=256)
     google_credential: str = Field(default='',max_length=10000)
 
 class Word(BaseModel):
@@ -293,8 +300,8 @@ class GoogleProvider:
             async with httpx.AsyncClient(timeout=httpx.Timeout(90,connect=15)) as client:
                 async with client.stream('POST',url,headers=headers,json=body) as response:
                     if response.status_code==429: raise HTTPException(429,'Google rate limit reached; retry shortly',headers={'Retry-After':'15'})
-                    if response.status_code==402: raise HTTPException(503,'Google AI billing needs credit. Ask the host to check AI Studio billing, then retry this saved phrase.')
-                    if response.status_code in (400,401,403,404): raise HTTPException(502,'Google model access failed; check server credentials and model IDs')
+                    if response.status_code==402: raise HTTPException(503,'Google AI billing needs credit. Check the API key’s AI Studio billing, then retry this saved phrase.')
+                    if response.status_code in (400,401,403,404): raise HTTPException(502,'Google model access failed; check the API key or server credentials and model availability')
                     if not response.is_success: raise HTTPException(502,'Google could not complete the lesson')
                     chunks=[];size=0
                     async for chunk in response.aiter_bytes():
@@ -318,15 +325,54 @@ class GoogleProvider:
         async with connect(url,open_timeout=15,max_size=500000,ping_interval=20,**options) as socket:
             yield socket
 
-def create_app(config: Config | None = None, provider=None, identity_verifier=None):
+@dataclass
+class KeySession:
+    provider: GoogleProvider
+    config: Config
+    expires_at: float
+    revoked: asyncio.Event
+    timer: asyncio.TimerHandle | None = None
+
+def create_app(config: Config | None = None, provider=None, identity_verifier=None, key_provider_factory=None):
     config=config or Config.environment();provider=provider or GoogleProvider(config)
     identity_verifier=identity_verifier or GoogleIdentityVerifier()
     used_nonces={}
+    key_sessions: dict[str, KeySession] = {}
+    key_provider_factory=key_provider_factory or GoogleProvider
+    signing_key=config.access_token.encode() if len(config.access_token)>=32 else secrets.token_bytes(32)
     app=FastAPI(title='LingoLive',docs_url=None,redoc_url=None,openapi_url=None)
     lessons=Window(config.requests_per_minute);sessions=Window(12);signins=Window(12)
     live_slots=asyncio.Semaphore(2); connections=asyncio.Semaphore(4); lesson_slots=asyncio.Semaphore(2)
     lesson_budget=Budget(config.lessons_per_hour,config.lessons_per_day)
     audio_budget=Budget(config.audio_seconds_per_hour,config.audio_seconds_per_day)
+    # Personal-key usage has independent allowances; it never spends host model quota.
+    key_lessons=Window(config.requests_per_minute)
+    key_lesson_budget=Budget(config.lessons_per_hour,config.lessons_per_day)
+    key_audio_budget=Budget(config.audio_seconds_per_hour,config.audio_seconds_per_day)
+    def forget_key(nonce):
+        entry=key_sessions.pop(nonce,None)
+        if entry:
+            entry.revoked.set()
+            if entry.timer:entry.timer.cancel()
+    def prune_keys():
+        for nonce,entry in list(key_sessions.items()):
+            if entry.expires_at<=time.time():forget_key(nonce)
+    def personal_session(request):
+        prune_keys()
+        if not config.byok_enabled:return None
+        parts=request.cookies.get(COOKIE,'').split('.')
+        if len(parts)!=4 or parts[2]!='key':return None
+        try:
+            if not 0<=time.time()-int(parts[0])<SESSION_SECONDS:return None
+            if not hmac.compare_digest(parts[3],signed_session('.'.join(parts[:3]))):return None
+        except (ValueError,TypeError):return None
+        return key_sessions.get(parts[1])
+    def selection(request):
+        if bearer_authorized(request.headers.get('authorization','')):return provider,config,None
+        entry=personal_session(request)
+        if request.cookies.get(COOKIE,'').split('.')[2:3]==['key'] and entry is None:
+            raise HTTPException(401,'Reconnect with your Google API key.')
+        return (entry.provider,entry.config,entry) if entry else (provider,config,None)
     def authorized(header):
         if not config.configured: return False
         supplied=header.removeprefix('Bearer ') if header.startswith('Bearer ') else ''
@@ -340,8 +386,9 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         return origin in ('https://'+request.headers.get('host',''), 'http://'+request.headers.get('host','')) and (
             origin.startswith('https://') or request.url.hostname in ('127.0.0.1','localhost','testserver'))
     def signed_session(payload):
-        return hmac.new(config.access_token.encode(),('web-session:'+payload).encode(),hashlib.sha256).hexdigest()
+        return hmac.new(signing_key,('web-session:'+payload).encode(),hashlib.sha256).hexdigest()
     def cookie_authorized(request):
+        if personal_session(request):return True
         if not config.configured: return False
         value=request.cookies.get(COOKIE,'')
         try:
@@ -360,7 +407,9 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
     @app.middleware('http')
     async def authorize_http(request: Request, next_handler):
         if request.url.path.startswith('/v1/'):
-            if not config.configured: return JSONResponse({'detail':'Configure Google model access and a private access code on the server'},503)
+            public_auth=request.url.path in ('/v1/session','/v1/auth/config')
+            if not config.configured and not personal_session(request) and not (config.byok_enabled and public_auth):
+                return JSONResponse({'detail':'Configure Google model access and a private access code on the server'},503)
             bearer=bearer_authorized(request.headers.get('authorization',''))
             signing_in=(request.url.path=='/v1/session' and request.method=='POST') or (request.url.path=='/v1/auth/config' and request.method=='GET')
             if not signing_in and not (bearer or cookie_authorized(request)):
@@ -387,22 +436,43 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             response.headers['Content-Security-Policy']=response.headers['Content-Security-Policy'].replace("script-src 'self'", "script-src 'self' https://accounts.google.com/gsi/client").replace("style-src 'self'", "style-src 'self' https://accounts.google.com/gsi/style").replace("connect-src 'self'", "connect-src 'self' https://accounts.google.com/gsi/")+"; frame-src https://accounts.google.com/gsi/"
         response.headers['Cache-Control']='no-store' if request.url.path.startswith(('/v1/','/health')) or request.url.path=='/' else 'no-cache'
         return response
+    @app.exception_handler(RequestValidationError)
+    async def validation_error(request,exc):
+        # Framework validation errors otherwise echo invalid credential input values.
+        if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
+        return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'version':'1.2'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.3'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
-        response=JSONResponse({'google_required':config.google_signin_required,'google_client_id':config.google_client_id if config.google_signin_required else ''})
-        if config.google_signin_required:
-            if not config.google_client_id or not config.allowed_google_emails:
-                raise HTTPException(503,'Google sign-in setup is not complete. Ask the host to finish account configuration.')
+        ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))
+        data={'google_required':config.google_signin_required,'google_client_id':config.google_client_id if config.google_signin_required else '',
+              'access_code_available':ready,'api_key_available':config.byok_enabled}
+        response=JSONResponse(data)
+        if config.google_signin_required and ready:
             nonce=str(int(time.time()))+'.'+secrets.token_hex(16)
-            response=JSONResponse({'google_required':True,'google_client_id':config.google_client_id,'nonce':nonce})
+            response=JSONResponse(dict(data,nonce=nonce))
             response.set_cookie(GOOGLE_NONCE_COOKIE,nonce+'.'+signed_session('google-nonce:'+nonce),max_age=600,httponly=True,
                 secure=request.url.hostname not in ('127.0.0.1','localhost','testserver'),samesite='strict',path='/v1')
         return response
     @app.post('/v1/session')
     async def signin(value: SessionRequest, request: Request):
         if not signins.allow(): raise HTTPException(429,'Too many connection attempts; try again in a minute')
+        if value.mode=='api_key':
+            if not config.byok_enabled:raise HTTPException(403,'Personal API keys are disabled by the host.')
+            if value.token or value.google_credential or not re.fullmatch(r'[A-Za-z0-9_.-]{20,256}',value.api_key):
+                raise HTTPException(422,'Enter a Google AI Studio API key, without an access code.')
+            prune_keys()
+            old=personal_session(request)
+            if len(key_sessions)>=64 and old is None:raise HTTPException(429,'Too many key sessions; try again later.')
+            if old:forget_key(request.cookies[COOKIE].split('.')[1])
+            personal=replace(config,api_key=value.api_key,access_token='',provider='gemini',project='',google_signin_required=False)
+            nonce=secrets.token_hex(16);payload=str(int(time.time()))+'.'+nonce+'.key'
+            entry=KeySession(key_provider_factory(personal),personal,time.time()+SESSION_SECONDS,asyncio.Event())
+            key_sessions[nonce]=entry
+            entry.timer=asyncio.get_running_loop().call_later(SESSION_SECONDS,forget_key,nonce)
+            return session_response(request,payload,'api_key')
+        if value.api_key:raise HTTPException(422,'Select Use my Google API key to connect with a key.')
         if not authorized('Bearer '+value.token): raise HTTPException(401,'That access code was not recognized')
         identity=''
         if config.google_signin_required:
@@ -426,32 +496,43 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             used_nonces[challenge]=now
             identity=base64.urlsafe_b64encode(json.dumps({'sub':claims['sub'],'email':email},separators=(',',':')).encode()).decode().rstrip('=')
         payload=str(int(time.time()))+'.'+secrets.token_hex(16)+(('.'+identity) if identity else '')
-        response=JSONResponse({'connected':True})
+        if personal_session(request):forget_key(request.cookies[COOKIE].split('.')[1])
+        return session_response(request,payload,'access_code')
+    def session_response(request,payload,mode):
+        response=JSONResponse({'connected':True,'mode':mode})
         response.delete_cookie(GOOGLE_NONCE_COOKIE,path='/v1')
         response.set_cookie(COOKIE,payload+'.'+signed_session(payload),max_age=SESSION_SECONDS,httponly=True,
             secure=request.url.hostname not in ('127.0.0.1','localhost','testserver'),samesite='strict',path='/v1')
         return response
     @app.get('/v1/session')
-    async def session_status(): return {'connected':True}
+    async def session_status(request: Request): return {'connected':True,'mode':'api_key' if personal_session(request) else 'access_code'}
     @app.delete('/v1/session')
-    async def signout():
+    async def signout(request: Request):
+        if personal_session(request):forget_key(request.cookies[COOKIE].split('.')[1])
         response=Response(status_code=204);response.delete_cookie(COOKIE,path='/v1');return response
     @app.post('/v1/teach')
-    async def teach(value: TeachRequest):
+    async def teach(value: TeachRequest,request: Request):
+        selected,_,key_entry=selection(request)
+        rate=key_lessons if key_entry else lessons
+        budget=key_lesson_budget if key_entry else lesson_budget
         if not config.ai_enabled: raise HTTPException(503,'AI is paused by the host. Your saved lessons remain available.')
-        if not lessons.allow(): raise HTTPException(429,'Lesson limit reached; retry your saved transcript shortly',headers={'Retry-After':'15'})
+        if not rate.allow(): raise HTTPException(429,'Lesson limit reached; retry your saved transcript shortly',headers={'Retry-After':'15'})
         try: await asyncio.wait_for(lesson_slots.acquire(),timeout=1)
         except asyncio.TimeoutError: raise HTTPException(429,'Two lessons are being prepared; retry shortly',headers={'Retry-After':'5'}) from None
         try:
-            if lesson_budget.reserve(1) is None:
+            if budget.reserve(1) is None:
                 raise HTTPException(429,'The demo lesson allowance has been reached. Saved lessons remain available.',headers={'Retry-After':'3600'})
-            result=await provider.teach(value)
+            if key_entry and (key_entry.revoked.is_set() or key_entry.expires_at<=time.time()):raise HTTPException(401,'Reconnect with your Google API key.')
+            result=await selected.teach(value)
         finally: lesson_slots.release()
         try:return validate_lesson(result,value.text)
         except ValueError:raise HTTPException(502,'The lesson omitted or changed words; retry your saved transcript') from None
     @app.websocket('/v1/listen')
     async def listen(client: WebSocket):
         if not (bearer_authorized(client.headers.get('authorization','')) or (same_origin(client) and cookie_authorized(client))): await client.close(code=4401);return
+        try:selected,selected_config,key_entry=selection(client)
+        except HTTPException:await client.close(code=4401);return
+        budget=key_audio_budget if key_entry else audio_budget
         if not config.ai_enabled: await client.close(code=4403);return
         if not sessions.allow(): await client.close(code=4429);return
         await client.accept()
@@ -462,14 +543,16 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             first=await asyncio.wait_for(client.receive_text(),timeout=10)
             if len(first)>8192 or not isinstance(json.loads(first).get('setup'),dict): raise ValueError('Expected setup')
             # Reserve the maximum billed connection duration before contacting Google.
-            reservation=audio_budget.reserve(600)
+            reservation=budget.reserve(600)
             if reservation is None:
                 await client.send_json({'error':{'message':'The demo listening allowance has been reached. Saved lessons remain available.'}})
                 return
             upstream_started=time.monotonic()
-            async with asyncio.timeout(590), provider.live() as upstream:
+            duration=min(590,max(0,key_entry.expires_at-time.time())) if key_entry else 590
+            if duration<=0 or (key_entry and key_entry.revoked.is_set()):return
+            async with asyncio.timeout(duration), selected.live() as upstream:
                 # The server controls model and capabilities, irrespective of client input.
-                await upstream.send(json.dumps(setup_message(config.transcribe_model,config.project if config.provider=='vertex' else None,config.location)))
+                await upstream.send(json.dumps(setup_message(selected_config.transcribe_model,selected_config.project if selected_config.provider=='vertex' else None,selected_config.location)))
                 async def to_google():
                     nonlocal acquired
                     pace=AudioPace()
@@ -491,6 +574,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
                         if 'error' in value:raw=json.dumps({'error':{'message':'Google transcription is unavailable; check server model access'}})
                         await client.send_text(raw)
                 tasks=[asyncio.create_task(to_google()),asyncio.create_task(to_phone())]
+                if key_entry:tasks.append(asyncio.create_task(key_entry.revoked.wait()))
                 try:
                     done,_=await asyncio.wait(tasks,timeout=590,return_when=asyncio.FIRST_COMPLETED)
                     for task in done:task.result()
@@ -506,7 +590,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             except Exception:pass
         finally:
             if reservation is not None:
-                audio_budget.settle(reservation,0 if upstream_started is None else time.monotonic()-upstream_started)
+                budget.settle(reservation,0 if upstream_started is None else time.monotonic()-upstream_started)
             if acquired:live_slots.release()
             if connected:connections.release()
             try:await client.close()

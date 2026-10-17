@@ -17,7 +17,7 @@ let noticeTimer,locationWatch=null;
 function notice(message,error=false){$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').hidden=true,error?14000:6000);}
 function profile(){const known=state.languages.find(x=>x.code===$('known-language').value);const learning=state.languages.find(x=>x.code===$('learning-language').value);return {known_code:known.code,known_name:known.name,learning_code:learning.code,learning_name:learning.name};}
 function validProfile(){if(!state.languages.length){notice('The language list is still loading. Try again in a moment.',true);return false;}const pair=profile();if(baseLanguage(pair.known_code)===baseLanguage(pair.learning_code)){notice('Choose different languages to understand and learn.',true);return false;}return true;}
-function connected(value){state.connected=value;$('connection-dot').classList.toggle('connected',value);$('connection-label').textContent=value?'Connected':'Connect';$('disconnect').hidden=!value;}
+function connected(value,mode='access_code'){state.connected=value;state.connectionMode=value?mode:null;$('connection-dot').classList.toggle('connected',value);$('connection-label').textContent=value?'Connected':'Connect';$('disconnect').hidden=!value;}
 async function api(path,options={}){
   let response;
   try {response=await fetch(path,{credentials:'same-origin',...options,headers:{'Content-Type':'application/json',...options.headers}});}catch{throw new Error('Could not reach your learning space. Check your internet connection; saved lessons are still available.');}
@@ -197,24 +197,39 @@ $('new-conversation').onclick=async()=>{
 async function stopListening(){if(microphone.running||microphone.context){$('listen-button').disabled=true;await microphone.stop();$('listen-button').disabled=false;}listeningUI(false);}
 function listeningUI(listening){$('listen-label').textContent=listening?'Stop listening':'Start listening';$('listen-button').classList.toggle('recording',listening);$('listening-wave').hidden=!listening;$('live-state').classList.toggle('live',listening);$('listen-button').setAttribute('aria-pressed',String(listening));}
 function setView(view){state.view=view;const saved=view==='saved';$('saved-view').hidden=!saved;$('conversation-view').hidden=saved;$('listen-dock').hidden=saved;$('saved-tab').classList.toggle('active',saved);$('conversation-tab').classList.toggle('active',!saved);$('saved-tab').setAttribute('aria-current',saved?'page':'false');$('conversation-tab').setAttribute('aria-current',saved?'false':'page');if(saved){stopListening();renderSaved();}window.scrollTo({top:0});}
-let serverConfigured=false,googleRequired=false,googleCredential='',connectionAttempt=0;
+let serverConfigured=false,googleRequired=false,googleCredential='',connectionAttempt=0,connectionConfig=null;
+function connectionMode(){return $('method-key').checked?'api_key':'access_code';}
+function clearCredentials(){$('access-code').value='';$('personal-api-key').value='';googleCredential='';}
+async function applyConnectionMode(attempt){
+  googleCredential='';$('google-signin').replaceChildren();$('google-signin').hidden=true;$('connect-submit').disabled=true;
+  const ownKey=connectionMode()==='api_key';$('key-fields').hidden=!ownKey;$('code-fields').hidden=ownKey;googleRequired=!ownKey&&Boolean(connectionConfig?.google_required);
+  $('connection-description').textContent=ownKey?'Use your Google AI Studio key for listening and replies.':googleRequired?'Sign in with an invited Google account, then enter your private access code.':'Use the access code shared by your host.';
+  if(!connectionConfig){$('connection-message').textContent='Could not load connection options. Close and try again.';return;}
+  const available=ownKey?connectionConfig.api_key_available:connectionConfig.access_code_available;
+  if(!available){$('connection-message').textContent=ownKey?'Personal API keys are disabled by this host.':'Host access is not available. You can use your own Google API key.';return;}
+  $('connection-message').textContent=state.connected?('Connected using '+(state.connectionMode==='api_key'?'your Google API key.':'the access code.')):ownKey?'Google checks your key when you listen or request a lesson.':'Your host can share the access code.';
+  if(!googleRequired){$('connect-submit').disabled=false;return;}
+  $('connection-message').textContent='Only invited Google accounts can use the access code.';$('google-signin').hidden=false;
+  try{await renderGoogleSignIn(connectionConfig,$('google-signin'),credential=>{
+    if(attempt!==connectionAttempt||!$('connection-dialog').open)return;
+    googleCredential=credential;$('connect-submit').disabled=!credential;
+    $('connection-message').textContent=credential?'Google account selected. Enter your access code to connect.':'Google sign-in was not completed. Please try again.';
+  });}catch(error){if(attempt===connectionAttempt)$('connection-message').textContent=error.message;}
+}
 async function openConnection(){
-  await stopListening();const attempt=++connectionAttempt;googleCredential='';$('access-code').value='';$('google-signin').replaceChildren();$('google-signin').hidden=true;$('connect-submit').disabled=true;
-  $('connection-message').textContent=state.connected?'Connected. You can sign in again to replace this session, or disconnect.':serverConfigured?'Your host can share the access code.':'Live learning has not been connected by the host yet. You can still explore the prepared example.';
+  await stopListening();const attempt=++connectionAttempt;clearCredentials();connectionConfig=null;$('google-signin').replaceChildren();$('google-signin').hidden=true;$('connect-submit').disabled=true;
+  $('connection-message').textContent='Loading connection options…';
   if(!$('connection-dialog').open)$('connection-dialog').showModal();
-  if(!serverConfigured){$('connect-submit').disabled=false;return;}
   try{
-    const config=await api('/v1/auth/config');if(attempt!==connectionAttempt)return;
-    googleRequired=config.google_required;$('connection-description').textContent=googleRequired?'Sign in with an invited Google account, then enter your private access code.':'Enter the access code shared by your host to start listening and create lessons.';
-    if(!googleRequired){$('connect-submit').disabled=false;return;}
-    $('connection-message').textContent='Only invited Google accounts can connect.';$('google-signin').hidden=false;
-    await renderGoogleSignIn(config,$('google-signin'),credential=>{
-      if(attempt!==connectionAttempt||!$('connection-dialog').open)return;
-      googleCredential=credential;$('connect-submit').disabled=!credential;
-      $('connection-message').textContent=credential?'Google account selected. Enter your access code to connect.':'Google sign-in was not completed. Please try again.';
-    });
+    const config=await api('/v1/auth/config');if(attempt!==connectionAttempt)return;connectionConfig=config;
+    if(state.connected)$(state.connectionMode==='api_key'?'method-key':'method-code').checked=true;
+    if(!config.access_code_available&&config.api_key_available)$('method-key').checked=true;
+    if(!config.api_key_available&&config.access_code_available)$('method-code').checked=true;
+    $('method-key').disabled=!config.api_key_available;$('method-code').disabled=!config.access_code_available;
+    await applyConnectionMode(attempt);
   }catch(error){if(attempt===connectionAttempt)$('connection-message').textContent=error.message;}
 }
+for(const id of ['method-code','method-key'])$(id).onchange=()=>{clearCredentials();applyConnectionMode(++connectionAttempt);};
 const microphone=new LiveMicrophone({status:message=>{$('live-state').textContent=message;},interim:text=>{$('interim').textContent=text;},final:(text,pair,conversation)=>accept(text,pair,conversation),error:message=>{listeningUI(false);notice(message,true);}});
 $('listen-button').onclick=async()=>{
   if(microphone.running){await stopListening();return;}
@@ -225,10 +240,17 @@ $('listen-button').onclick=async()=>{
 $('phrase-form').onsubmit=async event=>{event.preventDefault();if(!validProfile())return;if(!state.connected){await openConnection();return;}const text=$('phrase-input').value;if(!text.trim())return;$('phrase-input').value='';await accept(text);};
 async function showExample(){try{await stopListening();const example=await fetch('/assets/example.json').then(r=>r.json());state.selected={...example,id:'example',example:true,pair:{known_code:'en-US',known_name:'English',learning_code:'ja-JP',learning_name:'Japanese'},status:'ready'};state.pronunciation=false;renderLesson();}catch{notice('The example could not be loaded. Reconnect and refresh the page.',true);}}
 $('try-example').onclick=showExample;
-$('connection-dialog').addEventListener('cancel',()=>{googleCredential='';connectionAttempt++;});
-$('connection-open').onclick=openConnection;$('connection-close').onclick=()=>{googleCredential='';connectionAttempt++;$('connection-dialog').close();};$('word-close').onclick=()=>$('word-dialog').close();
-$('connection-form').onsubmit=async event=>{event.preventDefault();const token=$('access-code').value.trim();if(googleRequired&&!googleCredential){$('connection-message').textContent='Sign in with Google first.';return;}if(!token){$('connection-message').textContent='Enter the access code shared by your host.';return;}$('connect-submit').disabled=true;try{await api('/v1/session',{method:'POST',body:JSON.stringify({token,...(googleRequired?{google_credential:googleCredential}:{})})});connected(true);googleCredential='';$('access-code').value='';$('connection-dialog').close();notice('You’re connected. Ready when you are.');}catch(error){$('connection-message').textContent=error.message;}finally{$('connect-submit').disabled=false;}};
-$('disconnect').onclick=async()=>{await stopListening();try{await api('/v1/session',{method:'DELETE'});connected(false);googleCredential='';forgetGoogleSelection();$('connection-dialog').close();notice('Disconnected. Your saved lessons stay on this browser.');}catch(error){$('connection-message').textContent=error.message;}};
+$('connection-dialog').addEventListener('cancel',()=>{clearCredentials();connectionAttempt++;});
+$('connection-open').onclick=openConnection;$('connection-close').onclick=()=>{clearCredentials();connectionAttempt++;$('connection-dialog').close();};$('word-close').onclick=()=>$('word-dialog').close();
+$('connection-form').onsubmit=async event=>{
+  event.preventDefault();const mode=connectionMode(),token=$('access-code').value.trim(),key=$('personal-api-key').value.trim();
+  if(googleRequired&&!googleCredential){$('connection-message').textContent='Sign in with Google first.';return;}
+  if(mode==='api_key'?!key:!token){$('connection-message').textContent=mode==='api_key'?'Enter your Google API key.':'Enter the access code shared by your host.';return;}
+  $('connect-submit').disabled=true;
+  try{await api('/v1/session',{method:'POST',body:JSON.stringify(mode==='api_key'?{mode,api_key:key}:{mode,token,...(googleRequired?{google_credential:googleCredential}:{})})});connected(true,mode);clearCredentials();connectionAttempt++;$('connection-dialog').close();notice('You’re connected. Ready when you are.');}
+  catch(error){$('connection-message').textContent=error.message;}finally{$('connect-submit').disabled=false;}
+};
+$('disconnect').onclick=async()=>{await stopListening();try{await api('/v1/session',{method:'DELETE'});connected(false);clearCredentials();connectionAttempt++;forgetGoogleSelection();$('connection-dialog').close();notice('Disconnected. Your saved lessons stay on this browser.');}catch(error){$('connection-message').textContent=error.message;}};
 $('conversation-tab').onclick=()=>setView('conversation');$('saved-tab').onclick=()=>setView('saved');$('saved-search').oninput=renderSaved;
 $('clear-saved').onclick=()=>$('clear-dialog').showModal();$('clear-cancel').onclick=()=>$('clear-dialog').close();$('clear-confirm').onclick=async()=>{try{for(const r of state.records)deletedRecords.add(r.id);audioSamples.clear();await state.storage?.clear();state.records=[];state.queue=[];state.selected=null;localStorage.removeItem(learnerKey('lingolive-conversation'));updateCount();renderSaved();$('clear-dialog').close();location.reload();}catch{notice('Could not clear browser storage. Try clearing this site’s data in browser settings.',true);}};
 for(const id of ['known-language','learning-language'])$(id).onchange=async()=>{await stopListening();state.conversation=newConversation(state.conversation.goal);state.conversation.profile_id=state.learner.id;persistConversation();renderContext();renderTranscripts();state.selected=null;renderLesson();try{localStorage.setItem(learnerKey('lingolive-profile'),JSON.stringify(profile()));}catch{}validProfile();};
@@ -244,6 +266,6 @@ async function init(){
   state.conversation.profile_id=state.learner.id;renderLearners();$('memory-notes').value=state.learner.notes||'';
   $('conversation-goal').value=state.conversation.goal;persistConversation();renderContext();
   try{state.storage=await new Memory(learners.key('lingolive-learning')).open();profileStores.set(state.learner.id,state.storage);state.records=await state.storage.all();for(const r of state.records)r.profile_id=state.learner.id;for(const record of state.records)if(['queued','loading'].includes(record.status)){record.status='transcribed';record.error='The page was closed before the lesson finished. Your phrase is saved; retry it.';await save(record);}updateCount();renderTranscripts();renderContext();}catch{state.storage=null;state.memoryFailed=true;notice('Persistent browser storage is unavailable. This conversation will only last while this page is open.',true);$('storage-note').textContent='Browser storage is unavailable. This session is temporary.';}
-  try{const health=await api('/health');serverConfigured=health.configured;if(serverConfigured){try{await api('/v1/session');connected(true);}catch{connected(false);}}}catch{notice('The live service is unavailable. You can explore the prepared example or your saved lessons.',true);}
+  try{const health=await api('/health');serverConfigured=health.configured;if(serverConfigured||health.byok_available){try{const session=await api('/v1/session');connected(true,session.mode);}catch{connected(false);}}}catch{notice('The live service is unavailable. You can explore the prepared example or your saved lessons.',true);}
 }
 init().catch(()=>notice('The page could not finish loading. Please refresh to try again.',true));

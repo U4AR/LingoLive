@@ -1,0 +1,40 @@
+{
+  "passed": 8,
+  "checks": [
+    {
+      "name": "Connect offers private code and a personal Google key with clear billing and retention",
+      "passed": true
+    },
+    {
+      "name": "Switching methods and closing clears entered credentials",
+      "passed": true
+    },
+    {
+      "name": "Personal key creates only an opaque HttpOnly session and clears the key field",
+      "passed": true
+    },
+    {
+      "name": "Lessons use the personal provider and never save keys with memory",
+      "passed": true
+    },
+    {
+      "name": "Reload retains key-session access without storing or asking for the key again",
+      "passed": true
+    },
+    {
+      "name": "Browser microphone audio, transcription and lessons use only the personal provider",
+      "passed": true
+    },
+    {
+      "name": "Switching to host code uses host quota while preserving saved lessons",
+      "passed": true
+    },
+    {
+      "name": "Disconnect removes live access and retains local saved learning",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "synthetic_browser_audio": true,
+  "errors": []
+}

@@ -98,7 +98,8 @@ class GoogleSignInTests(unittest.TestCase):
     def test_required_google_mode_with_missing_registration_fails_closed(self):
         for config in [replace(GOOGLE_CONFIG,google_client_id=''),replace(GOOGLE_CONFIG,allowed_google_emails=())]:
             c=TestClient(create_app(config,FakeProvider()))
-            self.assertEqual(503,c.get('/v1/auth/config').status_code)
+            options=c.get('/v1/auth/config');self.assertEqual(200,options.status_code)
+            self.assertFalse(options.json()['access_code_available']);self.assertTrue(options.json()['api_key_available'])
             self.assertEqual(503,c.post('/v1/session',json={'token':TOKEN},headers=ORIGIN).status_code)
             self.assertEqual(401,c.post('/v1/teach',json=INPUT,headers=AUTH).status_code)
     def test_google_mode_has_only_required_csp_origins_and_popup_policy(self):

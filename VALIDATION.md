@@ -1,32 +1,35 @@
-# Current source: web 1.2 — October 17, 2026
+# Current source: web 1.3 — October 17, 2026
 
-The following sections retain historical Android, web and deployment evidence.
-Current source adds conversation memory, tentative automatic speaker/intent cues,
-optional coarse location/four-second audio and a simpler conversation interface.
+The source now supports either the host access code or a learner's Google AI
+Studio key, including transcription and replies. Personal-key calls use their
+own Gemini provider and never fall back to host Vertex/API credentials.
 
-- **62 backend tests pass**: authentication, body/field bounds, context roles,
-  isolated request payloads, stale location rejection, PCM WAV validation and
-  separate multimodal audio transport, plus existing Google/Vertex/auth guards.
-- Browser results are recorded separately: 13 baseline, 5 optional Google sign-in,
-  8 context, 12 learner-memory/sensor, and 4 simple-UI checks. Google replies and
-  transcription are fixtures; microphone PCM is Chromium synthetic audio and
-  location is a browser fixture. These are transport/UI/isolation checks.
-- Pure JavaScript core/context assertions cover source conservation, word
-  definitions, 16/44.1/48 kHz PCM, history boundaries, profile namespaces, stale
-  scenes, temporary intent, coarse location and maximum four-second WAV input.
-- UI screenshots include `web-simple-mobile.png` and `web-word-bubble.png`.
+- **74 backend tests pass**, including 12 new personal-key/transport checks:
+  session auth/origin/credential bounds, no credential echo in validation errors,
+  isolated clients/providers, no-host setup, failed-key no-fallback behavior,
+  separate host/personal quotas across re-login, real relay PCM path and model
+  selection, logout/copy-cookie revocation and active stream closure, expiry,
+  tampering/restart/replacement, emergency pause and disabled-key mode. Google
+  HTTP/WebSocket transport credentials are checked using explicit mocks.
+- **50 browser checks**: 13 baseline, 5 optional Google auth, 8 context, 12 learner
+  memory/sensors, 4 simple UI and 8 personal-key flows. Google responses are
+  fixtures; Chromium captures synthetic microphone audio. Key-mode tests cover
+  selection, field clearing, HttpOnly sessions, key-free local storage/lessons,
+  reload, actual AudioWorklet relay/transcription, switching to host code and
+  disconnect without losing history.
+- Pure JS source/word/PCM/context tests pass. UI evidence includes
+  `web-personal-key.png`, `web-simple-mobile.png` and `web-word-bubble.png`.
 
-**Not deployed:** current changes await valid operator credentials; a direct
-Google probe returned 401 after the earlier token expired. Live service revision
-remains `lingolive-00004-jzp`. Historical successful inference below does not
-validate new context/speaker/ambient-audio accuracy. No physical phone, current
-container rebuild or Android APK rebuild was performed for web 1.2.
+**Not deployed:** live revision remains `lingolive-00004-jzp`; a fresh operator
+credential is needed. New personal-key inference and model access have not been
+verified with a real Google key. Prior live inference below does not validate
+these changes. Android APK and container image were not rebuilt for web 1.3.
 
-The source lives in the independent local Git repository `/workspace/LingoLive`.
-GitHub repository creation returned 403 “Resource not accessible by integration”.
-The original repository remains at `b059f0b2f65df02a0d1a5b03a8cabd1ae57e43cb`.
-No API keys, private access code, deployment credentials or signing keys are
-included. See `MEMORY.md` for storage and limitations.
+Source is in the standalone local Git repository `/workspace/LingoLive`. Device
+login succeeded as U4AR, but creating the GitHub repository still returned
+“Resource not accessible by integration”. The original repository remains
+unchanged at `b059f0b2f65df02a0d1a5b03a8cabd1ae57e43cb`. No real credentials or
+signing keys are bundled. See `MEMORY.md` for session/storage/cost limitations.
 
 ---
 

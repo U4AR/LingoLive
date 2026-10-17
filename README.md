@@ -1,19 +1,31 @@
 # LingoLive
 
-## Current source: web 1.2
+## Current source: web 1.3
 
-An independent Git project with a simple conversation screen: heard speech,
-three suggested replies, and word meanings in a tap bubble. Goals are optional;
-replies use recent conversation, earlier suggestions and this learner's local
-memory. The gear opens profile, goal, place and optional location/sound controls.
-See [MEMORY.md](MEMORY.md) for storage, automatic speaker estimates and privacy.
+Connect with **Use access code** to use your host's Google allowance, or
+**Use my Google API key** to use your own Google AI Studio account for both
+transcription and replies. Personal-key mode never falls back to the host's key
+or Cloud Run service account. Google bills that key's project; this service still
+relays requests and applies infrastructure limits. Saved learning stays local.
+
+Keys are sent to the relay over HTTPS and held in server memory for up to one
+hour, not in browser storage, lessons, cookies or a server database. Disconnect
+revokes the session and stops its live streams. A service restart forgets keys
+and requires reconnecting. Google checks key validity/model access on use;
+opening a session alone does not verify Google access. Restricted keys must allow
+these server-side Gemini API calls; browser-referrer-only keys are unsuitable.
+
+The simple screen shows heard speech, three suggested replies, and word meanings
+in a tap bubble. Goals are optional; replies use recent conversation, earlier
+suggestions and this learner's local memory. The gear opens profile, goal, place
+and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 
 **Deployment status:** the existing Cloud Run service is still revision
-`lingolive-00004-jzp`. These web 1.2 changes are locally tested and await a fresh
-deployment credential. The Android binary is unchanged. GitHub repository
-creation was blocked by the connected integration (403); the standalone local
-repository is ready for the new remote. No credentials are included.
-
+`lingolive-00004-jzp`. These web 1.3 changes are locally tested and await a fresh
+deployment credential. The Android binary is unchanged; its existing direct-key
+option remains separate. GitHub device login succeeded as U4AR, but repository
+creation still returns integration permission errors; the standalone local Git
+repository is prepared. No credentials are included.
 
 A web and Android companion for learning from real conversations. Choose a language
 you know and a language you are learning, then tap **Start listening**. Google's
@@ -31,13 +43,13 @@ saved by this application.
 This is an independent project. It installs alongside Bible Audio and VerseKeep.
 It does not use their models, corpus, API keys or application storage.
 
-## Sign-in: private access code
+## Host access: private access code
 
 Google sign-in and an explicit invited-email allowlist are implemented and tested
 and deployed in live revision `lingolive-00004-jzp`. The service still
 requires the private access code; **Google sign-in is not active there yet**.
 The user chose simple private-access-code sign-in. No Google OAuth registration
-is needed for the selected flow. Optional Google account support remains
+is needed for either the selected host-code flow or personal-key mode. Optional Google account support remains
 disabled; see `WEB-DEPLOY.md` only if choosing to enable it in future.
 
 When enabled, Google sign-in AND the private code are required. Old cookies and
@@ -47,7 +59,7 @@ its sign-in flow is updated. Public example and local saved lessons remain usabl
 Google Identity Services loads from Google only for the sign-in screen; regular
 web operation still needs no frontend build or framework.
 
-## Web app (1.1)
+## Web app
 
 A responsive browser version is included in `web/` and served by the same FastAPI
 service as the Google relay. **One Cloud Run deployment serves the website, live
@@ -57,7 +69,7 @@ remains available as a companion; its existing bearer-token API is unchanged.
 
 Open the deployed service URL, choose the language you understand and the language
 you are learning, click **Connect**, and enter your host's private access code
-(`LINGOLIVE_ACCESS_TOKEN`). The recommended Cloud Run deployment uses Vertex AI and the runtime service account,
+(`LINGOLIVE_ACCESS_TOKEN`), or select **Use my Google API key**. The recommended Cloud Run host deployment uses Vertex AI and the runtime service account,
 with no Google API key. The optional Gemini API provider keeps its key in Secret
 Manager; it is never returned to the browser. A one-hour signed HttpOnly, SameSite=Strict,
 Secure cookie authenticates browser requests and WebSockets. Cookie writes and
@@ -192,7 +204,7 @@ The backend relays Transcribe Live WebSockets and makes Flash requests. The
 recommended Vertex provider uses the Cloud Run service account and Google Cloud
 billing. A Google AI Studio API key is optional with `LINGOLIVE_PROVIDER=gemini`. It forwards speech without creating audio files. HTTPS
 and a separate bearer token protect the private deployment. All `/v1/` learning endpoints
-require authentication; browser sign-in validates the private access code; `/health` reports only service/version/configured status.
+require authentication; browser sign-in accepts the private access code or a personal key session; `/health` reports service/version/configured and personal-key availability without credentials.
 It enforces 24 lesson requests/minute, 360/hour and 400/day across all users.
 Two active audio streams are allowed, with up to two additional connections
 draining final text for five seconds during renewal. Audio is limited to 40

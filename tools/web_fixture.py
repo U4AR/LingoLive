@@ -30,6 +30,9 @@ class Provider:
     @asynccontextmanager
     async def live(self):yield FixtureSocket(self)
 provider=Provider()
-app=create_app(Config('test-only-google-key','test-only-browser-access-code-32-characters'),provider)
+personal_providers=[]
+def personal_provider(config):
+    value=Provider();personal_providers.append(value);return value
+app=create_app(Config('test-only-google-key','test-only-browser-access-code-32-characters'),provider,key_provider_factory=personal_provider)
 @app.get('/fixture/status')
-async def status():return {'requests':provider.requests,'frames':provider.frames,'bytes':provider.bytes,'setups':provider.setups}
+async def status():return {'requests':provider.requests,'frames':provider.frames,'bytes':provider.bytes,'setups':provider.setups,'personal':[{'requests':p.requests,'frames':p.frames,'bytes':p.bytes,'setups':p.setups} for p in personal_providers]}

@@ -1,6 +1,6 @@
 # Deploy LingoLive on Cloud Run
 
-Current web 1.2 context/memory/UI source has not been deployed. The existing live
+Current web 1.3 personal-key/context/memory/UI source has not been deployed. The existing live
 revision is `lingolive-00004-jzp`; its runtime service account remains independent
 of the expired operator credential. Deploy this source only after valid operator
 authentication is available. Keep Google sign-in disabled for the selected private
@@ -14,12 +14,37 @@ and Gemini Flash language lessons. The container listens on `$PORT` (8080 by
 default). `/` serves the site; `/health` reports setup; protected `/v1/` endpoints
 handle learning. Transcripts and lessons remain in the browser's IndexedDB.
 
+## Connection choices
+
+The web Connect dialog offers **Use access code** and **Use my Google API key**.
+Host-code mode uses the configured provider (recommended: Vertex runtime service
+account). Personal-key mode always uses Gemini Developer API with the learner's
+AI Studio key for both Flash and Transcribe Live, never the runtime account.
+No host key/code is needed for personal-key-only local operation; the recommended
+deployment helper still configures host access as well.
+
+`LINGOLIVE_BYOK_ENABLED=true` is the default. Set it to `false` to disable new
+personal-key sessions. Keys stay in RAM for at most one hour; keep one instance,
+without worker replication. Restart/scale-to-zero forgets them, so users may need
+to reconnect. A Google-invalid key can create a session but paid operations return
+a safe Google access/billing error; no host fallback occurs. Allow server-side
+requests on restricted keys and enable access/quota for the configured models.
+The relay does not log request bodies or upstream key-bearing URLs; keep proxy
+and error logging from recording credentials when customizing deployment.
+
+Existing host quotas are unchanged. Personal-key users share a separate set of
+those allowances; both groups share the concurrency/pacing limits. Google model
+charges go to the personal key's project; Cloud Run relay costs remain with the
+host. Session creation remains rate limited and at most 64 personal-key sessions
+are retained per process. Emergency AI pause blocks both modes. Optional Google
+invitation requirements continue to apply only to host-code access.
+
 ## Recommended: Vertex AI with the Cloud Run service account
 
 Use a billing-enabled Google Cloud project. Enable Vertex AI (`aiplatform`),
 Cloud Run, Cloud Build, Artifact Registry, IAM and Secret Manager. The same
 Gemini 3.6 Flash and Gemini 3.5 Transcribe Live models are used through Vertex;
-there is **no Google API key** in the browser, source, or recommended runtime.
+host-code operation needs **no Google API key** in the browser or recommended runtime. Personal-key mode accepts a key only at connection time; source contains no keys.
 Google authentication uses the runtime service account's automatically refreshed
 OAuth token. Usage is billed to the Cloud project. AI Studio prepaid credits are
 not used by this provider.
@@ -56,8 +81,9 @@ and uses `global` for the model location. Model IDs can be overridden with
 `LINGOLIVE_FLASH_MODEL` and `LINGOLIVE_TRANSCRIBE_MODEL`. Default Cloud Run limits
 are zero minimum/one maximum instance, two active listeners, two concurrent
 lessons and a 600-second request timeout. Brief five-second draining connections
-keep both listeners' final words during automatic renewal. All paid calls require
+keep both listeners' final words during automatic renewal. Host-funded calls require
 the private code (one-hour secure browser cookie, or Android bearer token).
+Personal-key calls require a separate active key session and use that key.
 
 Shared rolling allowances: 24 lessons/minute, 360/hour, 400/day; 40 combined audio
 minutes/hour and 60/day. Google connection time, including silence, is counted;
@@ -84,7 +110,7 @@ and do not stop spending. Keep the private code private; a public launch needs
 individual identity and durable cross-instance quotas.
 
 The HTTPS service URL printed at the end serves the website. Click **Connect**
-and enter your private access code. To retrieve that code in your own authorized
+and enter your private access code, or choose your own Google key. To retrieve that code in your own authorized
 Cloud Shell, run (do not send the output to a public chat):
 
 ```bash
