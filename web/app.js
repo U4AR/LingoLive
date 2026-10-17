@@ -210,10 +210,10 @@ $('add-personal-memory').onsubmit=event=>{event.preventDefault();try{personalMem
 $('save-memory').onclick=()=>{learners.setNotes($('memory-notes').value);state.learner=learners.current;persistConversation();notice('Memory notes saved for '+state.learner.name+'.');};
 $('context-setting').onchange=()=>{state.conversation.place=$('context-setting').value;persistConversation();};
 $('use-audio-context').onchange=()=>{microphone.includeAmbience=$('use-audio-context').checked;if(!microphone.includeAmbience){audioSamples.clear();microphone.ambience=[];}};
-function renderPlaces(){
+function renderPlaces(statusOnly=false){
  const pm=places();$('use-place-memory').checked=pm.enabled;$('place-count').textContent=String(pm.items().length)+' / 5';
  const near=pm.nearby();$('place-state').textContent=!pm.enabled?'Saved place location is off':!pm.ready()?'Waiting for a fresh accurate location and a minute here':near?(near.returning?'Back near '+near.label:'First visit · '+near.label):'Ready to remember this area';
- $('save-place-button').disabled=!pm.ready();const list=$('place-list');list.replaceChildren();
+ $('save-place-button').disabled=!pm.ready();if(statusOnly)return;const list=$('place-list');list.replaceChildren();
  for(const p of pm.items()){
   const card=element('article','personal-memory-item');card.dataset.place=p.id;const label=element('input','place-label');label.value=p.label;label.maxLength=60;label.setAttribute('aria-label','Saved place name');card.append(label);
   for(const f of p.facts){const text=element('textarea','place-fact');text.value=f.text;text.maxLength=160;text.rows=2;text.setAttribute('aria-label','Place note');const actions=element('div','context-actions');const edit=element('button','text-button',f.status==='confirmed'?'Save place note':'Confirm place note');edit.type='button';edit.onclick=()=>{try{pm.edit(p.id,label.value,f.id,text.value);renderPlaces();}catch(error){notice(error.message,true);}};const remove=element('button','text-button','Forget note');remove.type='button';remove.onclick=()=>{pm.forgetFact(p.id,f.id);renderPlaces();};actions.append(edit,remove);card.append(element('p','fine-print',f.status==='confirmed'?'Confirmed by you':'Possible · suggested from your words'),text,actions);}
@@ -234,7 +234,7 @@ function restartLocation(){
  const onPosition=position=>{
   if(owner!==state.learner.id)return;
   if($('use-location').checked){try{state.location=approximateLocation(position);$('location-state').textContent='Approximate location is on';$('open-map').href='https://www.google.com/maps?q='+state.location.latitude+','+state.location.longitude;$('open-map').hidden=false;}catch(error){notice(error.message,true);}}
-  if(places().enabled){places().update(position);renderPlaces();}
+  if(places().enabled){places().update(position);renderPlaces(true);}
  };const onError=()=>{if(owner!==state.learner.id)return;state.location=null;$('location-state').textContent='Location unavailable; using conversation only';$('use-location').checked=false;$('open-map').hidden=true;places().enable(false);renderPlaces();if(locationWatch!==null)navigator.geolocation.clearWatch(locationWatch);locationWatch=null;clearInterval(locationPoll);locationPoll=null;};const options={enableHighAccuracy:false,maximumAge:30000,timeout:12000};
  locationWatch=navigator.geolocation.watchPosition(onPosition,onError,options);if(usePlaces)locationPoll=setInterval(()=>{if(owner===state.learner.id&&places().enabled)navigator.geolocation.getCurrentPosition(onPosition,onError,{...options,maximumAge:0});},30000);
 }

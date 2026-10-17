@@ -1,0 +1,14 @@
+{
+  "live_google": true,
+  "staged_revision": "lingolive-00016-buh",
+  "lesson_attempts": 3,
+  "google_generation_calls": 6,
+  "all_http_calls_succeeded": true,
+  "geolocation_and_clock_simulated": true,
+  "automatic_fact": "The user considers this their usual tea stall.",
+  "quality_assertion_failed": "The useful ginger-tea preference was not captured.",
+  "geographic_gating_observed": true,
+  "response_timings_not_retained": true,
+  "result": "Not promoted; extraction prompt revised to prioritize actionable routines.",
+  "new_media_generated": false
+}
