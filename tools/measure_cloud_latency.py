@@ -1,4 +1,4 @@
-"""Opt-in live latency checks: at most ten lesson calls and one short PCM stream.
+"""Opt-in live latency checks: at most ten lessons (twenty parallel model calls) and one short PCM stream.
 
 Credentials come from the normal Cloud SDK and Secret Manager, remain in RAM,
 and are never written to the report. Run using backend/.venv/bin/python.
@@ -21,10 +21,15 @@ CASES=[
 def main():
  parser=argparse.ArgumentParser(description=__doc__)
  parser.add_argument('--resume',action='store_true',help='Continue unmeasured cases in the same report without repeating completed calls')
- parser.add_argument('--run-live',action='store_true',help='Authorize up to ten billable lesson calls and one short speech stream')
- parser.add_argument('--output',type=Path,default=ROOT/'validation/cloud-latency-results.json')
+ parser.add_argument('--run-live',action='store_true',help='Authorize up to ten lessons (twenty model calls) and one short speech stream')
+ parser.add_argument('--output',type=Path,default=ROOT/'validation/cloud-parallel-latency-results.json')
  parser.add_argument('--wav',type=Path,default=ROOT/'tools/fixtures/reference.wav',help='Synthesized John chapter 3 verse 16, mono PCM16/16kHz, at most four seconds')
+ parser.add_argument('--url',default=BASE,help='Verified public or tagged service URL')
+ parser.add_argument('--expected-traffic',type=int,choices=(0,100),default=100)
  args=parser.parse_args()
+ base=args.url.rstrip('/')
+ if base not in (BASE,'https://lingolive-l5utioe5cq-uc.a.run.app','https://verify---lingolive-l5utioe5cq-uc.a.run.app'):
+  parser.error('Only the existing LingoLive HTTPS service or its verification tag is allowed.')
  if not args.run_live:parser.error('Pass --run-live to run real Google calls; no benchmark runs by default.')
  sdk=shutil.which('gcloud') or '/workspace/.cloud-tools/gcloud'
  credential=subprocess.check_output([sdk,'auth','print-access-token'],text=True).strip()
@@ -32,11 +37,13 @@ def main():
  response=requests.get('https://run.googleapis.com/v2/projects/locateassist/locations/us-central1/services/lingolive',headers=admin,timeout=30);response.raise_for_status();service=response.json()
  revision=service['latestReadyRevision'].split('/')[-1]
  traffic=service.get('trafficStatuses',service.get('traffic',[]))
- assert sum(t.get('percent',0) for t in traffic if t.get('revision','').split('/')[-1]==revision)==100,'Latest revision is not serving all traffic'
+ assert sum(t.get('percent',0) for t in traffic if t.get('revision','').split('/')[-1]==revision)==args.expected_traffic,'Latest revision traffic differs'
  container=service['template']['containers'][0];env={e['name']:e.get('value') for e in container.get('env',[])}
- assert env['LINGOLIVE_FLASH_MODEL']=='gemini-3.8-flash'
+ assert env['LINGOLIVE_FLASH_MODEL']=='gemini-3.1-flash-lite'
+ assert env['LINGOLIVE_LESSON_STRATEGY']=='parallel'
  assert service['template']['scaling']['maxInstanceCount']==1
  record=json.loads((ROOT/'validation/cloud-current-deployment.json').read_text())
+ assert record['ready_revision']==revision,'Verified record belongs to another revision'
  assert all(env.get(k)==v for k,v in record['cost_guards'].items()),'Runtime cost/model configuration changed'
  assert service['template'].get('scaling',{}).get('minInstanceCount',0)==0
  assert container['resources']['limits']=={'cpu':'1','memory':'512Mi'}
@@ -44,15 +51,15 @@ def main():
  assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==digest for name,digest in record['app_source_sha256'].items()),'Local runtime differs from the verified build'
  for name,digest in record['asset_sha256'].items():
   route='/' if name=='index.html' else '/sw.js' if name=='sw.js' else '/assets/'+name
-  fetched=requests.get(BASE+route,timeout=30);fetched.raise_for_status();assert hashlib.sha256(fetched.content).hexdigest()==digest,'Hosted asset changed'
- health=requests.get(BASE+'/health',timeout=30);health.raise_for_status();assert health.json()['version']=='1.4'
+  fetched=requests.get(base+route,timeout=30);fetched.raise_for_status();assert hashlib.sha256(fetched.content).hexdigest()==digest,'Hosted asset changed'
+ health=requests.get(base+'/health',timeout=30);health.raise_for_status();assert health.json()['version']=='1.5'
  secret=requests.get('https://secretmanager.googleapis.com/v1/projects/locateassist/secrets/lingolive-private-access/versions/latest:access',headers=admin,timeout=30);secret.raise_for_status()
  code=base64.b64decode(secret.json()['payload']['data']).decode().strip()
  clients=[requests.Session(),requests.Session()]
  for client in clients:
-  login=client.post(BASE+'/v1/session',json={'token':code},headers={'Origin':BASE},timeout=30);assert login.status_code==200,'Private-code sign-in failed'
+  login=client.post(base+'/v1/session',json={'token':code},headers={'Origin':base},timeout=30);assert login.status_code==200,'Private-code sign-in failed'
  del credential,admin,secret,code
- report={'tested_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'url':BASE,'ready_revision':revision,'health':health.json(),'runtime_source_commit':record['source_commit'],'model':env['LINGOLIVE_FLASH_MODEL'],'reasoning':'low','max_instances':1,'limits_unchanged':True,'latest_deployed_assets_match_source':True,'measurement':'Client HTTP request start to fully received, validated JSON: translation, all word meanings/readings, three replies. Measured from this cloud workspace; no physical phone or browser paint timing.','warm_state':'Unknown before health/asset verification; calls after that are warm-path samples. No cold-start claim.','max_lesson_attempts':10,'lesson_attempts':0,'results':[],'limitations':['Two sequential samples per language; too few for reliable percentiles.','Examples use prepared speech/text and host access code, not a valid personal API key.','Network, language, context and provider load affect latency. No automatic retries.']}
+ report={'tested_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'url':base,'ready_revision':revision,'health':health.json(),'runtime_source_commit':record['source_commit'],'model':env['LINGOLIVE_FLASH_MODEL'],'reasoning':'minimal','lesson_strategy':'parallel','provider_calls_per_lesson':2,'max_instances':1,'limits_unchanged':True,'latest_deployed_assets_match_source':True,'measurement':'Client HTTP request start to fully received, validated JSON: translation, all word meanings/readings, three replies. Measured from this cloud workspace; no physical phone or browser paint timing.','warm_state':'Unknown before health/asset verification; calls after that are warm-path samples. No cold-start claim.','max_lesson_attempts':10,'lesson_attempts':0,'results':[],'limitations':['Two sequential samples per language; too few for reliable percentiles.','Examples use prepared speech/text and host access code, not a valid personal API key.','Network, language, context and provider load affect latency. No automatic retries.']}
  if args.resume:
   previous=json.loads(args.output.read_text());assert previous['ready_revision']==revision,'Cannot resume across revisions'
   report=previous;report['resumed_at_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -64,7 +71,7 @@ def main():
    report['lesson_attempts']+=1
   start=time.perf_counter();row={'language':label,'kind':kind,'round':round_number,'source':value['text'],'request_start_offset_seconds':round(start-run_start,4)}
   try:
-   with client.post(BASE+'/v1/teach',json=value,headers={'Origin':BASE},timeout=105,stream=True) as r:
+   with client.post(base+'/v1/teach',json=value,headers={'Origin':base},timeout=105,stream=True) as r:
     row['response_headers_seconds']=round(time.perf_counter()-start,3);data=r.json();received=time.perf_counter();row.update(http_status=r.status_code,seconds=round(received-start,3),completed_offset_seconds=round(received-run_start,4))
     if r.status_code!=200:
      row.update(success=False,error=data.get('detail','Service request failed'))
@@ -96,7 +103,7 @@ def main():
     stamps={};parts=[];start=time.perf_counter();stamps['socket_start']=start
     cookie='; '.join(k+'='+v for k,v in clients[0].cookies.get_dict().items())
     async with asyncio.timeout(40):
-     async with connect(BASE.replace('https://','wss://')+'/v1/listen',origin=BASE,additional_headers={'Cookie':cookie},ssl=ssl.create_default_context(),open_timeout=20,max_size=500000) as ws:
+     async with connect(base.replace('https://','wss://')+'/v1/listen',origin=base,additional_headers={'Cookie':cookie},ssl=ssl.create_default_context(),open_timeout=20,max_size=500000) as ws:
       await ws.send(json.dumps({'setup':{}}))
       while True:
        value=json.loads(await ws.recv());assert not value.get('error'),'Speech setup failed'
@@ -140,7 +147,7 @@ def main():
   summary[name]={'attempted':len(rows),'succeeded':len(values),'median_seconds':round(statistics.median(values),3) if values else None,'min_seconds':min(values) if values else None,'max_seconds':max(values) if values else None}
  report['sequential_summary']=summary;report['succeeded']=sum(r['success'] for r in report['results']);report['failed']=sum(not r['success'] for r in report['results']);report['total_run_seconds']=round(time.perf_counter()-run_start,3);save()
  for client in clients:
-  try:client.delete(BASE+'/v1/session',headers={'Origin':BASE},timeout=10)
+  try:client.delete(base+'/v1/session',headers={'Origin':base},timeout=10)
   except requests.RequestException:pass
  print(json.dumps({'summary':summary,'attempts':report['lesson_attempts'],'failures':report['failed'],'total_run_seconds':report['total_run_seconds']},ensure_ascii=False),flush=True)
  return 1 if report['failed'] or report.get('speech_error') else 0

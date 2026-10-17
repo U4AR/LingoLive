@@ -1,6 +1,6 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00008-cos",
+  "ready_revision": "lingolive-00010-naj",
   "unauthenticated_http_blocked": true,
   "unauthenticated_websocket_blocked": true,
   "limits": {
@@ -16,5 +16,12 @@
   "min_instances": 0,
   "request_based_cpu": true,
   "no_google_api_key_in_service": true,
-  "personal_keys_enabled": true
+  "personal_keys_enabled": true,
+  "model_calls_per_lesson": 2,
+  "effective_parallel_lessons": {
+    "per_minute": 12,
+    "per_hour": 180,
+    "per_day": 200
+  },
+  "combined_output_tokens_per_lesson": 4096
 }

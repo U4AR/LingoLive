@@ -2,20 +2,24 @@
 
 [Read the illustrated project PDF](docs/LingoLive-How-It-Works.pdf) · [Editable source](docs/how-it-works.html)
 
-## Current source: web 1.4
+## Current source: web 1.5
 
-Web 1.4 defaults to **Gemini 3.8 Flash with low reasoning**. One lesson call
-produces the translation, three replies, all word meanings and Latin
-pronunciations, plus conversation context. Bounded readings and brief word notes reduce unnecessary output; the public lesson format and saved history stay compatible.
-Pronunciation switching and word taps make no AI call. Transcription still uses
-**Gemini 3.5 Transcribe Live** as a separate live speech service.
+The web 1.5 deployment uses **Gemini 3.1 Flash-Lite with minimal thinking**.
+Two requests run in parallel: source understanding, and suggested replies. Compact
+word triples are expanded and validated into the existing lesson format, including
+all required word meanings and Latin readings. Replies and explanations are brief;
+optional per-word notes and a separate tip are empty. Pronunciation switching and
+word taps make no AI call. Transcription still uses **Gemini 3.5 Transcribe Live**.
+The tested complete-lesson average is **1.79 seconds** (ten requests, zero failures),
+versus 9.26 seconds previously. This is a small warm-path sample; speech-to-result,
+cold starts and phone networks have different latency. See [the comparison](docs/LATENCY.md).
 
 The single-column screen keeps recent phrases collapsed, with one large
 microphone button. A three-step first-visit tutorial lets learners select their
 languages and try word meanings/pronunciation without a paid request or sensor
 permission. Skip/complete is remembered on this browser; replay it in Settings.
 
-**Web 1.4 is live and verified.** Deployment uses a normal refreshable Cloud SDK
+**Web 1.5 is live and verified.** Deployment uses a normal refreshable Cloud SDK
 login; the saved refresh credential and a real refresh exchange were checked.
 No deployment credentials are included in this repository. The hosted Google
 transcription-to-lesson path is verified; latency varies with language and context.
@@ -38,11 +42,11 @@ in a tap bubble. Goals are optional; replies use recent conversation, earlier
 suggestions and this learner's local memory. The gear opens profile, goal, place
 and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 
-**Deployment status:** web 1.4 is live on Cloud Run as revision
-`lingolive-00008-cos`, including contextual replies, local memory, word bubbles
+**Deployment status:** web 1.5 is live on Cloud Run as revision
+`lingolive-00010-naj`, including contextual replies, local memory, word bubbles
 and both connection options. A real Google audio-to-context-lesson check passed;
 valid personal-key inference and physical-phone capture remain unverified.
-Live latency measurements (10 successful calls) and reproduction instructions
+Live latency measurements (10 successful lessons) and reproduction instructions
 are in [docs/LATENCY.md](docs/LATENCY.md).
 The Android binary is unchanged; its existing direct-key option remains separate. The independent GitHub repository is
 [U4AR/LingoLive](https://github.com/U4AR/LingoLive). Credentials, local environment
@@ -51,14 +55,13 @@ files, signing keys and generated APK/ZIP files are excluded from Git.
 A web and Android companion for learning from real conversations. Choose a language
 you know and a language you are learning, then tap **Start listening**. Google's
 **Gemini 3.5 Transcribe Live** transcribes speech across languages, including
-code-switching. Web 1.4 final learning-language phrases become short **Gemini 3.8 Flash**
+code-switching. Web 1.5 final learning-language phrases become short **Gemini 3.1 Flash-Lite**
 lessons: what was said, what each word means, a usage note, and three natural replies.
 
 Tap any word in the source or a suggested reply for its contextual meaning,
 pronunciation and usage. Switch between original script and pronunciation text.
 Hear a reply with the phone's text-to-speech voice or copy its original text.
-Transcripts, lessons, reply vocabulary and word meanings are saved in private local
-SQLite storage and can be searched, reopened or deleted. No audio recordings are
+Transcripts, lessons, reply vocabulary and word meanings are saved locally (IndexedDB in the browser; SQLite on Android) and can be searched, reopened or deleted. No audio recordings are
 saved by this application.
 
 This is an independent project. It installs alongside Bible Audio and VerseKeep.
@@ -67,7 +70,7 @@ It does not use their models, corpus, API keys or application storage.
 ## Host access: private access code
 
 Google sign-in and an explicit invited-email allowlist are implemented and tested
-and included in live revision `lingolive-00008-cos`. Host-funded access still
+and included in live revision `lingolive-00010-naj`. Host-funded access still
 requires the private access code; **Google sign-in is not active there yet**.
 The user chose simple private-access-code sign-in. No Google OAuth registration
 is needed for either the selected host-code flow or personal-key mode. Optional Google account support remains
@@ -103,8 +106,10 @@ actual audio rate. Google Transcribe Live supplies all-language captions. Interi
 text is temporary; finalized phrases are retained. **Unlike Android's local ML Kit
 check, the browser uses Flash itself to check each final phrase for the learning
 language.** Only matching phrases become word-by-word lessons and three replies;
-other speech remains a transcript. This uses a Flash request for each finalized
-phrase, paced to at most 24 starts/minute with a 20-phrase pending queue.
+other speech remains a transcript. This uses two parallel Flash-Lite requests per finalized phrase, with a 20-phrase
+pending queue. Each lesson reserves two model-call units; existing allowances
+permit at most 12 lessons/minute, 180/hour and 200/day in parallel mode. The browser
+does not add an artificial delay between completed lessons.
 
 Tap any word, switch between original script and pronunciation, hear or copy a
 reply, and search, revisit or delete your history in **Saved**. Phrases, explanations
@@ -179,7 +184,7 @@ later; it does not imply that a Google Cloud service has already been deployed.
 The clearly marked **Try an example** works without credentials and never inserts
 fake speech or lessons into learning history. You can also type/paste a phrase.
 
-## Listening and learning behavior
+## Android listening and learning behavior
 
 - Interim captions update while you speak; only finalized speech is saved or taught.
 - Transcribe Live uses automatic language detection (`languageCodes: []`) in
@@ -227,7 +232,9 @@ recommended Vertex provider uses the Cloud Run service account and Google Cloud
 billing. A Google AI Studio API key is optional with `LINGOLIVE_PROVIDER=gemini`. It forwards speech without creating audio files. HTTPS
 and a separate bearer token protect the private deployment. All `/v1/` learning endpoints
 require authentication; browser sign-in accepts the private access code or a personal key session; `/health` reports service/version/configured and personal-key availability without credentials.
-It enforces 24 lesson requests/minute, 360/hour and 400/day across all users.
+It enforces model-call allowances of 24/minute, 360/hour and 400/day per allowance
+group. Parallel lessons consume two units each; host and personal-key groups remain
+separate. Two branch token caps together remain at most 4,096 tokens.
 Two active audio streams are allowed, with up to two additional connections
 draining final text for five seconds during renewal. Audio is limited to 40
 combined minutes/hour and 60/day, including idle connection time. Connections
@@ -338,5 +345,5 @@ claim is made by this project.
 API references checked October 16, 2026:
 [Transcribe Live](https://ai.google.dev/gemini-api/docs/live-api/live-transcribe),
 [Transcribe model](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-transcribe),
-[Flash model](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash), and
+[Web Flash-Lite model](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite), and
 [structured outputs](https://ai.google.dev/gemini-api/docs/structured-output).

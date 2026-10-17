@@ -1,6 +1,6 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00008-cos",
+  "ready_revision": "lingolive-00010-naj",
   "root_status": 200,
   "html_and_eight_script_style_assets_match_source": true,
   "google_signin_required": false,
@@ -9,6 +9,6 @@
     "service": "LingoLive",
     "configured": true,
     "byok_available": true,
-    "version": "1.4"
+    "version": "1.5"
   }
 }

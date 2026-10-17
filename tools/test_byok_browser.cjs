@@ -43,7 +43,7 @@ async function check(name,fn){await fn();checks.push({name,passed:true});console
   assert.equal((await page.request.get(ORIGIN+'/v1/session').then(r=>r.json())).mode,'access_code');await type();const data=await status();assert.equal(data.requests.length,1);assert.equal(await page.locator('#saved-count').textContent(),String(saved+1));
  });
  await check('Disconnect removes live access and retains local saved learning',async()=>{
-  const count=await page.locator('#saved-count').textContent();await page.locator('#connection-open').click();await page.locator('#disconnect').click();assert.equal(await page.request.get(ORIGIN+'/v1/session').then(r=>r.status()),401);assert.equal(await page.locator('#saved-count').textContent(),count);
+  const count=await page.locator('#saved-count').textContent();await page.locator('#connection-open').click();await page.locator('#disconnect').click();await page.locator('#connection-dialog').waitFor({state:'hidden'});assert.equal(await page.request.get(ORIGIN+'/v1/session').then(r=>r.status()),401);assert.equal(await page.locator('#saved-count').textContent(),count);
  });
  assert.deepEqual(errors,[]);fs.writeFileSync(path.join(ROOT,'validation/web-byok-browser-results.json'),JSON.stringify({passed:checks.length,checks,google_mocked:true,synthetic_browser_audio:true,errors},null,2)+'\n');
 }catch(e){console.error(e);process.exitCode=1;}finally{await browser?.close();}})();

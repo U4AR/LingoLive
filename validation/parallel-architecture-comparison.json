@@ -1,0 +1,547 @@
+{
+  "results": [
+    {
+      "strategy": "single_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Japanese",
+      "branches": [
+        {
+          "seconds": 5.577,
+          "usage": {
+            "promptTokenCount": 2720,
+            "candidatesTokenCount": 666,
+            "totalTokenCount": 3386,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2720
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 666
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 5.577,
+      "replies": 3,
+      "readings": [
+        "kōhī",
+        "wa",
+        "ikaga",
+        "desu",
+        "ka"
+      ]
+    },
+    {
+      "strategy": "single_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Hindi",
+      "branches": [
+        {
+          "seconds": 7.672,
+          "usage": {
+            "promptTokenCount": 2721,
+            "candidatesTokenCount": 867,
+            "totalTokenCount": 3588,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2721
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 867
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 7.673,
+      "replies": 3,
+      "readings": [
+        "āp",
+        "kahā̃",
+        "jānā",
+        "chāhte",
+        "haiñ"
+      ]
+    },
+    {
+      "strategy": "single_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Spanish",
+      "branches": [
+        {
+          "seconds": 6.888,
+          "usage": {
+            "promptTokenCount": 2721,
+            "candidatesTokenCount": 1024,
+            "totalTokenCount": 3745,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2721
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1024
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 6.889,
+      "replies": 3,
+      "readings": [
+        "Quieres",
+        "tomar",
+        "un",
+        "café"
+      ]
+    },
+    {
+      "strategy": "parallel_full_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Japanese",
+      "branches": [
+        {
+          "seconds": 4.383,
+          "usage": {
+            "promptTokenCount": 2383,
+            "candidatesTokenCount": 252,
+            "totalTokenCount": 2635,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2383
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 252
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 5.401,
+          "usage": {
+            "promptTokenCount": 2096,
+            "candidatesTokenCount": 753,
+            "totalTokenCount": 2849,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2096
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 753
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 5.402,
+      "replies": 3,
+      "readings": [
+        "kōhī",
+        "wa",
+        "ikaga",
+        "desu",
+        "ka"
+      ]
+    },
+    {
+      "strategy": "parallel_full_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Hindi",
+      "branches": [
+        {
+          "seconds": 6.922,
+          "usage": {
+            "promptTokenCount": 2384,
+            "candidatesTokenCount": 618,
+            "totalTokenCount": 3002,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2384
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 618
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 5.711,
+          "usage": {
+            "promptTokenCount": 2097,
+            "candidatesTokenCount": 741,
+            "totalTokenCount": 2838,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2097
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 741
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 6.922,
+      "replies": 3,
+      "readings": [
+        "aap",
+        "kahā̃",
+        "jānā",
+        "chāhte",
+        "haĩ"
+      ]
+    },
+    {
+      "strategy": "parallel_full_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Spanish",
+      "branches": [
+        {
+          "seconds": 16.32,
+          "usage": {
+            "promptTokenCount": 2384,
+            "candidatesTokenCount": 284,
+            "totalTokenCount": 2668,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2384
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 284
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 7.365,
+          "usage": {
+            "promptTokenCount": 2097,
+            "candidatesTokenCount": 1343,
+            "totalTokenCount": 3440,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2097
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1343
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 16.32,
+      "replies": 3,
+      "readings": [
+        "Quieres",
+        "tomar",
+        "un",
+        "café"
+      ]
+    },
+    {
+      "strategy": "parallel_lean_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Japanese",
+      "branches": [
+        {
+          "seconds": 2.773,
+          "usage": {
+            "promptTokenCount": 869,
+            "candidatesTokenCount": 215,
+            "totalTokenCount": 1084,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 869
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 215
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 4.015,
+          "usage": {
+            "promptTokenCount": 613,
+            "candidatesTokenCount": 314,
+            "totalTokenCount": 927,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 613
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 314
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 4.016,
+      "replies": 3,
+      "readings": [
+        "koohii",
+        "wa",
+        "ikaga",
+        "desu ka"
+      ]
+    },
+    {
+      "strategy": "parallel_lean_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Hindi",
+      "branches": [
+        {
+          "seconds": 2.414,
+          "usage": {
+            "promptTokenCount": 870,
+            "candidatesTokenCount": 225,
+            "totalTokenCount": 1095,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 870
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 225
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 3.145,
+          "usage": {
+            "promptTokenCount": 614,
+            "candidatesTokenCount": 301,
+            "totalTokenCount": 915,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 614
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 301
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 3.146,
+      "replies": 3,
+      "readings": [
+        "aap",
+        "kahaan",
+        "jaana",
+        "chaahte",
+        "hain"
+      ]
+    },
+    {
+      "strategy": "parallel_lean_3.8",
+      "model": "gemini-3.8-flash",
+      "language": "Spanish",
+      "branches": [
+        {
+          "seconds": 2.42,
+          "usage": {
+            "promptTokenCount": 870,
+            "candidatesTokenCount": 206,
+            "totalTokenCount": 1076,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 870
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 206
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 3.66,
+          "usage": {
+            "promptTokenCount": 614,
+            "candidatesTokenCount": 270,
+            "totalTokenCount": 967,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 614
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 270
+              }
+            ],
+            "thoughtsTokenCount": 83
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 3.661,
+      "replies": 3,
+      "readings": [
+        "¿Quieres",
+        "tomar",
+        "un",
+        "café?"
+      ]
+    },
+    {
+      "strategy": "parallel_lean_lite",
+      "model": "gemini-3.1-flash-lite",
+      "language": "Japanese",
+      "success": false,
+      "seconds": 1.924,
+      "error": "Missing or oversized reading"
+    },
+    {
+      "strategy": "parallel_lean_lite",
+      "model": "gemini-3.1-flash-lite",
+      "language": "Hindi",
+      "branches": [
+        {
+          "seconds": 1.928,
+          "usage": {
+            "promptTokenCount": 870,
+            "candidatesTokenCount": 282,
+            "totalTokenCount": 1152,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 870
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 282
+              }
+            ]
+          }
+        },
+        {
+          "seconds": 1.982,
+          "usage": {
+            "promptTokenCount": 614,
+            "candidatesTokenCount": 348,
+            "totalTokenCount": 962,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 614
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 348
+              }
+            ]
+          }
+        }
+      ],
+      "success": true,
+      "seconds": 1.983,
+      "replies": 3,
+      "readings": [
+        "aap",
+        "kahaan",
+        "jaana",
+        "chaahte",
+        "hain"
+      ]
+    },
+    {
+      "strategy": "parallel_lean_lite",
+      "model": "gemini-3.1-flash-lite",
+      "language": "Spanish",
+      "success": false,
+      "seconds": 1.936,
+      "error": "Missing definition"
+    }
+  ],
+  "google_calls": 21,
+  "max_google_calls": 25,
+  "measurement": "direct Google API round trip from same workspace; full validated lesson, no cache; one sample/language/strategy"
+}

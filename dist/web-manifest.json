@@ -1,9 +1,9 @@
 {
   "file": "LingoLive-web-source.zip",
-  "bytes": 1097694,
-  "sha256": "2c61b3f7bc38444fbc6bc887f0c2b35547e8c42a89e78534f92c78d18099fd2e",
-  "files": 102,
-  "source_version": "1.4-fast-lessons-tutorial",
+  "bytes": 1105735,
+  "sha256": "38a07817bd0ce716bc19aa922d1d20a98d1d25092017b2d2ddff1167d0bc7832",
+  "files": 108,
+  "source_version": "1.5-parallel-flash-lite",
   "connection_modes": [
     "access_code",
     "api_key"
@@ -11,8 +11,8 @@
   "personal_key_storage": "server_memory_one_hour",
   "cloud_deployed": true,
   "deployment_blocker": null,
-  "existing_deployment_revision": "lingolive-00008-cos",
-  "deployed_app_source_commit": "cfd348ea9066f0c4835b424a59ea813fcb533bd8",
+  "existing_deployment_revision": "lingolive-00010-naj",
+  "deployed_app_source_commit": "a0a91d9e9cd8b236edf31f2286c864c6b4e4f509",
   "hosted_context_inference_verified": true,
   "valid_personal_key_inference_tested": false,
   "google_signin_enabled": false,

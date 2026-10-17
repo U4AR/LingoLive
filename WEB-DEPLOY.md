@@ -1,11 +1,10 @@
 # Deploy LingoLive on Cloud Run
 
-Web **1.4 is deployed** as `lingolive-00008-cos`, with 100% public traffic at
-https://lingolive-358650584819.us-central1.run.app. It uses `gemini-3.8-flash`
-with low reasoning, bounded word readings and one lesson call, plus the minimal
-screen and first-visit tutorial. Real Google transcription/context lessons,
-required word definitions/readings, source assets, auth and cost guards were
-verified. Valid personal-key inference and physical-phone capture remain untested.
+The web 1.5 deployment defaults to `gemini-3.1-flash-lite`, minimal thinking and
+two parallel requests per lesson. Source understanding and replies are validated
+and merged into the same public format. Transcription remains
+`gemini-3.5-transcribe-live`. Current live revision and measured timings are
+recorded in `validation/cloud-current-deployment.json` and `docs/LATENCY.md`.
 
 Deployment now uses a normal refreshable Cloud SDK login. The account login and
 refresh exchange were verified and credentials are kept in the private SDK
@@ -41,7 +40,7 @@ requests on restricted keys and enable access/quota for the configured models.
 The relay does not log request bodies or upstream key-bearing URLs; keep proxy
 and error logging from recording credentials when customizing deployment.
 
-Existing host quotas are unchanged. Personal-key users share a separate set of
+Existing raw model-call allowances are unchanged; a parallel lesson consumes two units. Personal-key users share a separate set of
 those allowances; both groups share the concurrency/pacing limits. Google model
 charges go to the personal key's project; Cloud Run relay costs remain with the
 host. Session creation remains rate limited and at most 64 personal-key sessions
@@ -66,7 +65,7 @@ token expiry does not sign users out or stop the existing app's Google access.
 
 Use a billing-enabled Google Cloud project. Enable Vertex AI (`aiplatform`),
 Cloud Run, Cloud Build, Artifact Registry, IAM and Secret Manager.
-The v1.4 defaults are Gemini 3.8 Flash (low reasoning) and Gemini 3.5 Transcribe Live through Vertex;
+The deployment defaults are Gemini 3.1 Flash-Lite (minimal thinking, parallel) and Gemini 3.5 Transcribe Live through Vertex;
 host-code operation needs **no Google API key** in the browser or recommended runtime. Personal-key mode accepts a key only at connection time; source contains no keys.
 Google authentication uses the runtime service account's automatically refreshed
 OAuth token. Usage is billed to the Cloud project. AI Studio prepaid credits are
@@ -101,18 +100,27 @@ bash tools/deploy_cloud_run.sh
 
 The helper defaults to `LINGOLIVE_PROVIDER=vertex`, binds the configured project,
 and uses `global` for the model location. Model IDs can be overridden with
-`LINGOLIVE_FLASH_MODEL` and `LINGOLIVE_TRANSCRIBE_MODEL`. Default Cloud Run limits
+`LINGOLIVE_FLASH_MODEL` and `LINGOLIVE_TRANSCRIBE_MODEL`. `LINGOLIVE_LESSON_STRATEGY=parallel`
+and `LINGOLIVE_THINKING_LEVEL=auto` select the fast default. Set
+`LINGOLIVE_LESSON_STRATEGY=single` and `LINGOLIVE_FLASH_MODEL=gemini-3.8-flash`
+for the legacy full-field comparison path; auto selects low thinking for that model.
+Python `Config` retains legacy defaults for callers without environment settings;
+use `backend/.env.example` or the deployment helper for the fast configuration. Default Cloud Run limits
 are zero minimum/one maximum instance, two active listeners, two concurrent
 lessons and a 600-second request timeout. Brief five-second draining connections
 keep both listeners' final words during automatic renewal. Host-funded calls require
 the private code (one-hour secure browser cookie, or Android bearer token).
 Personal-key calls require a separate active key session and use that key.
 
-Shared rolling allowances: 24 lessons/minute, 360/hour, 400/day; 40 combined audio
+Shared rolling model-call allowances: 24/minute, 360/hour, 400/day. Each parallel
+lesson reserves two units, permitting at most 12 lessons/minute, 180/hour, 200/day.
+There are 40 combined audio
 minutes/hour and 60/day. Google connection time, including silence, is counted;
 unused reservations are refunded after disconnect. Audio must be paced in real
 time, frames are bounded, and missing frames close the stream after 20 seconds.
-Lesson input is limited to 1,000 characters and output to 4,096 tokens. Normal
+Lesson input is limited to 1,000 characters. The combined 4,096-token output cap
+is divided between the two concurrent branches. Failed calls are not retried
+automatically and do not trigger a third model call. Normal
 two-user, fifteen-minute use fits these allowances; this is not a measured phone
 latency or provider availability guarantee. Counters are per instance and reset
 on restart or redeployment. They are not a hard dollar budget.

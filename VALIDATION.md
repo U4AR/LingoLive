@@ -1,4 +1,54 @@
-# Current source: web 1.4 — October 17, 2026
+# Current source: web 1.5 — October 17, 2026
+
+- **93 backend tests pass** (previous 80 plus 13 parallel/format/usage checks).
+  Tests prove both branches overlap, exact Unicode/spacing survives compact word
+  expansion, missing/reordered/undefined words fail, all three replies are complete,
+  optional audio goes only to the source branch, and context is passed to both.
+  They cover both provider credentials, minimal Lite thinking, connection reuse
+  and shutdown, cancellation without retry, combined token caps, weighted rate/hour
+  accounting and independent host/personal allowances. Google is mocked locally.
+- **57 real Chromium checks pass**, plus pure JavaScript core/context checks:
+  13 baseline, 5 optional Google auth, 8 context, 12 learner memory/sensors,
+  4 minimal UI, 8 personal-key and 7 tutorial checks. Google/audio/location use
+  explicit fixtures. A sign-out assertion now waits for completion before checking
+  access; it previously raced the asynchronous disconnect operation.
+- **Live:** `lingolive-00010-naj`, 100% traffic, Gemini 3.1 Flash-Lite minimal
+  thinking, two parallel generation calls per lesson. A staged real Google speech,
+  context/audio, exact-source/readings/meanings, cookie and invalid-key/no-host-
+  fallback check passed. After promotion the primary URL's health and all nine
+  web assets matched the tested source; the temporary verification tag was removed.
+- **Ten complete hosted lessons succeeded, zero failures, mean 1.79 seconds**.
+  Six short Japanese/Hindi/Spanish calls averaged 1.75 seconds. Two simultaneous
+  sessions completed in 1.65 and 1.71 seconds. The separate staged functional
+  context/audio lesson took 2.34 seconds; including it gives 1.84 seconds for 11.
+  This meets the two-second lesson average in this small warm-path sample.
+- **Entire speech pipeline remains longer:** the synthesized 2.128-second WAV
+  reached a complete contextual lesson 3.54 seconds after the last audio frame,
+  including 1.11 seconds of test-client handoff. Physical phone, cold starts,
+  broad semantic accuracy and valid personal-key inference remain unverified.
+- The same-model comparison found merely splitting the full Gemini 3.8 response
+  did not improve reliability of latency (6.71 seconds single vs 9.55 parallel,
+  three prepared cases each). Compact 3.8 parallel took 3.61 seconds. The final
+  design combines parallel calls, compact fields, shorter replies, HTTP reuse and
+  the faster Lite model. Failed/slow experiments are retained, not discarded.
+- Existing raw call caps remain 24/minute, 360/hour, 400/day. Two units per
+  parallel lesson mean 12/180/200 lessons; total output cap remains 4,096 tokens.
+  Existing minimum-zero/maximum-one instance, 512 MiB/one CPU, authenticated AI,
+  separate key billing, emergency pause, audio and concurrency guards remain.
+  No automatic retries or always-warm instance were added.
+- Operator deployment used the normal persistent Cloud SDK login and refreshed
+  credentials; no copied hourly token was requested. SDK secrets remain outside Git.
+
+Current runtime source: `a0a91d9e9cd8b236edf31f2286c864c6b4e4f509`.
+Current evidence: `validation/cloud-current-*.json`, `cloud-parallel-latency-results.json`,
+`web-backend-tests.txt`, and `web-*-results.json`. Compare timings and caveats in
+[docs/LATENCY.md](docs/LATENCY.md). The old 1.4 measurement is retained in
+`cloud-latency-results.json`. Production lesson/saved format and Android binary
+remain compatible; the browser's artificial 2.5-second queue wait was removed.
+
+---
+
+# Historical web 1.4 evidence — October 17, 2026
 
 - **80 backend tests pass**, including six tests for the bounded Gemini 3.8
   response: both providers make exactly one call for a complete lesson, all

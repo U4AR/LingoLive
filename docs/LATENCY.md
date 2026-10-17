@@ -1,78 +1,124 @@
-# Live latency measurements
+# Live latency comparison — October 17, 2026
 
-Measured October 17, 2026 on the public LingoLive web 1.4 service:
-https://lingolive-358650584819.us-central1.run.app.
+[Open LingoLive](https://lingolive-358650584819.us-central1.run.app).
+Web 1.5 revision `lingolive-00010-naj` now serves 100% of public traffic.
+Runtime source: `a0a91d9e9cd8b236edf31f2286c864c6b4e4f509`.
 
-The latest runtime was already deployed as `lingolive-00008-cos`, serving 100%
-of traffic. Cloud metadata, model settings and deployed web assets were verified.
-Runtime source still matches commit `cfd348ea9066f0c4835b424a59ea813fcb533bd8`.
-No application change or rebuild was needed for this measurement.
+The optimized deployment averaged **1.79 seconds for ten complete,
+validated lessons**, compared with **9.26 seconds** for the earlier web 1.4
+sample. All ten new lessons succeeded. This meets the requested two-second average
+in this small warm-path test; it is not a guarantee for mobile networks, cold starts,
+long speech, every language or provider load.
 
-Gemini 3.8 Flash uses low reasoning. Each lesson request returns translation,
-three replies, every word meaning and all required Latin readings in one call.
-Timing starts when the test client posts `/v1/teach` and ends when the complete
-JSON is received. Successful results also passed the app's source-preservation,
-word-definition and reply validation.
+## Comparison of one request and two parallel requests
 
-| Short phrase, learning language | Samples | Median | Range |
-| --- | ---: | ---: | ---: |
-| Japanese | 2 | 6.55 s | 5.36–7.74 s |
-| Hindi | 2 | 11.63 s | 8.58–14.67 s |
-| Spanish | 2 | 8.54 s | 6.90–10.18 s |
+A bounded direct Vertex comparison used the same three prepared Japanese, Hindi
+and Spanish phrases with English explanations. These timings are direct Google
+requests from this workspace, separate from the deployed-app results below.
 
-Two independent signed-in sessions started requests within 2 ms of each other:
-Japanese completed in **4.69 s**, Hindi in **8.36 s**. These requests ran alongside
-each other with the existing two-lesson concurrency limit.
+| Design | Successful lessons | Mean elapsed |
+| --- | ---: | ---: |
+| Gemini 3.8 Flash, original one-call full lesson | 3/3 | 6.71 s |
+| Gemini 3.8 Flash, two parallel calls with original full fields | 3/3 | 9.55 s |
+| Gemini 3.8 Flash, two parallel calls with compact word triples | 3/3 | 3.61 s |
+| Gemini 3.1 Flash-Lite, first compact experiment | 1/3 | Unreliable: missing readings/definitions |
+| Flash-Lite, required nonempty triples | 3/3 | 1.99 s |
+| Flash-Lite, shorter explanations/replies, follow-up experiment | 3/3 | 2.25 s |
 
-The real Google speech test used a **2.128-second synthesized reference WAV**,
-streamed at real-time speed through the authenticated public WebSocket.
+Splitting the original request alone did not help reliably. The final change also
+uses Flash-Lite with minimal thinking, compact structured fields, shorter replies
+and reusable server-side HTTP connections. The final prompt was shortened further
+after those preflights. Gains cannot be attributed to parallelism alone, nor to a
+single prompt change. All experimental results, including failed/slow variants,
+are retained in `validation/parallel-*.json`.
 
-| Speech pipeline component | Observed time |
+## Deployed app measurements
+
+The final candidate was measured through its authenticated HTTPS revision tag,
+then the identical revision/image was promoted. The public URL's health, nine
+assets, runtime settings and 100% routing were rechecked afterward. No paid call
+was repeated just to get a better timing. The report retains the exact tested tag
+URL; that temporary tag has now been removed.
+
+Timing starts at the test client's POST `/v1/teach` and ends when the complete
+JSON arrives: translation, every required word meaning/Latin reading, all three
+replies, and context. Validation checks exact source reconstruction and complete
+lexical definitions. Results were received as full JSON, not a partial preview.
+
+| Learning language, two sequential samples | Previous 3.8 median | Parallel Lite median |
+| --- | ---: | ---: |
+| Japanese | 6.55 s | 1.81 s |
+| Hindi | 11.63 s | 1.91 s |
+| Spanish | 8.54 s | 1.53 s |
+
+The six sequential short-phrase calls averaged **1.75 seconds**
+(previously 8.90 seconds). Two independent sessions started
+within 2 ms of each other: Hindi **1.65 s**, Japanese **1.71 s**. A source/context
+lesson with English speech and Japanese explanations took **2.09 s**, and the
+same context with an optional WAV took **1.95 s**. The single optional-audio pair
+does not establish a general audio speed advantage.
+
+A separate staged functional check, before the ten-call measurement, took
+**2.34 s** for a contextual audio lesson; it remains in
+`validation/cloud-current-api-results.json` and is excluded from the declared
+ten-case protocol. Across that check and the ten measured lessons, the mean is
+**1.84 s** (11/11 validated).
+
+| Real Google speech pipeline, synthesized 2.128-second WAV | Observed time |
 | --- | ---: |
-| Socket and Google speech setup | 0.79 s |
-| Final transcript after last audio frame | 0.35 s |
-| Test client's socket-close/handoff overhead | 1.10 s |
-| Lesson response, with conversation context and no audio attachment | 6.96 s |
-| Last audio frame → complete lesson, including test handoff | **8.40 s** |
-| Socket start → complete lesson, including speaking | **11.33 s** |
-| Same transcript/context, with optional audio attachment | **19.18 s** |
+| Socket and Google speech setup | 0.71 s |
+| Final transcription after the last audio frame | 0.34 s |
+| Test client's socket-close/handoff overhead | 1.11 s |
+| Complete contextual lesson after HTTP request | 2.09 s |
+| Last audio frame → complete lesson, including test handoff | **3.54 s** |
+| Socket start → complete lesson, including speaking | **6.40 s** |
 
-All **10 lesson requests succeeded**, including complete meanings/readings and
-three replies. No automatic model retries were made. One short speech stream was
-used. Credentials remained in RAM/Cloud SDK, outside the report and Git.
+The two-second target is met for mean lesson HTTP latency here, **not the entire
+speech-to-result pipeline**. The browser queues final transcripts immediately;
+the test harness closes the speech socket before its HTTP handoff. No phone
+microphone, browser paint timing or cold start was measured. Existing scale-to-zero
+is retained. With only two sequential samples per language, percentiles and broad
+language/semantic quality claims would be unsupported.
 
-Responses still take seconds. In the one matched comparison, adding optional
-recent sound was slower (19.18 s versus 6.96 s). Sound context remains off by
-default. This sample does not establish that audio always adds the same delay.
-The current UI receives a whole validated JSON response; it does not stream a
-partial translation before all reply/word fields finish.
+## Implementation, compatibility and cost bounds
 
-These are small warm-path samples from this cloud workspace. The service was
-probed for health/assets before measurement; a cold start was not measured.
-Phone microphone handling, browser rendering and mobile networks were not tested.
-Two samples per language are insufficient for reliable tail percentiles or a
-language-wide performance claim. The test paused between sequential and
-concurrent phases to fix a harness name collision; completed model calls were
-retained rather than repeated, and individual request timers exclude that pause.
+Each lesson runs two tasks concurrently: source translation/word meanings/context,
+and three short suggested replies with their meanings/readings. Both see incoming
+history, goal and learner notes. New source-branch scene inference affects replies
+on the next turn; the reply branch does not wait for it. Optional recent audio goes
+to the source branch only. Public/saved lesson format remains compatible. The
+explanation is concise, meanings are brief, and optional tip/per-word notes are
+empty. The UI's word bubbles, pronunciation toggle and first-use tutorial remain.
+An artificial 2.5-second client queue wait was removed.
 
-Raw timings: [cloud-latency-results.json](../validation/cloud-latency-results.json).
+No automatic retry, fallback or third paid model call occurs. Failed work cancels
+its sibling. Two model calls consume two units of the unchanged 24/minute,
+360/hour and 400/day model-call allowances: effectively 12/180/200 parallel
+lessons. The two branch output caps total at most 4,096 tokens. The service keeps
+one maximum instance, zero minimum, 512 MiB, one CPU, request-based billing, two
+concurrent lessons and existing audio/auth guards. No always-warm resource was
+added to reach this result. A cheaper model and reduced output do not constitute
+a fixed dollar budget; input context is duplicated across the two requests.
 
-## Reproduce deliberately
+## Evidence and deliberate reproduction
 
-These checks make real Google calls and may incur charges. They run only with
-`--run-live`, cap lesson attempts at ten, retain all existing service quotas and
-never change the deployment or instance limits. Use the normal refreshable
-`gcloud` login with access to the existing `locateassist` service and its private
-access-code secret. The key/code is never accepted as a CLI argument or printed.
+- [Final hosted results](../validation/cloud-parallel-latency-results.json)
+- [Earlier 1.4 baseline](../validation/cloud-latency-results.json)
+- [Direct architecture comparison](../validation/parallel-architecture-comparison.json)
+- [Required-triple preflight](../validation/parallel-lite-preflight.json)
+- [Shorter-prompt preflight](../validation/parallel-lite-tight-preflight.json)
 
-From the repository root:
+The opt-in harness makes at most ten lessons (twenty generation calls in parallel
+mode) and one short speech stream, using normal Cloud SDK login and Secret Manager.
+Credentials remain in RAM, never CLI arguments or reports. From the repository root:
 
 ```bash
-backend/.venv/bin/python tools/measure_cloud_latency.py --run-live
+backend/.venv/bin/python tools/measure_cloud_latency.py --run-live --output /tmp/lingolive-latency.json
 ```
 
-The synthesized speech fixture is included in `tools/fixtures/reference.wav`.
-`--output PATH` selects a report path. `--resume` continues unmeasured cases in
-the same report, checks the revision, and retains the ten-attempt ceiling; it
-does not automatically retry completed failures. Do not rerun just to get a
-better-looking timing. This script is excluded from the Cloud Run image.
+It checks deployment settings, runtime/source fingerprints, public assets, auth,
+output validity and unchanged limits. `--resume` continues unmeasured cases in the
+same report/revision, retains the ten-attempt ceiling and never retries completed
+failures. `--url` plus `--expected-traffic 0` supports a verified staging tag.
+The synthesized fixture is included in `tools/fixtures/reference.wav`. Valid
+personal-key inference and physical-phone latency remain unverified.

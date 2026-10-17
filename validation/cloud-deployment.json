@@ -5,7 +5,7 @@
   "service": "lingolive",
   "url": "https://lingolive-358650584819.us-central1.run.app",
   "canonical_url": "https://lingolive-l5utioe5cq-uc.a.run.app",
-  "ready_revision": "lingolive-00008-cos",
+  "ready_revision": "lingolive-00010-naj",
   "condition": "CONDITION_SUCCEEDED",
   "provider": "vertex",
   "google_api_key_required": false,
@@ -21,9 +21,11 @@
     "LINGOLIVE_GOOGLE_SIGNIN_REQUIRED",
     "LINGOLIVE_LESSONS_PER_DAY",
     "LINGOLIVE_LESSONS_PER_HOUR",
+    "LINGOLIVE_LESSON_STRATEGY",
     "LINGOLIVE_MAX_OUTPUT_TOKENS",
     "LINGOLIVE_PROVIDER",
     "LINGOLIVE_REQUESTS_PER_MINUTE",
+    "LINGOLIVE_THINKING_LEVEL",
     "LINGOLIVE_TRANSCRIBE_MODEL",
     "LINGOLIVE_VERTEX_LOCATION",
     "LINGOLIVE_VERTEX_PROJECT"
@@ -35,7 +37,7 @@
   "traffic": [
     {
       "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION",
-      "revision": "lingolive-00008-cos",
+      "revision": "lingolive-00010-naj",
       "percent": 100
     }
   ],
@@ -51,9 +53,11 @@
     "LINGOLIVE_MAX_OUTPUT_TOKENS": "4096"
   },
   "request_based_cpu": true,
-  "source_commit": "cfd348ea9066f0c4835b424a59ea813fcb533bd8",
+  "source_commit": "a0a91d9e9cd8b236edf31f2286c864c6b4e4f509",
   "personal_keys_enabled": true,
-  "version": "1.4",
-  "flash_model": "gemini-3.8-flash",
-  "persistent_sdk_login_verified": true
+  "version": "1.5",
+  "flash_model": "gemini-3.1-flash-lite",
+  "persistent_sdk_login_verified": true,
+  "lesson_strategy": "parallel",
+  "thinking_level": "minimal"
 }

@@ -1,4 +1,4 @@
-# Conversation memory (web 1.4 source)
+# Conversation memory (web 1.5 source)
 
 The main screen shows heard speech, its translation and three possible replies.
 Tap a word for a small meaning bubble. Pronunciation, playback, copy, typed input,
@@ -63,7 +63,8 @@ added to prompts, transcript records, IndexedDB, LocalStorage or service-worker
 caches. They are sent over HTTPS to the host and require trusting that host.
 Disconnect removes the key session, invalidates copied session cookies and stops
 its active streams. Expiry and restarts require re-entering the key. An already
-started lesson may finish after disconnect. Local profiles share this browser's
+started lesson may finish or be cancelled after disconnect. Warm HTTP connections
+are reused, then closed on key removal/expiry and application shutdown. Local profiles share this browser's
 connection; they are not separate authentication accounts.
 
 Personal-key requests always use the Gemini Developer API with that key, even
@@ -74,17 +75,29 @@ it. Two concurrent lessons/two listeners and connection pacing remain shared
 infrastructure guards. All AI can still be paused by the host. Personal keys
 charge their own Google projects but still use the host's Cloud Run relay.
 
-Context travels in the existing lesson call; there is no extra summarization or
-speaker-classification call. Authentication, audio pacing, shared quotas, two
-concurrent lessons and one Cloud Run instance remain in force. Longer context or
-opt-in audio can increase model usage; RAM quotas reset on a service restart and
-are not a hard billing cap.
+Each lesson runs two Gemini 3.1 Flash-Lite requests in parallel: source understanding
+and replies. Both receive the same incoming goal, history, summary, previous
+suggestions and learner notes. There is no third summarization or classification
+call. The reply branch does not wait for the source branch's newly inferred scene;
+that inference enters the next turn's context. Optional recent sound goes only to
+the source branch. Reply generation uses the transcript and existing context.
+
+Two requests consume two units of the unchanged model-call allowances:
+24/minute, 360/hour and 400/day. Thus parallel mode permits at most 12 lessons/minute,
+180/hour and 200/day per allowance group. The combined output cap is still 4,096
+tokens per lesson, split between branches. A failure cancels its sibling; there
+is no automatic retry or third paid call. Two simultaneous lessons remain allowed.
+Authentication and quotas run before model calls. Longer context or opt-in audio
+can increase usage; counters reset on restart and are not a hard billing cap.
+
+Compact nonempty word triples are expanded into the original saved/public lesson
+format. Missing definitions/readings and changed, reordered or missing letters
+fail validation. Exact spacing and punctuation are restored from the source;
+Latin readings reuse original text. Replies are short, meanings are brief and the
+explanation is concise. Optional per-word notes and a separate tip are empty.
 
 Local tests verify transport, bounds, isolation and UI with explicit Google
-fixtures. Web 1.4 uses a bounded reading format and one Gemini 3.8 Flash request
-with low reasoning for all lesson work. Web 1.4 is deployed as
-`lingolive-00008-cos`. A real hosted test used
-synthesized audio, transcription, a blank goal, prior context and the optional
-WAV input to produce a complete context lesson. Broad semantic accuracy,
-speaker estimates, physical-phone capture and valid personal-key inference still
-need user testing. See `validation/cloud-current-api-results.json`.
+fixtures. Broad semantic accuracy, speaker estimates, physical-phone capture and
+valid personal-key inference still need user testing. Current deployment and
+real Google evidence: `validation/cloud-current-*.json`; measured speed and
+limitations: `docs/LATENCY.md`.
