@@ -1,14 +1,14 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00004-jzp",
+  "ready_revision": "lingolive-00008-cos",
   "root_status": 200,
-  "html_matches_local": true,
-  "google_signin_js_matches_local": true,
-  "private_code_signin_works": true,
+  "html_and_eight_script_style_assets_match_source": true,
   "google_signin_required": false,
+  "both_connection_modes_available": true,
   "health": {
     "service": "LingoLive",
     "configured": true,
-    "version": "1.1"
+    "byok_available": true,
+    "version": "1.4"
   }
 }

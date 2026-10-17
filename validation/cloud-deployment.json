@@ -5,7 +5,7 @@
   "service": "lingolive",
   "url": "https://lingolive-358650584819.us-central1.run.app",
   "canonical_url": "https://lingolive-l5utioe5cq-uc.a.run.app",
-  "ready_revision": "lingolive-00005-lch",
+  "ready_revision": "lingolive-00008-cos",
   "condition": "CONDITION_SUCCEEDED",
   "provider": "vertex",
   "google_api_key_required": false,
@@ -34,8 +34,8 @@
   ],
   "traffic": [
     {
-      "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST",
-      "revision": "lingolive-00005-lch",
+      "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION",
+      "revision": "lingolive-00008-cos",
       "percent": 100
     }
   ],
@@ -51,6 +51,9 @@
     "LINGOLIVE_MAX_OUTPUT_TOKENS": "4096"
   },
   "request_based_cpu": true,
-  "source_commit": "29ecb06388f231c635d773b6bccba7dca1560cc8",
-  "personal_keys_enabled": true
+  "source_commit": "cfd348ea9066f0c4835b424a59ea813fcb533bd8",
+  "personal_keys_enabled": true,
+  "version": "1.4",
+  "flash_model": "gemini-3.8-flash",
+  "persistent_sdk_login_verified": true
 }

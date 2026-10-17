@@ -1,11 +1,12 @@
 Building using Dockerfile and deploying container to Cloud Run service [lingolive] in project [locateassist] region [us-central1]
 Building and deploying...
-Validating configuration............done
-Uploading sources..........................done
-Building Container......................................................................................................................................................................................................................................................................................................................................................done
-Setting IAM Policy.................done
-Creating Revision............................................................................................................................done
-Routing traffic.....done
+Validating configuration.........done
+Uploading sources.................done
+Building Container...................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................done
+Setting IAM Policy...................done
+Creating Revision....................................................................................................................................done
 Done.
-Service [lingolive] revision [lingolive-00005-lch] has been deployed and is serving 100 percent of traffic.
-Service URL: https://lingolive-358650584819.us-central1.run.app
+Service [lingolive] revision [lingolive-00008-cos] has been deployed and is serving 0 percent of traffic.
+The revision can be reached directly at https://verify---lingolive-l5utioe5cq-uc.a.run.app
+
+Verified promotion: lingolive-00008-cos serves 100 percent public traffic. Temporary verify tag removed. Public health reports v1.4 and checked assets match the deployed source. Normal refreshable Cloud SDK user authentication was used.

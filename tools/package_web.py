@@ -9,7 +9,7 @@ files += [ROOT/'backend'/name for name in ['app.py','requirements.txt','.env.exa
 files+=list((ROOT/'backend/tests').glob('*.py'))
 files += [ROOT/'tools'/name for name in ['deploy_cloud_run.sh','enable_google_signin.sh','web_fixture.py','test_web_core.mjs','test_web_browser.cjs','package_web.py','test_context.mjs','test_context_browser.cjs','test_memory_browser.cjs','test_simple_ui.cjs','test_tutorial_browser.cjs','test_byok_browser.cjs','render_project_pdf.cjs','google_auth_fixture.py','test_google_signin_browser.cjs']]
 files+=list((ROOT/'validation').glob('web-*'))
-files += [ROOT/'validation'/name for name in ['cloud-deployment.json','cloud-public-check.json','cloud-api-results.json','cloud-guards-results.json','cloud-current-deployment.json','cloud-current-api-results.json'] if (ROOT/'validation'/name).is_file()]
+files += [ROOT/'validation'/name for name in ['cloud-deployment.json','cloud-public-check.json','cloud-api-results.json','cloud-guards-results.json','cloud-current-deployment.json','cloud-current-api-results.json','cloud-auth-status.json','cloud-3.8-preflight.json','cloud-v1.3-deployment.json','cloud-v1.3-api-results.json'] if (ROOT/'validation'/name).is_file()]
 files=sorted({p for p in files if p.is_file()})
 assert all(not any(part in {'.venv','.cache','__pycache__','.signing'} for part in p.relative_to(ROOT).parts) for p in files)
 assert all(p.suffix not in {'.apk','.jks','.keystore'} and (not p.name.startswith('.env') or p.name=='.env.example') for p in files)

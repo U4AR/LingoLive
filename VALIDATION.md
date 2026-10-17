@@ -1,6 +1,6 @@
 # Current source: web 1.4 — October 17, 2026
 
-- **80 backend tests pass**, including six tests for the compact Gemini 3.8
+- **80 backend tests pass**, including six tests for the bounded Gemini 3.8
   response: both providers make exactly one call for a complete lesson, all
   readings/meanings are retained, malformed/missing/source-changing words
   fail validation, exact punctuation is retained, and truncated output
@@ -17,10 +17,28 @@
   high reasoning. Minimal is explicitly unsupported. Checked official pages:
   https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash and
   https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-8-flash.
-- **Not deployed or live-inference tested:** the existing temporary deployment
-  credential now returns HTTP 401, and no fresh `GCP_DEPLOY_ACCESS_TOKEN` binding
-  is present. No latency improvement or successful real 3.8 inference is claimed.
-  The existing v1.3 deployment and hosted evidence below predate these changes.
+- **Deployed and live-inference verified:** revision `lingolive-00008-cos`
+  serves web 1.4 with 100% traffic. A staged check verified real Transcribe Live,
+  the same optional-audio/context lesson through Gemini 3.8, all source/reply
+  readings and meanings, private-code auth, personal-key sessions, invalid-key
+  no-fallback behavior, cookie revocation and the unchanged cost guards. Public
+  health and nine HTML/script/style assets were rechecked after promotion.
+- The hosted optional-audio/context lesson took **14.2 seconds** in one sample;
+  a separate Japanese text preflight took **5.37 seconds**. These differ in
+  context, language direction and audio input; they are not a benchmark or proof
+  of a general speedup. Physical-phone capture and valid personal-key inference
+  remain unverified.
+- **Persistent operator login verified:** Cloud SDK saved a refresh credential,
+  successfully completed a refresh exchange, and deployed without a manually
+  copied access token. Private SDK configuration is outside this repository.
+  The Cloud Run runtime continues to use its own dedicated service account.
+
+The first 1.4 publication failed a live lesson check and was rolled back while
+fixing model output. The corrected revision was verified through a temporary
+revision tag before promotion; that tag was removed afterward. Evidence is
+`validation/cloud-current-*.json`, `cloud-3.8-preflight.json` and
+`cloud-auth-status.json`. Previous v1.3 records are archived as
+`cloud-v1.3-deployment.json` and `cloud-v1.3-api-results.json`.
 
 Live tests exposed unreliable readings and omitted meanings with abbreviated
 word fields. The final request uses explicit `text/reading/meaning/note/is_word`

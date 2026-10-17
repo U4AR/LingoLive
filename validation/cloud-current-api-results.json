@@ -1,19 +1,21 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00005-lch",
+  "ready_revision": "lingolive-00008-cos",
   "live_google": true,
   "physical_microphone": false,
   "audio_seconds": 2.128,
   "transcript": "John chapter 3 verse 16",
   "hosted_multimodal_context_lesson": {
+    "model": "gemini-3.8-flash",
+    "reasoning": "low",
     "http_status": 200,
-    "elapsed_seconds": 14.83,
+    "elapsed_seconds": 14.2,
     "source_preserved": true,
     "replies": 3,
-    "context_summary": "学習者は音読練習のために聖書の箇所を探しており、ヨハネによる福音書3章16節を指定しました。",
+    "context_summary": "学習者は声に出して読むための聖書の箇所（ヨハネによる福音書3章16節）を探しており、該当する箇所を指定しました。",
     "current_speaker": "user",
-    "speaker_confidence": "medium",
-    "inferred_user_intent": "音読するためにヨハネによる福音書3章16節を指定している。",
+    "speaker_confidence": "high",
+    "inferred_user_intent": "音読したい聖書の箇所を伝えること",
     "explanation_language": "Japanese",
     "four_second_audio_input_accepted": true,
     "blank_user_goal": true
@@ -24,5 +26,7 @@
   "valid_personal_key_inference_tested": false,
   "key_cookie_revoked_on_disconnect": true,
   "unauthenticated_http_blocked": true,
-  "unauthenticated_websocket_blocked": true
+  "unauthenticated_websocket_blocked": true,
+  "staged_verification_url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "verified_before_public_promotion": true
 }

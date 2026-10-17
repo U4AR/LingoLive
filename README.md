@@ -15,10 +15,10 @@ microphone button. A three-step first-visit tutorial lets learners select their
 languages and try word meanings/pronunciation without a paid request or sensor
 permission. Skip/complete is remembered on this browser; replay it in Settings.
 
-**Publishing this update is pending:** the previous temporary Google Cloud
-credential expired. Web 1.4 passes local mocked-provider checks; its real Google
-3.8 output and latency have not been measured. The live service below remains
-v1.3 until a new authenticated deployment succeeds.
+**Web 1.4 is live and verified.** Deployment uses a normal refreshable Cloud SDK
+login; the saved refresh credential and a real refresh exchange were checked.
+No deployment credentials are included in this repository. The hosted Google
+transcription-to-lesson path is verified; latency varies with language and context.
 
 Connect with **Use access code** to use your host's Google allowance, or
 **Use my Google API key** to use your own Google AI Studio account for both
@@ -38,8 +38,8 @@ in a tap bubble. Goals are optional; replies use recent conversation, earlier
 suggestions and this learner's local memory. The gear opens profile, goal, place
 and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 
-**Deployment status:** web 1.3 is live on Cloud Run as revision
-`lingolive-00005-lch`, including contextual replies, local memory, word bubbles
+**Deployment status:** web 1.4 is live on Cloud Run as revision
+`lingolive-00008-cos`, including contextual replies, local memory, word bubbles
 and both connection options. A real Google audio-to-context-lesson check passed;
 valid personal-key inference and physical-phone capture remain unverified.
 The Android binary is unchanged; its existing direct-key option remains separate. The independent GitHub repository is
@@ -65,7 +65,7 @@ It does not use their models, corpus, API keys or application storage.
 ## Host access: private access code
 
 Google sign-in and an explicit invited-email allowlist are implemented and tested
-and included in live revision `lingolive-00005-lch`. Host-funded access still
+and included in live revision `lingolive-00008-cos`. Host-funded access still
 requires the private access code; **Google sign-in is not active there yet**.
 The user chose simple private-access-code sign-in. No Google OAuth registration
 is needed for either the selected host-code flow or personal-key mode. Optional Google account support remains

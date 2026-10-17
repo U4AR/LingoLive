@@ -1,0 +1,12 @@
+{
+  "account": "ashish.t.vasant@gmail.com",
+  "project": "locateassist",
+  "mechanism": "normal Cloud SDK user login",
+  "refresh_credential_saved": true,
+  "refresh_exchange_succeeded": true,
+  "private_sdk_directory_mode": "0700",
+  "private_credential_database_mode": "0600",
+  "credentials_outside_source_repository": true,
+  "no_credential_values_in_report": true,
+  "verified_at_utc": "2026-10-17T10:00:13.497076+00:00"
+}

@@ -1,20 +1,17 @@
 # Deploy LingoLive on Cloud Run
 
-Current source is **web 1.4**, defaulting to `gemini-3.8-flash` with low
-reasoning and bounded single-call lesson output. It includes a minimal screen
-and local first-visit tutorial. **The update is not deployed yet:** the previous
-temporary Cloud credential expired. Supply working deployment credentials and
-run the existing helper; then verify `/health` version `1.4`, source assets,
-real Google output and latency. Do not treat older v1.3 evidence as a 1.4 check.
+Web **1.4 is deployed** as `lingolive-00008-cos`, with 100% public traffic at
+https://lingolive-358650584819.us-central1.run.app. It uses `gemini-3.8-flash`
+with low reasoning, bounded word readings and one lesson call, plus the minimal
+screen and first-visit tutorial. Real Google transcription/context lessons,
+required word definitions/readings, source assets, auth and cost guards were
+verified. Valid personal-key inference and physical-phone capture remain untested.
 
-Previously deployed web 1.3 is running as `lingolive-00005-lch` at
-https://lingolive-358650584819.us-central1.run.app. Hosted assets match source;
-private-code sessions, real Google transcription/context lessons, key sessions,
-invalid-key rejection and the original cost limits are verified. A valid personal
-key and physical-phone capture remain unverified. The temporary deployment
-credential was used only in memory. Runtime Vertex access uses the service
-account and is independent of that temporary credential's expiry.
-
+Deployment now uses a normal refreshable Cloud SDK login. The account login and
+refresh exchange were verified and credentials are kept in the private SDK
+configuration outside this source repository. There is no need to supply an
+hourly copied token. The app runtime uses its separate dedicated service account.
+Use `gcloud auth list` before diagnosing operator authentication failures.
 Keep Google sign-in disabled for the selected private access-code flow. Context
 uses the existing model endpoint and adds no services. Optional recent audio
 increases teach request size to at most 300,000 bytes; other API bodies remain
