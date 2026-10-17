@@ -1,8 +1,8 @@
 {
   "file": "LingoLive-web-source.zip",
-  "bytes": 1026769,
-  "sha256": "f484bd21259a13101dd0da0b75f4ed6c2080e6d85e290790356f149eb5cbb975",
-  "files": 97,
+  "bytes": 1097694,
+  "sha256": "2c61b3f7bc38444fbc6bc887f0c2b35547e8c42a89e78534f92c78d18099fd2e",
+  "files": 102,
   "source_version": "1.4-fast-lessons-tutorial",
   "connection_modes": [
     "access_code",

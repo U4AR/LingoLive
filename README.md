@@ -42,6 +42,8 @@ and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 `lingolive-00008-cos`, including contextual replies, local memory, word bubbles
 and both connection options. A real Google audio-to-context-lesson check passed;
 valid personal-key inference and physical-phone capture remain unverified.
+Live latency measurements (10 successful calls) and reproduction instructions
+are in [docs/LATENCY.md](docs/LATENCY.md).
 The Android binary is unchanged; its existing direct-key option remains separate. The independent GitHub repository is
 [U4AR/LingoLive](https://github.com/U4AR/LingoLive). Credentials, local environment
 files, signing keys and generated APK/ZIP files are excluded from Git.

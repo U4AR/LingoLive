@@ -28,6 +28,15 @@
   context, language direction and audio input; they are not a benchmark or proof
   of a general speedup. Physical-phone capture and valid personal-key inference
   remain unverified.
+- **Latest live latency sample:** ten successful calls, zero model/validation
+  failures on revision `lingolive-00008-cos`. Two sequential samples per language:
+  Japanese median 6.55 s (5.36–7.74), Hindi 11.63 s (8.58–14.67), Spanish 8.54 s
+  (6.90–10.18). Two simultaneous sessions completed in 4.69 s and 8.36 s.
+  A 2.128-second synthesized utterance reached a complete lesson 8.40 s after
+  the last audio frame (11.33 s including socket setup and speaking). The same
+  transcript/context took 6.96 s without an audio attachment and 19.18 s with it.
+  No cold-start or physical-phone latency claim. See `docs/LATENCY.md` and
+  `validation/cloud-latency-results.json`; small samples do not establish percentiles.
 - **Persistent operator login verified:** Cloud SDK saved a refresh credential,
   successfully completed a refresh exchange, and deployed without a manually
   copied access token. Private SDK configuration is outside this repository.
