@@ -5,27 +5,28 @@
   "service": "lingolive",
   "url": "https://lingolive-358650584819.us-central1.run.app",
   "canonical_url": "https://lingolive-l5utioe5cq-uc.a.run.app",
-  "ready_revision": "lingolive-00004-jzp",
+  "ready_revision": "lingolive-00005-lch",
   "condition": "CONDITION_SUCCEEDED",
   "provider": "vertex",
   "google_api_key_required": false,
   "runtime_service_account": "lingolive@locateassist.iam.gserviceaccount.com",
   "environment_names": [
-    "LINGOLIVE_PROVIDER",
-    "LINGOLIVE_VERTEX_PROJECT",
-    "LINGOLIVE_VERTEX_LOCATION",
-    "LINGOLIVE_FLASH_MODEL",
-    "LINGOLIVE_TRANSCRIBE_MODEL",
+    "LINGOLIVE_ACCESS_TOKEN",
     "LINGOLIVE_AI_ENABLED",
-    "LINGOLIVE_REQUESTS_PER_MINUTE",
-    "LINGOLIVE_LESSONS_PER_HOUR",
-    "LINGOLIVE_LESSONS_PER_DAY",
-    "LINGOLIVE_AUDIO_SECONDS_PER_HOUR",
-    "LINGOLIVE_AUDIO_SECONDS_PER_DAY",
-    "LINGOLIVE_MAX_OUTPUT_TOKENS",
-    "LINGOLIVE_GOOGLE_SIGNIN_REQUIRED",
     "LINGOLIVE_ALLOWED_GOOGLE_EMAILS",
-    "LINGOLIVE_ACCESS_TOKEN"
+    "LINGOLIVE_AUDIO_SECONDS_PER_DAY",
+    "LINGOLIVE_AUDIO_SECONDS_PER_HOUR",
+    "LINGOLIVE_BYOK_ENABLED",
+    "LINGOLIVE_FLASH_MODEL",
+    "LINGOLIVE_GOOGLE_SIGNIN_REQUIRED",
+    "LINGOLIVE_LESSONS_PER_DAY",
+    "LINGOLIVE_LESSONS_PER_HOUR",
+    "LINGOLIVE_MAX_OUTPUT_TOKENS",
+    "LINGOLIVE_PROVIDER",
+    "LINGOLIVE_REQUESTS_PER_MINUTE",
+    "LINGOLIVE_TRANSCRIBE_MODEL",
+    "LINGOLIVE_VERTEX_LOCATION",
+    "LINGOLIVE_VERTEX_PROJECT"
   ],
   "model_permissions": [
     "aiplatform.endpoints.predict",
@@ -34,7 +35,7 @@
   "traffic": [
     {
       "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST",
-      "revision": "lingolive-00004-jzp",
+      "revision": "lingolive-00005-lch",
       "percent": 100
     }
   ],
@@ -49,5 +50,7 @@
     "LINGOLIVE_AUDIO_SECONDS_PER_DAY": "3600",
     "LINGOLIVE_MAX_OUTPUT_TOKENS": "4096"
   },
-  "request_based_cpu": true
+  "request_based_cpu": true,
+  "source_commit": "29ecb06388f231c635d773b6bccba7dca1560cc8",
+  "personal_keys_enabled": true
 }

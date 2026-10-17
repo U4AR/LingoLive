@@ -20,10 +20,28 @@ own Gemini provider and never fall back to host Vertex/API credentials.
 - Pure JS source/word/PCM/context tests pass. UI evidence includes
   `web-personal-key.png`, `web-simple-mobile.png` and `web-word-bubble.png`.
 
-**Not deployed:** live revision remains `lingolive-00004-jzp`; a fresh operator
-credential is needed. New personal-key inference and model access have not been
-verified with a real Google key. Prior live inference below does not validate
-these changes. Android APK and container image were not rebuilt for web 1.3.
+**Deployed:** revision `lingolive-00005-lch` serves web 1.3 with 100% traffic.
+The eight checked hosted HTML/JS/CSS assets match the committed source. Health
+reports version 1.3, configured and personal keys available. Both connection
+choices are exposed; Google sign-in remains disabled. Private-code cookies are
+Secure/HttpOnly/SameSite; unauthenticated HTTP and WebSocket AI routes are blocked.
+
+A **real hosted Google check** streamed the existing 2.128-second synthesized
+reference WAV to Transcribe Live and received “John chapter 3 verse 16”. That
+transcript, a blank goal, earlier user context, previous suggestion and the WAV
+clip were sent through hosted Flash. The lesson preserved the exact source,
+returned three replies and included context/speaker fields. No Google response
+was mocked for this hosted check. It demonstrates the pipeline, not broad
+speaker-identification or language-learning accuracy.
+
+A personal-key session was created and an explicitly invalid test key failed
+safely without producing a host lesson. Sign-out invalidated the copied key
+cookie. **Valid personal-key inference and physical-phone capture remain
+unverified.** The current container was built in Cloud Build; the Android APK
+was unchanged. The runtime keeps the same one-instance, scale-to-zero, CPU/memory,
+concurrency and model budgets; no Google API key is bound to the host service.
+Evidence: `cloud-current-deployment.json`, `cloud-current-api-results.json` and
+`cloud-deploy.txt` in `validation/`. No deployment/access secret is recorded.
 
 Source is in the independent repository https://github.com/U4AR/LingoLive.
 The user created the repository; GitHub reported it as private at upload time.

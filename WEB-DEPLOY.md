@@ -1,12 +1,17 @@
 # Deploy LingoLive on Cloud Run
 
-Current web 1.3 personal-key/context/memory/UI source has not been deployed. The existing live
-revision is `lingolive-00004-jzp`; its runtime service account remains independent
-of the expired operator credential. Deploy this source only after valid operator
-authentication is available. Keep Google sign-in disabled for the selected private
-access-code flow. Context uses the existing model endpoint and adds no services.
-Optional recent audio increases request size to at most 300,000 bytes on teach;
-other API bodies remain capped at 40,000 bytes. See `MEMORY.md`.
+Current web 1.3 is deployed as `lingolive-00005-lch` at
+https://lingolive-358650584819.us-central1.run.app. Hosted assets match source;
+private-code sessions, real Google transcription/context lessons, key sessions,
+invalid-key rejection and the original cost limits are verified. A valid personal
+key and physical-phone capture remain unverified. The temporary deployment
+credential was used only in memory. Runtime Vertex access uses the service
+account and is independent of that temporary credential's expiry.
+
+Keep Google sign-in disabled for the selected private access-code flow. Context
+uses the existing model endpoint and adds no services. Optional recent audio
+increases teach request size to at most 300,000 bytes; other API bodies remain
+capped at 40,000 bytes. See `MEMORY.md` and `validation/cloud-current-*.json`.
 
 
 One Cloud Run service hosts the responsive website, live Google transcription,
@@ -170,7 +175,7 @@ the private access code is still required. Old code-only sessions and bearer-onl
 API/WebSocket calls are rejected in required mode. Google credentials remain in
 memory and are not written to local storage, URLs or the service worker cache.
 
-The Google support code is deployed as revision `lingolive-00004-jzp`, with
+The Google support code is included in revision `lingolive-00005-lch`, with
 private-code access confirmed working. Google sign-in is not enabled yet. The project is outside a
 Google organization. The official installed Cloud SDK documents that IAP OAuth
 Admin client/brand creation APIs shut down March 19, 2026, and that first-time

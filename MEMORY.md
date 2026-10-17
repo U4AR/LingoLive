@@ -77,6 +77,8 @@ opt-in audio can increase model usage; RAM quotas reset on a service restart and
 are not a hard billing cap.
 
 Local tests verify transport, bounds, isolation and UI with explicit Google
-fixtures. Semantic accuracy of inferred intent, ambient audio and speaker labels
-has not been validated with real Google inference. Web 1.3 is not yet deployed:
-the deployment credential expired. The live revision remains 00004-jzp.
+fixtures. Web 1.3 is deployed as `lingolive-00005-lch`. A real hosted test used
+synthesized audio, transcription, a blank goal, prior context and the optional
+WAV input to produce a complete context lesson. Broad semantic accuracy,
+speaker estimates, physical-phone capture and valid personal-key inference still
+need user testing. See `validation/cloud-current-api-results.json`.

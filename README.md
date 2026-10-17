@@ -22,10 +22,11 @@ in a tap bubble. Goals are optional; replies use recent conversation, earlier
 suggestions and this learner's local memory. The gear opens profile, goal, place
 and optional location/sound controls. See [MEMORY.md](MEMORY.md).
 
-**Deployment status:** the existing Cloud Run service is still revision
-`lingolive-00004-jzp`. These web 1.3 changes are locally tested and await a fresh
-deployment credential. The Android binary is unchanged; its existing direct-key
-option remains separate. The independent GitHub repository is
+**Deployment status:** web 1.3 is live on Cloud Run as revision
+`lingolive-00005-lch`, including contextual replies, local memory, word bubbles
+and both connection options. A real Google audio-to-context-lesson check passed;
+valid personal-key inference and physical-phone capture remain unverified.
+The Android binary is unchanged; its existing direct-key option remains separate. The independent GitHub repository is
 [U4AR/LingoLive](https://github.com/U4AR/LingoLive). Credentials, local environment
 files, signing keys and generated APK/ZIP files are excluded from Git.
 
@@ -48,7 +49,7 @@ It does not use their models, corpus, API keys or application storage.
 ## Host access: private access code
 
 Google sign-in and an explicit invited-email allowlist are implemented and tested
-and deployed in live revision `lingolive-00004-jzp`. The service still
+and included in live revision `lingolive-00005-lch`. Host-funded access still
 requires the private access code; **Google sign-in is not active there yet**.
 The user chose simple private-access-code sign-in. No Google OAuth registration
 is needed for either the selected host-code flow or personal-key mode. Optional Google account support remains
@@ -102,8 +103,9 @@ transcription. Sessions renew at 9.5 minutes with at most five seconds of queued
 PCM; slow/disconnected streams pause visibly. New listening and lessons require
 network access and Google model quota. Browser pronunciation depends on available
 system voices. This version has been exercised in desktop Chromium and a mobile
-viewport; physical iOS/Safari, Android browser capture and live Google inference
-remain unverified.
+viewport; physical iOS/Safari and Android browser capture remain unverified. Hosted
+Google transcription and a multimodal context lesson passed with synthesized
+audio; this does not establish real-world language or speaker accuracy.
 
 Run the actual web service locally (the example and shell need no Google key):
 

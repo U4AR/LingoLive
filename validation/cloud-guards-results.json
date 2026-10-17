@@ -1,6 +1,6 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00004-jzp",
+  "ready_revision": "lingolive-00005-lch",
   "unauthenticated_http_blocked": true,
   "unauthenticated_websocket_blocked": true,
   "limits": {
@@ -15,5 +15,6 @@
   "max_instances": 1,
   "min_instances": 0,
   "request_based_cpu": true,
-  "no_google_api_key_in_service": true
+  "no_google_api_key_in_service": true,
+  "personal_keys_enabled": true
 }

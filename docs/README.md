@@ -23,6 +23,7 @@ PDF. It does not serve a public preview or access the Google APIs.
 
 The deployment status, repository visibility and verification statements describe
 October 17, 2026. Update those statements before reusing this document after a
-new deployment. Current web 1.3 source is locally tested; the live prototype is
-still the earlier revision. This document does not claim a completed event
-submission or a published demo video.
+new deployment. Web 1.3 is live as revision `lingolive-00005-lch`; current hosted
+Google transcription and a context lesson are verified. This does not establish
+physical-phone or valid personal-key inference quality. This document does not
+claim a completed event submission or a published demo video.
