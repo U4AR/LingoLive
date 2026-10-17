@@ -68,7 +68,10 @@
       "follow the current plan and conversation",
       "permission-based return-place memory",
       "learn afterwards in Saved"
-    ]
+    ],
+    "story_structure": "Problem first: show a stalled conversation before introducing the solution and demonstrating its functions.",
+    "problem_only_opening_seconds": 28,
+    "solution_starts_seconds": 28
   },
   "functional_updates": {
     "pre_task_plan": true,

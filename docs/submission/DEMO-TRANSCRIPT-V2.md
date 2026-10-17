@@ -16,43 +16,59 @@ transition if necessary; never speed up speech or conceal inference waits.
 later. Only a general Google AI / Google Cloud credit is narrated. Architecture,
 exact memory guards, limitations, costs and measured latency belong in the PDF.
 
-## 0:00–0:18 — When you do not know how to answer
+## 0:00–0:28 — Show the problem before introducing the app
 
-**Visual:** a short dramatized cab-pickup scene in Bengaluru. Restrained street
-noise and a nearby engine. A newcomer hesitates after the driver's question.
+**Visual:** Bengaluru, at a cab pickup. Restrained street noise, natural pauses.
+Show a newcomer and a driver trying to understand each other. This is a dramatized
+problem scene: no app, feature list or product logo until it ends.
 
-**Narrator:** “A new job in Bengaluru. A new language around you. You hesitate
-when someone expects a reply—or answer in English and still aren't understood.”
+**Narrator:** “For immigrants and people moving between Indian states, even a
+simple journey can mean a difficult conversation.”
 
 **Driver, Kannada:** “ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?”
 
 **English subtitle:** “Where do you need to go?”
 
-**Learner, quietly in English:** “How do I answer that?”
+**Learner, English:** “The railway station… could we stop for tea first?”
 
-## 0:18–0:36 — Prepare before leaving home
+**Driver, Kannada:** “ಅರ್ಥವಾಗಲಿಲ್ಲ. ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?”
+
+**English subtitle:** “I didn't understand. Where do you need to go?”
+
+**Learner, quietly in English:** “I know what I mean. I just don't know how to say it.”
+
+## 0:28–0:40 — Present the solution
+
+**Visual:** transition from the stalled exchange to the actual LingoLive screen.
+Show the large microphone button and a simple title: **Reply now. Learn later.**
+Then establish the following scenes as a demonstration of how the same journey
+can work with the app. Do not display prerecorded results as a new live response.
+
+**Narrator:** “Meet LingoLive: understand what's being said, find a reply, and say
+it in the other person's language. Learn from that conversation afterwards.”
+
+## 0:40–0:55 — Prepare before leaving home
 
 **Visual:** title “Earlier, before leaving home.” In the actual app, open
 **My plan → Before you go**. Type and save: “Take a cab to Bengaluru railway
-station. I might stop for tea on the way.” Show the optional steps Get a cab /
-Tea stop (optional) / Reach the station. Disclose this as typed setup, not speech.
+station. I might stop for tea on the way.” Show Get a cab / Tea stop (optional) /
+Reach the station. Label this typed setup, not speech recognition.
 
-**Narrator:** “Before leaving home, save what you want to do: take a cab to the
-railway station, with a possible tea stop on the way.”
+**Narrator:** “Before leaving, save your plan: a cab to the railway station, with
+a possible tea stop first.”
 
-## 0:36–1:03 — Find your first reply
+## 0:55–1:18 — Show the solution working
 
-**Visual:** title “At the cab pickup.” English / Kannada are selected in the
-actual app. Tap the large microphone button. Show the heard question, its meaning
-and the actual generated reply choices. Keep the real response wait visible.
-Show pronunciation or briefly use playback; do not open word-teaching bubbles.
+**Visual:** “At the cab pickup.” English / Kannada selected. Tap the microphone;
+show the heard question, its meaning and actual generated replies. Keep the real
+response wait visible. Show pronunciation or playback; no word-teaching bubbles.
 
 **Driver, Kannada:** “ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?”
 
 **English subtitle:** “Where do you need to go?”
 
-**Narrator:** “Tap the microphone. LingoLive shows what was said and helps you
-answer. Choose a reply, read its pronunciation, or play it aloud.”
+**Narrator:** “Tap to listen. See the meaning, choose a reply, then read the
+pronunciation or play it aloud.”
 
 **Learner, Kannada:** “ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು.”
 
@@ -62,16 +78,14 @@ answer. Choose a reply, read its pronunciation, or play it aloud.”
 
 **English subtitle:** “Okay.”
 
-## 1:03–1:26 — Say it in your own language first
+## 1:18–1:38 — Help when you reply in your own language
 
-**Visual:** continue the same conversation. The learner speaks English; the app
-shows **Say it in Kannada**, with real target-language phrases and pronunciation.
-Do not relabel the English input as Kannada speech.
+**Visual:** same conversation. English speech produces **Say it in Kannada**,
+with real target-language phrases and pronunciation. Source detection stays honest.
 
 **Learner, English:** “Could we stop for tea first?”
 
-**Narrator:** “If you know what you mean but cannot say it in Kannada, speak in
-English. LingoLive helps you say that intention.”
+**Narrator:** “Speak in English. LingoLive helps you express your own words in Kannada.”
 
 **Learner, Kannada:** “ಮೊದಲು ಚಹಾಕ್ಕೆ ನಿಲ್ಲಿಸಬಹುದೇ?”
 
@@ -81,35 +95,33 @@ English. LingoLive helps you say that intention.”
 
 **English subtitle:** “Okay.”
 
-## 1:26–1:44 — Keep the conversation moving
+## 1:38–1:53 — Continue with relevant replies
 
-**Visual:** tea stall. The learner explicitly advances the plan to the tea step.
-Show the new heard question and actual replies using the current exchange and
-trip context. Cups and quiet background conversation; no live teaching overlay.
+**Visual:** tea stall. Explicitly advance the plan to the tea stop. Show the new
+question and actual replies, keeping teaching for later. Quiet cups and chatter.
 
 **Shopkeeper, Kannada:** “ಇಲ್ಲೇ ಕುಡಿಯುತ್ತೀರಾ ಅಥವಾ ಪಾರ್ಸೆಲ್ ಬೇಕಾ?”
 
 **English subtitle:** “Having it here, or taking it away?”
 
-**Narrator:** “The next reply follows the conversation and your plan. If plans
-change, what you say now takes priority.”
+**Narrator:** “Replies follow the current conversation and your plan. Your latest
+words take priority.”
 
 **Learner, Kannada:** “ಪಾರ್ಸೆಲ್ ಬೇಕು.”
 
 **English subtitle:** “I'd like it to take away.”
 
-## 1:44–2:12 — A little memory for familiar places
+## 1:53–2:18 — Useful memory when you return
 
-**Visual:** with permission enabled, show the learner saving a useful place
-note: “I order ginger tea to take away here.” If typed, show that action and label
-it as typed setup. Then cut explicitly to **“A later visit — simulated location
-and elapsed time.”** Show the actual app recalling the relevant note only after
-its return checks. Briefly show that notes can be reviewed or forgotten. Do not
-imply the pending station destination is the learner's current GPS position.
+**Visual:** with permission enabled, show a useful place note: “I order ginger tea
+to take away here.” If typed, show and label typed setup. Cut explicitly to
+**“A later visit — simulated location and elapsed time.”** Show the actual app
+using the note only after its return checks, and the review/forget controls.
+A planned station destination must not be presented as current GPS position.
 
-**Narrator:** “With your permission, it builds a small memory of useful routines.
-Back near a saved place, relevant notes help again. Away from that area, they
-stay out. Review, change or forget them.”
+**Narrator:** “With permission, LingoLive remembers useful routines. Back near a
+saved place, relevant notes help again. Away from that area, they stay out. You
+can change or forget them.”
 
 **Shopkeeper, Kannada:** “ಏನು ಬೇಕು?”
 
@@ -119,23 +131,23 @@ stay out. Review, change or forget them.”
 
 **English subtitle:** “I'd like ginger tea to take away.”
 
-## 2:12–2:39 — Learn afterwards
+## 2:18–2:42 — Learn after the moment has passed
 
-**Visual:** “Later, at home.” Quiet room tone. Open Saved and a conversation from
-the day. Only now show a tappable word, its meaning bubble, pronunciation and
-practice replies. This is stored learning; no fake new inference spinner.
+**Visual:** “Later, at home.” Quiet room tone. Open a saved conversation. Only now
+show a tappable word, its meaning bubble, pronunciation and practice replies.
+These are stored results, without a fake new-inference spinner.
 
 **Narrator:** “Later, when nobody is waiting, open Saved. Tap a word to see its
 meaning, check pronunciation and practise. Keep learning from conversations you
 actually needed, at your own pace.”
 
-## 2:39–2:55 — Take part today, build confidence tomorrow
+## 2:42–2:55 — Close on the benefit
 
-**Visual:** the learner continues their day. A short Google AI / Google Cloud Run
-credit, LingoLive name and the live prototype URL. Keep it readable at phone size.
+**Visual:** learner continuing their day, app name, brief Google AI / Cloud Run
+credit and the live prototype URL, all readable at phone size.
 
-**Narrator:** “Powered by Google AI and running on Google Cloud, LingoLive helps
-newcomers take part today—and build confidence for tomorrow. Reply now. Learn later.”
+**Narrator:** “Powered by Google AI on Google Cloud, LingoLive helps newcomers take
+part today and keep learning afterwards. Reply now. Learn later.”
 
 ## Production conditions for approval
 
