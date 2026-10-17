@@ -1,0 +1,9 @@
+{
+  "fixture_google": true,
+  "real_mobile_browser": true,
+  "before_seconds_click_to_request": 6.046,
+  "after_seconds_click_to_request": 0.134,
+  "cause": "Transient passive status banner intercepted the typed-submit click.",
+  "fix": "Status notices no longer intercept pointer input.",
+  "inference_time_not_measured": true
+}

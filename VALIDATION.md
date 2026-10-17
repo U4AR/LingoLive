@@ -1,3 +1,40 @@
+# Web 1.8 — Guarded return-only place memory
+
+- **104 backend tests and 83 real Chromium checks pass**, plus 16 guarded-place
+  core checks and the existing JavaScript suites. New checks cover opt-in,
+  stationary dwell/accuracy/freshness/movement, return-only context, five places /
+  three notes / two recalled notes, automatic write rates, expiry, profile/reload
+  isolation, absence of anchors in prompts/saved snapshots and in-flight forget.
+- The existing source inference may propose one current-place note. The client
+  controls writes and checks consent, grounding, current position, visit ticket,
+  capacity and rates. The two existing parallel calls still provide all outputs;
+  saved place memory adds no third paid request or paid Maps service.
+- Real Gemini testing uses disclosed simulated geolocation and clock advancement,
+  not physical-location claims. The first extraction captured only a usual tea
+  stall and missed the order; it failed the quality assertion and was not promoted.
+  Prompt/schema refinement prioritized actionable routines. Subsequent inference
+  saved ginger tea, withheld the note away, then used it after a stable return in
+  a blank-goal new conversation. Original failed evidence is retained.
+- A separate mobile test found a status notice delayed typed submission before
+  the network request: **6.046 s before, 0.134 s after** a pointer-event fix, using
+  local mocked inference. The browser test now checks immediate submission while
+  the notice is present. Before-fix functional timings include that UI wait;
+  they are labelled interaction times, not isolated HTTP inference latency.
+- Final current-version HTTP requests took **2.254 / 1.864 / 1.691 s** (mean
+  **1.936 s**). Browser interactions took **2.335 / 1.983 / 1.814 s**. HTTP timing
+  starts at the network-request event, independent of simulated location time.
+  Three functional cases do not establish a ten-request average or noisy physical
+  speech latency. Real Google outputs are in
+  `cloud-v1.8-api-results.json`; previous attempt and before-fix results remain
+  separate. No new audio/video was generated, and noisy speech, physical phone
+  GPS and valid personal-key inference were not revalidated this revision.
+- The utility-focused Kannada script awaits approval before any new production.
+  Architecture, exact memory guards and latency limits are in the six-page
+  `docs/submission/LingoLive-Writeup.pdf`. Local profiles are browser data stores,
+  not separate authenticated accounts or cross-device cloud sync.
+
+## Earlier web 1.7 evidence (historical)
+
 # Web 1.7 — Durable personal memory
 
 - **99 backend tests and 75 Chromium checks pass**, plus the core/context and

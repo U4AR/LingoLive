@@ -1,3 +1,23 @@
+## Web 1.8 place memory and mobile submit correction
+
+Place extraction uses the existing source branch and returned place notes are
+bounded to two. No third model call, paid mapping service or output-cap increase
+was introduced. Final functional HTTP times are 2.254 / 1.864 / 1.691 s
+(mean 1.936 s); full browser interactions are 2.335 / 1.983 / 1.814 s. These are
+three functional simulated-location cases, not a stable average/physical speech
+benchmark. Current isolated HTTP and total UI interaction timings are
+recorded separately in `validation/cloud-v1.8-api-results.json`.
+
+The previous browser functional timers began before clicking the submit button.
+A mobile status banner could intercept that click: a local test measured 6.046 s
+to request before, 0.134 s after the non-intercepting notice fix. Earlier 1.7
+browser samples and the 1.8 before-fix 2.745/7.761/7.375 s interaction samples
+include that auto-wait; they must not be described as isolated Google latency.
+The separate direct-HTTP 1.7 comparison remains valid: with memory 1.989/2.029 s,
+without 1.933/1.567 s. Small samples do not establish a stable average or a
+physical speech/mobile-network guarantee. All earlier slow/failed evidence is
+retained, including the place-note extraction-quality failure.
+
 ## Web 1.7 memory update
 
 Durable personal memory adds up to five 160-character items to both existing

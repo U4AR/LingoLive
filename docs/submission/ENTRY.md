@@ -28,8 +28,8 @@ LingoLive is a Google Cloud Run language-learning companion for real
 conversations. It uses Gemini live transcription and two parallel Flash-Lite
 requests to show what was said and three useful replies, with pronunciation aids.
 Word meanings and practice open afterwards in Saved. Goals are optional; bounded conversation and durable personal memory help replies follow
-the exchange and remember useful routines across days. Activities, broad places
-and preferences remain editable; inferred memories stay provisional. Lessons stay on the browser. Users connect with a host access code
+the exchange and remember useful routines across days. Activities and preferences remain editable; inferred memories stay provisional.
+Opt-in saved-place notes are recalled only after a fresh stable return nearby. Lessons stay on the browser. Users connect with a host access code
 or their own Google key. Ten earlier-version measured complete lessons averaged 1.79 seconds;
 speech-to-result and real-device latency remain longer or unverified.
 

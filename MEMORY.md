@@ -1,4 +1,4 @@
-# Conversation memory (web 1.7 source)
+# Conversation memory (web 1.8 source)
 
 The main screen shows heard speech, its translation and three possible replies.
 During a live exchange, replies have pronunciation, playback and copy controls.
@@ -26,6 +26,67 @@ or `likely_other`; ambiguous speech stays unattributed. A distinctive exact matc
 to a previous suggested reply is another tentative learner cue. Common greetings
 are excluded. **I said this**, under a reply's more menu, explicitly confirms a
 turn without another model request. Confirmed goals override tentative intent.
+
+## Return-only place memory (web 1.8)
+
+The earlier version remembered place names without geographic gating. Saved places
+are now a separate opt-in store in the local learner profile. The AI proposes a
+label and a useful note, never coordinates or an executable write. The browser
+independently checks consent, a fresh accurate stationary location, capacity,
+rate, grounding, speaker evidence and the current request's visit/epoch ticket.
+The existing source-understanding call performs extraction; no extra paid call.
+
+Hard limits: **five places, three notes each, two place notes in context**. Automatic
+writes are limited to two per rolling day, at least 30 minutes apart, and one per
+stationary stay. A full place/store rejects a new write instead of growing or
+silently evicting another place. Manual additions also obey the capacity/location
+checks. A place expires 90 days after its last note addition/edit.
+
+Saved anchors are latitude/longitude rounded to three decimals (roughly 100-metre
+cells), kept only in LocalStorage with a label, notes and a few visit-state fields.
+They are not route histories. Fine current coordinates stay in RAM. The browser
+requires accuracy at most 75 m, speed at most 2.5 m/s when provided, a fix no older
+than 90 seconds and at least two distinct position samples spanning 60 seconds
+of staying nearby. It requests foreground updates every 30 seconds while opted in.
+Moving more than 60 m plus reported uncertainty resets dwell. Missing/stale/poor
+GPS, movement, permission denial, location off or a different learner suppresses
+recall. Sensor use stops on hide/unload/profile change and starts off on reload.
+
+A match requires `distance(current fix, rounded anchor) + reported accuracy + 80 m
+rounding allowance <= 250 m`. The 80 m allowance bounds three-decimal rounding
+at the supported latitudes. This is a broad-area check, not proof of an exact
+shop, indoor position, home or work. Adjacent venues inside that area cannot be
+reliably distinguished; the learner must correct misleading notes. No reverse
+geocoding or paid Maps API is used.
+
+The first save does not immediately replay itself. A later visit requires an
+observed departure and stable return, or a fresh stable match after at least
+30 minutes without observations. The latter accommodates closing the app between
+visits and cannot prove the user physically left. Saved visit state contains only
+a last-seen timestamp and return/departure flags, not a sequence of locations.
+
+Only the matched place's label and at most two note texts/statuses enter both
+existing AI branches as `place_context`. Saved anchors never enter the prompt or
+API. Separate approximate-location sharing remains an independent opt-in: it can
+send a current two-decimal position for temporary setting inference. Enabling
+saved places does not turn that sharing on. New place-specific facts stay out of
+general memory; old unlinked `kind=place` notes are preserved for editing but
+excluded from automatic general retrieval. Derived summaries/history/vocabulary
+from a recalled place are excluded when the request is outside that place;
+temporary inferred intent is cleared on a place change. Explicit learner-entered
+goals/notes and newly spoken words retain their separate current-context meaning.
+
+The AI can propose at most one note from an exact current-text quote when the
+learner is explicitly confirmed, or estimated with high confidence. Proposals
+are possible until confirmed in Settings; future destinations, other people's
+places, sensitive traits and raw sensor inference are prohibited. A semantic
+mistake remains possible, hence visible edit/confirm/forget controls. Unknown or
+moving position never authorizes a save. Forget, pause or switching learners
+invalidates in-flight tickets, preventing late writes from restoring forgotten data.
+`Forget all saved places` clears anchors/notes and disables place location. The
+broader `Forget personal memory & pause` also clears saved places. Original
+transcripts/lessons remain in Saved until separately deleted. Place context and
+current coordinates are omitted from saved lesson-request snapshots.
 
 ## Memory that builds across conversations
 
@@ -84,6 +145,7 @@ clearing removes all local data. Storage requires a browser permitting persisten
 | Explicit goal and inferred intent | Local conversation state; a scene expires after 90 minutes of inactivity |
 | Earlier turns | At most eight, 400 characters each; older than 90 minutes excluded |
 | Scene summary | At most 600 characters; temporary model inference |
+| Saved place anchors and notes | LocalStorage, max 5 places / 3 notes; rounded 3-decimal area, expires after 90 days; separate opt-in |
 | Optional approximate location | RAM only, two decimal coordinates, accuracy at least 1 km; expires after five minutes |
 | Optional recent sound | RAM only, at most four seconds of mono 16 kHz PCM WAV; never saved in history |
 
@@ -127,7 +189,7 @@ charge their own Google projects but still use the host's Cloud Run relay.
 
 Each lesson runs two Gemini 3.1 Flash-Lite requests in parallel: source understanding
 and replies. Both receive the same incoming goal, history, summary, previous
-suggestions, learner notes and up to five personal memories. There is no third summarization or classification
+suggestions, learner notes and up to five general personal memories and two matched-place notes. There is no third summarization or classification
 call. The reply branch does not wait for the source branch's newly inferred scene;
 that inference enters the next turn's context. Optional recent sound goes only to
 the source branch. Reply generation uses the transcript and existing context.

@@ -106,6 +106,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 104 tests in 1.850s
+Ran 104 tests in 1.667s
 
 OK

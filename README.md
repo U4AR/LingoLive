@@ -1,10 +1,14 @@
 # LingoLive
 
-[Project PDF](docs/LingoLive-How-It-Works.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
+[Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.7 — Memory that grows with the learner
+## Current source: web 1.8 — Useful memory when you return
 
-Useful activities, broad places and preferences now carry across conversations in
+Saved places now have geographic return checks: opt-in, max five places and three
+notes per place; only two notes can join context when you return nearby. Fresh,
+accurate stationary location is required; saved area coordinates remain local.
+
+Useful activities and preferences carry across conversations in
 each local learner profile. The existing source AI call proposes grounded memories;
 inferred items stay **possible** until confirmed. Settings → **What LingoLive
 remembers** lets you edit, add, confirm or forget them. No GPS trails, extra model

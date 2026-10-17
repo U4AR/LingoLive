@@ -1,6 +1,6 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00014-fog",
+  "ready_revision": "lingolive-00018-wuj",
   "root_status": 200,
   "html_and_eight_script_style_assets_match_source": true,
   "google_signin_required": false,
@@ -9,12 +9,12 @@
     "service": "LingoLive",
     "configured": true,
     "byok_available": true,
-    "version": "1.7"
+    "version": "1.8"
   },
-  "asset_count": 11,
+  "asset_count": 12,
   "kannada_example_matches_source": true,
-  "app_version": "1.7",
+  "app_version": "1.8",
   "checked_for_personal_memory_release": true,
-  "public_verified_at_utc": "2026-10-17T12:38:20.359216+00:00",
+  "public_verified_at_utc": "2026-10-17T13:09:25.315594+00:00",
   "public_assets_match_source": true
 }

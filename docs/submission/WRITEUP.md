@@ -12,9 +12,9 @@ and learning they can revisit.
 
 **Source:** https://github.com/U4AR/LingoLive
 
-## Current product update — web 1.7
+## Current product update — web 1.8
 
-The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant items, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
+The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant general items and at most two notes from a saved place matched on a return visit, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
 
 The primary audience includes immigrants and people moving between Indian states.
 A Bengaluru/Kannada scenario illustrates the need: someone asks a question while
@@ -107,15 +107,52 @@ Google API key in the browser or recommended host runtime. Alternatively, users
 can connect their own Google AI Studio key. Personal-key mode uses that key for
 both speech and lessons and never falls back to host credentials.
 
-## Optional setting awareness
+## Guarded place memory and optional setting awareness
 
-Settings let the learner choose a broad scene such as home, work, a café or
-travelling. Approximate location and recent sound are optional and off by default.
-Location is rounded to two decimal coordinates, kept in RAM and expires after
-five minutes. There is no paid Maps API dependency. Recent sound is limited to
-four seconds and sent as audio only to the source-understanding task. Neither
-signal is saved into lesson history. These signals help estimate a setting;
-they do not verify a venue or establish sensitive personal facts.
+Place names previously had no geographic return guard. The current app keeps a
+separate opt-in store: at most **five places**, **three notes per place**, and
+**two place notes per AI request**. General preferences remain separate. Saved
+place notes join context only on a fresh, stationary match after a return visit.
+The first save does not immediately replay itself. A future destination or an
+unlinked place name does not establish where the learner currently is.
+
+The source-understanding call may propose one label and fact with an exact quote
+from the learner's current words. The AI supplies no coordinates and cannot call
+a location-write tool. The browser checks opt-in, high-confidence/confirmed learner
+speech, current location, dwell, capacity and an unchanged visit/epoch ticket.
+Automatic writes are capped at two per rolling day, 30 minutes apart, one per stay.
+A full store refuses new entries. No third generation or paid Maps call is added.
+
+Place anchors are rounded to three decimal coordinates (about a 100-metre cell),
+retained only in the local learner profile, with up to three short notes and minimal
+visit state. Current fine coordinates remain in RAM. A match requires fresh GPS
+(no older than 90 seconds), reported accuracy at most 75 m, optional speed at most
+2.5 m/s, and two distinct samples spanning a stationary minute. The matching rule is
+**distance + reported accuracy + 80 m rounding allowance <= 250 m**. This recognizes
+a broad area; it cannot verify an exact business or distinguish nearby shops.
+
+A return means observed departure and stable re-entry, or a fresh stable match
+following at least 30 minutes without observations. The inactivity alternative
+supports closing the app between visits but cannot prove physical departure.
+Poor/missing/stale GPS, movement, a different area, location being off or a different
+learner withholds the notes. Foreground-only location use stops on hide/profile
+change and starts off on reload. Only label/fact/status reach Google; saved anchor
+coordinates do not. Turning on saved places does not enable separate approximate-
+location sharing. No GPS trail or raw audio archive is created.
+
+Place-specific facts are excluded from general-memory extraction. Older unlinked
+place notes remain editable but are excluded from automatic retrieval. Derived
+summaries/history from a recalled place are excluded after a place change, and
+place-derived tentative intent is cleared. Current explicit goals and statements
+still take priority. Place notes start as Possible and can be confirmed, edited or
+forgotten. Place storage expires after 90 days without a note update. Epoch/visit
+checks block in-flight responses after a forget or pause; original saved
+conversations have separate deletion controls.
+
+Optional temporary setting signals remain available: a manually chosen scene,
+current approximate location rounded to two decimals, and up to four seconds of
+recent sound for the source branch. Those location/audio samples are not saved
+with lesson history. No Maps service is called.
 
 ## Performance: measured improvement, with limits
 
@@ -132,7 +169,7 @@ requests averaged 1.75 seconds. Two simultaneous independent sessions completed
 in 1.65 and 1.71 seconds. A separate functional context/audio check took 2.34
 seconds; including it gives an eleven-lesson mean of 1.84 seconds.
 
-Those earlier latency samples predate the new personal-memory prompt. The current-version functional requests took 2.040 and 7.604 seconds. Two repeat memory requests took 1.989 and 2.029 seconds, while two without memory took 1.933 and 1.567 seconds. All six succeeded. The slow call remains in the evidence; two samples per mode do not establish causality or a new ten-request average. These are small warm-path samples, not a promise for every language, long input,
+Those earlier latency samples predate the new personal-memory prompt. In web 1.7, browser interactions took 2.040 and 7.604 seconds, including click auto-wait. A later mobile test found a status notice could intercept submission; local click-to-request time changed from 6.046 to 0.134 seconds after the UI fix. These browser interaction samples do not isolate Google latency. Separate direct-HTTP memory requests took 1.989 and 2.029 seconds, while two without memory took 1.933 and 1.567 seconds. All six succeeded. The slow call remains in the evidence; two samples per mode do not establish causality or a new ten-request average. Final web 1.8 functional HTTP requests took 2.254, 1.864 and 1.691 seconds (mean 1.936); full browser interactions took 2.335, 1.983 and 1.814 seconds. Request timing starts on the browser network event; interaction timing starts before click. These three simulated-location cases are functional checks, not a ten-request benchmark or noisy physical speech test. These are small warm-path samples, not a promise for every language, long input,
 mobile network or cold start. The synthesized speech test took 3.54 seconds from
 the end of audio to the complete lesson, including 1.11 seconds of test-client
 handoff. Thus the measured two-second lesson average does not describe the whole
@@ -170,14 +207,14 @@ In-memory counters reset after restarts and are usage guards, not a hard dollar 
 
 ## Validation and current readiness
 
-**99 backend tests** and **75 real Chromium browser checks** passed, along with
+**104 backend tests** and **83 real Chromium browser checks**, plus 16 guarded-place core checks passed, along with
 JavaScript source/word/audio/context checks. Local tests use explicit Google,
 microphone and location fixtures. Separate hosted checks used real Google
 transcription and lessons, validated exact text/readings/meanings, checked access
 controls and proved invalid personal keys do not produce a host-funded fallback.
 Valid personal-key inference and physical-phone capture remain unverified.
 
-Production deployment details in `validation/cloud-current-deployment.json` identify web 1.7 on Cloud Run. The same
+Production deployment details in `validation/cloud-current-deployment.json` identify web 1.8 on Cloud Run. The same
 revision was checked through a temporary tag before promotion; public health,
 assets and routing were verified afterward. The normal persistent Cloud SDK
 operator login is separate from the runtime service account. No deployment

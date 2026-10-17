@@ -18,7 +18,7 @@
       "passed": true
     },
     {
-      "name": "Named broad places can be remembered and retrieved for an explicit setting",
+      "name": "Unlinked place names stay saved but cannot bypass geographic return checks",
       "passed": true
     },
     {
