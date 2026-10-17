@@ -1,0 +1,43 @@
+{
+  "event": "Google Cloud AI Builder Cup 2026",
+  "prepared_for": "Ashish T. Vasant",
+  "registered": true,
+  "project_name": "LingoLive",
+  "tagline": "Understand the conversation. Learn the words. Find your next reply.",
+  "theme": "Media, Content & Digital Experiences",
+  "category": "Education",
+  "prototype_url": "https://lingolive-358650584819.us-central1.run.app",
+  "repository_url": "https://github.com/U4AR/LingoLive",
+  "proposal_file": "LingoLive-Proposal.pdf",
+  "writeup_file": "WRITEUP.md",
+  "demo_video_file": "LingoLive-Demo.mp4",
+  "approved_video_host_url": null,
+  "team_membership_verified": false,
+  "eligibility_attested": false,
+  "portal_submitted": false,
+  "submission_receipt": null,
+  "deadline_date_as_published": "2026-10-18",
+  "deadline_time_zone_verified": false,
+  "rules_checked_date": "2026-10-17",
+  "official_rules_urls": [
+    "https://aibuildercup.com/themes.html",
+    "https://aibuildercup.com/Faqs.html"
+  ],
+  "submission_dashboard_url": "https://hack2skill.com/event/aibuildercup2026/registration?isExternalLinkRedirection=true",
+  "blockers": [
+    "Registered Hack2skill dashboard is not authenticated in this workspace and the domain is blocked by the current runtime network allowlist.",
+    "Official FAQ requires a public source repository; owner decision is pending.",
+    "Official video host must be YouTube, Vimeo or public Google Drive; no upload authorization for those services is available.",
+    "Existing registered team membership and eligibility must be confirmed in the portal."
+  ],
+  "material_status": {
+    "proposal_pdf": "Generated and eight-page layout checked",
+    "writeup_pdf": "Generated and four-page A4 output inspected",
+    "entry_text": "Prepared in ENTRY.md",
+    "demo": "Complete: 173.021 seconds, H.264/AAC, burned English captions, full decode and sample-frame inspection passed",
+    "registered_team": "User confirmed registration; team membership unconfirmed",
+    "public_downloads": "MP4, captions, PDFs and bundle uploaded; anonymous SHA-256 readback verified"
+  },
+  "repository_visibility": "private",
+  "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/index.html"
+}

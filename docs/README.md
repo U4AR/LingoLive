@@ -23,7 +23,11 @@ PDF. It does not serve a public preview or access the Google APIs.
 
 The deployment status, repository visibility and verification statements describe
 October 17, 2026. Update those statements before reusing this document after a
-new deployment. Web 1.4 is live as revision `lingolive-00008-cos`; current hosted
+new deployment. Web 1.5 is live as revision `lingolive-00010-naj`; current hosted
 Google transcription and a context lesson are verified. This does not establish
 physical-phone or valid personal-key inference quality. This document does not
 claim a completed event submission or a published demo video.
+
+The complete AI Builder Cup package is in [submission/](submission/WRITEUP.md):
+project write-up, prepared entry fields, proposal PDF, narrated-demo script,
+captions, artifact links and submission status.

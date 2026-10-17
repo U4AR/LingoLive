@@ -1,0 +1,125 @@
+1
+00:00:00,300 --> 00:00:05,617
+LingoLive helps you learn a language through real conversations. Understand what was said,
+
+2
+00:00:05,617 --> 00:00:09,298
+explore the words, and find a useful next reply.
+
+3
+00:00:10,300 --> 00:00:15,509
+Choose a language you understand and one you are learning. The first-use tutorial
+
+4
+00:00:15,509 --> 00:00:20,719
+lets you tap a word and try pronunciation. This clearly labelled example needs
+
+5
+00:00:20,719 --> 00:00:23,524
+no model call, microphone permission, or account.
+
+6
+00:00:27,300 --> 00:00:31,673
+Here is a Japanese question about coffee. This is a fresh response from
+
+7
+00:00:31,673 --> 00:00:36,046
+the deployed Google model. The screen shows its meaning and three short replies.
+
+8
+00:00:36,046 --> 00:00:39,746
+Every source and reply word can be tapped for an explanation.
+
+9
+00:00:45,300 --> 00:00:49,991
+Switch to pronunciation to read unfamiliar script aloud. Word bubbles and pronunciation
+reuse
+
+10
+00:00:49,991 --> 00:00:54,681
+the lesson already received. They do not make another paid model call. You
+
+11
+00:00:54,681 --> 00:00:58,650
+can copy a reply or hear it with a device voice.
+
+12
+00:00:59,300 --> 00:01:04,216
+Now the learner wants tea to take away. When the conversation asks whether
+
+13
+00:01:04,216 --> 00:01:09,132
+to eat here, that goal travels with recent turns and learner notes. Suggested
+
+14
+00:01:09,132 --> 00:01:14,048
+replies can preserve the intention. Leave the goal empty, and the model instead
+
+15
+00:01:14,048 --> 00:01:17,830
+infers a likely context. Suggestions remain separate from confirmed speech.
+
+16
+00:01:21,300 --> 00:01:26,614
+Useful phrases are saved on this browser. Search them, reopen a lesson, or
+
+17
+00:01:26,614 --> 00:01:31,928
+remove it. Learner profiles keep local notes and history separate. A new conversation
+
+18
+00:01:31,928 --> 00:01:37,241
+clears the current scene while keeping saved learning. There is no cloud conversation-
+history
+
+19
+00:01:37,241 --> 00:01:37,650
+database.
+
+20
+00:01:38,300 --> 00:01:44,730
+Now, synthesized English speech enters the real microphone worklet. Google transcribes it
+live,
+
+21
+00:01:44,730 --> 00:01:50,665
+then generates Hindi explanations and suggested replies. These are real cloud responses.
+
+22
+00:01:54,022 --> 00:01:56,878
+[Synthesized microphone input]
+Would you like a window seat or an aisle seat?
+
+23
+00:02:08,300 --> 00:02:13,583
+Connect with a host code or your Google key. Personal keys stay in
+
+24
+00:02:13,583 --> 00:02:18,865
+expiring server memory, outside cookies and history. Failed keys never use host
+credentials.
+
+25
+00:02:20,300 --> 00:02:25,898
+Cloud Run serves the website and protected APIs. Gemini Transcribe Live handles speech.
+
+26
+00:02:25,898 --> 00:02:31,497
+Two parallel Flash-Lite calls produce source understanding and replies. The server checks
+complete
+
+27
+00:02:31,497 --> 00:02:33,650
+word definitions and exact text.
+
+28
+00:02:34,300 --> 00:02:40,202
+Ten complete hosted lessons averaged one point seven nine seconds, with no failures.
+
+29
+00:02:40,202 --> 00:02:45,650
+This small warm-path sample excludes cold starts. Authentication and usage limits remain.
+
+30
+00:02:46,300 --> 00:02:51,397
+Explore LingoLive, a working Google Cloud prototype for everyday language learning.

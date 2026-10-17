@@ -1,0 +1,79 @@
+[
+  {
+    "id": "intro",
+    "duration": 10,
+    "title": "Find your next words",
+    "note": "LingoLive · Education",
+    "narration": "LingoLive helps you learn a language through real conversations. Understand what was said, explore the words, and find a useful next reply."
+  },
+  {
+    "id": "tutorial",
+    "duration": 17,
+    "title": "Start simply",
+    "note": "First-use tutorial · prepared example",
+    "narration": "Choose a language you understand and one you are learning. The first-use tutorial lets you tap a word and try pronunciation. This clearly labelled example needs no model call, microphone permission, or account."
+  },
+  {
+    "id": "meaning",
+    "duration": 18,
+    "title": "Hear. Understand. Reply.",
+    "note": "Deployed app · live Google lesson",
+    "narration": "Here is a Japanese question about coffee. This is a fresh response from the deployed Google model. The screen shows its meaning and three short replies. Every source and reply word can be tapped for an explanation."
+  },
+  {
+    "id": "pronunciation",
+    "duration": 14,
+    "title": "Tap any word",
+    "note": "Stored meanings · no extra AI call",
+    "narration": "Switch to pronunciation to read unfamiliar script aloud. Word bubbles and pronunciation reuse the lesson already received. They do not make another paid model call. You can copy a reply or hear it with a device voice."
+  },
+  {
+    "id": "context",
+    "duration": 22,
+    "title": "Replies follow your goal",
+    "note": "Explicit goals override tentative guesses",
+    "narration": "Now the learner wants tea to take away. When the conversation asks whether to eat here, that goal travels with recent turns and learner notes. Suggested replies can preserve the intention. Leave the goal empty, and the model instead infers a likely context. Suggestions remain separate from confirmed speech."
+  },
+  {
+    "id": "memory",
+    "duration": 17,
+    "title": "Keep what you learn",
+    "note": "Local history · editable learner notes",
+    "narration": "Useful phrases are saved on this browser. Search them, reopen a lesson, or remove it. Learner profiles keep local notes and history separate. A new conversation clears the current scene while keeping saved learning. There is no cloud conversation-history database."
+  },
+  {
+    "id": "speech",
+    "duration": 30,
+    "title": "Speak into the app",
+    "note": "Synthesized input · real Google transcription",
+    "narration": "Now, synthesized English speech enters the real microphone worklet. Google transcribes it live, then generates Hindi explanations and suggested replies. These are real cloud responses."
+  },
+  {
+    "id": "access",
+    "duration": 12,
+    "title": "Choose how to connect",
+    "note": "Host code or your own Google key",
+    "narration": "Connect with a host code or your Google key. Personal keys stay in expiring server memory, outside cookies and history. Failed keys never use host credentials."
+  },
+  {
+    "id": "architecture",
+    "duration": 14,
+    "title": "Built on Google Cloud",
+    "note": "Cloud Run · Transcribe Live · Flash-Lite",
+    "narration": "Cloud Run serves the website and protected APIs. Gemini Transcribe Live handles speech. Two parallel Flash-Lite calls produce source understanding and replies. The server checks complete word definitions and exact text."
+  },
+  {
+    "id": "performance",
+    "duration": 12,
+    "title": "Faster complete lessons",
+    "note": "1.79 s mean · ten warm-path lessons",
+    "narration": "Ten complete hosted lessons averaged one point seven nine seconds, with no failures. This small warm-path sample excludes cold starts. Authentication and usage limits remain."
+  },
+  {
+    "id": "ending",
+    "duration": 7,
+    "title": "Learn from the next conversation",
+    "note": "AI Builder Cup · Ashish T. Vasant",
+    "narration": "Explore LingoLive, a working Google Cloud prototype for everyday language learning."
+  }
+]

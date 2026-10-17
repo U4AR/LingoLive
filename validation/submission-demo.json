@@ -1,0 +1,33 @@
+{
+  "file": "LingoLive-Demo.mp4",
+  "bytes": 3841268,
+  "sha256": "73f406ee1ea5623a9cc64086039f99e0f239e57304dbdf763835391ad7d8551f",
+  "seconds": 173.021333,
+  "video": "H.264 1280x720 / 24fps",
+  "audio": "AAC stereo / English synthetic narration",
+  "burned_english_captions": true,
+  "sidecar_captions": "LingoLive-Demo.srt",
+  "decode_verified": true,
+  "scene_count": 11,
+  "live_google_lessons": 3,
+  "maximum_live_lessons": 3,
+  "google_mocked": false,
+  "physical_microphone": false,
+  "synthetic_speech_disclosed": true,
+  "visual_speed": "Recorded speed; scene waits retained, no model result substituted",
+  "voice": {
+    "model": "rhasspy/piper-voices en_US-ljspeech-high",
+    "model_sha256": "5d4f08ba6a2a48c44592eed3ce56bf85e9de3dd4e20df90541ae68a8310c029a",
+    "dataset_license": "public domain per model card",
+    "model_card": "https://huggingface.co/rhasspy/piper-voices/blob/main/en/en_US/ljspeech/high/MODEL_CARD"
+  },
+  "submission_status": "Prepared; no Hack2skill receipt or accepted video-host link claimed",
+  "reviewed_frames_seconds": [
+    36,
+    74,
+    121,
+    146
+  ],
+  "reviewed_credential_screen": "Blank code/key fields; API sign-in occurred off screen",
+  "context_goal_observed": true
+}

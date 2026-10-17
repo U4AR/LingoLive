@@ -1,0 +1,759 @@
+{
+  "url": "https://lingolive-358650584819.us-central1.run.app",
+  "google_mocked": false,
+  "physical_microphone": false,
+  "synthetic_speech": true,
+  "maximum_lesson_attempts": 3,
+  "scenes": [
+    {
+      "id": "intro",
+      "start_seconds": 0.109,
+      "duration": 10,
+      "action_seconds": 0.049
+    },
+    {
+      "id": "tutorial",
+      "start_seconds": 10.113,
+      "duration": 17,
+      "action_seconds": 10.647
+    },
+    {
+      "id": "meaning",
+      "start_seconds": 27.118,
+      "duration": 18,
+      "action_seconds": 7.131
+    },
+    {
+      "id": "pronunciation",
+      "start_seconds": 45.123,
+      "duration": 14,
+      "action_seconds": 7.742
+    },
+    {
+      "id": "context",
+      "start_seconds": 59.126,
+      "duration": 22,
+      "action_seconds": 6.788
+    },
+    {
+      "id": "memory",
+      "start_seconds": 81.127,
+      "duration": 17,
+      "action_seconds": 10.259
+    },
+    {
+      "id": "speech",
+      "start_seconds": 98.129,
+      "duration": 30,
+      "action_seconds": 25.769
+    },
+    {
+      "id": "access",
+      "start_seconds": 128.131,
+      "duration": 12,
+      "action_seconds": 5.589
+    },
+    {
+      "id": "architecture",
+      "start_seconds": 140.135,
+      "duration": 14,
+      "action_seconds": 0.05
+    },
+    {
+      "id": "performance",
+      "start_seconds": 154.135,
+      "duration": 12,
+      "action_seconds": 0.009
+    },
+    {
+      "id": "ending",
+      "start_seconds": 166.139,
+      "duration": 7,
+      "action_seconds": 0.009
+    }
+  ],
+  "lessons": [
+    {
+      "text": "コーヒーはいかがですか？",
+      "seconds": 1.798,
+      "source_preserved": true,
+      "replies": 3,
+      "all_definitions_and_readings": true,
+      "goal": "",
+      "recent_turn_count": 0,
+      "learner_notes_present": false,
+      "response": {
+        "detected_language": "ja-JP",
+        "contains_learning_language": true,
+        "translation": "Would you like some coffee?",
+        "explanation": "A polite way to offer someone a drink.",
+        "tip": "",
+        "words": [
+          {
+            "text": "コーヒー",
+            "reading": "koohi",
+            "meaning": "coffee",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "は",
+            "reading": "wa",
+            "meaning": "topic marker",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "いかが",
+            "reading": "ikaga",
+            "meaning": "how about",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "です",
+            "reading": "desu",
+            "meaning": "polite copula",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "か",
+            "reading": "ka",
+            "meaning": "question marker",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "？",
+            "reading": "？",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ],
+        "replies": [
+          {
+            "label": "Accept",
+            "translation": "Yes, please.",
+            "words": [
+              {
+                "text": "はい",
+                "reading": "hai",
+                "meaning": "yes",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "、",
+                "reading": "、",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "お願いします",
+                "reading": "onegaishimasu",
+                "meaning": "please",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "。",
+                "reading": "。",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              }
+            ]
+          },
+          {
+            "label": "Polite Refusal",
+            "translation": "No, thank you.",
+            "words": [
+              {
+                "text": "いいえ",
+                "reading": "iie",
+                "meaning": "no",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "、",
+                "reading": "、",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "結構です",
+                "reading": "kekkoudesu",
+                "meaning": "no thanks",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "。",
+                "reading": "。",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              }
+            ]
+          },
+          {
+            "label": "Inquiry",
+            "translation": "Is there sugar?",
+            "words": [
+              {
+                "text": "砂糖",
+                "reading": "satou",
+                "meaning": "sugar",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "は",
+                "reading": "wa",
+                "meaning": "topic marker",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "ありますか",
+                "reading": "arimasuka",
+                "meaning": "is there",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "？",
+                "reading": "？",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              }
+            ]
+          }
+        ],
+        "context_summary": "User is offering coffee to someone.",
+        "inferred_setting": "unknown",
+        "context_confidence": "medium",
+        "current_speaker": "user",
+        "speaker_confidence": "high",
+        "inferred_user_intent": "offering coffee"
+      }
+    },
+    {
+      "text": "店内でお召し上がりですか？",
+      "seconds": 2.06,
+      "source_preserved": true,
+      "replies": 3,
+      "all_definitions_and_readings": true,
+      "goal": "I want tea to take away, not coffee.",
+      "recent_turn_count": 1,
+      "learner_notes_present": true,
+      "response": {
+        "detected_language": "ja-JP",
+        "contains_learning_language": true,
+        "translation": "Will you be eating in the store?",
+        "explanation": "Polite question asking if dining inside the restaurant.",
+        "tip": "",
+        "words": [
+          {
+            "text": "店内",
+            "reading": "tennai",
+            "meaning": "inside store",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "で",
+            "reading": "de",
+            "meaning": "at",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "お召し上がり",
+            "reading": "omeshiagari",
+            "meaning": "eating",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "ですか",
+            "reading": "desuka",
+            "meaning": "is it",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "？",
+            "reading": "？",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ],
+        "replies": [
+          {
+            "label": "Take away",
+            "translation": "To go, please.",
+            "words": [
+              {
+                "text": "持ち帰り",
+                "reading": "mochikaeri",
+                "meaning": "take-out",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "で",
+                "reading": "de",
+                "meaning": "by/at",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "お願いします",
+                "reading": "onegaishimasu",
+                "meaning": "please",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "。",
+                "reading": "。",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              }
+            ]
+          },
+          {
+            "label": "No tea",
+            "translation": "No, do you have tea?",
+            "words": [
+              {
+                "text": "いいえ",
+                "reading": "iie",
+                "meaning": "no",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "、",
+                "reading": "、",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "お茶",
+                "reading": "ocha",
+                "meaning": "tea",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "は",
+                "reading": "wa",
+                "meaning": "topic marker",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "あります",
+                "reading": "arimasu",
+                "meaning": "exist",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "か",
+                "reading": "ka",
+                "meaning": "question marker",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "？",
+                "reading": "？",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              }
+            ]
+          },
+          {
+            "label": "Only tea",
+            "translation": "Tea, please.",
+            "words": [
+              {
+                "text": "お茶",
+                "reading": "ocha",
+                "meaning": "tea",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "を",
+                "reading": "o",
+                "meaning": "object marker",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "お願いします",
+                "reading": "onegaishimasu",
+                "meaning": "please",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": "。",
+                "reading": "。",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              }
+            ]
+          }
+        ],
+        "context_summary": "Asking if the user wants to eat in or take away.",
+        "inferred_setting": "shop",
+        "context_confidence": "high",
+        "current_speaker": "other",
+        "speaker_confidence": "high",
+        "inferred_user_intent": "Specify take away order."
+      }
+    },
+    {
+      "text": "Would you like a window seat or an aisle seat?",
+      "seconds": 9.957,
+      "source_preserved": true,
+      "replies": 3,
+      "all_definitions_and_readings": true,
+      "goal": "",
+      "recent_turn_count": 0,
+      "learner_notes_present": true,
+      "response": {
+        "detected_language": "en-US",
+        "contains_learning_language": true,
+        "translation": "क्या आप खिड़की वाली सीट पसंद करेंगे या गलियारे वाली सीट?",
+        "explanation": "Asking for preference between window and aisle seats.",
+        "tip": "",
+        "words": [
+          {
+            "text": "Would",
+            "reading": "Would",
+            "meaning": "polite question marker",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "you",
+            "reading": "you",
+            "meaning": "second person",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "like",
+            "reading": "like",
+            "meaning": "want to have",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "a",
+            "reading": "a",
+            "meaning": "one",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "window",
+            "reading": "window",
+            "meaning": "glass opening",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "seat",
+            "reading": "seat",
+            "meaning": "place to sit",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "or",
+            "reading": "or",
+            "meaning": "choice marker",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "an",
+            "reading": "an",
+            "meaning": "one",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "aisle",
+            "reading": "aisle",
+            "meaning": "walking path",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": " ",
+            "reading": " ",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          },
+          {
+            "text": "seat",
+            "reading": "seat",
+            "meaning": "place to sit",
+            "note": "",
+            "is_word": true
+          },
+          {
+            "text": "?",
+            "reading": "?",
+            "meaning": "",
+            "note": "",
+            "is_word": false
+          }
+        ],
+        "replies": [
+          {
+            "label": "Window",
+            "translation": "खिड़की वाली सीट, कृपया।",
+            "words": [
+              {
+                "text": "A",
+                "reading": "A",
+                "meaning": "एक",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "window",
+                "reading": "window",
+                "meaning": "खिड़की",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "seat,",
+                "reading": "seat,",
+                "meaning": "सीट",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "please.",
+                "reading": "please.",
+                "meaning": "कृपया",
+                "note": "",
+                "is_word": true
+              }
+            ]
+          },
+          {
+            "label": "Aisle",
+            "translation": "गलियारे वाली सीट, कृपया।",
+            "words": [
+              {
+                "text": "An",
+                "reading": "An",
+                "meaning": "एक",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "aisle",
+                "reading": "aisle",
+                "meaning": "गलियारा",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "seat,",
+                "reading": "seat,",
+                "meaning": "सीट",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "please.",
+                "reading": "please.",
+                "meaning": "कृपया",
+                "note": "",
+                "is_word": true
+              }
+            ]
+          },
+          {
+            "label": "Any",
+            "translation": "कोई भी चलेगा।",
+            "words": [
+              {
+                "text": "Either",
+                "reading": "Either",
+                "meaning": "दोनों में से कोई",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "is",
+                "reading": "is",
+                "meaning": "है",
+                "note": "",
+                "is_word": true
+              },
+              {
+                "text": " ",
+                "reading": " ",
+                "meaning": "",
+                "note": "",
+                "is_word": false
+              },
+              {
+                "text": "fine.",
+                "reading": "fine.",
+                "meaning": "ठीक",
+                "note": "",
+                "is_word": true
+              }
+            ]
+          }
+        ],
+        "context_summary": "Asking about seat preferences for travel.",
+        "inferred_setting": "travelling",
+        "context_confidence": "high",
+        "current_speaker": "unknown",
+        "speaker_confidence": "medium",
+        "inferred_user_intent": "practice travel-related English"
+      }
+    }
+  ],
+  "page_errors": [],
+  "context_reply_mentions_takeaway": true,
+  "microphone_start_seconds": 111.151,
+  "recorded_seconds": 173.141,
+  "raw_video": "raw/demo.webm",
+  "recorded_at_utc": "2026-10-17T11:04:56.889Z",
+  "success": true,
+  "timing_note": "Capture timings include user-interface actions, and speech timing also includes audio playback/transcription; these are not lesson HTTP benchmarks."
+}

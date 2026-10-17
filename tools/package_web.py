@@ -4,13 +4,13 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 files=[ROOT/name for name in ['README.md','MEMORY.md','WEB-DEPLOY.md','VALIDATION.md','LICENSE','NOTICE','Dockerfile','Dockerfile.dev','.dockerignore','.gcloudignore','.gitignore']]
 files+=list((ROOT/'web').glob('*'))+list((ROOT/'shared').glob('*'))
-files+=list((ROOT/'docs').glob('*'))
+files+=list((ROOT/'docs').rglob('*'))
 files += [ROOT/'backend'/name for name in ['app.py','fast_lessons.py','requirements.txt','.env.example']]
 files+=list((ROOT/'backend/tests').glob('*.py'))
-files += [ROOT/'tools'/name for name in ['deploy_cloud_run.sh','enable_google_signin.sh','web_fixture.py','test_web_core.mjs','test_web_browser.cjs','measure_cloud_latency.py','package_web.py','test_context.mjs','test_context_browser.cjs','test_memory_browser.cjs','test_simple_ui.cjs','test_tutorial_browser.cjs','test_byok_browser.cjs','render_project_pdf.cjs','google_auth_fixture.py','test_google_signin_browser.cjs']]
+files += [ROOT/'tools'/name for name in ['deploy_cloud_run.sh','enable_google_signin.sh','web_fixture.py','test_web_core.mjs','test_web_browser.cjs','measure_cloud_latency.py','package_web.py','test_context.mjs','test_context_browser.cjs','test_memory_browser.cjs','test_simple_ui.cjs','test_tutorial_browser.cjs','test_byok_browser.cjs','render_project_pdf.cjs','google_auth_fixture.py','test_google_signin_browser.cjs','narrate_submission_demo.py','record_submission_demo.py','record_submission_demo.cjs','render_submission_frames.cjs','render_submission_video.py','render_submission_writeup.cjs','publish_submission_assets.py']]
 files += [ROOT/'tools/fixtures/reference.wav',ROOT/'tools/fixtures/README.md']
 files+=list((ROOT/'validation').glob('web-*'))
-files += [ROOT/'validation'/name for name in ['cloud-deployment.json','cloud-public-check.json','cloud-api-results.json','cloud-guards-results.json','cloud-current-deployment.json','cloud-current-api-results.json','cloud-auth-status.json','cloud-latency-results.json','cloud-parallel-latency-results.json','parallel-architecture-comparison.json','parallel-lite-preflight.json','parallel-lite-tight-preflight.json','cloud-3.8-preflight.json','cloud-v1.3-deployment.json','cloud-v1.3-api-results.json'] if (ROOT/'validation'/name).is_file()]
+files += [ROOT/'validation'/name for name in ['cloud-deployment.json','cloud-public-check.json','cloud-api-results.json','cloud-guards-results.json','cloud-current-deployment.json','cloud-current-api-results.json','submission-demo.json','submission-demo-recording.json','submission-publication.json','submission-status.json','cloud-auth-status.json','cloud-latency-results.json','cloud-parallel-latency-results.json','parallel-architecture-comparison.json','parallel-lite-preflight.json','parallel-lite-tight-preflight.json','cloud-3.8-preflight.json','cloud-v1.3-deployment.json','cloud-v1.3-api-results.json'] if (ROOT/'validation'/name).is_file()]
 files=sorted({p for p in files if p.is_file()})
 assert all(not any(part in {'.venv','.cache','__pycache__','.signing'} for part in p.relative_to(ROOT).parts) for p in files)
 assert all(p.suffix not in {'.apk','.jks','.keystore'} and (not p.name.startswith('.env') or p.name=='.env.example') for p in files)

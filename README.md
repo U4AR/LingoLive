@@ -1,6 +1,6 @@
 # LingoLive
 
-[Read the illustrated project PDF](docs/LingoLive-How-It-Works.pdf) · [Editable source](docs/how-it-works.html)
+[Project PDF](docs/LingoLive-How-It-Works.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
 ## Current source: web 1.5
 
