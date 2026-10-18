@@ -26,22 +26,21 @@
   "submission_dashboard_url": "https://hack2skill.com/event/aibuildercup2026/registration?isExternalLinkRedirection=true",
   "blockers": [
     "Final Hack2skill submission requires the registered team portal session and declarations; no submission receipt is claimed.",
-    "Repository owner approved public access and reports changing it, but API/website still do not verify public visibility. Integration cannot change visibility.",
     "Confirm the portal accepts the supplied public MP4 or upload the file to its accepted video host."
   ],
   "material_status": {
     "proposal_pdf": "Official supplied template: 14 content/branding slides; instruction and blank spare removed; PDF and PPTX",
-    "writeup_pdf": "Current detailed web 1.11 technical PDF with memory, speech routing, model, latency, cost and privacy limits",
+    "writeup_pdf": "Updated nine-page web 1.12 technical PDF with Google/Firebase authentication, durable usage caps and local speaker-model assessment",
     "entry_text": "Prepared in ENTRY.md",
-    "demo": "Published artifact prepared: 197.048 seconds; all 29 source voices verified; no clipping; longest silent gap 4.969s. Real app/Google ASR and limitations retained.",
+    "demo": "3:17.080; live sign-in view added; approved narration and all 29 verified voices preserved with bit-identical AAC audio",
     "registered_team": "CreativeEngine: Ashish T. Vasant and Janhvi Singh (supplied registration screenshot)",
-    "public_downloads": "Current artifacts prepared for anonymous SHA-256 readback publication; final publication report is separate."
+    "public_downloads": "Updated Google-authenticated release uses the same existing artifact URLs; anonymous hash/browser verification recorded separately."
   },
-  "repository_visibility": "private_as_reported_by_api_after_owner_confirmation",
+  "repository_visibility": "public_verified",
   "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html",
-  "current_app_version": "1.11",
-  "current_app_revision": "lingolive-00029-mec",
-  "demo_video_version": "3.0 (original web 1.9; current web 1.11 readback extension)",
+  "current_app_version": "1.12",
+  "current_app_revision": "lingolive-00032-bak",
+  "demo_video_version": "3.1 (current Google sign-in view; approved narration retained)",
   "demo_v2": {
     "approval_status": "approved",
     "transcript": "docs/submission/DEMO-TRANSCRIPT-V2.md",
@@ -108,14 +107,37 @@
   ],
   "editable_pitch_file": "LingoLive-Pitch-Deck.pptx",
   "current_demo": {
-    "seconds": 197.048,
-    "sha256": "657957beb4466bef8268586d0f075859f715710030e991c6698dd71c9dada583",
-    "version": "3.0",
+    "seconds": 197.08,
+    "sha256": "3515135fe9b4ea1af6083fcb223f0ae5eb641271d5ec8608de2aa6ef0c61bcb0",
+    "version": "3.1",
     "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo.mp4",
     "all_29_voice_events_verified": true,
     "longest_silence_seconds": 4.968875,
-    "learning_introduced_seconds": 172
+    "learning_introduced_seconds": 172,
+    "google_signin_view_added": true,
+    "narration_changed": false
   },
   "video_duration_requirement_met": true,
-  "official_pitch_template_used": true
+  "official_pitch_template_used": true,
+  "authentication": {
+    "provider": "Firebase Authentication / Google",
+    "any_verified_google_account": true,
+    "passcode_required": false,
+    "personal_key_optional": true
+  },
+  "daily_usage": {
+    "shared_audio_seconds": 1200,
+    "parallel_lessons": 100,
+    "model_call_units": 200,
+    "reset_timezone": "Asia/Kolkata",
+    "persistent": true,
+    "hard_currency_cap": false
+  },
+  "services": {
+    "Firebase": "Authentication",
+    "Firestore": "not used",
+    "Cloud Run": "Web app and AI relay",
+    "Cloud Storage": "Private daily quota and public submission media",
+    "Gemini": "Live transcription; parallel source and reply generation"
+  }
 }

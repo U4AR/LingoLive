@@ -445,5 +445,7 @@
   "integrated_loudness_lufs": -18.71,
   "true_peak_dbtp": -5.39,
   "audio_clipping_detected": false,
-  "verification_method": "Decoded final MP4 compared with each source waveform (correlation >=0.82 and active speech RMS >-30 dBFS). AAC alignment tolerance 100 ms; no new model calls."
+  "verification_method": "Decoded final MP4 compared with each source waveform (correlation >=0.82 and active speech RMS >-30 dBFS). AAC alignment tolerance 100 ms; no new model calls.",
+  "aac_audio_bitstream_unchanged": true,
+  "verification_of_update": "AAC bitstream matches the prior export that passed every source-voice waveform check; new export decodes successfully."
 }

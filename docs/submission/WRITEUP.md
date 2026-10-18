@@ -12,7 +12,7 @@ and learning they can revisit.
 
 **Source:** https://github.com/U4AR/LingoLive
 
-## Current product update — web 1.11
+## Current product update — web 1.12
 
 The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant general items and at most two notes from a saved place matched on a return visit, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
 
@@ -79,7 +79,7 @@ features stay in RAM and never enter saved lessons or Google lesson requests.
 A recognized other-voice estimate overrides a textual repeat. Fuzzy matches do
 not train anchors. The learner can correct who spoke or explicitly use Help me
 say this. There is no paid speaker-classifier call. Twenty-five routing checks,
-ten real-browser routing checks and 112 backend tests pass. Synthetic held-out
+ten real-browser routing checks and 134 backend tests pass. Synthetic held-out
 voice checks are limited evidence, not noisy-phone speaker-identification accuracy.
 
 ## Replies that follow the conversation
@@ -208,6 +208,25 @@ current approximate location rounded to two decimals, and up to four seconds of
 recent sound for the source branch. Those location/audio samples are not saved
 with lesson history. No Maps service is called.
 
+## Local speaker-model assessment
+
+The shipped detector still uses session-only acoustic estimates plus forgiving
+text matching; it does not contain a neural speaker-identification model. The
+learner can explicitly identify their words to improve the current session's
+anchors. Unknown estimates should remain unknown and can be corrected.
+
+A local speaker-embedding model is technically feasible. The assessed public
+candidate, SpeechBrain `spkrec-ecapa-voxceleb` (Apache-2.0), has an **83,316,686-byte
+embedding checkpoint (about 83.3 MB / 79.5 MiB)**. It uses short enrollment speech
+to compare later voice embeddings; it does not learn who the user is from Google
+sign-in or from a name. The published checkpoint needs a tested browser runtime
+or conversion and matching audio preprocessing. A reliable feature also needs
+explicit opt-in enrollment, multiple clean samples, thresholds, unknown rejection,
+noise/language evaluation and deletion controls. It must never authorize access.
+No candidate weights were downloaded or shipped, no enrollment audio was sent
+elsewhere, and no noisy-phone accuracy improvement is claimed in this release.
+Candidate: https://huggingface.co/speechbrain/spkrec-ecapa-voxceleb.
+
 ## Performance: measured improvement, with limits
 
 The earlier one-call Gemini 3.8 Flash deployment averaged **9.26 seconds** over
@@ -232,10 +251,17 @@ experiments are retained in the repository rather than excluded from the compari
 
 ## Privacy, authentication and cost controls
 
-Host-funded usage requires a private access code. Browser sessions use signed,
+Host-funded usage requires Google sign-in; no access code is requested. Browser sessions use signed,
 opaque, Secure, HttpOnly, SameSite=Strict cookies and expire after one hour.
 Cookie writes and WebSocket connections require the app's own origin.
-Google account sign-in is optional in the code but disabled in this deployment.
+The shared demo now requires a **verified Google account through Firebase
+Authentication**, with no passcode. Any verified Google account can use the demo.
+The server validates signature, audience, issuer, verified email and Google as
+the identity provider. A short-lived same-origin nonce binds the browser sign-in
+exchange. Tokens are kept in browser memory during sign-in; Firebase is signed
+out after the opaque server cookie is issued. A dedicated private signing secret
+is separate from the former passcode. Personal-key mode remains available and
+uses its own Google model credentials.
 
 Personal API keys stay in server RAM for at most one hour. They are not stored in
 cookies, IndexedDB, LocalStorage, source code or a transcript database. Disconnect
@@ -251,24 +277,43 @@ learning. There is no account sync or cross-device history.
 
 Cloud Run has zero minimum and one maximum instance, one CPU, 512 MiB and
 request-based billing. The backend permits two simultaneous lessons and two active
-listeners. Raw model-call allowances remain 24/minute, 360/hour and 400/day;
-two calls per parallel lesson consume two units, allowing 12/180/200 lessons.
-The two branches share a combined maximum of 4,096 output tokens. Host and
-personal-key groups have separate shared model allowances. Audio connection time,
-including silence, is limited to 40 combined minutes/hour and 60/day. Authentication,
-input bounds, audio pacing and an emergency AI pause run before paid operations.
-In-memory counters reset after restarts and are usage guards, not a hard dollar cap.
+listeners. A **persistent shared daily allowance** permits at most **1,200 listening
+seconds (20 minutes)** and **200 raw model calls (100 parallel lessons)** across
+all visitors and both connection modes. It resets at **midnight Asia/Kolkata
+(IST)**. This is a shared pool, not 20 minutes per user. Typing cannot bypass the
+model allowance, and signing out, changing keys or restarting does not reset it.
+Existing minute/hour pacing, two listeners, two concurrent lessons and the
+combined 4,096-output-token cap remain in place.
+
+The private Cloud Storage counter uses object-generation compare-and-swap before
+paid access. Concurrent instances cannot each spend the same remaining units.
+Audio reserves connection time, including silence and draining; unused time is
+rounded up and returned after a clean close. Crashes conservatively keep the
+reservation spent. Short remaining reservations bound the connection timeout;
+connections end before the IST day boundary. Duplicate settlement cannot refund
+twice. Storage, authentication or state errors fail closed, with no RAM fallback.
+The store holds counters and random reservation IDs, not user identities, voice,
+text, keys or coordinates. Only the runtime account has bucket-scoped access;
+public access is prevented and old daily objects expire after three days.
+
+These are **AI usage limits, not a hard monetary spending cap**. Provider prices,
+input lengths, ordinary HTTP traffic, builds, image/secret storage, media downloads
+and authentication can have separate charges. Scale-to-zero avoids a continuously
+running minimum instance, but does not promise a zero bill. Billing alerts are
+notifications, not automatic shutoffs. Exact incurred cost was not available from
+the accessible billing metadata/export endpoints; the team must check Google
+Cloud Billing Reports rather than infer charges from test counts.
 
 ## Validation and current readiness
 
-**112 backend tests**, **25 speech-routing checks**, **10 routing browser checks**, plus the existing general, audio, memory, plan and guarded-place checks passed, along with
+**134 backend tests**, **25 speech-routing checks**, **10 routing browser checks**, plus the existing general, audio, memory, plan and guarded-place checks passed, along with
 JavaScript source/word/audio/context checks. Local tests use explicit Google,
 microphone and location fixtures. Separate hosted checks used real Google
 transcription and lessons, validated exact text/readings/meanings, checked access
 controls and proved invalid personal keys do not produce a host-funded fallback.
 Valid personal-key inference and physical-phone capture remain unverified.
 
-Production deployment details in `validation/cloud-current-deployment.json` identify web 1.11 on Cloud Run (`lingolive-00029-mec`). The same
+Production deployment details in `validation/cloud-current-deployment.json` identify web 1.12 on Cloud Run (see the current revision in `validation/cloud-current-deployment.json`). The same
 revision was checked through a temporary tag before promotion; public health,
 assets and routing were verified afterward. The normal persistent Cloud SDK
 operator login is separate from the runtime service account. No deployment
@@ -281,7 +326,7 @@ Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds 
 The current submission video runs approximately **3:17**, within the supplied
 3–4-minute requirement. The original approved Bengaluru/Kannada story presents
 the communication problem before the solution. An approved extension demonstrates
-real full and partial readbacks against deployed web 1.11. Learning remains an
+real full and partial readbacks filmed against web 1.11; the current sign-in view uses web 1.12. Learning remains an
 additional feature near the end, at **2:52**. The export is 1080p H.264/AAC with
 English captions and no artificial noise bed. Google Gemini 3.1 Flash TTS preview
 provides the original natural-speed voices. No audio is time-stretched.
@@ -344,7 +389,11 @@ checked at submission. No portal submission or receipt is claimed. A public MP4
 is provided; if the portal demands a particular host, upload it to the accepted
 service before entering that URL.
 
-Firebase and Firestore are **not used** in this version. Browser IndexedDB and
-LocalStorage hold local learning/memory; Cloud Run hosts the application and
-Google AI relay. Firestore could support future opt-in synchronization, subject
-to separate privacy and account design. No cross-device sync is claimed.
+**Firebase Authentication is used for Google sign-in. Firestore is not used.**
+Browser IndexedDB/LocalStorage retain learning and editable memory; Cloud Run
+hosts the application and AI relay; private Cloud Storage persists daily quotas.
+Future cross-device memory would need a separate opt-in design. Signing in does
+not upload local conversation history or encrypt shared-browser learner profiles.
+No cross-device sync is claimed.
+
+The current video includes the live Google sign-in view from 0:26 to 0:32. Approved narration and actor audio are unchanged; the updated file preserves the exact AAC bitstream checked for all 29 voices. The video does not show completion of an actual Google account login. Automated backend checks use signed identity fixtures; live setup checks verify OAuth flow creation, invalid-token rejection, deployed assets, browser UI and private quota policy.

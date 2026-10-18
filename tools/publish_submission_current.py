@@ -18,11 +18,11 @@ for n in ['source-secret-audit.json','source-archive-secret-audit.json']:
 token=subprocess.check_output(['/workspace/.cloud-tools/gcloud','auth','print-access-token'],text=True).strip();s=requests.Session();s.headers['Authorization']='Bearer '+token;token=''
 r=s.get('https://storage.googleapis.com/storage/v1/b/'+BUCKET,timeout=30);r.raise_for_status();assert r.json().get('labels',{}).get('purpose')=='hackathon-public-demo'
 rows=[]
-for file in FILES:
+for file in [f for f in FILES if f!='index.html']+['index.html']:
  p=root/file;data=p.read_bytes();assert 0<len(data)<60*1024*1024;sha=hashlib.sha256(data).hexdigest();mime={'.srt':'text/plain; charset=utf-8','.vtt':'text/vtt; charset=utf-8','.md':'text/plain; charset=utf-8','.txt':'text/plain; charset=utf-8'}.get(p.suffix,mimetypes.guess_type(file)[0] or 'application/octet-stream');name=PREFIX+'/'+file
  r=s.post('https://storage.googleapis.com/upload/storage/v1/b/'+BUCKET+'/o',params={'uploadType':'media','name':name},headers={'Content-Type':mime},data=data,timeout=120);r.raise_for_status();d=r.json();assert d['md5Hash']==base64.b64encode(hashlib.md5(data).digest()).decode()
  attachment=p.suffix in ('.zip','.pptx','.srt','.vtt') or file.endswith('-download.mp4');disposition=('attachment' if attachment else 'inline')+'; filename="'+file.replace('-download','')+'"'
- r=s.patch('https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o/'+quote(name,safe=''),json={'cacheControl':'public,max-age=300','contentDisposition':disposition,'metadata':{'sha256':sha,'app-version':'1.11','demo-version':'3.0'}},timeout=30);r.raise_for_status()
+ r=s.patch('https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o/'+quote(name,safe=''),json={'cacheControl':'no-cache,max-age=0,must-revalidate','contentDisposition':disposition,'metadata':{'sha256':sha,'app-version':'1.12','demo-version':'3.1'}},timeout=30);r.raise_for_status()
  url='https://storage.googleapis.com/'+BUCKET+'/'+name;anon=requests.get(url,params={'generation':d['generation']},timeout=120);anon.raise_for_status();assert hashlib.sha256(anon.content).hexdigest()==sha
  rows.append(dict(file=file,bytes=len(data),sha256=sha,url=url,generation=d['generation'],anonymous_download_verified=True));print('Published and anonymously verified '+file,flush=True)
-(root/'publication.json').write_text(json.dumps(dict(bucket=BUCKET,prefix=PREFIX,app_version='1.11',demo_version='3.0',artifacts=rows,source_publication_authorized=True,iam_changed=False,app_deployed_by_this_script=False,portal_submitted=False),indent=2)+'\n')
+(root/'publication.json').write_text(json.dumps(dict(bucket=BUCKET,prefix=PREFIX,app_version='1.12',demo_version='3.1',artifacts=rows,source_publication_authorized=True,iam_changed=False,app_deployed_by_this_script=False,portal_submitted=False),indent=2)+'\n')

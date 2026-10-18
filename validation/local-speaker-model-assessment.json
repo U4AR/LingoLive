@@ -1,0 +1,10 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 5377
+  },
+  {
+    "path": "embedding_model.ckpt",
+    "bytes": 83316686
+  }
+]

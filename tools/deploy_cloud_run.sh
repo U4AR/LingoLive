@@ -23,13 +23,25 @@ LINGOLIVE_MODEL_BINDINGS+=",LINGOLIVE_LESSON_STRATEGY=${LINGOLIVE_LESSON_STRATEG
 LINGOLIVE_MODEL_BINDINGS="^|^${LINGOLIVE_MODEL_BINDINGS//,/|}"
 if [[ "${LINGOLIVE_GOOGLE_SIGNIN_REQUIRED:-false}" == true ]]; then
   : "${LINGOLIVE_GOOGLE_CLIENT_ID:?Register a Google OAuth Web application client first}"
-  : "${LINGOLIVE_ALLOWED_GOOGLE_EMAILS:?Set explicitly invited Google email addresses}"
+  if [[ "${LINGOLIVE_PUBLIC_DEMO:-false}" != true ]]; then
+    : "${LINGOLIVE_ALLOWED_GOOGLE_EMAILS:?Set invited email addresses, or enable the public demo for any verified Google account}"
+  fi
   [[ "$LINGOLIVE_GOOGLE_CLIENT_ID" =~ ^[a-zA-Z0-9.-]+\.apps\.googleusercontent\.com$ ]] || { echo 'Invalid Google OAuth client ID' >&2; exit 2; }
   [[ "$LINGOLIVE_ALLOWED_GOOGLE_EMAILS" != *'|'* ]] || { echo 'Invalid email-list separator' >&2; exit 2; }
-  LINGOLIVE_MODEL_BINDINGS+="|LINGOLIVE_GOOGLE_SIGNIN_REQUIRED=true|LINGOLIVE_GOOGLE_CLIENT_ID=${LINGOLIVE_GOOGLE_CLIENT_ID}|LINGOLIVE_ALLOWED_GOOGLE_EMAILS=${LINGOLIVE_ALLOWED_GOOGLE_EMAILS}"
+  LINGOLIVE_MODEL_BINDINGS+="|LINGOLIVE_GOOGLE_SIGNIN_REQUIRED=true|LINGOLIVE_GOOGLE_CLIENT_ID=${LINGOLIVE_GOOGLE_CLIENT_ID}|LINGOLIVE_ALLOWED_GOOGLE_EMAILS=${LINGOLIVE_ALLOWED_GOOGLE_EMAILS:-}"
 else
   LINGOLIVE_MODEL_BINDINGS+="|LINGOLIVE_GOOGLE_SIGNIN_REQUIRED=false"
 fi
+if [[ "${LINGOLIVE_PUBLIC_DEMO:-false}" == true ]]; then
+  : "${LINGOLIVE_QUOTA_BUCKET:?Create a private, runtime-writable quota bucket first}"
+  LINGOLIVE_MODEL_BINDINGS+="|LINGOLIVE_PUBLIC_DEMO=true|LINGOLIVE_QUOTA_BUCKET=${LINGOLIVE_QUOTA_BUCKET}|LINGOLIVE_PUBLIC_AUDIO_SECONDS_PER_DAY=1200|LINGOLIVE_PUBLIC_MODEL_CALLS_PER_DAY=200"
+fi
+if [[ "${LINGOLIVE_GOOGLE_AUTH_PROVIDER:-gis}" == firebase ]]; then
+  : "${LINGOLIVE_FIREBASE_API_KEY:?Set the app-specific restricted public Firebase browser key}"
+  : "${LINGOLIVE_FIREBASE_AUTH_DOMAIN:?Set the existing Firebase auth handler domain}"
+  LINGOLIVE_MODEL_BINDINGS+="|LINGOLIVE_GOOGLE_AUTH_PROVIDER=firebase|LINGOLIVE_FIREBASE_API_KEY=${LINGOLIVE_FIREBASE_API_KEY}|LINGOLIVE_FIREBASE_AUTH_DOMAIN=${LINGOLIVE_FIREBASE_AUTH_DOMAIN}"
+fi
+
 gcloud run deploy lingolive --source . --project "$PROJECT_ID" --region "$LINGOLIVE_REGION" \
   --service-account "$SERVICE_ACCOUNT" \
   --build-service-account "projects/${PROJECT_ID}/serviceAccounts/${LINGOLIVE_BUILD_ACCOUNT}" \

@@ -259,3 +259,22 @@ activated Google requirement during a routine redeploy.
 
 The user selected simple private-access-code sign-in. Google registration is not
 a blocker for this app; no further Google setup is requested.
+
+## Current web 1.12 access and cost control
+
+The current deployment uses Firebase Authentication for Google accounts, with
+`LINGOLIVE_PUBLIC_DEMO=true`, `LINGOLIVE_GOOGLE_SIGNIN_REQUIRED=true` and
+`LINGOLIVE_GOOGLE_AUTH_PROVIDER=firebase`. No shared passcode is requested.
+An empty Google email allowlist permits any verified Google account. Firebase's
+public browser configuration stays in runtime settings, not source. Restrict
+its browser key to the app/auth-handler referrers and Identity Toolkit/Secure
+Token APIs. The signing secret is private and different from the former access code.
+
+`LINGOLIVE_QUOTA_BUCKET` must name an existing private GCS bucket when public demo
+access is enabled. The runtime needs bucket-scoped object read/write permissions;
+public access must be prevented. `LINGOLIVE_PUBLIC_AUDIO_SECONDS_PER_DAY=1200`
+and `LINGOLIVE_PUBLIC_MODEL_CALLS_PER_DAY=200` enforce a shared IST calendar-day
+allowance before paid access. The two parallel calls spend two units. Both host
+and BYOK share these infrastructure caps. Use generation-precondition writes,
+fail closed on errors, and never reset/delete today's counter to bypass a limit.
+No minimum Cloud Run instance is provisioned. Quotas do not cap all currency charges.

@@ -1,8 +1,8 @@
 {
   "file": "LingoLive-Demo.mp4",
-  "bytes": 6640524,
-  "sha256": "657957beb4466bef8268586d0f075859f715710030e991c6698dd71c9dada583",
-  "seconds": 197.048,
+  "bytes": 6550441,
+  "sha256": "3515135fe9b4ea1af6083fcb223f0ae5eb641271d5ec8608de2aa6ef0c61bcb0",
+  "seconds": 197.08,
   "video": "H.264 1920x1080 / 25fps",
   "audio": "AAC stereo; Google Gemini 3.1 Flash TTS preview, Kannada and Indian English",
   "voice_model": "gemini-3.1-flash-tts-preview",
@@ -44,8 +44,8 @@
   "true_peak_dbtp": -5.39,
   "audio_clipping_detected": false,
   "verification_method": "Decoded final MP4 compared with each source waveform (correlation >=0.82 and active speech RMS >-30 dBFS). AAC alignment tolerance 100 ms; no new model calls.",
-  "demo_version": "3.0",
-  "app_version": "1.11 (extension); 1.9 (original scenes)",
+  "demo_version": "3.1",
+  "app_version": "1.12 sign-in view; 1.11 readback; 1.9 original scenes",
   "latest_duration_requirement_met": true,
   "extension_verification": {
     "original_capture_success": false,
@@ -62,5 +62,16 @@
   "extension_lesson_requests": 2,
   "total_lesson_requests_in_rendered_takes": 9,
   "total_generation_calls_in_rendered_takes": 18,
-  "initial_export_issue": "Color metadata changes in archived base footage reinitialized FFmpeg concat filters; disabled filter reinitialization and reverified full duration and every voice."
+  "initial_export_issue": "Color metadata changes in archived base footage reinitialized FFmpeg concat filters; disabled filter reinitialization and reverified full duration and every voice.",
+  "current_google_signin_view_added": true,
+  "signin_view_seconds": [
+    26,
+    32
+  ],
+  "actual_google_account_login_completed_in_video": false,
+  "narration_changed": false,
+  "new_audio_generated": false,
+  "aac_audio_bitstream_unchanged": true,
+  "aac_audio_sha256": "1203b36d9bb5f51bc973efc81ba23fcbe2f7620b32e7948cb3fa6ac48b871fe6",
+  "all_29_previously_verified_voices_preserved": true
 }

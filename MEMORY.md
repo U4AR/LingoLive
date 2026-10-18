@@ -1,8 +1,8 @@
-# Conversation memory (web 1.11)
+# Conversation memory (web 1.12)
 
 Live: https://lingolive-358650584819.us-central1.run.app, revision
-`lingolive-00029-mec`, 100% traffic; verification tag removed. Runtime source
-`ad889871fc9583a2dd956d4ad17841e50db431f1`. Public asset hashes, unauthenticated
+`lingolive-00032-bak`, 100% traffic; verification tag removed. Runtime source
+`69e6200`. Public asset hashes, unauthenticated
 rejection and unchanged resource/quota guards verified. Repeated displayed
 options now use redundant character, word, bigram and partial-match checks.
 Fresh short options can match briefly; meaning changes ask who spoke.
@@ -299,3 +299,21 @@ fixtures. Broad semantic accuracy, speaker estimates, physical-phone capture and
 valid personal-key inference still need user testing. Current deployment and
 real Google evidence: `validation/cloud-current-*.json`; measured speed and
 limitations: `docs/LATENCY.md`.
+
+## Google sign-in and daily allowance (web 1.12)
+
+Any verified Google account can enter the host-funded demo with Firebase
+Authentication and no shared passcode. The frontend uses the pinned Firebase
+12.4.0 SDK with in-memory persistence, signs out its SDK identity after obtaining
+the server session, and stores no Firebase token in browser persistent storage.
+The server validates Firebase signature, project audience/issuer, verified email,
+Google provider and its same-origin sign-in challenge. Existing BYOK still uses
+its own credentials. Google identity does not identify the speaker of an audio clip.
+
+A dedicated private session-signing secret replaces the old passcode as signer.
+The global daily allowance is 1,200 connection seconds and 200 model-call units
+(100 two-branch lessons), shared across host/BYOK visitors and reset at midnight
+IST. Private GCS generation preconditions persist reservations before paid calls.
+Outage/corrupt state fails closed; crash reservations stay spent; clean closes
+refund only unused rounded time. No transcript, user ID, audio, key or location is
+stored in this counter. Models, memory payloads and playback features are unchanged.

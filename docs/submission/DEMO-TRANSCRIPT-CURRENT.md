@@ -1,6 +1,6 @@
 # LingoLive — complete submission transcript
 
-Approved original narration plus the user-approved readback extension. Kannada actor lines below have English accessibility captions; ASR errors remain visible in the app. Runtime: 3:17.048. Learning starts at 2:52.
+Approved original narration plus the user-approved readback extension. Kannada actor lines below have English accessibility captions; ASR errors remain visible in the app. Runtime: 3:17.080. Learning starts at 2:52.
 
 ## 0:00 — problem
 
@@ -80,3 +80,5 @@ Approved original narration plus the user-approved readback extension. Kannada a
 
 3:06 **Narrator:** Powered by Google AI on Google Cloud, LingoLive helps newcomers take part in everyday conversations—with growing confidence.
 
+
+Visual update at 0:26–0:32: the current Google sign-in screen; no passcode. Shared daily allowance is shown. All narration and actor audio remain unchanged. An actual user account login is not completed on screen.

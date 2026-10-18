@@ -2,7 +2,10 @@
 
 [Official-template pitch](docs/submission/LingoLive-Pitch-Deck.pdf) · [Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.11 — Recognize your replies and wait for the other speaker
+## Current source: web 1.12 — Google sign-in and bounded daily access
+
+Sign in with any verified Google account; no passcode. The shared daily pool is
+20 listening minutes and 100 lessons, resetting at midnight IST.
 
 **My plan → Before you go** saves your intention before leaving home, with optional
 steps such as cab → tea stop → railway station. Save makes no AI request. The plan
@@ -391,3 +394,12 @@ API references checked October 16, 2026:
 [structured outputs](https://ai.google.dev/gemini-api/docs/structured-output).
 
 [Source/history credential audit](docs/SECRET-AUDIT.md): no matches in the audited history and source archive; scope and limits are documented.
+
+## Access and shared demo budget
+
+Sign in with any verified Google account through Firebase Authentication; no
+passcode is needed. Your own Google key is optional. The shared daily allowance
+is **20 listening minutes and 100 parallel lessons**, resetting at midnight IST.
+It survives restarts and cannot be reset by switching users or keys. Saved learning
+remains available when live AI pauses. These limits do not impose a hard monetary
+cap on all Google Cloud traffic/storage/build charges. Firestore is not used.

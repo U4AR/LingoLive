@@ -1,0 +1,10 @@
+{
+  "real_google_account_screen_opened": true,
+  "user_credentials_entered": false,
+  "actual_google_account_login_completed": false,
+  "registered_oauth_flow_created": true,
+  "signed_token_validation_fixture_tests": true,
+  "installed_app_operator_token_rejected_for_wrong_audience": true,
+  "new_google_session_to_paid_lesson_tested": false,
+  "prior_real_google_model_pipeline_evidence_retained": true
+}

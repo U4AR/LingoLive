@@ -46,7 +46,7 @@ for x,t,b in [(0.55,'Understand','Live multilingual speech → meaning'),(3.65,'
 s=slides[2];title(s,'Opportunities');card(s,.5,1.55,9,1.00,'How is it different?','Connects the next turn, a pre-task plan, relevant personal/place memory, and later learning in one small interface.');card(s,.5,2.72,9,1.00,'How does it solve the problem?','Prioritizes usable replies during the encounter; the learner reviews word meanings afterwards. Repeated replies do not become new questions.');card(s,.5,3.89,9,1.05,'USP and intended users','Local, editable context follows the learner. Initial pilots: relocation teams, universities and community language groups. Outcomes and demand are not yet measured.')
 
 s=slides[3];title(s,'List of features offered by the solution')
-features=[('Hear and respond','Google multilingual transcription; three short replies.'),('Say it your way','Express familiar-language intent in the learning language.'),('Recognize readbacks','Fuzzy repeat guards + session voice estimates; correction.'),('Plan before leaving','Cab → optional tea → station; explicit progress controls.'),('Relevant memory','Editable routines; opt-in saved-place notes on return.'),('Learn afterwards','Saved review, word bubbles and pronunciation.'),('Minimal interface','One large microphone control; typing and first-use tutorial.'),('Bounded access','Private host code or your own Google key; usage guards.')]
+features=[('Hear and respond','Google multilingual transcription; three short replies.'),('Say it your way','Express familiar-language intent in the learning language.'),('Recognize readbacks','Fuzzy repeat guards + session voice estimates; correction.'),('Plan before leaving','Cab → optional tea → station; explicit progress controls.'),('Relevant memory','Editable routines; opt-in saved-place notes on return.'),('Learn afterwards','Saved review, word bubbles and pronunciation.'),('Minimal interface','One large microphone control; typing and first-use tutorial.'),('Bounded access','Google sign-in, no passcode; shared daily limits.')]
 for i,(t,b) in enumerate(features):card(s,.5+(i%2)*4.6,1.5+(i//2)*.90,4.4,.79,t,b)
 
 s=slides[4];title(s,'Process flow diagram or Use-case diagram')
@@ -60,16 +60,16 @@ text(s,.55,4.8,8.8,.3,'Functional prototype screens are shown in the snapshots s
 
 s=slides[6];title(s,'Architecture diagram of the proposed solution')
 card(s,.5,1.6,2.65,2.8,'Browser','AudioWorklet capture\nLocal repeat / voice guard\nConversation + plan context\nIndexedDB saved lessons\nLocal, opt-in place memory')
-card(s,3.65,1.6,2.65,2.8,'Google Cloud Run','FastAPI HTTP + WebSocket\nHost code / personal-key session\nRequest + audio quotas\nExact-source validation\nSecret Manager access code')
+card(s,3.65,1.6,2.65,2.8,'Google Cloud Run','FastAPI HTTP + WebSocket\nGoogle / personal-key session\nRequest + audio quotas\nExact-source validation\nPrivate durable daily quotas')
 card(s,6.8,1.6,2.65,2.8,'Google AI','Gemini 3.5 Transcribe Live\nGemini 3.1 Flash-Lite\nSource and reply branches\nVertex service account\nBYOK: Gemini Developer API')
-text(s,3.18,2.5,.4,.5,'⇄',22,BLUE,True);text(s,6.32,2.5,.4,.5,'⇄',22,BLUE,True);text(s,.55,4.7,8.9,.5,'Firebase / Firestore are not used in this prototype. Any future cloud sync would require a separate opt-in design.',12,GRAY)
+text(s,3.18,2.5,.4,.5,'⇄',22,BLUE,True);text(s,6.32,2.5,.4,.5,'⇄',22,BLUE,True);text(s,.55,4.7,8.9,.5,'Firebase Authentication: Google sign-in. Private Cloud Storage: daily quotas. Firestore is not used; learning stays local.',12,GRAY)
 
 s=slides[7];title(s,'Technologies to be used in the solution')
-for i,(t,b) in enumerate([('Google AI','Gemini 3.5 Transcribe Live; two parallel Gemini 3.1 Flash-Lite branches with minimal thinking.'),('Google Cloud','Cloud Run, Vertex AI, Secret Manager, Cloud Build and Artifact Registry.'),('Web and backend','Responsive JavaScript PWA, AudioWorklet, IndexedDB, Python FastAPI and WebSockets.'),('Local adaptation','Bounded context and lexical/acoustic heuristics; no model-weight fine-tuning or stored voiceprint.')]):card(s,.5,1.55+i*.86,9,.76,t,b)
+for i,(t,b) in enumerate([('Google AI','Gemini 3.5 Transcribe Live; two parallel Gemini 3.1 Flash-Lite branches with minimal thinking.'),('Google Cloud','Firebase Authentication, Cloud Run, Vertex AI, private Cloud Storage and Secret Manager.'),('Web and backend','Responsive JavaScript PWA, AudioWorklet, IndexedDB, Python FastAPI and WebSockets.'),('Local adaptation','Bounded context and lexical/acoustic heuristics; no model-weight fine-tuning or stored voiceprint.')]):card(s,.5,1.55+i*.86,9,.76,t,b)
 
 s=slides[8];title(s,'Estimated implementation cost (optional)');text(s,.55,1.55,8.8,.5,'Cost model: pay for useful turns, bound prototype usage.',21,INK,True)
-text(s,.55,2.23,8.8,2.6,'• A 15-minute listening session uses up to 15 minutes of streaming audio.\n• N new lessons use 2 × N Flash-Lite generation calls.\n• Detected repeats, saved word review and script switching add no lesson call.\n• Cloud Run: 1 CPU / 512 MiB, request billing, min 0 / max 1 instance.\n• Host limits: 400 raw model calls/day and 60 audio minutes/day.\n• Prices depend on tokens, provider rates and actual runtime; no dollar estimate is asserted.',15)
-text(s,.55,4.95,8.8,.32,'Quotas are prototype safeguards, not a hard billing cap. A wider launch needs durable per-user budgets.',11,GRAY)
+text(s,.55,2.23,8.8,2.6,'• A 15-minute listening session uses up to 15 minutes of streaming audio.\n• N new lessons use 2 × N Flash-Lite generation calls.\n• Detected repeats, saved word review and script switching add no lesson call.\n• Cloud Run: 1 CPU / 512 MiB, request billing, min 0 / max 1 instance.\n• Shared/day: 20 listening minutes + 100 lessons. Reset: midnight IST.\n• Prices depend on tokens, provider rates and actual runtime; no dollar estimate is asserted.',15)
+text(s,.55,4.95,8.8,.32,'Persistent quotas survive restarts; they do not cap all hosting/storage/download charges in currency.',11,GRAY)
 
 s=slides[9];title(s,'Snapshots of the prototype')
 shots=ROOT/'validation';names=[('web-plans-cloud.png','Plan before leaving'),('web-express-cloud.png','Find a useful reply'),('web-replies-review.png','Learn afterwards')]
@@ -81,18 +81,18 @@ for i,(name,label) in enumerate(names):
 text(s,.55,5.05,8.9,.25,'Recorded prototype views. Word-review screenshot uses labelled test data; the video includes real Google responses.',10,GRAY)
 
 s=slides[10];title(s,'Prototype Performance report/Benchmarking');text(s,.55,1.55,8.8,.5,'Functional evidence, with clear measurement limits.',22,INK,True)
-rows=[('Earlier v1.5 warm HTTP lessons','10 complete lessons · mean 1.79 s · historical sample'),('Later v1.9 typed HTTP checks','4 functional cases · mean 2.065 s · not a latency guarantee'),('Current readback guard','25 local checks + 10 browser-flow checks; repeats add no lesson'),('Voice estimates','3/4 held-out clean synthetic learner clips recognized; 0/4 others labelled user'),('Service checks','112 backend tests; real Google replies and current Cloud Run guards verified')]
+rows=[('Earlier v1.5 warm HTTP lessons','10 complete lessons · mean 1.79 s · historical sample'),('Later v1.9 typed HTTP checks','4 functional cases · mean 2.065 s · not a latency guarantee'),('Current readback guard','25 local checks + 10 browser-flow checks; repeats add no lesson'),('Voice estimates','3/4 held-out clean synthetic learner clips recognized; 0/4 others labelled user'),('Service checks','134 backend tests; Google-token verification and durable quota races checked')]
 for i,(t,b) in enumerate(rows):text(s,.55,2.2+i*.51,3.0,.46,t,13,BLUE,True);text(s,3.62,2.2+i*.51,5.85,.46,b,12)
 text(s,.55,4.95,8.9,.3,'No measured learning-outcome, noisy-phone, cold-start or population speaker-accuracy claim.',11,GRAY)
 
-s=slides[11];title(s,'Additional Details/Future Development (if any)');card(s,.5,1.6,4.35,2.95,'Social value and business case','Help newcomers participate in everyday encounters.\nPilot with relocation teams, universities and community language groups.\nProposed organization-sponsored access; validate demand before expansion.');card(s,5.15,1.6,4.35,2.95,'Next engineering work','Representative mobile/noisy-language studies.\nDurable per-user budgets and stronger identity.\nOpt-in cross-device memory, potentially Firestore.\nMeasure task completion, reply usefulness and learning retention.');text(s,.55,4.88,8.9,.35,'Current limits: ASR can mishear; voice estimates can be wrong; local profiles are not private cloud accounts.',11,GRAY)
+s=slides[11];title(s,'Additional Details/Future Development (if any)');card(s,.5,1.6,4.35,2.95,'Social value and business case','Help newcomers participate in everyday encounters.\nPilot with relocation teams, universities and community language groups.\nProposed organization-sponsored access; validate demand before expansion.');card(s,5.15,1.6,4.35,2.95,'Next engineering work','Representative mobile/noisy-language studies.\nOpt-in local neural voice enrollment and durable per-user budgets.\nOpt-in cross-device memory, potentially Firestore.\nMeasure task completion, reply usefulness and learning retention.');text(s,.55,4.88,8.9,.35,'Current limits: ASR can mishear; voice estimates can be wrong; local profiles are not private cloud accounts.',11,GRAY)
 
 s=slides[12];title(s,'Provide links to your:')
 link(s,1.6,'GitHub source — github.com/U4AR/LingoLive','https://github.com/U4AR/LingoLive')
 link(s,2.35,'Demo video — 3–4 minute working demonstration',BASE+'LingoLive-Demo.mp4')
 link(s,3.1,'Final product — live Google Cloud Run prototype','https://lingolive-358650584819.us-central1.run.app')
 link(s,3.85,'Submission materials — pitch, technical PDF and entry text',BASE+'index.html')
-text(s,.55,4.6,8.9,.6,'Keep the source repository publicly accessible throughout evaluation.'+'\nAI access: use your Google key, or obtain the host code privately from the team. No keys or codes are included.',11,GRAY)
+text(s,.55,4.6,8.9,.6,'Keep the source repository publicly accessible throughout evaluation.'+'\nAI access: sign in with any verified Google account; no passcode. Your own Google key is optional.',11,GRAY)
 
 # Closing branding is unmodified. Add restrained pagination to content slides.
 for i,s in enumerate(slides[1:-1],2):text(s,8.95,5.26,.5,.2,str(i),8,GRAY,align=PP_ALIGN.RIGHT)

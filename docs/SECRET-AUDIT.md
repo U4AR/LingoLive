@@ -17,7 +17,7 @@ selected base64 literals are checked too. Only finding locations and hashes are
 reported; credential values are never printed. No credential-verification API
 requests are made.
 
-Evidence: `validation/source-secret-audit.json`. Reproduce after fetching all
+The latest repeat scan is in `validation/source-archive-secret-audit.json`; each report records its exact commit and archive hash. Earlier counts above describe the first full OCR pass, not every later release. Reproduce after fetching all
 remote branches/tags:
 
 ```sh

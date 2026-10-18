@@ -4,13 +4,14 @@
   "tls_verification_enabled": true,
   "http_status": 200,
   "video": {
-    "seconds": 197.048,
+    "seconds": 197.08,
     "width": 1920,
     "height": 1080,
     "error": null
   },
   "playback_passed": true,
   "seek_positions_checked": [
+    28,
     84,
     123,
     178
