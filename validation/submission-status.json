@@ -40,8 +40,8 @@
   },
   "repository_visibility": "private",
   "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2.1/index.html",
-  "current_app_version": "1.9",
-  "current_app_revision": "lingolive-00023-vef",
+  "current_app_version": "1.10",
+  "current_app_revision": "lingolive-00027-poy",
   "demo_video_version": "2.1 (web 1.9, audio repaired)",
   "demo_v2": {
     "approval_status": "approved",
@@ -95,7 +95,9 @@
   "functional_updates": {
     "pre_task_plan": true,
     "known_language_expression": true,
-    "video_transcript_changed_for_this_request": false
+    "video_transcript_changed_for_this_request": false,
+    "reply_repeat_suppression": true,
+    "session_only_speaker_estimates": true
   },
   "archived_demo_video_version": "1.5"
 }

@@ -1,0 +1,39 @@
+{
+  "url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
+  "app_version": "1.10",
+  "live_google_lessons": true,
+  "google_transcription": "Not retested: WebSocket transcript events deliberately simulated",
+  "physical_microphone": false,
+  "voice_identification_in_this_test": false,
+  "repeat_option_requested_new_lesson": false,
+  "reply_cards_preserved": true,
+  "next_other_speaker_received_replies": true,
+  "learner_speech_in_next_context": true,
+  "voice_features_sent_to_server": false,
+  "lesson_requests": 2,
+  "google_generation_calls": 4,
+  "timings": [
+    {
+      "request": 1,
+      "interaction_seconds": 3.839574073
+    },
+    {
+      "request": 2,
+      "interaction_seconds": 2.1433009300000014
+    }
+  ],
+  "small_functional_sample_not_latency_benchmark": true,
+  "page_errors": [],
+  "cloud_api_test_revision": "lingolive-00025-niw",
+  "cloud_api_test_source_commit": "78665dca95f9e99b4f80b9d6eb92a8b033a1724e",
+  "public_url": "https://lingolive-358650584819.us-central1.run.app",
+  "public_revision": "lingolive-00027-poy",
+  "live_google": true,
+  "valid_personal_key_inference_tested": false,
+  "model": "gemini-3.1-flash-lite",
+  "lesson_strategy": "parallel",
+  "server_model_code_unchanged_since_live_api_check": true,
+  "final_role_correction_verified_with_local_browser_regression": true,
+  "live_api_calls_repeated_for_final_role_patch": false,
+  "scope_note": "Two real-Gemini lessons tested revision 00025. Final 00027 preserves server/model code and adds authoritative explicit-other correction; final assets/auth/cost guards verified publicly."
+}

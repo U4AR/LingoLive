@@ -2,7 +2,7 @@
 
 [Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.9 — Plan ahead and find your words
+## Current source: web 1.10 — Recognize your replies and wait for the other speaker
 
 **My plan → Before you go** saves your intention before leaving home, with optional
 steps such as cab → tea stop → railway station. Save makes no AI request. The plan

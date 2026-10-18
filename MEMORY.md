@@ -1,12 +1,25 @@
-# Conversation memory (web 1.9)
+# Conversation memory (web 1.10)
 
 Live: https://lingolive-358650584819.us-central1.run.app, revision
-`lingolive-00023-vef`, 100% traffic; verification tag removed. Runtime source
-`050fd58196b186b7d45a955a63e168b749c05852`. Public assets, unauthenticated
+`lingolive-00027-poy`, 100% traffic; verification tag removed. Runtime source
+`106091ac0c0a9903133c619cfabdb408bd50737e`. Public assets, unauthenticated
 HTTP/WebSocket rejection and unchanged resource/quota guards verified.
-112 backend / 91 browser / eight plan-core / sixteen place-core checks pass.
-Four real-Gemini typed cases passed; HTTP mean 2.065 s, a tiny functional
-sample, not a new latency guarantee or physical-microphone benchmark.
+Web 1.10 routes repeated options before paid calls, saves learner turns as context,
+and uses conservative session-only acoustic speaker estimates. Specific repeats
+make no lesson; short/near matches ask who spoke. Voice features never persist
+or enter lesson requests. Explicit expression and speaker correction remain.
+See docs/SPEECH-ROUTING.md for scope, privacy and accuracy limits.
+112 backend, 15 routing, seven speech-flow browser, four audio-path browser,
+13 general browser and six reply-flow checks passed. A clean generated-voice
+held-out check recognized 3/4 learner samples; 0/4 other samples were labelled
+user (others stayed unknown). This is not physical/noisy-speaker accuracy.
+Two real-Gemini staged lessons passed; the repeated option made no extra call.
+The final explicit-other correction preserves manual attribution and passed a
+local browser regression; server/model code is unchanged from the live check.
+Transcription events were simulated in that cloud check; Google ASR was not
+retested. Models, authentication and quotas are unchanged. Runtime source above
+matches all deployed assets; traffic is 100% and verification tag removed.
+Earlier v1.9 latency numbers remain historical, not a new benchmark.
 The task-plan request did not change the video transcript or generate media.
 A later, separate user approval ("Ok make it") authorized the new demonstration.
 Video v2.1 repairs short-voice export timestamps and removes artificial ambience:
