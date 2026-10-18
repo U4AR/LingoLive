@@ -1,11 +1,12 @@
+import {VoiceTurns} from './speech-routing.mjs';
 import {pcmWav,base64Bytes} from './signals.mjs';
 const delay = ms => new Promise(resolve=>setTimeout(resolve,ms));
 export class LiveMicrophone {
-  constructor(events) { this.events=events; this.running=false; this.generation=0; this.sockets=new Set(); this.pending=[];this.ambience=[]; }
+  constructor(events) { this.events=events; this.running=false; this.generation=0; this.sockets=new Set(); this.pending=[];this.ambience=[];this.voiceTurns=new VoiceTurns(); }
   async start() {
     if(this.running) return;
     if(!navigator.mediaDevices?.getUserMedia || !window.AudioWorkletNode) throw new Error('Use a current browser over HTTPS and allow microphone access. You can also type a phrase.');
-    this.running=true; this.stopping=false;this.ambience=[]; const own=++this.generation; this.events.status('Requesting microphone…');
+    this.running=true; this.stopping=false;this.ambience=[];this.voiceTurns.reset(); const own=++this.generation; this.events.status('Requesting microphone…');
     try {
       const stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true},video:false});
       if(!this.running||own!==this.generation) {stream.getTracks().forEach(t=>t.stop());return;}
@@ -43,7 +44,7 @@ export class LiveMicrophone {
         const content=value.serverContent||value.server_content;
         const final=content?.inputTranscription||content?.input_transcription;
         const interim=content?.interimInputTranscription||content?.interim_input_transcription;
-        if(final?.text?.trim())this.events.final(final.text,pair,conversation);
+        if(final?.text?.trim())this.events.final(final.text,pair,conversation,{voice:socket===this.socket?this.voiceTurns.finish():null});
         if(interim?.text&&this.running&&own===this.generation)this.events.interim(interim.text);
         if((value.goAway||value.go_away)&&this.running&&own===this.generation)this.rotate(own);
       };
@@ -53,7 +54,7 @@ export class LiveMicrophone {
   }
   async rotate(own) {
     if(!this.running||own!==this.generation)return;
-    const previous=this.socket;this.ready=false;this.generation++;const next=this.generation;
+    const previous=this.socket;this.ready=false;this.voiceTurns.reset();this.generation++;const next=this.generation;
     if(previous?.readyState===WebSocket.OPEN)previous.send(JSON.stringify({realtimeInput:{audioStreamEnd:true}}));
     setTimeout(()=>previous?.close(1000,'Session renewed'),3500);
     try {await this.connect(next);}catch(e){if(this.running&&next===this.generation)this.fail(e.message);}
@@ -63,6 +64,7 @@ export class LiveMicrophone {
     const wav=pcmWav(this.ambience);return wav?{mime_type:'audio/wav',data:base64Bytes(wav)}:null;
   }
   frame(buffer) {
+    this.voiceTurns.push(buffer);
     if(this.includeAmbience){this.ambience.push(buffer.slice(0));let size=this.ambience.reduce((n,b)=>n+b.byteLength,0);while(size>128000&&this.ambience.length>1)size-=this.ambience.shift().byteLength;}
     if(this.ready&&this.socket?.readyState===WebSocket.OPEN)this.send(buffer);
     else if(this.running){this.pending.push(buffer);if(this.pending.reduce((n,b)=>n+b.byteLength,0)>160000)this.fail('The connection is too slow. Listening paused; the last few words may not have arrived.');}

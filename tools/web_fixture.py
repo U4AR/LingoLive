@@ -3,9 +3,10 @@ import asyncio,base64,copy,json
 from contextlib import asynccontextmanager
 from pathlib import Path
 from backend.app import Config,create_app
+from fastapi import Request
 EXAMPLE=json.loads((Path(__file__).resolve().parents[1]/'web/example.json').read_text())
 class FixtureSocket:
-    def __init__(self,provider):self.provider=provider;self.queue=asyncio.Queue();self.frames=0
+    def __init__(self,provider):self.provider=provider;provider.sockets.append(self);self.queue=asyncio.Queue();self.frames=0
     async def send(self,raw):
         value=json.loads(raw)
         if 'setup' in value:
@@ -15,13 +16,17 @@ class FixtureSocket:
             await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':'Thank you.'}}}));return
         pcm=base64.b64decode(audio['audio']['data']);self.provider.frames+=1;self.provider.bytes+=len(pcm);self.frames+=1
         if self.frames==2:await self.queue.put(json.dumps({'serverContent':{'interimInputTranscription':{'text':'コーヒー…'}}}))
-        if self.frames==5:await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':getattr(self.provider,'next_text',EXAMPLE['text'])}}}))
+        if self.frames==5 and not getattr(self.provider,'manual',False):await self.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':getattr(self.provider,'next_text',EXAMPLE['text'])}}}))
     def __aiter__(self):return self
     async def __anext__(self):return await self.queue.get()
 class Provider:
-    def __init__(self):self.requests=[];self.setups=[];self.frames=0;self.bytes=0
+    def __init__(self):self.sockets=[];self.requests=[];self.setups=[];self.frames=0;self.bytes=0
     async def teach(self,value):
         self.requests.append(value.model_dump())
+        if value.text=='ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?':
+            result=copy.deepcopy(json.loads((Path(__file__).resolve().parents[1]/'web/example-kn.json').read_text())['lesson'])
+            result['replies'][0]={'label':'To station','translation':'I need to go to the Bengaluru railway station.','words':[{'text':'ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಬೇಕು.','reading':'Bengaluru railve nildanakke hogabeku','meaning':'I need to go to the Bengaluru railway station.','note':'','is_word':True}]}
+            return result
         if value.text in ('I need a cab to the railway station.','Please stop for tea first.') or value.assistance_mode=='say_this' and value.text.isascii() and value.text not in ('Every weekday I take the metro from Indiranagar.','I am at my usual tea stall. I order ginger tea here.'):
             target=[('ನನಗೆ','nanage','for me'),('ರೈಲ್ವೇ','railve','railway'),('ನಿಲ್ದಾಣಕ್ಕೆ','nildanakke','to station'),('ಹೋಗಬೇಕು','hogabeku','need to go')]
             if 'tea' in value.text:target=[('ಮೊದಲು','modalu','first'),('ಚಹಾಕ್ಕೆ','chahakke','for tea'),('ನಿಲ್ಲಿಸಿ','nillisi','please stop')]
@@ -52,3 +57,14 @@ app=create_app(Config('test-only-google-key','test-only-browser-access-code-32-c
 async def status():return {'requests':provider.requests,'frames':provider.frames,'bytes':provider.bytes,'setups':provider.setups,'personal':[{'requests':p.requests,'frames':p.frames,'bytes':p.bytes,'setups':p.setups} for p in personal_providers]}
 @app.post('/fixture/speech')
 async def next_speech():provider.next_text='I need a cab to the railway station.';return {'fixture':True}
+
+@app.post('/fixture/final')
+async def final_speech(request:Request):
+    value=await request.json();text=value['text'];assert isinstance(text,str) and 0<len(text)<=1000
+    for socket in provider.sockets:
+        await socket.queue.put(json.dumps({'serverContent':{'inputTranscription':{'text':text}}}))
+    return {'fixture':True}
+
+@app.post('/fixture/manual')
+async def manual_speech(request:Request):
+    provider.manual=bool((await request.json()).get('enabled'));return {'fixture':True}

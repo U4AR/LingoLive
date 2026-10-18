@@ -1,0 +1,67 @@
+{
+  "passed": 15,
+  "checks": [
+    {
+      "name": "Matches repeated Kannada, including combining vowel marks",
+      "passed": true
+    },
+    {
+      "name": "Case, punctuation and pronunciation variants match",
+      "passed": true
+    },
+    {
+      "name": "Known-language reading of an option matches without treating it as a new question",
+      "passed": true
+    },
+    {
+      "name": "Negated or different requests do not match exactly",
+      "passed": true
+    },
+    {
+      "name": "A transcription typo is ambiguous, not silently suppressed",
+      "passed": true
+    },
+    {
+      "name": "Short common phrases require a speaker decision",
+      "passed": true
+    },
+    {
+      "name": "No matches across conversations, profiles, languages, expired or future suggestions",
+      "passed": true
+    },
+    {
+      "name": "Only the latest applicable reply set is used",
+      "passed": true
+    },
+    {
+      "name": "The options actually displayed take priority over a newer hidden result",
+      "passed": true
+    },
+    {
+      "name": "Without both speaker anchors, identity remains unknown",
+      "passed": true
+    },
+    {
+      "name": "Separated anchors identify a matching speaker",
+      "passed": true
+    },
+    {
+      "name": "Similar or unfamiliar voices abstain",
+      "passed": true
+    },
+    {
+      "name": "Speaker samples expire and clear between sessions",
+      "passed": true
+    },
+    {
+      "name": "Silence does not create a voice identity",
+      "passed": true
+    },
+    {
+      "name": "Voice frames are bounded and raw PCM is not retained",
+      "passed": true
+    }
+  ],
+  "google_calls": 0,
+  "physical_speaker_identification_tested": false
+}

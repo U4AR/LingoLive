@@ -1,0 +1,10 @@
+{
+  "passed": 4,
+  "repeat_option_without_call": true,
+  "new_learner_utterance_recognized_by_voice_without_call": true,
+  "other_voice_not_suppressed": true,
+  "source": "Existing generated Kannada actor WAVs -> real getUserMedia/AudioWorklet/resampler -> local voice features",
+  "google_transcription_and_lesson_responses": "Explicit fixtures, not real Google calls or physical microphone",
+  "google_calls": 0,
+  "page_errors": []
+}

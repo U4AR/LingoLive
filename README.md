@@ -30,6 +30,11 @@ The corrected Bengaluru/Kannada demonstration is now rendered: **2:22**,
 with clear Google Gemini TTS dialogue, no artificial noise bed, actual app responses, a visible speech correction
 and learning introduced near the end as an extra. See [video provenance](docs/submission/DEMO-V2.md).
 
+Web 1.10 stops reply loops when you repeat an offered option. Your words stay in
+context while the app waits for the other speaker. Session-only voice estimates
+help distinguish turns; uncertain matches let you choose who spoke. No extra AI
+call is added. See [speech routing and limits](docs/SPEECH-ROUTING.md).
+
 LingoLive helps newcomers, interstate migrants and immigrants handle everyday
 conversations in a language they are still learning. A newcomer to Bengaluru can
 use Kannada replies for a commute or a tea order, then study those words later.

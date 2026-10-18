@@ -1,0 +1,37 @@
+{
+  "passed": 7,
+  "checks": [
+    {
+      "name": "A spoken option is saved as learner speech with no new model call or reply loop",
+      "passed": true
+    },
+    {
+      "name": "Repeating a displayed pronunciation also avoids a new request",
+      "passed": true
+    },
+    {
+      "name": "A short ambiguous reply asks who spoke before spending a model request",
+      "passed": true
+    },
+    {
+      "name": "The next other-person utterance gets replies and includes the learner turn as context",
+      "passed": true
+    },
+    {
+      "name": "A suppressed turn can be corrected to the other speaker with one action",
+      "passed": true
+    },
+    {
+      "name": "Explicit Help me say this still translates learner intent",
+      "passed": true
+    },
+    {
+      "name": "Speaker features and raw PCM never enter local saved records or lesson payloads",
+      "passed": true
+    }
+  ],
+  "google_mocked": true,
+  "microphone": "Chromium synthetic PCM through real AudioWorklet and relay",
+  "physical_speaker_identification_tested": false,
+  "page_errors": []
+}

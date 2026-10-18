@@ -1,0 +1,126 @@
+{
+  "calibration": [
+    "learner-cab",
+    "driver-question"
+  ],
+  "held_out": [
+    {
+      "id": "learner-unsure",
+      "expected": "user",
+      "estimate": "unknown"
+    },
+    {
+      "id": "learner-express",
+      "expected": "user",
+      "estimate": "user"
+    },
+    {
+      "id": "learner-cafe",
+      "expected": "user",
+      "estimate": "user"
+    },
+    {
+      "id": "learner-place",
+      "expected": "user",
+      "estimate": "user"
+    },
+    {
+      "id": "driver-confused",
+      "expected": "other",
+      "estimate": "unknown"
+    },
+    {
+      "id": "driver-okay",
+      "expected": "other",
+      "estimate": "unknown"
+    },
+    {
+      "id": "cafe-question",
+      "expected": "other",
+      "estimate": "unknown"
+    },
+    {
+      "id": "shop-question",
+      "expected": "other",
+      "estimate": "unknown"
+    }
+  ],
+  "matched_learner": 3,
+  "held_out_learner": 4,
+  "other_misidentified_as_user": 0,
+  "held_out_other": 4,
+  "sources": [
+    {
+      "id": "learner-cab",
+      "sha256": "6b83c076e476ccdf7c4f0e73e89ce797b5c13023a3984221f39297ff75a829c1",
+      "seconds": 3.48,
+      "feature_cpu_ms": 42.88,
+      "usable": true
+    },
+    {
+      "id": "driver-question",
+      "sha256": "376c721635fb20d49dd4af8b12a6e3dd82b6a0a5d40b527b308bf1ad621abbc6",
+      "seconds": 1.52,
+      "feature_cpu_ms": 5.69,
+      "usable": true
+    },
+    {
+      "id": "learner-unsure",
+      "sha256": "2721cb912508847fdf009eb99e75d69ec49beaace7cdda0bf7cce09016b5809a",
+      "seconds": 4.28,
+      "feature_cpu_ms": 14.71,
+      "usable": true
+    },
+    {
+      "id": "learner-express",
+      "sha256": "21786a15347ee5ea96935fdf96fec10800763cfa74a17c5cddbb35918e54d075",
+      "seconds": 2.92,
+      "feature_cpu_ms": 11.08,
+      "usable": true
+    },
+    {
+      "id": "learner-cafe",
+      "sha256": "72a81be349dcdf78414064e20d354949c9dd5273552fdb4147225d632a6d2f55",
+      "seconds": 1.48,
+      "feature_cpu_ms": 4.63,
+      "usable": true
+    },
+    {
+      "id": "learner-place",
+      "sha256": "bc20e8312fe2ba10d92435eb2834dcb74800e3e1cdd2bb1c1c75ef39c741722c",
+      "seconds": 2.84,
+      "feature_cpu_ms": 9.38,
+      "usable": true
+    },
+    {
+      "id": "driver-confused",
+      "sha256": "87bfb3ced9d46ca379cf4fb1a78b33d274cc3c0effeef14ec69e7da9de4fc9ad",
+      "seconds": 3.48,
+      "feature_cpu_ms": 12.17,
+      "usable": true
+    },
+    {
+      "id": "driver-okay",
+      "sha256": "63f821b15f3ab3998ebec499b729e89fc9b775fccae5e9bb4cf6912450eaeae3",
+      "seconds": 0.76,
+      "feature_cpu_ms": 2.38,
+      "usable": false
+    },
+    {
+      "id": "cafe-question",
+      "sha256": "c953bb7937f4debd4fc5334d71722ca85373139ff1a45d13c1233e8a89759624",
+      "seconds": 2.84,
+      "feature_cpu_ms": 14.76,
+      "usable": true
+    },
+    {
+      "id": "shop-question",
+      "sha256": "dd72cab90ed0deada350ddf7c83ee33ae00cdd9ee1aa8b0e932e5b7b54be59d8",
+      "seconds": 1.44,
+      "feature_cpu_ms": 6.55,
+      "usable": true
+    }
+  ],
+  "google_calls": 0,
+  "limits": "Small clean synthetic-voice functional sample, not physical microphone, overlapping speech, same-voice robustness or population accuracy. Calibration samples are excluded from held-out counts."
+}

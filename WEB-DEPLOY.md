@@ -1,8 +1,9 @@
 # Deploy LingoLive on Cloud Run
 
 Web 1.9 adds pre-task plans, learner-language expression and guarded saved-place memory and prioritizes live replies; word meanings and practice open separately in
-Saved. The UI change adds no model request for later review. The proposed new
-video has not been produced: `docs/submission/DEMO-TRANSCRIPT-V2.md` awaits approval.
+Saved. The UI change adds no model request for later review. Web 1.10 adds local repeat/voice routing before paid lesson calls; models and cost
+guards are unchanged. The approved, corrected demonstration is documented in
+`docs/submission/DEMO-V2.md`.
 
 The web 1.9 deployment defaults to `gemini-3.1-flash-lite`, minimal thinking and
 two parallel requests per lesson. Source understanding and replies are validated
