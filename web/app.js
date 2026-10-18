@@ -29,8 +29,8 @@ function routeSpeech(record){
  const scope=speechScope(record);if(sessionSpeakers.scope!==scope){turnVoices.clear();sessionSpeakers.reset(scope);}
  const voice=voiceFor(record),identified=sessionSpeakers.classify(voice),match=recentReplyMatch(record.text,state.records,record);
  if(identified==='other'){record.speaker='likely_other';record.routing_reason='session_other_voice_match';return '';}
- if(identified==='user'||match?.kind==='specific'){
-  record.speaker='likely_user';record.status='spoken';record.routing_reason=identified==='user'?'session_voice_match':'recent_reply_match';
+ if(identified==='user'||['specific','recent_short','approximate'].includes(match?.kind)){
+  record.speaker='likely_user';record.status='spoken';record.routing_reason=identified==='user'?'session_voice_match':match?.kind==='approximate'?'fuzzy_reply_match':'recent_reply_match';
   if(match){record.reply_source_id=match.source.id;const other=voiceFor(match.source);if(match.kind==='specific'&&voice){sessionSpeakers.observe('user',voice);if(other&&match.source.lesson.reply_mode!=='express'&&!['user','likely_user'].includes(match.source.speaker)&&voiceDistance(voice,other)>.10)sessionSpeakers.observe('other',other);}}
   audioSamples.delete(record.id);return 'spoken';
  }

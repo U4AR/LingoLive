@@ -2,7 +2,7 @@
 
 [Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
-## Current source: web 1.10 — Recognize your replies and wait for the other speaker
+## Current source: web 1.11 — Recognize your replies and wait for the other speaker
 
 **My plan → Before you go** saves your intention before leaving home, with optional
 steps such as cab → tea stop → railway station. Save makes no AI request. The plan
@@ -30,7 +30,7 @@ The corrected Bengaluru/Kannada demonstration is now rendered: **2:22**,
 with clear Google Gemini TTS dialogue, no artificial noise bed, actual app responses, a visible speech correction
 and learning introduced near the end as an extra. See [video provenance](docs/submission/DEMO-V2.md).
 
-Web 1.10 stops reply loops when you repeat an offered option. Your words stay in
+Web 1.11 stops reply loops even with partial or fuzzy matches when you repeat an offered option. Your words stay in
 context while the app waits for the other speaker. Session-only voice estimates
 help distinguish turns; uncertain matches let you choose who spoke. No extra AI
 call is added. See [speech routing and limits](docs/SPEECH-ROUTING.md).

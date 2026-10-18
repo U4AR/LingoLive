@@ -599,7 +599,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
         return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.10'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.11'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
         ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))

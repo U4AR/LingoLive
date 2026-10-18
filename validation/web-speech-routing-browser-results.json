@@ -1,5 +1,5 @@
 {
-  "passed": 7,
+  "passed": 10,
   "checks": [
     {
       "name": "A spoken option is saved as learner speech with no new model call or reply loop",
@@ -10,7 +10,19 @@
       "passed": true
     },
     {
-      "name": "A short ambiguous reply asks who spoke before spending a model request",
+      "name": "A near transcription match avoids a new request",
+      "passed": true
+    },
+    {
+      "name": "A substantial partial reply avoids a new request",
+      "passed": true
+    },
+    {
+      "name": "A fresh short displayed reply counts automatically as learner speech",
+      "passed": true
+    },
+    {
+      "name": "Changed meaning asks who spoke before spending a request",
       "passed": true
     },
     {

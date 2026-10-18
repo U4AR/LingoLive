@@ -1,5 +1,5 @@
 {
-  "passed": 15,
+  "passed": 25,
   "checks": [
     {
       "name": "Matches repeated Kannada, including combining vowel marks",
@@ -18,7 +18,7 @@
       "passed": true
     },
     {
-      "name": "A transcription typo is ambiguous, not silently suppressed",
+      "name": "A transcription typo is accepted as a fuzzy repeat",
       "passed": true
     },
     {
@@ -35,6 +35,46 @@
     },
     {
       "name": "The options actually displayed take priority over a newer hidden result",
+      "passed": true
+    },
+    {
+      "name": "Hesitation fillers do not trigger another reply",
+      "passed": true
+    },
+    {
+      "name": "Missing words are still a fuzzy match",
+      "passed": true
+    },
+    {
+      "name": "Reordered words are still a fuzzy match",
+      "passed": true
+    },
+    {
+      "name": "A substantial spoken fragment is still a match",
+      "passed": true
+    },
+    {
+      "name": "Displayed fresh short options are accepted automatically",
+      "passed": true
+    },
+    {
+      "name": "Short automatic matching expires after 45 seconds",
+      "passed": true
+    },
+    {
+      "name": "Changed negation asks for confirmation",
+      "passed": true
+    },
+    {
+      "name": "A different platform number is not silently equated",
+      "passed": true
+    },
+    {
+      "name": "Romanized pronunciation matches without Latin accent marks",
+      "passed": true
+    },
+    {
+      "name": "Unrelated new questions still pass through",
       "passed": true
     },
     {

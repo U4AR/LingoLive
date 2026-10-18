@@ -1,23 +1,47 @@
 /* Local turn routing. Voice features are estimates, kept only in session RAM. */
-const clean=value=>String(value||'').normalize('NFKC').toLocaleLowerCase().replace(/[^\p{L}\p{M}\p{N}]/gu,'');
+function canonical(value){
+ return String(value||'').normalize('NFKD').replace(/(\p{Script=Latin})\p{M}+/gu,'$1').normalize('NFKC').toLocaleLowerCase().replace(/[’‘]/g,"'").replace(/\b(?:uh|um|erm|hmm)\b/gu,' ');
+}
+const tokens=value=>canonical(value).match(/[\p{L}\p{M}\p{N}]+/gu)||[];
+const clean=value=>tokens(value).join('');
 const pairEqual=(a,b)=>a?.known_code===b?.known_code&&a?.learning_code===b?.learning_code;
 function editDistance(a,b){let row=Array.from({length:b.length+1},(_,i)=>i);for(let i=0;i<a.length;i++){const next=[i+1];for(let j=0;j<b.length;j++)next.push(Math.min(next[j]+1,row[j+1]+1,row[j]+(a[i]!==b[j])));row=next;}return row[b.length];}
+const negative=new Set(['no','not','never','without','dont','cannot','cant','nahi','nahin','beda','illa','non','pas','nein','nicht','nunca','नहीं','मत','नाही','नको','ಬೇಡ','ಇಲ್ಲ','ಬೇಡಪ್ಪ','వద్దు','కాదు','இல்லை','வேண்டாம்','വേണ്ട','ഇല്ല','না','নয়','안','못']);
+function negated(value){const text=canonical(value);return tokens(text).some(w=>negative.has(w))||/\b(?:don' t|don't|can't|won't|isn't|doesn't|wouldn't)\b/u.test(text)||/ಬೇಡ|ません|ない|不|没|別|别/u.test(text);}
+function numbers(value){const t=tokens(value),words={one:'1',two:'2',three:'3',four:'4',five:'5',ಒಂದು:'1',ಎರಡು:'2',ಮೂರು:'3',एक:'1',दो:'2',दोन:'2',तीन:'3'};return t.filter(w=>/\p{N}/u.test(w)||words[w]).map(w=>words[w]||w).sort().join('|');}
+function changedMeaning(a,b){
+ if(negated(a)!==negated(b))return true;
+ const na=numbers(a),nb=numbers(b);if(na&&nb&&na!==nb)return true;
+ const x=tokens(a),y=tokens(b),question=w=>['what','where','when','why','how','do','does','did','are','is','ನೀವು','ಏನು','ಎಲ್ಲಿ','ಎಷ್ಟು','ಯಾಕೆ','ಹೇಗೆ'].includes(w[0]);
+ return question(x)!==question(y)&&(/[?？]/u.test(a)||/[?？]/u.test(b));
+}
+function dice(a,b){const x=new Set(a),y=new Set(b);return 2*[...x].filter(t=>y.has(t)).length/Math.max(1,x.size+y.size);}
+export function replySimilarity(text,candidate){
+ const a=clean(text),b=clean(candidate);if(!a||!b||a.length>500||b.length>500)return null;
+ if(a===b)return {method:'normalized',score:1,exact:true};
+ if(Math.min(a.length,b.length)<8)return null;
+ const ratio=Math.min(a.length,b.length)/Math.max(a.length,b.length),character=1-editDistance(a,b)/Math.max(a.length,b.length),ta=tokens(text),tb=tokens(candidate),overlap=dice(ta,tb),shared=ta.filter(t=>tb.includes(t)).length;
+ const bigrams=v=>Array.from({length:Math.max(0,v.length-1)},(_,i)=>v.slice(i,i+2));const grams=dice(bigrams(a),bigrams(b));
+ const partial=Math.min(a.length,b.length)>=12&&ratio>=.38&&(a.includes(b)||b.includes(a))&&(Math.min(ta.length,tb.length)>=2||Math.min(a.length,b.length)>=16);
+ const method=character>=.78&&ratio>=.60?'characters':overlap>=.70&&shared>=3&&ratio>=.55?'words':grams>=.78&&ratio>=.60?'character_pairs':partial?'partial':null;
+ if(!method)return null;
+ return {method,score:Math.max(character,overlap*.7+ratio*.3,grams),exact:false,meaning_changed:changedMeaning(text,candidate)};
+}
 export function recentReplyMatch(text,records,record,now=Date.now()){
  const value=clean(text);if(!value||value.length>500)return null;
- // Only the most recent applicable options, never stale suggestions elsewhere.
  const eligible=[...records].reverse().filter(r=>r.id!==record.id&&r.created<=record.created&&r.conversation_id===record.conversation_id&&r.profile_id===record.profile_id&&pairEqual(r.pair,record.pair)&&!r.example&&r.lesson?.replies?.length&&now-r.created>=0&&now-r.created<180000);
- const source=eligible.find(r=>r.id===record.reply_source_hint)||eligible[0];
- if(!source)return null;
- let approximate=null;
+ const source=eligible.find(r=>r.id===record.reply_source_hint)||eligible[0];if(!source)return null;
+ let best=null,changed=null;
  for(const reply of source.lesson.replies){
   const variants=[reply.words.map(w=>w.text).join(''),reply.words.filter(w=>w.is_word).map(w=>w.reading).join(' '),reply.translation];
-  for(const variant of variants){const candidate=clean(variant);if(!candidate)continue;
-   if(candidate===value)return {source,reply,kind:value.length>=12?'specific':'short'};
-   // A near match asks who spoke; it never silently discards changed intent.
-   if(value.length>=16&&candidate.length>=16&&Math.abs(value.length-candidate.length)<=2&&editDistance(value,candidate)<=Math.max(1,Math.floor(candidate.length*.05)))approximate={source,reply,kind:'approximate'};
+  for(const variant of variants){const similarity=replySimilarity(text,variant);if(!similarity)continue;
+   const kind=similarity.meaning_changed?'meaning_check':similarity.exact?(value.length>=12?'specific':source.id===record.reply_source_hint&&now-source.created<45000&&value.length>=2?'recent_short':'short'):'approximate';
+   const match={source,reply,kind,...similarity};
+   if(kind==='meaning_check'){if(!changed||match.score>changed.score)changed=match;}
+   else if(!best||match.score>best.score)best=match;
   }
  }
- return approximate;
+ return best||changed;
 }
 const N=512,RATE=16000,mel=hz=>2595*Math.log10(1+hz/700),hz=m=>700*(10**(m/2595)-1);
 const edges=Array.from({length:26},(_,i)=>Math.floor((N+1)*hz(mel(100)+(mel(7600)-mel(100))*i/25)/RATE));

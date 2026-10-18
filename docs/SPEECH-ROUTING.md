@@ -1,4 +1,4 @@
-# Speech routing in web 1.10
+# Speech routing in web 1.11
 
 Repeating an offered reply is a learner turn, not a new question to answer.
 The previous code detected exact repeats only after `/v1/teach` had already
@@ -12,11 +12,20 @@ exact repeat is saved locally as `likely_user`; the current useful reply cards
 remain on screen. Its text joins later conversation context. It does not create
 another lesson or unconfirmed long-term personal/place memory.
 
-A short/common repeat or near match asks **Who said this?** before spending a
-request. Approximate text never silently suppresses a changed intent. **I said
-this** saves the learner turn; **Other person said this** releases it for replies.
-That same correction is available on an automatically suppressed turn in Recent
-phrases. Typed input and explicit **Help me say this** remain available.
+Web 1.11 adds redundant checks: normalized script/reading/translation, Latin-accent
+and hesitation cleanup, character edits, token overlap/reordering, character-pair
+similarity and substantial partial phrases. A reasonable fuzzy match is saved as
+learner speech without a new lesson. Fresh short options currently displayed
+also count automatically for 45 seconds. General candidate history stays bounded
+to three minutes and the same learner/conversation/language pair.
+
+Changed negation, explicit quantities or question intent stay in **Who said this?**
+until confirmed. Short stale/undisplayed matches also ask. **I said this** saves the
+learner turn; **Other person said this** requests replies and keeps that correction
+authoritative. Typed input and **Help me say this** remain available. Inclusive
+matching can mistake a similar other-person sentence; role correction and a clear
+other-voice estimate override it. These are lexical heuristics, not universal
+semantic understanding.
 
 ## Session voice estimates
 
@@ -52,9 +61,9 @@ not authentication or biometric identification.
 
 ## Evidence
 
-- Fifteen routing checks cover Indic text, reading variants, ambiguity, changed
+- Twenty-five routing checks cover Indic text, reading variants, ambiguity, changed
   intent, expiry, isolation, anchors, silence and bounded feature storage.
-- Seven real-browser flow checks cover no-call repeats, next-person replies with
+- Ten real-browser flow checks cover no-call repeats, next-person replies with
   learner context, correction, manual expression and feature privacy. Google
   transcription/lesson outputs are explicit fixtures.
 - Four browser audio checks send existing Kannada actor WAVs through the actual
