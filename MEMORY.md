@@ -1,34 +1,25 @@
-# Conversation memory (web 1.10)
+# Conversation memory (web 1.11)
 
 Live: https://lingolive-358650584819.us-central1.run.app, revision
-`lingolive-00027-poy`, 100% traffic; verification tag removed. Runtime source
-`106091ac0c0a9903133c619cfabdb408bd50737e`. Public assets, unauthenticated
-HTTP/WebSocket rejection and unchanged resource/quota guards verified.
-Web 1.10 routes repeated options before paid calls, saves learner turns as context,
-and uses conservative session-only acoustic speaker estimates. Specific repeats
-make no lesson; short/near matches ask who spoke. Voice features never persist
-or enter lesson requests. Explicit expression and speaker correction remain.
-See docs/SPEECH-ROUTING.md for scope, privacy and accuracy limits.
-112 backend, 15 routing, seven speech-flow browser, four audio-path browser,
-13 general browser and six reply-flow checks passed. A clean generated-voice
-held-out check recognized 3/4 learner samples; 0/4 other samples were labelled
-user (others stayed unknown). This is not physical/noisy-speaker accuracy.
-Two real-Gemini staged lessons passed; the repeated option made no extra call.
-The final explicit-other correction preserves manual attribution and passed a
-local browser regression; server/model code is unchanged from the live check.
-Transcription events were simulated in that cloud check; Google ASR was not
-retested. Models, authentication and quotas are unchanged. Runtime source above
-matches all deployed assets; traffic is 100% and verification tag removed.
-Earlier v1.9 latency numbers remain historical, not a new benchmark.
-The task-plan request did not change the video transcript or generate media.
-A later, separate user approval ("Ok make it") authorized the new demonstration.
-Video v2.1 repairs short-voice export timestamps and removes artificial ambience:
-all expected speech events are checked against the decoded MP4. Runtime: 142.021 s, 1080p H.264/AAC, Kannada/Indian-English
-Gemini 3.1 Flash TTS preview voices. Problem first, then contextual communication
-help; learning is an additional feature at 1:57. Actual ASR error/typed correction
-and real model waits are visible. Synthetic voices/illustration and
-simulated microphone/location/time are labelled. Watch/download links and
-provenance are in docs/submission/DEMO-V2.md. App runtime/guards unchanged.
+`lingolive-00029-mec`, 100% traffic; verification tag removed. Runtime source
+`ad889871fc9583a2dd956d4ad17841e50db431f1`. Public asset hashes, unauthenticated
+rejection and unchanged resource/quota guards verified. Repeated displayed
+options now use redundant character, word, bigram and partial-match checks.
+Fresh short options can match briefly; meaning changes ask who spoke.
+Explicit correction remains authoritative. Session voice estimates stay in RAM;
+no fuzzy match trains anchors and no extra generation is added for readbacks.
+112 backend, 25 routing and 10 routing-browser checks passed. A live extension
+confirmed full and partial Kannada readbacks made zero new lesson calls; both
+actual transcripts reached the next request as learner context. Google ASR can
+still misidentify languages/names. Details: docs/SPEECH-ROUTING.md.
+
+The current approved demo extends the original Kannada story with readback
+behavior to meet the supplied 3–4-minute requirement. Learning appears near the
+end. Actual Google results and ASR errors remain visible; voices/microphone input
+and location/time simulations are disclosed. Each source voice is checked against
+the decoded final export. Current materials: docs/submission/ENTRY.md.
+The source/history credential audit found no matches; scope and limits:
+docs/SECRET-AUDIT.md and validation/source-secret-audit.json.
 
 The main screen shows heard speech, its translation and three possible replies.
 During a live exchange, replies have pronunciation, playback and copy controls.

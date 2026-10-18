@@ -1,0 +1,155 @@
+{
+  "app_version": "1.11",
+  "google_mocked": false,
+  "synthetic_microphone": true,
+  "physical_microphone": false,
+  "source_correction_visible_if_needed": true,
+  "maximum_lesson_requests": 5,
+  "events": [
+    {
+      "id": "prepare",
+      "start": 2689.62,
+      "input_start": 4054.862,
+      "input_end": 5586.866,
+      "stop": 5856.837,
+      "ready": 8592.405,
+      "new_lesson_requests": 1,
+      "transcript": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+      "status": "ready",
+      "reason": "",
+      "end": 8602.434
+    },
+    {
+      "id": "full",
+      "start": 23347.039,
+      "input_start": 24678.153,
+      "input_end": 28531.554,
+      "stop": 28804.911,
+      "ready": 29219.767,
+      "new_lesson_requests": 0,
+      "transcript": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಿ.",
+      "status": "spoken",
+      "reason": "recent_reply_match",
+      "end": 29225.217
+    },
+    {
+      "id": "partial",
+      "start": 30053.886,
+      "input_start": 31388.669,
+      "input_end": 34366.704,
+      "stop": 34639.211,
+      "ready": 35037.884,
+      "new_lesson_requests": 0,
+      "transcript": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ",
+      "status": "spoken",
+      "reason": "fuzzy_reply_match",
+      "end": 35043.014
+    },
+    {
+      "id": "followup",
+      "start": 37367.278,
+      "input_start": 38703.254,
+      "input_end": 41839.627,
+      "stop": 42103.393,
+      "ready": 44532.846,
+      "new_lesson_requests": 1,
+      "transcript": "మీరు వంగీ రైల్వే నిల్దానానికి పోగున్వా?",
+      "status": "ready",
+      "reason": "",
+      "end": 44544.032
+    }
+  ],
+  "requests": [
+    {
+      "at": 6289.951,
+      "payload": {
+        "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+        "known_code": "en-US",
+        "known_name": "English",
+        "learning_code": "kn-IN",
+        "learning_name": "Kannada",
+        "assistance_mode": "auto",
+        "place_context": [],
+        "learn_place_memory": false,
+        "user_goal": "Take a cab to Bengaluru railway station. I might stop for tea on the way.",
+        "conversation_summary": "",
+        "recent_turns": [],
+        "memory_notes": "",
+        "personal_memories": [],
+        "learn_personal_memory": true,
+        "setting": "auto"
+      }
+    },
+    {
+      "at": 42604.883,
+      "payload": {
+        "text": "మీరు వంగీ రైల్వే నిల్దానానికి పోగున్వా?",
+        "known_code": "en-US",
+        "known_name": "English",
+        "learning_code": "kn-IN",
+        "learning_name": "Kannada",
+        "assistance_mode": "auto",
+        "place_context": [],
+        "learn_place_memory": false,
+        "previous_reply_source": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?",
+        "previous_replies": [
+          {
+            "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಿ",
+            "translation": "Go to Bengaluru railway station"
+          },
+          {
+            "text": "ದಾರಿಯಲ್ಲಿ ಚಹಾಗಾಗಿ ನಿಲ್ಲಿಸಿ",
+            "translation": "Stop for tea on the way"
+          },
+          {
+            "text": "ಅಲ್ಲಿಗೆ ತಲುಪಲು ಎಷ್ಟು ಸಮಯವಾಗುತ್ತದೆ?",
+            "translation": "How long will it take to reach there?"
+          }
+        ],
+        "user_goal": "Take a cab to Bengaluru railway station. I might stop for tea on the way.",
+        "conversation_summary": "User needs a taxi to Bengaluru railway station, potentially stopping for tea.",
+        "recent_turns": [
+          {
+            "speaker": "likely_user",
+            "text": "ಎಲ್ಲಿಗೆ ಹೋಗಬೇಕು?"
+          },
+          {
+            "speaker": "likely_user",
+            "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಿ."
+          },
+          {
+            "speaker": "user",
+            "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ"
+          }
+        ],
+        "memory_notes": "",
+        "personal_memories": [],
+        "learn_personal_memory": true,
+        "setting": "auto",
+        "previously_seen_words": [
+          {
+            "text": "ಎಲ್ಲಿಗೆ",
+            "meaning": "to where"
+          },
+          {
+            "text": "ಹೋಗಬೇಕು",
+            "meaning": "must go"
+          }
+        ]
+      }
+    }
+  ],
+  "success": false,
+  "page_errors": [],
+  "selected": {
+    "text": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ ನಿಲ್ದಾಣಕ್ಕೆ ಹೋಗಿ",
+    "translation": "Go to Bengaluru railway station",
+    "partial": "ಬೆಂಗಳೂರು ರೈಲ್ವೆ"
+  },
+  "marker_on": 22544.566,
+  "capture_start": 23300.057,
+  "correction_start": 35543.862,
+  "correction_end": 37321.293,
+  "error": "The expression evaluated to a falsy value:\n\n  assert.ok(report.requests.at(-1).payload.recent_turns.some(t=>t.text===report.selected.text&&['user','likely_user'].includes(t.speaker)))\n",
+  "error_type": "AssertionError"
+}

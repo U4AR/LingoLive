@@ -1,7 +1,7 @@
 {
   "url": "https://lingolive-358650584819.us-central1.run.app",
-  "ready_revision": "lingolive-00027-poy",
-  "source_commit": "106091ac0c0a9903133c619cfabdb408bd50737e",
+  "ready_revision": "lingolive-00029-mec",
+  "source_commit": "ad889871fc9583a2dd956d4ad17841e50db431f1",
   "provider": "vertex",
   "personal_keys_enabled": true,
   "google_signin_required": false,
@@ -31,7 +31,7 @@
   "no_google_api_key_in_service": true,
   "traffic_percent": 100,
   "app_source_sha256": {
-    "backend/app.py": "12fbfa7d90fe2c5ae340cdeee9eaf2435e3da971d7e30d6005ce8b853dacab6a",
+    "backend/app.py": "71343a4433cc6ca759f011b2b05553c72494f7cbe134484b4b63fc293885a956",
     "backend/fast_lessons.py": "8b8e363928fb1666c94833f274a131266a2c29cd9ab891b20121072d8d423778",
     "backend/requirements.txt": "e01b7cbf58d8e83ef160f5ce8604a3758049363a7fec1be259185890b68e3a70",
     "Dockerfile": "6a2e67ba0f3478ff22058be935f0579ee0ceeed97320c3c62c9debc7a2b92480",
@@ -41,8 +41,8 @@
     "web/learners.mjs": "b7dda01dac6928e0ed548989ff40b12b0b593a06e38df361a2c430e775f62204",
     "web/microphone.js": "6b79f0c8ea5d277f730ffa663e2219bd26481bac3bed3921808b77a0cc046346",
     "web/memory.js": "79cbcf4c402029eef34a435a441f678cec5e287beef80f1737e3d878d0647655",
-    "web/speech-routing.mjs": "c6d581aa079bab3411693369fb2156889f1e8026344b315c3fc36e9d986258a5",
-    "web/app.js": "0a38ddcd45b9574cd7a6fdbf079082bf99efafe8ce9bcaf34dc9d4dcf1db8f86",
+    "web/speech-routing.mjs": "7f00c437130ecdba2c77390d909adbe2d29c435b7b7dff27ce9562dc373fa600",
+    "web/app.js": "785f423251da4d2729317fd737ef38dd2e713f94d3fadad66e4aa1268065d355",
     "web/places.mjs": "c3525663ef1e73c088c5151e8ed5f8c13b401bab0baf05e1f9f3f2ca6b7c88de",
     "web/plans.mjs": "da090d1db36132430e433af0609eba107234a342d198a6b9e749226358a997f3",
     "web/index.html": "e89c0f1b652881fdafb896e665724b5955e6025736cf14ea64035480bc56ec9c",
@@ -55,28 +55,28 @@
     "web/example.json": "9a75df23b63b18b42605a4e869ed79ff261e9ec83f94fa7bc7ba25f9cde28527",
     "web/icon.svg": "54e047cad4c1f24d4f9fc79f0363cdbc325b08b6526f2c0f3597958fc89a6ccd",
     "web/personal-memory.mjs": "5061bb664e9ebb3aac41facf42b9a82bc128bc9e2a21e13e468918f5aea55865",
-    "web/sw.js": "b98ffaf5b795881973e97f06a606c4afb54ae4bc1dbf631706226baf3cf3b7ee",
+    "web/sw.js": "1037f0558493396e7b43d4ec00449f3a253926ad2c012b6de63082e9066c5cba",
     "shared/lesson_schema.json": "bfddb5038b75f46cb9a107b4b7c6b81a15e5baa02245da05198fc9dd9a35ea30",
     "shared/teach_prompt.txt": "a38024a14f30509b8efc1375a948d777a5a825813cb9b0c49d7c1b99e14e86da"
   },
   "persistent_sdk_login_verified": true,
   "asset_sha256": {
     "index.html": "e89c0f1b652881fdafb896e665724b5955e6025736cf14ea64035480bc56ec9c",
-    "app.js": "0a38ddcd45b9574cd7a6fdbf079082bf99efafe8ce9bcaf34dc9d4dcf1db8f86",
+    "app.js": "785f423251da4d2729317fd737ef38dd2e713f94d3fadad66e4aa1268065d355",
     "microphone.js": "6b79f0c8ea5d277f730ffa663e2219bd26481bac3bed3921808b77a0cc046346",
-    "speech-routing.mjs": "c6d581aa079bab3411693369fb2156889f1e8026344b315c3fc36e9d986258a5",
-    "sw.js": "b98ffaf5b795881973e97f06a606c4afb54ae4bc1dbf631706226baf3cf3b7ee"
+    "speech-routing.mjs": "7f00c437130ecdba2c77390d909adbe2d29c435b7b7dff27ce9562dc373fa600",
+    "sw.js": "1037f0558493396e7b43d4ec00449f3a253926ad2c012b6de63082e9066c5cba"
   },
   "health": {
     "service": "LingoLive",
     "configured": true,
     "byok_available": true,
-    "version": "1.10"
+    "version": "1.11"
   },
   "latest_source_deployed": true,
   "verified_tag_url": "https://verify---lingolive-l5utioe5cq-uc.a.run.app",
-  "public_verified_at_utc": "2026-10-18T09:49:17.835052+00:00",
-  "app_version": "1.10",
+  "public_verified_at_utc": "2026-10-18T13:54:27.204525+00:00",
+  "app_version": "1.11",
   "personal_memory_verified": true,
   "new_audio_or_video_generated": false,
   "guards_unchanged": true,

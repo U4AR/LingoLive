@@ -1,6 +1,6 @@
 # LingoLive — Find your next words
 
-**AI Builder Cup 2026 · Prepared for Ashish T. Vasant · 17 October 2026**
+**AI Builder Cup 2026 · CreativeEngine · Ashish T. Vasant and Janhvi Singh · 18 October 2026**
 
 **Theme:** Media, Content & Digital Experiences. **Category:** Education.
 
@@ -12,7 +12,7 @@ and learning they can revisit.
 
 **Source:** https://github.com/U4AR/LingoLive
 
-## Current product update — web 1.9
+## Current product update — web 1.11
 
 The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant general items and at most two notes from a saved place matched on a return visit, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
 
@@ -22,7 +22,7 @@ the newcomer needs a useful reply. Live Conversation now prioritizes translation
 three suggested replies and pronunciation/playback/copy aids. Word meanings and
 practice open afterwards in a separate Saved review, using already prepared data
 without another AI request. The earlier video is archived. The user approved the new Kannada transcript;
-the completed 2:22 demonstration introduces learning near the end as an extra.
+the original story and approved extension introduce learning near the end as an extra.
 
 ## The problem
 
@@ -61,6 +61,26 @@ Saved lessons can be searched, reopened and deleted on the same browser.
 The interface keeps settings and detailed explanations behind optional controls.
 The Android companion exists separately; this submission demonstrates the
 current deployed web application.
+
+## Recognize learner readbacks before generating another reply
+
+Spoken suggestions are checked locally before requesting a new lesson. Current
+and recent displayed replies, their pronunciation forms, character similarity,
+word overlap, bigram similarity and substantial partial matches provide redundant
+ways to recognize a learner reading a reply. Full and partial repeats are saved
+as learner turns, keep the existing reply cards and make no new generation call.
+A just-displayed short reply can also match briefly. Negation, changed numbers
+or a changed question prompt speaker confirmation. Explicit corrections take
+priority. These are conservative heuristics, not proof of semantic equivalence.
+
+Optional session-only acoustic estimates from microphone frames provide another
+cue. At most three recent anchors per role expire after three minutes; voice
+features stay in RAM and never enter saved lessons or Google lesson requests.
+A recognized other-voice estimate overrides a textual repeat. Fuzzy matches do
+not train anchors. The learner can correct who spoke or explicitly use Help me
+say this. There is no paid speaker-classifier call. Twenty-five routing checks,
+ten real-browser routing checks and 112 backend tests pass. Synthetic held-out
+voice checks are limited evidence, not noisy-phone speaker-identification accuracy.
 
 ## Replies that follow the conversation
 
@@ -241,14 +261,14 @@ In-memory counters reset after restarts and are usage guards, not a hard dollar 
 
 ## Validation and current readiness
 
-**112 backend tests** and **91 real Chromium browser checks**, plus eight plan-core and 16 guarded-place core checks passed, along with
+**112 backend tests**, **25 speech-routing checks**, **10 routing browser checks**, plus the existing general, audio, memory, plan and guarded-place checks passed, along with
 JavaScript source/word/audio/context checks. Local tests use explicit Google,
 microphone and location fixtures. Separate hosted checks used real Google
 transcription and lessons, validated exact text/readings/meanings, checked access
 controls and proved invalid personal keys do not produce a host-funded fallback.
 Valid personal-key inference and physical-phone capture remain unverified.
 
-Production deployment details in `validation/cloud-current-deployment.json` identify web 1.9 on Cloud Run. The same
+Production deployment details in `validation/cloud-current-deployment.json` identify web 1.11 on Cloud Run (`lingolive-00029-mec`). The same
 revision was checked through a temporary tag before promotion; public health,
 assets and routing were verified afterward. The normal persistent Cloud SDK
 operator login is separate from the runtime service account. No deployment
@@ -258,27 +278,35 @@ Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds 
 
 ## Current video demonstration
 
-The approved Bengaluru/Kannada video runs 2:22.021, with 1080p H.264, AAC and
-English captions. It presents the communication problem before the solution;
-learning is an additional feature at 1:57. Google Gemini 3.1 Flash TTS preview
-provides four distinct preset voices. The v2.1 repair preserves those voices,
-removes artificial soundtrack ambience and trims redundant end-frame holds.
-A timestamp defect in the first export misplaced short dialogue; every expected
-voice is now checked against the decoded final MP4, rather than relying only
-on overall loudness. The generated opening illustration,
-synthetic speech and simulated location/time are disclosed. Actual
-speech/noise WAVs pass through the real microphone worklet and Google service.
-Seven final-take lesson requests use real Google responses; no output is replaced.
-An earlier incomplete take made three requests and is retained as evidence.
+The current submission video runs approximately **3:17**, within the supplied
+3–4-minute requirement. The original approved Bengaluru/Kannada story presents
+the communication problem before the solution. An approved extension demonstrates
+real full and partial readbacks against deployed web 1.11. Learning remains an
+additional feature near the end, at **2:52**. The export is 1080p H.264/AAC with
+English captions and no artificial noise bed. Google Gemini 3.1 Flash TTS preview
+provides the original natural-speed voices. No audio is time-stretched.
 
-The recording exposes a real limitation: the cafe question was misidentified as
-Bengali. Its response and a visible typed correction remain in the film. A return
-question used mixed Telugu/Kannada script while retaining useful meaning. Four
-selected reply voices passed a separate automated transcription check; no human
-native review or physical-microphone robustness is claimed. Place memory was
-withheld away and used on a simulated return in a new blank-goal conversation.
-The normal app quotas and resource guards remain unchanged. Reproduction and
-media provenance are in DEMO-V2.md and validation/submission-demo-v2*.json.
+The extension uses actual Google transcription and lessons. Both learner
+readbacks made zero extra lesson requests; the next driver's speech made one
+lesson request carrying both actual readback transcripts as learner context.
+The capture's original exact-string assertion failed because ASR added a full
+stop to the intended TTS script. Independent verification compares the actual
+recognized transcript with the subsequent context; both turns pass. The original
+failure is retained rather than relabelled as a clean capture run.
+
+The footage shows genuine ASR limitations. The original café question was
+misidentified as Bengali and visibly corrected. The extension's Kannada driver
+question appeared in Telugu script with an incorrect station name; actual app
+output remains visible with a notice. Replies still used the Bengaluru trip
+context. Model outputs are not replaced. Generated opening art, synthetic voices,
+microphone input and simulated location/time are disclosed. No physical microphone
+or native-human language review is claimed.
+
+The original seven final-take lesson requests and three earlier incomplete-take
+requests remain documented. The extension added two lesson requests plus cached
+actor/narration synthesis. Final audio verification compares each expected source
+waveform with the decoded MP4, checks speech level, clipping and silent gaps.
+No new model calls are needed to render, verify or replay the submission video.
 
 ## Differentiation and growth
 
@@ -298,19 +326,25 @@ educational outcomes.
 
 ## Submission materials and references
 
-- Proposal PDF: `LingoLive-Proposal.pdf` in this directory.
+- Official-template pitch: `LingoLive-Pitch-Deck.pdf` and editable `LingoLive-Pitch-Deck.pptx` in this directory.
 - Prepared form responses: `ENTRY.md` and `submission.json`.
-- Current approved demo: `DEMO-TRANSCRIPT-V2.md`, `DEMO-V2.md` and
-  `validation/submission-demo-v2.json`. Earlier web 1.5 evidence stays archived.
+- Current demo: `DEMO-TRANSCRIPT-V2.md`, approved `DEMO-EXTENSION-APPROVED.md` and `validation/submission-demo-current.json`. Earlier exports remain archived.
 - Technical detail: `MEMORY.md`, `WEB-DEPLOY.md`, `VALIDATION.md` and `docs/LATENCY.md`.
-- Official requirements checked October 17, 2026:
+- Official requirements and supplied template checked October 18, 2026:
   https://aibuildercup.com/themes.html and https://aibuildercup.com/Faqs.html.
 - Registered participants access their dashboard at
   https://hack2skill.com/event/aibuildercup2026/registration?isExternalLinkRedirection=true.
 
-The official site lists October 18, 2026 as the submission deadline; a precise
-time zone/cutoff was not established. The FAQ requires a public source repository,
-a video under three minutes on YouTube/Vimeo or public Google Drive, and an eligible
-registered team of two to four. This document does not assert eligibility or an
-accepted entry. Portal receipt, team details and the required video-host link
-must be verified at actual submission.
+The supplied requirements mandate the official pitch template, a 3–4-minute
+functional video, a deployed prototype, accessible source and a brief description.
+The official terms require public source. The registered team screenshot identifies
+CreativeEngine, Ashish T. Vasant (leader) and Janhvi Singh. The public site lists
+October 18 as the deadline; exact time zone/cutoff and portal declarations must be
+checked at submission. No portal submission or receipt is claimed. A public MP4
+is provided; if the portal demands a particular host, upload it to the accepted
+service before entering that URL.
+
+Firebase and Firestore are **not used** in this version. Browser IndexedDB and
+LocalStorage hold local learning/memory; Cloud Run hosts the application and
+Google AI relay. Firestore could support future opt-in synchronization, subject
+to separate privacy and account design. No cross-device sync is claimed.

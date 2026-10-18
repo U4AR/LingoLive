@@ -8,41 +8,40 @@
   "category": "Education",
   "prototype_url": "https://lingolive-358650584819.us-central1.run.app",
   "repository_url": "https://github.com/U4AR/LingoLive",
-  "proposal_file": "LingoLive-Proposal.pdf",
+  "proposal_file": "LingoLive-Pitch-Deck.pdf",
   "writeup_file": "WRITEUP.md",
   "demo_video_file": "LingoLive-Demo.mp4",
   "approved_video_host_url": null,
-  "team_membership_verified": false,
+  "team_membership_verified": "supplied registration screenshot",
   "eligibility_attested": false,
   "portal_submitted": false,
   "submission_receipt": null,
   "deadline_date_as_published": "2026-10-18",
   "deadline_time_zone_verified": false,
-  "rules_checked_date": "2026-10-17",
+  "rules_checked_date": "2026-10-18",
   "official_rules_urls": [
     "https://aibuildercup.com/themes.html",
     "https://aibuildercup.com/Faqs.html"
   ],
   "submission_dashboard_url": "https://hack2skill.com/event/aibuildercup2026/registration?isExternalLinkRedirection=true",
   "blockers": [
-    "Registered Hack2skill dashboard is not authenticated in this workspace and the domain is blocked by the current runtime network allowlist.",
-    "Official FAQ requires a public source repository; owner decision is pending.",
-    "Official video host must be YouTube, Vimeo or public Google Drive; no upload authorization for those services is available.",
-    "Existing registered team membership and eligibility must be confirmed in the portal."
+    "Final Hack2skill submission requires the registered team portal session and declarations; no submission receipt is claimed.",
+    "Repository owner approved public access and reports changing it, but API/website still do not verify public visibility. Integration cannot change visibility.",
+    "Confirm the portal accepts the supplied public MP4 or upload the file to its accepted video host."
   ],
   "material_status": {
-    "proposal_pdf": "Generated and eight-page layout checked",
-    "writeup_pdf": "Updated web 1.9 detailed seven-page A4 PDF, including actual v2 audio, simulation and ASR limitations",
+    "proposal_pdf": "Official supplied template: 14 content/branding slides; instruction and blank spare removed; PDF and PPTX",
+    "writeup_pdf": "Current detailed web 1.11 technical PDF with memory, speech routing, model, latency, cost and privacy limits",
     "entry_text": "Prepared in ENTRY.md",
-    "demo": "V2.1 audio repaired: 142.021 seconds, all 23 voice events verified, artificial ambience removed; actual app and speech correction retained",
-    "registered_team": "User confirmed registration; team membership unconfirmed",
-    "public_downloads": "V2.1 watch/download links verified by anonymous SHA-256 readback; legacy v2 links repaired too."
+    "demo": "Published artifact prepared: 197.048 seconds; all 29 source voices verified; no clipping; longest silent gap 4.969s. Real app/Google ASR and limitations retained.",
+    "registered_team": "CreativeEngine: Ashish T. Vasant and Janhvi Singh (supplied registration screenshot)",
+    "public_downloads": "Current artifacts prepared for anonymous SHA-256 readback publication; final publication report is separate."
   },
-  "repository_visibility": "private",
-  "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2.1/index.html",
-  "current_app_version": "1.10",
-  "current_app_revision": "lingolive-00027-poy",
-  "demo_video_version": "2.1 (web 1.9, audio repaired)",
+  "repository_visibility": "private_as_reported_by_api_after_owner_confirmation",
+  "public_materials_url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html",
+  "current_app_version": "1.11",
+  "current_app_revision": "lingolive-00029-mec",
+  "demo_video_version": "3.0 (original web 1.9; current web 1.11 readback extension)",
   "demo_v2": {
     "approval_status": "approved",
     "transcript": "docs/submission/DEMO-TRANSCRIPT-V2.md",
@@ -78,7 +77,7 @@
     "approval_message": "Ok make it",
     "approved_transcript_sha256": "deb0b051fedf097f8a3e9b90effe4c5815faec2c1bc44c3c64ea2257fc15a6d9",
     "approved_source_commit": "2b6ab6996763d97005c26310e85340e0cca6b655",
-    "production_status": "published_verified",
+    "production_status": "archived_approved_base_for_current_extension",
     "actual_seconds": 142.021333,
     "planned_learning_introduced_seconds": 138,
     "voice_model": "gemini-3.1-flash-tts-preview",
@@ -90,7 +89,9 @@
     "original_tts_preserved": true,
     "artificial_soundtrack_ambience_removed": true,
     "expected_voice_events_verified": 23,
-    "planned_problem_only_opening_seconds": 28
+    "planned_problem_only_opening_seconds": 28,
+    "archived_actual_seconds": 142.021333,
+    "current_extension": "DEMO-EXTENSION-APPROVED.md"
   },
   "functional_updates": {
     "pre_task_plan": true,
@@ -99,5 +100,22 @@
     "reply_repeat_suppression": true,
     "session_only_speaker_estimates": true
   },
-  "archived_demo_video_version": "1.5"
+  "archived_demo_video_version": "1.5",
+  "team_name": "CreativeEngine",
+  "team_members": [
+    "Ashish T. Vasant",
+    "Janhvi Singh"
+  ],
+  "editable_pitch_file": "LingoLive-Pitch-Deck.pptx",
+  "current_demo": {
+    "seconds": 197.048,
+    "sha256": "657957beb4466bef8268586d0f075859f715710030e991c6698dd71c9dada583",
+    "version": "3.0",
+    "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo.mp4",
+    "all_29_voice_events_verified": true,
+    "longest_silence_seconds": 4.968875,
+    "learning_introduced_seconds": 172
+  },
+  "video_duration_requirement_met": true,
+  "official_pitch_template_used": true
 }

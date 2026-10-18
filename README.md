@@ -1,6 +1,6 @@
 # LingoLive
 
-[Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
+[Official-template pitch](docs/submission/LingoLive-Pitch-Deck.pdf) · [Detailed technical PDF](docs/submission/LingoLive-Writeup.pdf) · [Full write-up and hackathon package](docs/submission/WRITEUP.md) · [Prepared entry](docs/submission/ENTRY.md)
 
 ## Current source: web 1.11 — Recognize your replies and wait for the other speaker
 
@@ -24,11 +24,11 @@ inferred items stay **possible** until confirmed. Settings → **What LingoLive
 remembers** lets you edit, add, confirm or forget them. No GPS trails, extra model
 call or model-weight fine-tuning. See [memory design](MEMORY.md).
 
-[Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2.1/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/v2.1/LingoLive-Demo-download.mp4)
+[Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo-download.mp4)
 
-The corrected Bengaluru/Kannada demonstration is now rendered: **2:22**,
+The corrected Bengaluru/Kannada demonstration is now rendered: **3:17**,
 with clear Google Gemini TTS dialogue, no artificial noise bed, actual app responses, a visible speech correction
-and learning introduced near the end as an extra. See [video provenance](docs/submission/DEMO-V2.md).
+and learning introduced near the end as an extra. The approved readback extension demonstrates the latest guard. See [entry materials](docs/submission/ENTRY.md).
 
 Web 1.11 stops reply loops even with partial or fuzzy matches when you repeat an offered option. Your words stay in
 context while the app waits for the other speaker. Session-only voice estimates
@@ -389,3 +389,5 @@ API references checked October 16, 2026:
 [Transcribe model](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-transcribe),
 [Web Flash-Lite model](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite), and
 [structured outputs](https://ai.google.dev/gemini-api/docs/structured-output).
+
+[Source/history credential audit](docs/SECRET-AUDIT.md): no matches in the audited history and source archive; scope and limits are documented.

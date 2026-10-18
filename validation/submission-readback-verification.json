@@ -1,0 +1,11 @@
+{
+  "original_capture_success": false,
+  "original_capture_error": "The expression evaluated to a falsy value:\n\n  assert.ok(report.requests.at(-1).payload.recent_turns.some(t=>t.text===report.selected.text&&['user','likely_user'].includes(t.speaker)))\n",
+  "corrected_context_check_passed": true,
+  "correction": "Compare recorded ASR transcript, not intended TTS script: punctuation differs. Both actual full and partial transcripts are in the next request as learner turns.",
+  "actual_readback_zero_lesson_requests": true,
+  "partial_reason": "fuzzy_reply_match",
+  "real_google_calls": true,
+  "followup_asr_limitation": "Kannada speech rendered as Telugu-script Vangi railway station; actual app output remains visible. No ASR/model output replaced.",
+  "new_capture_or_tts_calls_in_renderer": 0
+}

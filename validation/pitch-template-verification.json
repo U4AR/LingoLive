@@ -1,0 +1,19 @@
+{
+  "source_template_sha256": "9493c3e0bf6028a868b78b3f1460c43cfabb3402b0122f51294fd0b11d40da2b",
+  "source_slides": 16,
+  "output_slides": 14,
+  "removed_pages": [
+    "download instruction page",
+    "empty spare page"
+  ],
+  "required_sections_preserved_in_order": true,
+  "branding_preserved": true,
+  "team": "CreativeEngine",
+  "team_members": [
+    "Ashish T. Vasant",
+    "Janhvi Singh"
+  ],
+  "repo_public_at_render": false,
+  "file": "LingoLive-Pitch-Deck.pptx",
+  "bytes": 1057357
+}
