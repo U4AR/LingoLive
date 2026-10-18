@@ -612,14 +612,14 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             request._body=b''.join(chunks)
         response=await next_handler(request)
         response.headers['X-Content-Type-Options']='nosniff'
-        response.headers['Referrer-Policy']='no-referrer'
+        response.headers['Referrer-Policy']='strict-origin-when-cross-origin' if config.google_signin_required and config.google_auth_provider=='firebase' else 'no-referrer'
         response.headers['Cross-Origin-Opener-Policy']='same-origin-allow-popups'
         response.headers['Permissions-Policy']='microphone=(self), geolocation=(self), camera=()'
         response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
         if config.google_signin_required:
             response.headers['Content-Security-Policy']=response.headers['Content-Security-Policy'].replace("script-src 'self'", "script-src 'self' https://accounts.google.com/gsi/client").replace("style-src 'self'", "style-src 'self' https://accounts.google.com/gsi/style").replace("connect-src 'self'", "connect-src 'self' https://accounts.google.com/gsi/")+"; frame-src https://accounts.google.com/gsi/"
         if config.google_signin_required and config.google_auth_provider=='firebase':
-            response.headers['Content-Security-Policy']=response.headers['Content-Security-Policy'].replace("connect-src 'self'", "connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://"+config.firebase_auth_domain).replace("frame-src https://accounts.google.com/gsi/", "frame-src https://accounts.google.com https://"+config.firebase_auth_domain)
+            response.headers['Content-Security-Policy']=response.headers['Content-Security-Policy'].replace("connect-src 'self'", "connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://"+config.firebase_auth_domain).replace("frame-src https://accounts.google.com/gsi/", "frame-src https://accounts.google.com https://"+config.firebase_auth_domain).replace("script-src 'self'", "script-src 'self' https://apis.google.com").replace("connect-src 'self'", "connect-src 'self' https://apis.google.com")
         response.headers['Cache-Control']='no-store' if request.url.path.startswith(('/v1/','/health')) or request.url.path=='/' else 'no-cache'
         return response
     @app.exception_handler(RequestValidationError)

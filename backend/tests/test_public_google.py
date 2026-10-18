@@ -65,6 +65,9 @@ class PublicGoogleTests(unittest.TestCase):
   with TestClient(self.app()) as c:
    c.post('/v1/session',json={'mode':'api_key','api_key':'synthetic-personal-key-test-12345'},headers=ORIGIN)
    self.assertEqual(429,c.post('/v1/teach',json=INPUT,headers=ORIGIN).status_code);self.assertEqual([],self.personal[0].requests)
+ def test_firebase_network_policy_preserves_referrer_key_restrictions(self):
+  with TestClient(self.app()) as c:
+   r=c.get('/');self.assertEqual('strict-origin-when-cross-origin',r.headers['referrer-policy']);self.assertIn('https://apis.google.com',r.headers['content-security-policy'])
  def test_parallel_lesson_spends_two_units_and_stops_at_daily_limit(self):
   self.config=replace(self.config,lesson_strategy='parallel')
   with TestClient(self.app()) as c:

@@ -102,6 +102,7 @@ test_known_language_routing_does_not_depend_on_a_correct_model_mode_estimate (te
 test_any_verified_google_user_connects_without_a_passcode (test_public_google.PublicGoogleTests.test_any_verified_google_user_connects_without_a_passcode) ... ok
 test_daily_counter_survives_sign_out_and_app_restart (test_public_google.PublicGoogleTests.test_daily_counter_survives_sign_out_and_app_restart) ... ok
 test_exhausted_audio_does_not_open_google_connection (test_public_google.PublicGoogleTests.test_exhausted_audio_does_not_open_google_connection) ... ok
+test_firebase_network_policy_preserves_referrer_key_restrictions (test_public_google.PublicGoogleTests.test_firebase_network_policy_preserves_referrer_key_restrictions) ... ok
 test_firebase_other_provider_unverified_and_wrong_issuer_are_rejected (test_public_google.PublicGoogleTests.test_firebase_other_provider_unverified_and_wrong_issuer_are_rejected) ... ok
 test_google_is_required_and_previous_access_code_cannot_bypass_it (test_public_google.PublicGoogleTests.test_google_is_required_and_previous_access_code_cannot_bypass_it) ... ok
 test_nonce_must_match_and_cannot_be_replayed (test_public_google.PublicGoogleTests.test_nonce_must_match_and_cannot_be_replayed) ... ok
@@ -135,6 +136,6 @@ test_tampered_and_expired_cookies_are_rejected (test_web.WebTests.test_tampered_
 test_web_assets_and_example_work_without_google_configuration (test_web.WebTests.test_web_assets_and_example_work_without_google_configuration) ... ok
 
 ----------------------------------------------------------------------
-Ran 133 tests in 3.935s
+Ran 134 tests in 4.029s
 
 OK

@@ -1,0 +1,9 @@
+{
+  "actual_gcs_cas": true,
+  "two_independent_instances_no_double_spend": true,
+  "audio_cap_enforced": true,
+  "duplicate_settlement_safe": true,
+  "test_uses_separate_verification_object": true,
+  "actual_daily_allowance_not_changed": true,
+  "test_object_expires_automatically": true
+}
