@@ -1,6 +1,8 @@
 **
 !backend/
 !backend/app.py
+!backend/fast_lessons.py
+!backend/daily_quota.py
 !backend/requirements.txt
 !shared/
 !shared/lesson_schema.json

@@ -45,13 +45,13 @@ function places(){if(!placeStores.has(state.learner.id))placeStores.set(state.le
 function notice(message,error=false){$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').hidden=true,error?14000:6000);}
 function profile(){const known=state.languages.find(x=>x.code===$('known-language').value);const learning=state.languages.find(x=>x.code===$('learning-language').value);return {known_code:known.code,known_name:known.name,learning_code:learning.code,learning_name:learning.name};}
 function validProfile(){if(!state.languages.length){notice('The language list is still loading. Try again in a moment.',true);return false;}const pair=profile();if(baseLanguage(pair.known_code)===baseLanguage(pair.learning_code)){notice('Choose different languages to understand and learn.',true);return false;}return true;}
-function connected(value,mode='access_code'){state.connected=value;state.connectionMode=value?mode:null;$('connection-dot').classList.toggle('connected',value);$('connection-label').textContent=value?'Connected':'Connect';$('disconnect').hidden=!value;}
+function connected(value,mode='access_code'){state.connected=value;state.connectionMode=value?mode:null;$('connection-dot').classList.toggle('connected',value);$('connection-label').textContent=value?(mode==='public'?'Demo':'Connected'):'Connect';$('disconnect').hidden=!value;}
 async function api(path,options={}){
   let response;
   try {response=await fetch(path,{credentials:'same-origin',...options,headers:{'Content-Type':'application/json',...options.headers}});}catch{throw new Error('Could not reach your learning space. Check your internet connection; saved lessons are still available.');}
   if(response.status===204)return null;
   let data;try{data=await response.json();}catch{throw new Error('The service returned an unreadable response. Try again shortly.');}
-  if(!response.ok){if(response.status===401)connected(false);const error=new Error(response.status===429?'A little pause: the request limit was reached. Your phrase is saved; try again shortly.':typeof data.detail==='string'?data.detail:'That phrase could not be processed. Try a shorter phrase.');error.status=response.status;throw error;}
+  if(!response.ok){if(response.status===401)connected(false);const error=new Error(typeof data.detail==='string'?data.detail:'That phrase could not be processed. Try a shorter phrase.');error.status=response.status;throw error;}
   return data;
 }
 async function save(record){const store=profileStores.get(record.profile_id)||state.storage;if(!store||deletedRecords.has(record.id))return;try{const {audio_context,context_location,lesson_context,...stored}=record;if(lesson_context){const {location_context,personal_memories,place_context,task_plan,...textContext}=lesson_context;stored.lesson_context=textContext;}await store.put(stored);}catch{state.memoryFailed=true;notice('Browser storage is full or unavailable. This conversation is only kept until you close the page.',true);}}
@@ -312,22 +312,23 @@ async function stopListening(){if(microphone.running||microphone.context){$('lis
 function listeningUI(listening){$('listen-label').textContent=listening?'Stop listening':'Start listening';$('listen-button').classList.toggle('recording',listening);$('listening-wave').hidden=!listening;$('live-state').classList.toggle('live',listening);$('listen-button').setAttribute('aria-pressed',String(listening));}
 function setView(view){if($('word-dialog').open)$('word-dialog').close();state.view=view;const saved=view==='saved';$('saved-view').hidden=!saved;$('conversation-view').hidden=saved;$('listen-dock').hidden=saved;$('saved-tab').classList.toggle('active',saved);$('conversation-tab').classList.toggle('active',!saved);$('saved-tab').setAttribute('aria-current',saved?'page':'false');$('conversation-tab').setAttribute('aria-current',saved?'false':'page');if(saved){stopListening();renderSaved();}else{state.reviewing=null;renderReview();}renderLesson();window.scrollTo({top:0});}
 let serverConfigured=false,googleRequired=false,googleCredential='',connectionAttempt=0,connectionConfig=null;
-function connectionMode(){return $('method-key').checked?'api_key':'access_code';}
+function connectionMode(){return $('method-key').checked?'api_key':connectionConfig?.public_demo?'public':'access_code';}
 function clearCredentials(){$('access-code').value='';$('personal-api-key').value='';googleCredential='';}
 async function applyConnectionMode(attempt){
   googleCredential='';$('google-signin').replaceChildren();$('google-signin').hidden=true;$('connect-submit').disabled=true;
-  const ownKey=connectionMode()==='api_key';$('key-fields').hidden=!ownKey;$('code-fields').hidden=ownKey;googleRequired=!ownKey&&Boolean(connectionConfig?.google_required);
-  $('connection-description').textContent=ownKey?'Use your Google AI Studio key for listening and replies.':googleRequired?'Sign in with an invited Google account, then enter your private access code.':'Use the access code shared by your host.';
+  const ownKey=connectionMode()==='api_key',demo=Boolean(connectionConfig?.public_demo);$('key-fields').hidden=!ownKey;$('code-fields').hidden=ownKey||demo;$('host-method-label').textContent=demo?'Use the free demo':'Use access code';googleRequired=!ownKey&&Boolean(connectionConfig?.google_required);$('connect-submit').hidden=demo&&googleRequired;
+  $('connection-description').textContent=ownKey?'Use your Google AI Studio key for listening and replies.':demo?(googleRequired?'Sign in with Google. No access code is needed.':'Try the shared demo. No access code is needed.'):googleRequired?'Sign in with an invited Google account, then enter your private access code.':'Use the access code shared by your host.';
   if(!connectionConfig){$('connection-message').textContent='Could not load connection options. Close and try again.';return;}
   const available=ownKey?connectionConfig.api_key_available:connectionConfig.access_code_available;
   if(!available){$('connection-message').textContent=ownKey?'Personal API keys are disabled by this host.':'Host access is not available. You can use your own Google API key.';return;}
-  $('connection-message').textContent=state.connected?('Connected using '+(state.connectionMode==='api_key'?'your Google API key.':'the access code.')):ownKey?'Google checks your key when you listen or request a lesson.':'Your host can share the access code.';
+  $('connection-message').textContent=state.connected?('Connected using '+(state.connectionMode==='api_key'?'your Google API key.':state.connectionMode==='public'?'the shared demo.':'the access code.')):ownKey?'Google checks your key when you listen or request a lesson.':demo?`Shared daily allowance: ${Math.floor(connectionConfig.daily_audio_seconds/60)} listening minutes and ${connectionConfig.daily_lessons} lessons; resets at midnight IST.`:'Your host can share the access code.';
   if(!googleRequired){$('connect-submit').disabled=false;return;}
-  $('connection-message').textContent='Only invited Google accounts can use the access code.';$('google-signin').hidden=false;
+  if(!demo)$('connection-message').textContent='Only invited Google accounts can use the access code.';$('google-signin').hidden=false;
   try{await renderGoogleSignIn(connectionConfig,$('google-signin'),credential=>{
     if(attempt!==connectionAttempt||!$('connection-dialog').open)return;
     googleCredential=credential;$('connect-submit').disabled=!credential;
-    $('connection-message').textContent=credential?'Google account selected. Enter your access code to connect.':'Google sign-in was not completed. Please try again.';
+    if(credential&&demo){$('connection-form').requestSubmit();return;}
+    $('connection-message').textContent=credential?(demo?'Google account selected. Connect to continue.':'Google account selected. Enter your access code to connect.'):'Google sign-in was not completed. Please try again.';
   });}catch(error){if(attempt===connectionAttempt)$('connection-message').textContent=error.message;}
 }
 async function openConnection(){
@@ -360,9 +361,9 @@ $('connection-open').onclick=openConnection;$('connection-close').onclick=()=>{c
 $('connection-form').onsubmit=async event=>{
   event.preventDefault();const mode=connectionMode(),token=$('access-code').value.trim(),key=$('personal-api-key').value.trim();
   if(googleRequired&&!googleCredential){$('connection-message').textContent='Sign in with Google first.';return;}
-  if(mode==='api_key'?!key:!token){$('connection-message').textContent=mode==='api_key'?'Enter your Google API key.':'Enter the access code shared by your host.';return;}
+  if(mode==='api_key'?!key:mode==='access_code'&&!token){$('connection-message').textContent=mode==='api_key'?'Enter your Google API key.':'Enter the access code shared by your host.';return;}
   $('connect-submit').disabled=true;
-  try{await api('/v1/session',{method:'POST',body:JSON.stringify(mode==='api_key'?{mode,api_key:key}:{mode,token,...(googleRequired?{google_credential:googleCredential}:{})})});connected(true,mode);clearCredentials();connectionAttempt++;$('connection-dialog').close();notice('You’re connected. Ready when you are.');}
+  try{await api('/v1/session',{method:'POST',body:JSON.stringify(mode==='api_key'?{mode,api_key:key}:{mode,...(mode==='access_code'?{token}:{}),...(googleRequired?{google_credential:googleCredential,...(connectionConfig.google_provider==='firebase'?{google_nonce:connectionConfig.nonce}:{})}:{})})});connected(true,mode);clearCredentials();connectionAttempt++;$('connection-dialog').close();notice('You’re connected. Ready when you are.');}
   catch(error){$('connection-message').textContent=error.message;}finally{$('connect-submit').disabled=false;}
 };
 $('disconnect').onclick=async()=>{await stopListening();resetSpeakers();try{await api('/v1/session',{method:'DELETE'});connected(false);clearCredentials();connectionAttempt++;forgetGoogleSelection();$('connection-dialog').close();notice('Disconnected. Your saved lessons stay on this browser.');}catch(error){$('connection-message').textContent=error.message;}};

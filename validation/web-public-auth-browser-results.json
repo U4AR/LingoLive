@@ -1,0 +1,15 @@
+{
+  "checks_passed": 6,
+  "checks": [
+    "Google button renders using real bundled Firebase SDK",
+    "No passcode field",
+    "Shared limits shown",
+    "Google is required before host connection",
+    "BYOK remains separate",
+    "No model call or Firebase token persistence while opening the dialog"
+  ],
+  "interactive_google_login_tested": false,
+  "google_model_calls": 0,
+  "fixture_google_auth": true,
+  "page_errors": []
+}

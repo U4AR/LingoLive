@@ -1,0 +1,11 @@
+{
+  "quota_bucket": "lingolive-quota-358650584819",
+  "bucket_public_access_prevention": "enforced",
+  "object_lifecycle_days": 3,
+  "bucket_scoped_runtime_role": "roles/storage.objectUser",
+  "firebase_google_provider_already_enabled": true,
+  "firebase_authorized_domain_added": "lingolive-358650584819.us-central1.run.app",
+  "app_specific_browser_auth_key_restricted": true,
+  "existing_other_apps_preserved": true,
+  "runtime_env_file": "/tmp/lingolive-guarded-runtime-env.json"
+}

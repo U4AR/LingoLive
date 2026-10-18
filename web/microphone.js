@@ -28,7 +28,7 @@ export class LiveMicrophone {
     this.ready=false;const pair=this.pair,conversation=this.conversationSnapshot;this.events.status('Connecting to Google…');
     return new Promise((resolve,reject)=>{
       const socket=new WebSocket(location.origin.replace(/^http/,'ws')+'/v1/listen'); this.socket=socket;this.sockets.add(socket);let settled=false;
-      const timer=setTimeout(()=>{if(!settled){settled=true;socket.close();reject(new Error('The listening service did not connect. Check your connection and access code.'));}},15000);
+      const timer=setTimeout(()=>{if(!settled){settled=true;socket.close();reject(new Error('The listening service did not connect. Check your connection and demo allowance.'));}},15000);
       const error=message=>{if(!settled){settled=true;clearTimeout(timer);reject(new Error(message));}else if(this.running&&own===this.generation)this.fail(message);};
       socket.onopen=()=>{if(!this.running||own!==this.generation){socket.close();return;}socket.send(JSON.stringify({setup:{}}));};
       socket.onmessage=event=>{
@@ -48,8 +48,8 @@ export class LiveMicrophone {
         if(interim?.text&&this.running&&own===this.generation)this.events.interim(interim.text);
         if((value.goAway||value.go_away)&&this.running&&own===this.generation)this.rotate(own);
       };
-      socket.onerror=()=>error('The listening connection failed. Check your connection and access code.');
-      socket.onclose=()=>{this.sockets.delete(socket);clearTimeout(timer);if(!settled){settled=true;reject(new Error('Could not connect. Reconnect using your access code.'));}else if(this.running&&own===this.generation)this.fail('Listening disconnected. Your completed phrases are saved; tap to reconnect.');};
+      socket.onerror=()=>error('The listening connection failed. Check your connection and demo allowance.');
+      socket.onclose=()=>{this.sockets.delete(socket);clearTimeout(timer);if(!settled){settled=true;reject(new Error('Could not connect. Open Connect and try again.'));}else if(this.running&&own===this.generation)this.fail('Listening disconnected. Your completed phrases are saved; tap to reconnect.');};
     });
   }
   async rotate(own) {

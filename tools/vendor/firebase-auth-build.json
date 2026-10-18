@@ -1,0 +1,10 @@
+{
+  "firebase_version": "12.4.0",
+  "esbuild_version": "0.25.11",
+  "source": "tools/vendor/firebase-auth-entry.mjs",
+  "file": "web/firebase-auth.js",
+  "sha256": "0560b41e30d0ae2afcfbc9495c808dc7b9302f5c355d76ed178a193212f2c4ed",
+  "bytes": 117286,
+  "license": "Apache-2.0; see web/firebase-auth.js.LEGAL.txt",
+  "persistence": "Firebase inMemoryPersistence; SDK signed out after obtaining the server-session credential."
+}

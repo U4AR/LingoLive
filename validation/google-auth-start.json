@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "google_oauth_uri_created": true,
+  "providerId": "google.com",
+  "registered_app_key_restrictions_present": true,
+  "interactive_google_account_login_tested": false
+}

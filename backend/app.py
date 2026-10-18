@@ -25,6 +25,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from websockets.asyncio.client import connect
+from backend.daily_quota import GCSQuota, quota_day
 from backend.fast_lessons import SOURCE_SCHEMA, REPLY_SCHEMA, EXPRESS_SCHEMA, SOURCE_PROMPT, EXPRESS_SOURCE_PROMPT, REPLY_PROMPT, EXPRESS_PROMPT, known_language_hint, language_base, merge as merge_parallel
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,6 +68,13 @@ class Config:
     byok_enabled: bool = True
     lesson_strategy: str = 'single'
     thinking_level: str = 'auto'
+    public_demo: bool = False
+    quota_bucket: str = ''
+    public_audio_seconds_per_day: int = 1200
+    public_model_calls_per_day: int = 200
+    google_auth_provider: str = 'gis'
+    firebase_api_key: str = ''
+    firebase_auth_domain: str = ''
     @classmethod
     def environment(cls):
         return cls(os.getenv('GEMINI_API_KEY', ''), os.getenv('LINGOLIVE_ACCESS_TOKEN', ''),
@@ -82,6 +90,13 @@ class Config:
             byok_enabled=os.getenv('LINGOLIVE_BYOK_ENABLED','true').lower()=='true',
             lesson_strategy=os.getenv('LINGOLIVE_LESSON_STRATEGY','single'),
             thinking_level=os.getenv('LINGOLIVE_THINKING_LEVEL','auto'),
+            public_demo=os.getenv('LINGOLIVE_PUBLIC_DEMO','false').lower()=='true',
+            quota_bucket=os.getenv('LINGOLIVE_QUOTA_BUCKET',''),
+            public_audio_seconds_per_day=int(os.getenv('LINGOLIVE_PUBLIC_AUDIO_SECONDS_PER_DAY','1200')),
+            public_model_calls_per_day=int(os.getenv('LINGOLIVE_PUBLIC_MODEL_CALLS_PER_DAY','200')),
+            google_auth_provider=os.getenv('LINGOLIVE_GOOGLE_AUTH_PROVIDER','gis'),
+            firebase_api_key=os.getenv('LINGOLIVE_FIREBASE_API_KEY',''),
+            firebase_auth_domain=os.getenv('LINGOLIVE_FIREBASE_AUTH_DOMAIN',''),
             google_client_id=os.getenv('LINGOLIVE_GOOGLE_CLIENT_ID',''),
             google_signin_required=os.getenv('LINGOLIVE_GOOGLE_SIGNIN_REQUIRED','false').lower()=='true',
             allowed_google_emails=tuple(e.strip().casefold() for e in os.getenv('LINGOLIVE_ALLOWED_GOOGLE_EMAILS','').split(',') if e.strip()))
@@ -220,9 +235,10 @@ class TeachRequest(BaseModel):
 class SessionRequest(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
     token: str = Field(default='', max_length=2048)
-    mode: Literal['access_code','api_key'] = 'access_code'
+    mode: Literal['access_code','api_key','public'] = 'access_code'
     api_key: str = Field(default='', max_length=256)
     google_credential: str = Field(default='',max_length=10000)
+    google_nonce: str = Field(default='',max_length=200)
 
 class Word(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
@@ -370,6 +386,12 @@ class GoogleIdentityVerifier:
         except (ValueError,GoogleAuthError):
             raise HTTPException(401,'Google sign-in could not be verified. Please sign in again.') from None
 
+class FirebaseIdentityVerifier(GoogleIdentityVerifier):
+    async def verify(self,credential,project):
+        async with self.lock:
+            try:return await asyncio.to_thread(google_id_token.verify_firebase_token,credential,self.certificates,audience=project)
+            except (ValueError,GoogleAuthError):raise HTTPException(401,'Google account verification failed. Please sign in again.') from None
+
 class GoogleProvider:
     def __init__(self, config: Config):
         self.config=config;self._credentials=None;self._credential_lock=asyncio.Lock();self._http_client=None
@@ -469,7 +491,7 @@ class GoogleProvider:
             url=VERTEX_WS;options={'additional_headers':{'Authorization':'Bearer '+await self._vertex_token()}}
         else:
             url=GOOGLE_WS+'?'+urlencode({'key':self.config.api_key});options={}
-        async with connect(url,open_timeout=15,max_size=500000,ping_interval=20,**options) as socket:
+        async with connect(url,open_timeout=15,close_timeout=5,max_size=500000,ping_interval=20,**options) as socket:
             yield socket
 
 @dataclass
@@ -480,9 +502,12 @@ class KeySession:
     revoked: asyncio.Event
     timer: asyncio.TimerHandle | None = None
 
-def create_app(config: Config | None = None, provider=None, identity_verifier=None, key_provider_factory=None):
+def create_app(config: Config | None = None, provider=None, identity_verifier=None, key_provider_factory=None, daily_quota=None):
     config=config or Config.environment();provider=provider or GoogleProvider(config)
-    identity_verifier=identity_verifier or GoogleIdentityVerifier()
+    identity_verifier=identity_verifier or (FirebaseIdentityVerifier() if config.google_auth_provider=='firebase' else GoogleIdentityVerifier())
+    daily_quota=daily_quota or (GCSQuota(config.quota_bucket,provider._vertex_token) if config.quota_bucket else None)
+    if config.public_demo and (daily_quota is None or config.public_audio_seconds_per_day<=10 or config.public_model_calls_per_day<2):
+        raise ValueError('Public access requires a durable daily allowance')
     used_nonces={}
     key_sessions: dict[str, KeySession] = {}
     key_provider_factory=key_provider_factory or GoogleProvider
@@ -493,6 +518,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         try:yield
         finally:
             for nonce in list(key_sessions):forget_key(nonce)
+            if daily_quota:await daily_quota.aclose()
             if callable(getattr(provider,'aclose',None)):await provider.aclose()
             if cleanup_tasks:await asyncio.gather(*list(cleanup_tasks),return_exceptions=True)
     app=FastAPI(title='LingoLive',docs_url=None,redoc_url=None,openapi_url=None,lifespan=lifespan)
@@ -546,6 +572,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         return hmac.new(signing_key,('web-session:'+payload).encode(),hashlib.sha256).hexdigest()
     def cookie_authorized(request):
         if personal_session(request):return True
+        if config.public_demo and not config.google_signin_required and config.configured and request.cookies.get(COOKIE,'').split('.')[2:3]!=['key']:return True
         if not config.configured: return False
         value=request.cookies.get(COOKIE,'')
         try:
@@ -556,7 +583,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             elif len(parts)==4:
                 issued,nonce,identity,signature=parts
                 claims=json.loads(base64.urlsafe_b64decode(identity+'='*(-len(identity)%4)))
-                if config.google_signin_required and (not claims.get('sub') or claims.get('email','').casefold() not in config.allowed_google_emails):return False
+                if config.google_signin_required and (not claims.get('sub') or (bool(config.allowed_google_emails) and claims.get('email','').casefold() not in config.allowed_google_emails)):return False
             else:return False
             age=time.time()-int(issued)
             return 0<=age<SESSION_SECONDS and len(nonce)==32 and hmac.compare_digest(signature,signed_session('.'.join(parts[:-1])))
@@ -570,7 +597,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             bearer=bearer_authorized(request.headers.get('authorization',''))
             signing_in=(request.url.path=='/v1/session' and request.method=='POST') or (request.url.path=='/v1/auth/config' and request.method=='GET')
             if not signing_in and not (bearer or cookie_authorized(request)):
-                return JSONResponse({'detail':'Connect with Google and your access code' if config.google_signin_required else 'Connect with a valid access code'},401)
+                return JSONResponse({'detail':('Sign in with Google to continue.' if config.public_demo else 'Connect with Google and your access code') if config.google_signin_required else 'Connect with a valid access code'},401)
             if request.method not in ('GET','HEAD') and not bearer and not same_origin(request):
                 return JSONResponse({'detail':'Use this application from its own origin'},403)
             try: length=int(request.headers.get('content-length','0') or 0)
@@ -591,6 +618,8 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
         if config.google_signin_required:
             response.headers['Content-Security-Policy']=response.headers['Content-Security-Policy'].replace("script-src 'self'", "script-src 'self' https://accounts.google.com/gsi/client").replace("style-src 'self'", "style-src 'self' https://accounts.google.com/gsi/style").replace("connect-src 'self'", "connect-src 'self' https://accounts.google.com/gsi/")+"; frame-src https://accounts.google.com/gsi/"
+        if config.google_signin_required and config.google_auth_provider=='firebase':
+            response.headers['Content-Security-Policy']=response.headers['Content-Security-Policy'].replace("connect-src 'self'", "connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://"+config.firebase_auth_domain).replace("frame-src https://accounts.google.com/gsi/", "frame-src https://accounts.google.com https://"+config.firebase_auth_domain)
         response.headers['Cache-Control']='no-store' if request.url.path.startswith(('/v1/','/health')) or request.url.path=='/' else 'no-cache'
         return response
     @app.exception_handler(RequestValidationError)
@@ -599,12 +628,18 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if request.url.path=='/v1/session':return JSONResponse({'detail':'Check your connection method and credential.'},422)
         return await request_validation_exception_handler(request,exc)
     @app.get('/health')
-    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.11'}
+    async def health(): return {'service':'LingoLive','configured':config.configured,'byok_available':config.byok_enabled,'version':'1.12'}
     @app.get('/v1/auth/config')
     async def auth_config(request: Request):
-        ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and config.allowed_google_emails))
+        ready=config.configured and (not config.google_signin_required or bool(config.google_client_id and (config.allowed_google_emails or config.public_demo)))
+        if config.google_auth_provider=='firebase' and config.google_signin_required:ready=ready and bool(config.firebase_api_key and config.firebase_auth_domain)
         data={'google_required':config.google_signin_required,'google_client_id':config.google_client_id if config.google_signin_required else '',
-              'access_code_available':ready,'api_key_available':config.byok_enabled}
+              'access_code_available':ready,'api_key_available':config.byok_enabled,'public_demo':config.public_demo and ready,
+              'daily_audio_seconds':config.public_audio_seconds_per_day if config.public_demo else None,
+              'daily_lessons':config.public_model_calls_per_day//(2 if config.lesson_strategy=='parallel' else 1) if config.public_demo else None,
+              'quota_timezone':'Asia/Kolkata' if config.public_demo else None,
+              'google_provider':config.google_auth_provider,
+              'firebase':{'apiKey':config.firebase_api_key,'projectId':config.project,'authDomain':config.firebase_auth_domain} if ready and config.google_auth_provider=='firebase' else None}
         response=JSONResponse(data)
         if config.google_signin_required and ready:
             nonce=str(int(time.time()))+'.'+secrets.token_hex(16)
@@ -615,6 +650,12 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
     @app.post('/v1/session')
     async def signin(value: SessionRequest, request: Request):
         if not signins.allow(): raise HTTPException(429,'Too many connection attempts; try again in a minute')
+        if value.mode=='public':
+            if not config.public_demo:raise HTTPException(403,'Public demo access is disabled.')
+            if value.token or value.api_key:raise HTTPException(422,'The demo needs no access code.')
+            if not config.google_signin_required:
+                if personal_session(request):forget_key(request.cookies[COOKIE].split('.')[1])
+                return session_response(request,str(int(time.time()))+'.'+secrets.token_hex(16),'public')
         if value.mode=='api_key':
             if not config.byok_enabled:raise HTTPException(403,'Personal API keys are disabled by the host.')
             if value.token or value.google_credential or not re.fullmatch(r'[A-Za-z0-9_.-]{20,256}',value.api_key):
@@ -630,10 +671,10 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             entry.timer=asyncio.get_running_loop().call_later(SESSION_SECONDS,forget_key,nonce)
             return session_response(request,payload,'api_key')
         if value.api_key:raise HTTPException(422,'Select Use my Google API key to connect with a key.')
-        if not authorized('Bearer '+value.token): raise HTTPException(401,'That access code was not recognized')
+        if not (config.public_demo and value.mode=='public') and not authorized('Bearer '+value.token): raise HTTPException(401,'That access code was not recognized')
         identity=''
         if config.google_signin_required:
-            if not config.google_client_id or not config.allowed_google_emails:
+            if not config.google_client_id or (not config.allowed_google_emails and not config.public_demo):
                 raise HTTPException(503,'Google sign-in setup is not complete.')
             try:
                 issued,nonce,signature=request.cookies.get(GOOGLE_NONCE_COOKIE,'').split('.')
@@ -641,11 +682,13 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
                 if not (0<=time.time()-int(issued)<600 and len(nonce)==32 and hmac.compare_digest(signature,signed_session('google-nonce:'+challenge))):raise ValueError()
             except (ValueError,TypeError):raise HTTPException(401,'Open Connect and sign in with Google again.') from None
             if not value.google_credential:raise HTTPException(401,'Sign in with Google before connecting.')
-            claims=await identity_verifier.verify(value.google_credential,config.google_client_id)
-            if claims.get('nonce')!=challenge or claims.get('email_verified') is not True or not isinstance(claims.get('sub'),str) or not 1<=len(claims['sub'])<=255:
+            claims=await identity_verifier.verify(value.google_credential,config.project if config.google_auth_provider=='firebase' else config.google_client_id)
+            valid_challenge=(value.google_nonce==challenge and claims.get('iss')=='https://securetoken.google.com/'+config.project and claims.get('firebase',{}).get('sign_in_provider')=='google.com') if config.google_auth_provider=='firebase' else claims.get('nonce')==challenge
+            if not valid_challenge or claims.get('email_verified') is not True or not isinstance(claims.get('sub'),str) or not 1<=len(claims['sub'])<=255:
                 raise HTTPException(401,'Google account verification failed. Please sign in again.')
-            email=claims.get('email','').casefold()
-            if email not in config.allowed_google_emails:raise HTTPException(403,'This Google account has not been invited. Ask the host for access.')
+            if not isinstance(claims.get('email'),str) or not claims['email']:raise HTTPException(401,'Google account verification failed.')
+            email=claims['email'].casefold()
+            if config.allowed_google_emails and email not in config.allowed_google_emails:raise HTTPException(403,'This Google account has not been invited. Ask the host for access.')
             now=time.time()
             for old in list(used_nonces):
                 if now-used_nonces[old]>=600:del used_nonces[old]
@@ -654,7 +697,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             identity=base64.urlsafe_b64encode(json.dumps({'sub':claims['sub'],'email':email},separators=(',',':')).encode()).decode().rstrip('=')
         payload=str(int(time.time()))+'.'+secrets.token_hex(16)+(('.'+identity) if identity else '')
         if personal_session(request):forget_key(request.cookies[COOKIE].split('.')[1])
-        return session_response(request,payload,'access_code')
+        return session_response(request,payload,'public' if value.mode=='public' else 'access_code')
     def session_response(request,payload,mode):
         response=JSONResponse({'connected':True,'mode':mode})
         response.delete_cookie(GOOGLE_NONCE_COOKIE,path='/v1')
@@ -662,7 +705,7 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             secure=request.url.hostname not in ('127.0.0.1','localhost','testserver'),samesite='strict',path='/v1')
         return response
     @app.get('/v1/session')
-    async def session_status(request: Request): return {'connected':True,'mode':'api_key' if personal_session(request) else 'access_code'}
+    async def session_status(request: Request): return {'connected':True,'mode':'api_key' if personal_session(request) else 'public' if config.public_demo else 'access_code'}
     @app.delete('/v1/session')
     async def signout(request: Request):
         if personal_session(request):forget_key(request.cookies[COOKIE].split('.')[1])
@@ -681,6 +724,8 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             if budget.reserve(call_units) is None:
                 raise HTTPException(429,'The demo lesson allowance has been reached. Saved lessons remain available.',headers={'Retry-After':'3600'})
             if key_entry and (key_entry.revoked.is_set() or key_entry.expires_at<=time.time()):raise HTTPException(401,'Reconnect with your Google API key.')
+            if daily_quota and not await daily_quota.reserve_calls(call_units,config.public_model_calls_per_day):
+                raise HTTPException(429,'Today’s shared demo lesson allowance is used up. It resets at midnight IST; Saved still works.',headers={'Retry-After':str(max(1,quota_day()[1]))})
             result=await selected.teach(value)
         finally: lesson_slots.release()
         try:return validate_lesson(result,value.text)
@@ -694,19 +739,28 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
         if not config.ai_enabled: await client.close(code=4403);return
         if not sessions.allow(): await client.close(code=4429);return
         await client.accept()
-        acquired=False; connected=False; reservation=None; upstream_started=None
+        acquired=False; connected=False; reservation=None; durable_reservation=None; upstream_started=None
         try:
             await asyncio.wait_for(connections.acquire(),timeout=1);connected=True
             await asyncio.wait_for(live_slots.acquire(),timeout=1);acquired=True
             first=await asyncio.wait_for(client.receive_text(),timeout=10)
             if len(first)>8192 or not isinstance(json.loads(first).get('setup'),dict): raise ValueError('Expected setup')
             # Reserve the maximum billed connection duration before contacting Google.
-            reservation=budget.reserve(600)
-            if reservation is None:
-                await client.send_json({'error':{'message':'The demo listening allowance has been reached. Saved lessons remain available.'}})
+            if daily_quota:
+                durable_reservation=await daily_quota.reserve_audio(600,config.public_audio_seconds_per_day)
+                reserved_seconds=durable_reservation.seconds if durable_reservation else 0
+            else:
+                reservation=budget.reserve(600);reserved_seconds=600 if reservation is not None else 0
+            if not reserved_seconds:
+                await client.send_json({'error':{'message':'Today’s shared listening allowance is used up. It resets at midnight IST; Saved still works.'}})
                 return
             upstream_started=time.monotonic()
-            duration=min(590,max(0,key_entry.expires_at-time.time())) if key_entry else 590
+            duration=min(590,reserved_seconds-10)
+            if durable_reservation:
+                day,boundary=quota_day()
+                if day!=durable_reservation.day:return
+                duration=min(duration,boundary-10)
+            if key_entry:duration=min(duration,max(0,key_entry.expires_at-time.time()))
             if duration<=0 or (key_entry and key_entry.revoked.is_set()):return
             async with asyncio.timeout(duration), selected.live() as upstream:
                 # The server controls model and capabilities, irrespective of client input.
@@ -740,6 +794,9 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
                     for task in tasks:task.cancel()
                     await asyncio.gather(*tasks,return_exceptions=True)
         except WebSocketDisconnect:pass
+        except HTTPException as error:
+            try:await client.send_json({'error':{'message':error.detail}})
+            except Exception:pass
         except (ValueError,binascii.Error):
             try:await client.close(code=1008,reason='Invalid transcription input')
             except RuntimeError:pass
@@ -747,6 +804,9 @@ def create_app(config: Config | None = None, provider=None, identity_verifier=No
             try:await client.send_json({'error':{'message':'Google transcription disconnected; reconnect to continue'}})
             except Exception:pass
         finally:
+            if durable_reservation is not None:
+                try:await daily_quota.settle_audio(durable_reservation,0 if upstream_started is None else time.monotonic()-upstream_started)
+                except HTTPException:pass # keep the full reservation spent if storage fails
             if reservation is not None:
                 budget.settle(reservation,0 if upstream_started is None else time.monotonic()-upstream_started)
             if acquired:live_slots.release()

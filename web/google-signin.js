@@ -10,6 +10,14 @@ function loadGoogle() {
   return sdk;
 }
 export async function renderGoogleSignIn(config,target,callback) {
+  if(config.google_provider==='firebase'){
+    const {prepare,googlePopup}=await import('./firebase-auth.js');
+    await prepare(config.firebase);target.replaceChildren();
+    const button=document.createElement('button');button.type='button';button.className='small-button';button.textContent='Sign in with Google';
+    button.onclick=async()=>{button.disabled=true;try{callback(await googlePopup(config.firebase));}catch{callback('');}finally{button.disabled=false;}};
+    target.append(button);return;
+  }
+
   await loadGoogle();
   if(!window.google?.accounts?.id)throw new Error('Google sign-in is unavailable. Please try again.');
   window.google.accounts.id.initialize({client_id:config.google_client_id,nonce:config.nonce,auto_select:false,ux_mode:'popup',callback:response=>callback(response.credential||'')});
