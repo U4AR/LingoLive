@@ -1,0 +1,22 @@
+{
+  "checked_date": "2026-10-18",
+  "prototype_url": "https://lingolive-358650584819.us-central1.run.app",
+  "location_memory_deployed_assets": [
+    {
+      "file": "web/places.mjs",
+      "public_http_status": 200,
+      "deployed_bytes_match": true
+    },
+    {
+      "file": "web/personal-memory.mjs",
+      "public_http_status": 200,
+      "deployed_bytes_match": true
+    },
+    {
+      "file": "web/context.mjs",
+      "public_http_status": 200,
+      "deployed_bytes_match": true
+    }
+  ],
+  "paid_model_calls": 0
+}

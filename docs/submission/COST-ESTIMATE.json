@@ -1,0 +1,92 @@
+{
+  "type": "planning_estimate",
+  "pricing_checked_date": "2026-10-18",
+  "currency": "USD",
+  "planning_inr_per_usd": 90,
+  "rates": {
+    "transcribe_audio_input_per_million_tokens": 3.5,
+    "transcribe_text_output_per_million_tokens": 21,
+    "transcribe_audio_tokens_per_second_assumption": 25,
+    "transcribe_text_tokens_per_minute_assumption": 175,
+    "transcribe_effective_per_minute": 0.008925,
+    "flash_lite_global_input_per_million_tokens": 0.25,
+    "flash_lite_global_output_per_million_tokens": 1.5,
+    "cloud_run_cpu_per_second": 2.4e-05,
+    "cloud_run_gib_per_second": 2.5e-06
+  },
+  "lesson_assumptions": {
+    "parallel_calls": 2,
+    "combined_input_tokens": 8000,
+    "combined_output_tokens": 1600,
+    "cost": 0.0044
+  },
+  "monthly_demo": {
+    "days": 30,
+    "listening_minutes": 600,
+    "lessons": 3000,
+    "transcription": 5.355,
+    "reply_and_understanding_generation": 13.2,
+    "cloud_run_active_seconds_assumption": 42000,
+    "cloud_run_gib": 0.5,
+    "cloud_run_gross_compute": 1.0605,
+    "other_infrastructure_planning_allowance": 3,
+    "other_allowance_scope": "Requests, quota operations, modest logs, image/secret storage, occasional build and small prototype downloads",
+    "subtotal": 22.6155,
+    "contingency_fraction": 0.2,
+    "with_contingency": 27.1386,
+    "rounded_budget": 30,
+    "rounded_budget_inr": 2700
+  },
+  "session_estimate": {
+    "listening_minutes": 15,
+    "lessons": 30,
+    "transcription": 0.133875,
+    "generation": 0.132,
+    "active_compute_seconds": 960,
+    "gross_compute": 0.02424,
+    "allocated_misc_allowance": 0.03,
+    "rounded_estimate": 0.35,
+    "rounded_estimate_inr": 31.5
+  },
+  "community_scenario": {
+    "members": 100,
+    "active_days_per_month": 20,
+    "minutes_per_member_day": 10,
+    "lessons_per_member_day": 20,
+    "monthly_minutes": 20000,
+    "monthly_lessons": 40000,
+    "transcription": 178.5,
+    "generation": 176,
+    "infrastructure_planning_allowance": 30,
+    "contingency_fraction": 0.2,
+    "with_contingency": 461.4,
+    "rounded_monthly_budget": 465,
+    "rounded_per_member": 4.65,
+    "rounded_monthly_budget_inr": 41850,
+    "deployment_scope": "Expansion planning scenario with higher configurable quotas and capacity",
+    "planned_budget_usd": 500
+  },
+  "basis": "Standard global on-demand model rates and US-central1 request-based Cloud Run compute; gross usage before free tiers, promotional credits and tax. INR uses a round planning conversion. Token volumes, activity and infrastructure allowances are explicit assumptions. Scenario budgets represent estimated operation, not historical billing or a currency-enforced cap.",
+  "sources": [
+    "https://cloud.google.com/vertex-ai/generative-ai/pricing",
+    "https://ai.google.dev/gemini-api/docs/pricing",
+    "https://cloud.google.com/run/pricing",
+    "https://cloud.google.com/storage/pricing"
+  ],
+  "per_learner_month": {
+    "budget_usd": 5,
+    "budget_inr": 450,
+    "active_days": 20,
+    "minutes_per_active_day": 10,
+    "new_lessons_per_active_day": 20,
+    "monthly_minutes": 200,
+    "monthly_lessons": 400,
+    "community_members_sharing_hosting": 100,
+    "transcription": 1.785,
+    "generation": 1.76,
+    "allocated_infrastructure": 0.3,
+    "subtotal": 3.845,
+    "contingency_fraction": 0.2,
+    "with_contingency": 4.614
+  }
+}

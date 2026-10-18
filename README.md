@@ -24,8 +24,14 @@ accurate stationary location is required; saved area coordinates remain local.
 Useful activities and preferences carry across conversations in
 each local learner profile. The existing source AI call proposes grounded memories;
 inferred items stay **possible** until confirmed. Settings → **What LingoLive
-remembers** lets you edit, add, confirm or forget them. No GPS trails, extra model
-call or model-weight fine-tuning. See [memory design](MEMORY.md).
+remembers** lets you edit, add, confirm or forget them. Both AI branches receive
+bounded relevant context, including place notes on a guarded nearby return.
+See [memory design](MEMORY.md).
+
+**Planning cost:** about US$5 per active learner per month for 200 listening minutes
+and 400 new reply turns, with hosting shared across 100 learners.
+See the [cost assumptions](docs/submission/COST-ESTIMATE.json) and
+[submission write-up](docs/submission/WRITEUP.md).
 
 [Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo-download.mp4)
 
@@ -402,4 +408,4 @@ passcode is needed. Your own Google key is optional. The shared daily allowance
 is **20 listening minutes and 100 parallel lessons**, resetting at midnight IST.
 It survives restarts and cannot be reset by switching users or keys. Saved learning
 remains available when live AI pauses. These limits do not impose a hard monetary
-cap on all Google Cloud traffic/storage/build charges. Firestore is not used.
+cap on all Google Cloud traffic/storage/build charges. Browser storage retains saved lessons and editable personal/place memory.

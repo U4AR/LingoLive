@@ -4,8 +4,8 @@
   "registered": true,
   "project_name": "LingoLive",
   "tagline": "Understand the conversation. Learn the words. Find your next reply.",
-  "theme": "Media, Content & Digital Experiences",
-  "category": "Education",
+  "theme": "Sustainability & Social Impact",
+  "category": "Accessibility",
   "prototype_url": "https://lingolive-358650584819.us-central1.run.app",
   "repository_url": "https://github.com/U4AR/LingoLive",
   "proposal_file": "LingoLive-Pitch-Deck.pdf",
@@ -29,8 +29,8 @@
     "Confirm the portal accepts the supplied public MP4 or upload the file to its accepted video host."
   ],
   "material_status": {
-    "proposal_pdf": "Official supplied template: 14 content/branding slides; instruction and blank spare removed; PDF and PPTX",
-    "writeup_pdf": "Updated nine-page web 1.12 technical PDF with Google/Firebase authentication, durable usage caps and local speaker-model assessment",
+    "proposal_pdf": "Official supplied template: 14 slides, blank optional wireframe, visual architecture and priced operating scenarios",
+    "writeup_pdf": "Revised eight-page submission: product, global migrant customers, location-linked memory, parallel AI architecture, explicit cost estimates and pilot targets",
     "entry_text": "Prepared in ENTRY.md",
     "demo": "3:17.080; live sign-in view added; approved narration and all 29 verified voices preserved with bit-identical AAC audio",
     "registered_team": "CreativeEngine: Ashish T. Vasant and Janhvi Singh (supplied registration screenshot)",
@@ -135,9 +135,27 @@
   },
   "services": {
     "Firebase": "Authentication",
-    "Firestore": "not used",
     "Cloud Run": "Web app and AI relay",
     "Cloud Storage": "Private daily quota and public submission media",
-    "Gemini": "Live transcription; parallel source and reply generation"
-  }
+    "Gemini": "Live transcription; parallel source and reply generation",
+    "Browser storage": "Saved lessons, per-learner plans and editable personal/location-linked memory"
+  },
+  "planning_cost_estimate": {
+    "monthly_demo_usd": 30,
+    "monthly_demo_inr": 2700,
+    "inr_per_usd_assumption": 90,
+    "daily_minutes": 20,
+    "daily_lessons": 100,
+    "days": 30,
+    "details": "docs/submission/COST-ESTIMATE.json",
+    "monthly_per_learner_usd": 5,
+    "monthly_per_learner_inr": 450,
+    "minutes_per_learner_active_day": 10,
+    "lessons_per_learner_active_day": 20,
+    "active_days_per_learner_month": 20,
+    "community_size_sharing_hosting": 100,
+    "monthly_demo_is_combined_shared_total": true
+  },
+  "wireframe_section": "intentionally_blank",
+  "category_user_confirmed": true
 }

@@ -1,7 +1,7 @@
 # LingoLive — submission files and judge guide
 
 Team: CreativeEngine — Ashish T. Vasant (leader), Janhvi Singh.
-Category: Education. Theme: Media, Content & Digital Experiences.
+Category: Accessibility. Theme: Sustainability & Social Impact.
 
 1. Open https://lingolive-358650584819.us-central1.run.app on mobile or desktop.
    Complete/skip the first-use tutorial. Sign in with Google; no passcode is needed.
@@ -23,16 +23,11 @@ Current video: LingoLive-Demo.mp4 (approximately 3:17), plus SRT/VTT.
 Source snapshot: LingoLive-web-source.zip; history audit: source-secret-audit.json.
 Complete bundle: LingoLive-Submission.zip; checksums: SHA256SUMS.txt.
 
-Firebase Authentication provides Google sign-in. Firestore is not used; learning/memory is local to the browser.
-Cloud Run hosts the app/relay; Gemini handles speech and two parallel lesson
-branches. Google-sign-in and bring-your-own-key usage share durable daily limits. Cookies store opaque
-sessions, not keys; personal keys live in server RAM for at most an hour.
+Firebase Authentication provides Google sign-in. Cloud Run hosts the app and AI relay; Gemini handles live speech and two parallel lesson branches. Private Cloud Storage persists shared daily counters. IndexedDB and local learner profiles retain saved exchanges, plans, personal facts and location-linked memory. Saved-place notes are retrieved after a fresh stationary return near the rounded saved area.
 
-The source repository must remain publicly accessible throughout evaluation.
-Public GitHub visibility was verified on October 18, 2026; keep it public throughout evaluation.
-The public source ZIP is a downloadable snapshot, not a substitute for the required
-public GitHub repository. If the portal requires a specific video service, upload
-the MP4 to that accepted host. Final portal entry, declarations and receipt are
-not completed by preparing these materials. Do not upload any access credential.
+The shared daily demo pool is 20 listening minutes and 100 two-branch lessons across visitors, resetting at midnight IST. The technical PDF includes an estimated US$5 per active learner per month, explicit token assumptions and a separate combined hosted-demo budget.
 
-The shared daily allowance is 20 listening minutes and 100 parallel lessons across all visitors, resetting at midnight IST. It survives restarts; it is not a hard currency cap for all Google Cloud charges.
+Public source: https://github.com/U4AR/LingoLive
+Current materials: https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html
+
+For a YouTube submission, upload the provided 3:17 MP4 as a public video and enter its YouTube URL in the portal. Keep the prototype and source available during evaluation.

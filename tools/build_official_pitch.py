@@ -37,39 +37,38 @@ def title(s,value):
 def link(s,y,label,url):
  sh=text(s,.55,y,8.8,.50,label,15,BLUE);sh.text_frame.paragraphs[0].runs[0].hyperlink.address=url
 
-cover=slides[0].shapes[0];cover.text='Team Details\nProject: LingoLive — Understand. Reply. Keep going.\nTeam name: CreativeEngine\nTeam leader: Ashish T. Vasant | Member: Janhvi Singh\nProblem: Help immigrants and interstate newcomers respond in an unfamiliar language.\nTheme: Media, Content & Digital Experiences | Category: Education'
+cover=slides[0].shapes[0];cover.text='Team Details\nProject: LingoLive — Understand. Reply. Keep going.\nTeam name: CreativeEngine\nTeam leader: Ashish T. Vasant | Member: Janhvi Singh\nProblem: Help migrants participate in everyday conversations in an unfamiliar language.\nTheme: Sustainability & Social Impact | Category: Accessibility'
 for i,q in enumerate(cover.text_frame.paragraphs):q.font.name='Arial';q.font.size=Pt(18 if i==0 else 13);q.font.bold=i==0;q.space_after=Pt(5)
 
-s=slides[1];title(s,'Brief about the idea');text(s,.5,1.52,8.9,.7,'Find your words in a new city.',30,INK,True);text(s,.5,2.36,8.9,.84,'A newcomer in Bengaluru needs to answer a cab driver in Kannada. LingoLive helps them understand, choose a reply and say it aloud.',17)
-for x,t,b in [(0.55,'Understand','Live multilingual speech → meaning'),(3.65,'Reply','Useful options + pronunciation'),(6.75,'Learn later','Saved words and personal practice')]:card(s,x,3.55,2.75,1.25,t,b)
+s=slides[1];title(s,'Brief about the idea');text(s,.5,1.48,8.9,.65,'A conversation assistant for life in a new place.',25,INK,True);text(s,.5,2.20,8.9,1.05,'LingoLive listens to another person, explains their words and offers three useful replies in the local language, with pronunciation. Plans, recent turns and location-linked memory make those replies personal.',17)
+for x,t,b in [(0.55,'Understand now','Live speech → familiar-language meaning'),(3.65,'Reply confidently','Relevant options + pronunciation'),(6.75,'Learn afterwards','Saved exchanges → personal practice')]:card(s,x,3.55,2.75,1.30,t,b)
 
-s=slides[2];title(s,'Opportunities');card(s,.5,1.55,9,1.00,'How is it different?','Connects the next turn, a pre-task plan, relevant personal/place memory, and later learning in one small interface.');card(s,.5,2.72,9,1.00,'How does it solve the problem?','Prioritizes usable replies during the encounter; the learner reviews word meanings afterwards. Repeated replies do not become new questions.');card(s,.5,3.89,9,1.05,'USP and intended users','Local, editable context follows the learner. Initial pilots: relocation teams, universities and community language groups. Outcomes and demand are not yet measured.')
+s=slides[2];title(s,'Opportunities');card(s,.5,1.50,9,1.05,'The problem: understanding is only half the conversation','A newcomer must also decide what to say, pronounce it and complete a task while the other person waits.');card(s,.5,2.72,9,1.05,'The solution: replies that fit the person and the moment','Combines the current turn, a pre-task plan, activities, preferences and nearby saved-place notes. Learner readbacks update context.');card(s,.5,3.94,9,1.10,'Users and customers across regions','Interstate and international migrants. Customers: migrant associations, NGOs, universities, employers and relocation teams anywhere.')
 
 s=slides[3];title(s,'List of features offered by the solution')
-features=[('Hear and respond','Google multilingual transcription; three short replies.'),('Say it your way','Express familiar-language intent in the learning language.'),('Recognize readbacks','Fuzzy repeat guards + session voice estimates; correction.'),('Plan before leaving','Cab → optional tea → station; explicit progress controls.'),('Relevant memory','Editable routines; opt-in saved-place notes on return.'),('Learn afterwards','Saved review, word bubbles and pronunciation.'),('Minimal interface','One large microphone control; typing and first-use tutorial.'),('Bounded access','Google sign-in, no passcode; shared daily limits.')]
+features=[('Hear and respond','Live multilingual speech; three contextual replies.'),('Say it your way','Express familiar-language intent in the local language.'),('Recognize learner readbacks','Forgiving repeat matching + session voice estimates.'),('Plan before leaving','Cab → optional tea → station; Done / Skip / Previous.'),('Location-linked memory','Opt-in place facts recalled on a fresh return nearby.'),('Personal memory','Editable activities and preferences; relevant retrieval.'),('Learn afterwards','Saved exchanges; word bubbles and pronunciation.'),('Simple, guarded access','One large microphone control; Google sign-in; quotas.')]
 for i,(t,b) in enumerate(features):card(s,.5+(i%2)*4.6,1.5+(i//2)*.90,4.4,.79,t,b)
 
 s=slides[4];title(s,'Process flow diagram or Use-case diagram')
-for x,t,b in [(0.5,'1. Listen','16 kHz browser microphone'),(3.7,'2. Transcribe','Gemini Transcribe Live'),(6.9,'3. Route the turn','Text/voice repeat estimates')]:card(s,x,1.55,2.6,1.25,t,b)
+for x,t,b in [(0.5,'1. Plan + listen','Optional goal; one large microphone button'),(3.7,'2. Understand','Live Transcribe produces committed speech'),(6.9,'3. Route the turn','Readback matching + recent voice clues')]:card(s,x,1.55,2.6,1.30,t,b)
 text(s,3.15,1.88,.45,.5,'→',23,BLUE,True);text(s,6.35,1.88,.45,.5,'→',23,BLUE,True)
-card(s,.5,3.2,4.35,1.35,'Your repeated words','Keep in local conversation context. Wait for the other speaker. Uncertain meaning → confirm the speaker.');card(s,5.15,3.2,4.35,1.35,'Other / unknown turn','Two Flash-Lite branches → meaning + replies → learner speaks → Saved learning later.');text(s,.55,4.82,8.9,.35,'Speaker estimates help routing; they are not reliable identity. Explicit correction always wins.',11,GRAY)
+card(s,.5,3.2,4.35,1.45,'Learner repeats a suggested reply','Keep the actual spoken words in context and preserve the options. Continue listening for the other person.');card(s,5.15,3.2,4.35,1.45,'A new turn needs assistance','Parallel Flash-Lite tasks → meaning + three replies → learner speaks → Saved review afterwards.');text(s,.55,4.86,8.9,.30,'The learner can correct who spoke. Goals, plan progress and relevant place memories follow the conversation.',11,GRAY)
 
+# Optional section intentionally reserved, as requested; preserve the template heading.
 s=slides[5];title(s,'Wireframes/Mock diagrams of the proposed solution (optional)')
-for x,t,b in [(0.5,'Conversation','Heard words\nMeaning in your language\nThree usable replies\nOriginal / Pronunciation\nLarge listen button'),(3.65,'Before the task','Where do you want to go?\nOptional stops\nLearner-controlled progress\nRelevant local memories'),(6.8,'Saved learning','Your conversation library\nTap a word → meaning\nPronunciation and practice\nNo new lesson request')]:card(s,x,1.65,2.7,2.8,t,b)
-text(s,.55,4.8,8.8,.3,'Functional prototype screens are shown in the snapshots section and video.',12,GRAY)
 
 s=slides[6];title(s,'Architecture diagram of the proposed solution')
-card(s,.5,1.6,2.65,2.8,'Browser','AudioWorklet capture\nLocal repeat / voice guard\nConversation + plan context\nIndexedDB saved lessons\nLocal, opt-in place memory')
-card(s,3.65,1.6,2.65,2.8,'Google Cloud Run','FastAPI HTTP + WebSocket\nGoogle / personal-key session\nRequest + audio quotas\nExact-source validation\nPrivate durable daily quotas')
-card(s,6.8,1.6,2.65,2.8,'Google AI','Gemini 3.5 Transcribe Live\nGemini 3.1 Flash-Lite\nSource and reply branches\nVertex service account\nBYOK: Gemini Developer API')
-text(s,3.18,2.5,.4,.5,'⇄',22,BLUE,True);text(s,6.32,2.5,.4,.5,'⇄',22,BLUE,True);text(s,.55,4.7,8.9,.5,'Firebase Authentication: Google sign-in. Private Cloud Storage: daily quotas. Firestore is not used; learning stays local.',12,GRAY)
+s.shapes.add_picture(str(ROOT/'docs/submission/architecture.png'),Inches(.5),Inches(1.40),width=Inches(9))
 
 s=slides[7];title(s,'Technologies to be used in the solution')
-for i,(t,b) in enumerate([('Google AI','Gemini 3.5 Transcribe Live; two parallel Gemini 3.1 Flash-Lite branches with minimal thinking.'),('Google Cloud','Firebase Authentication, Cloud Run, Vertex AI, private Cloud Storage and Secret Manager.'),('Web and backend','Responsive JavaScript PWA, AudioWorklet, IndexedDB, Python FastAPI and WebSockets.'),('Local adaptation','Bounded context and lexical/acoustic heuristics; no model-weight fine-tuning or stored voiceprint.')]):card(s,.5,1.55+i*.86,9,.76,t,b)
+for i,(t,b) in enumerate([('Live speech','Gemini 3.5 Transcribe Live streams multilingual audio while the person speaks.'),('Fast, economical replies','Two concurrent Gemini 3.1 Flash-Lite tasks: source understanding and reply generation; compact JSON.'),('Google Cloud','Cloud Run + Vertex AI; Firebase Google sign-in; private Cloud Storage quotas; Secret Manager.'),('Local personalization','IndexedDB lessons; editable learner profiles, task plans and guarded location-linked memory.')]):card(s,.5,1.55+i*.86,9,.76,t,b)
 
-s=slides[8];title(s,'Estimated implementation cost (optional)');text(s,.55,1.55,8.8,.5,'Cost model: pay for useful turns, bound prototype usage.',21,INK,True)
-text(s,.55,2.23,8.8,2.6,'• A 15-minute listening session uses up to 15 minutes of streaming audio.\n• N new lessons use 2 × N Flash-Lite generation calls.\n• Detected repeats, saved word review and script switching add no lesson call.\n• Cloud Run: 1 CPU / 512 MiB, request billing, min 0 / max 1 instance.\n• Shared/day: 20 listening minutes + 100 lessons. Reset: midnight IST.\n• Prices depend on tokens, provider rates and actual runtime; no dollar estimate is asserted.',15)
-text(s,.55,4.95,8.8,.32,'Persistent quotas survive restarts; they do not cap all hosting/storage/download charges in currency.',11,GRAY)
+s=slides[8];title(s,'Estimated implementation cost (optional)')
+card(s,.5,1.50,4.35,1.15,'~US$5 / learner / month · ₹450','200 listening minutes + 400 new reply turns per month.')
+card(s,5.15,1.50,4.35,1.15,'100 learners · ~US$465 / month','Shared community estimate, including contingency.')
+text(s,.55,2.85,8.9,.57,'Per learner: speech $1.79 + generation $1.76 + shared infrastructure $0.30. Add 20% contingency, then round the budget to US$5.',15)
+text(s,.55,3.60,8.9,.73,'Usage estimate: 10 minutes and 20 new reply turns per day, on 20 days per month; hosting shared across 100 active learners. Each turn uses two parallel calls.',14)
+text(s,.55,4.47,8.9,.66,'Rate basis: Live Transcribe $0.008925/min; Flash-Lite $0.25/M input and $1.50/M output. Standard global rates checked 18 Oct 2026; before tax and credits. INR planning rate: ₹90/US$. Detailed assumptions: technical PDF.',11,GRAY)
 
 s=slides[9];title(s,'Snapshots of the prototype')
 shots=ROOT/'validation';names=[('web-plans-cloud.png','Plan before leaving'),('web-express-cloud.png','Find a useful reply'),('web-replies-review.png','Learn afterwards')]
@@ -78,25 +77,25 @@ for i,(name,label) in enumerate(names):
  file=shots/name;im=Image.open(file);im=im.crop((0,0,im.width,min(im.height,round(im.width*1.95))))
  tmp=a.out.parent/(name+'.crop.png');tmp.parent.mkdir(parents=True,exist_ok=True);im.save(tmp)
  s.shapes.add_picture(str(tmp),Inches(1.15+i*3.15),Inches(1.55),height=Inches(3.1));text(s,.5+i*3.15,4.66,2.8,.34,label,13,BLUE,True,align=PP_ALIGN.CENTER)
-text(s,.55,5.05,8.9,.25,'Recorded prototype views. Word-review screenshot uses labelled test data; the video includes real Google responses.',10,GRAY)
+text(s,.55,5.05,8.9,.25,'Recorded prototype UI; Saved view uses sample lesson data. The demonstration includes real Google AI responses.',10,GRAY)
 
-s=slides[10];title(s,'Prototype Performance report/Benchmarking');text(s,.55,1.55,8.8,.5,'Functional evidence, with clear measurement limits.',22,INK,True)
-rows=[('Earlier v1.5 warm HTTP lessons','10 complete lessons · mean 1.79 s · historical sample'),('Later v1.9 typed HTTP checks','4 functional cases · mean 2.065 s · not a latency guarantee'),('Current readback guard','25 local checks + 10 browser-flow checks; repeats add no lesson'),('Voice estimates','3/4 held-out clean synthetic learner clips recognized; 0/4 others labelled user'),('Service checks','134 backend tests; Google-token verification and durable quota races checked')]
+s=slides[10];title(s,'Prototype Performance report/Benchmarking');text(s,.55,1.5,8.8,.52,'Designed for an approximately two-second warm lesson.',22,INK,True)
+rows=[('1.79 s mean · 10 lessons','Recorded v1.5 warm hosted run; all complete responses succeeded.'),('2.065 s mean · 4 cases','Later v1.9 Kannada task flows: cab, tea, café and station.'),('Parallel critical path','Source understanding and replies run together; compact output and warm HTTP.'),('Local reuse','Readbacks preserve replies; word taps and saved review reuse lesson data.'),('Memory and access checks','134 backend tests; 16 place-core checks and 8 place browser flows.')]
 for i,(t,b) in enumerate(rows):text(s,.55,2.2+i*.51,3.0,.46,t,13,BLUE,True);text(s,3.62,2.2+i*.51,5.85,.46,b,12)
-text(s,.55,4.95,8.9,.3,'No measured learning-outcome, noisy-phone, cold-start or population speaker-accuracy claim.',11,GRAY)
+text(s,.55,4.98,8.9,.30,'Timings measure warm lesson requests; speech also includes transcription finalization and device/network time.',11,GRAY)
 
-s=slides[11];title(s,'Additional Details/Future Development (if any)');card(s,.5,1.6,4.35,2.95,'Social value and business case','Help newcomers participate in everyday encounters.\nPilot with relocation teams, universities and community language groups.\nProposed organization-sponsored access; validate demand before expansion.');card(s,5.15,1.6,4.35,2.95,'Next engineering work','Representative mobile/noisy-language studies.\nOpt-in local neural voice enrollment and durable per-user budgets.\nOpt-in cross-device memory, potentially Firestore.\nMeasure task completion, reply usefulness and learning retention.');text(s,.55,4.88,8.9,.35,'Current limits: ASR can mishear; voice estimates can be wrong; local profiles are not private cloud accounts.',11,GRAY)
+s=slides[11];title(s,'Additional Details/Future Development (if any)');card(s,.5,1.55,4.35,2.95,'Adoption and business estimates','20 partners × 100 learners = 2,000 learners.\nCommunity-sponsored usage packages.\nEstimated operating budget: ~US$5 / active learner / month in a 100-member community.\nPartners: migrant groups, NGOs, campuses and employers globally.');card(s,5.15,1.55,4.35,2.95,'Pilot targets and next delivery','Four weeks, 50 learners: ~1,600 encounters and 8,000 assisted turns.\nTargets: 70% useful reply sets; 80% task completion.\nNext: more language pairs, partner allowances and opt-in local voice enrollment.');text(s,.55,4.82,8.9,.42,'Adoption, pilot outcomes and unit economics are planning estimates/targets; assumptions and scale scenario are in the technical PDF.',11,GRAY)
 
 s=slides[12];title(s,'Provide links to your:')
 link(s,1.6,'GitHub source — github.com/U4AR/LingoLive','https://github.com/U4AR/LingoLive')
-link(s,2.35,'Demo video — 3–4 minute working demonstration',BASE+'LingoLive-Demo.mp4')
+link(s,2.35,'Demo video — 3:17 working demonstration',BASE+'LingoLive-Demo.mp4')
 link(s,3.1,'Final product — live Google Cloud Run prototype','https://lingolive-358650584819.us-central1.run.app')
 link(s,3.85,'Submission materials — pitch, technical PDF and entry text',BASE+'index.html')
-text(s,.55,4.6,8.9,.6,'Keep the source repository publicly accessible throughout evaluation.'+'\nAI access: sign in with any verified Google account; no passcode. Your own Google key is optional.',11,GRAY)
+text(s,.55,4.6,8.9,.6,'Sign in with any verified Google account. A personal Google model key is optional.\nShared daily demo allowance: 20 listening minutes and 100 two-branch lessons; midnight IST reset.',11,GRAY)
 
 # Closing branding is unmodified. Add restrained pagination to content slides.
 for i,s in enumerate(slides[1:-1],2):text(s,8.95,5.26,.5,.2,str(i),8,GRAY,align=PP_ALIGN.RIGHT)
 for s,sh in created:assert sh.left>=0 and sh.top>=0 and sh.left+sh.width<=r.slide_width+5 and sh.top+sh.height<=r.slide_height+5
 assert len(slides)==14;a.out.parent.mkdir(parents=True,exist_ok=True);r.save(a.out)
-report={'source_template_sha256':hashlib.sha256(a.template.read_bytes()).hexdigest(),'source_slides':16,'output_slides':14,'removed_pages':['download instruction page','empty spare page'],'required_sections_preserved_in_order':True,'branding_preserved':True,'team':'CreativeEngine','team_members':['Ashish T. Vasant','Janhvi Singh'],'repo_public_at_render':a.public_repo,'file':a.out.name,'bytes':a.out.stat().st_size}
+report={'source_template_sha256':hashlib.sha256(a.template.read_bytes()).hexdigest(),'source_slides':16,'output_slides':14,'removed_pages':['download instruction page','empty spare page'],'required_sections_preserved_in_order':True,'branding_preserved':True,'theme':'Sustainability & Social Impact','category':'Accessibility','wireframe_body_empty':True,'architecture_diagram':'docs/submission/architecture.svg','cost_assumptions':'docs/submission/COST-ESTIMATE.json','team':'CreativeEngine','team_members':['Ashish T. Vasant','Janhvi Singh'],'repo_public_at_render':a.public_repo,'file':a.out.name,'bytes':a.out.stat().st_size}
 (a.out.parent/'pitch-template-verification.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

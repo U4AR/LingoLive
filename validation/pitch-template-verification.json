@@ -8,6 +8,11 @@
   ],
   "required_sections_preserved_in_order": true,
   "branding_preserved": true,
+  "theme": "Sustainability & Social Impact",
+  "category": "Accessibility",
+  "wireframe_body_empty": true,
+  "architecture_diagram": "docs/submission/architecture.svg",
+  "cost_assumptions": "docs/submission/COST-ESTIMATE.json",
   "team": "CreativeEngine",
   "team_members": [
     "Ashish T. Vasant",
@@ -15,5 +20,5 @@
   ],
   "repo_public_at_render": true,
   "file": "LingoLive-Pitch-Deck.pptx",
-  "bytes": 1057366
+  "bytes": 1197600
 }

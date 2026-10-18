@@ -1,7 +1,10 @@
 """Package only deployable web/backend source, docs and test evidence; no secrets/APKs."""
-import hashlib,json,zipfile
+import argparse,hashlib,json,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--archive-out',type=Path,help='Optional archive path on a volume with sufficient free space.')
+args=parser.parse_args()
 files=[ROOT/name for name in ['README.md','MEMORY.md','WEB-DEPLOY.md','VALIDATION.md','LICENSE','NOTICE','Dockerfile','Dockerfile.dev','.dockerignore','.gcloudignore','.gitignore']]
 files+=list((ROOT/'web').glob('*'))+list((ROOT/'shared').glob('*'))
 files+=list((ROOT/'docs').rglob('*'))
@@ -19,6 +22,7 @@ files += [ROOT/'validation'/n for n in ['web-google-public-live.json','web-googl
 files += [ROOT/'validation/web-public-auth-browser-results.json',ROOT/'validation/public-demo-infrastructure.json',ROOT/'validation/google-auth-start.json']
 files += list((ROOT/'validation').glob('cloud-v1.10-*.json'))+list((ROOT/'validation').glob('cloud-v1.11-*.json'))
 files += [ROOT/'tools'/n for n in ['audit_repository_secrets.py','build_official_pitch.py','record_readback_extension.py','record_readback_extension.cjs','render_submission_current.py','publish_submission_current.py','update_demo_google_access.py']]
+files += [ROOT/'tools/build_submission_architecture.py',ROOT/'validation/submission-editorial-review.json']
 files += [ROOT/'validation'/n for n in ['source-secret-audit.json','pitch-template-verification.json','submission-demo-current.json','submission-demo-current-audio.json','submission-readback-capture.json','submission-readback-verification.json'] if (ROOT/'validation'/n).exists()]
 files += [ROOT/'tools/fixtures/reference.wav',ROOT/'tools/fixtures/README.md']
 files+=list((ROOT/'validation').glob('web-*'))
@@ -42,7 +46,8 @@ cloud_deployed=bool(fingerprints) and all((ROOT/name).is_file() and hashlib.sha2
 api_record=ROOT/'validation/cloud-current-api-results.json'
 current_api=json.loads(api_record.read_text()) if api_record.is_file() else {}
 destination=ROOT/'dist';destination.mkdir(exist_ok=True)
-archive=destination/'LingoLive-web-source.zip'
+archive=args.archive_out or destination/'LingoLive-web-source.zip'
+archive.parent.mkdir(parents=True,exist_ok=True)
 with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
  for p in files:z.write(p,'LingoLive-web/'+str(p.relative_to(ROOT)))
 with zipfile.ZipFile(archive) as z:

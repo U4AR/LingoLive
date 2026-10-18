@@ -1,399 +1,148 @@
-# LingoLive — Find your next words
-
-**AI Builder Cup 2026 · CreativeEngine · Ashish T. Vasant and Janhvi Singh · 18 October 2026**
-
-**Theme:** Media, Content & Digital Experiences. **Category:** Education.
-
-**Problem statement:** Help adult language learners understand everyday spoken
-conversations and formulate a useful next reply, with explanations they can read
-and learning they can revisit.
-
-**Live prototype:** https://lingolive-358650584819.us-central1.run.app
-
-**Source:** https://github.com/U4AR/LingoLive
-
-## Current product update — web 1.12
-
-The prototype now builds local personal memory across conversations: useful activities, broad places and preferences, with source evidence and editable confirmation. Inferred routines remain possible; repeated observations improve relevance without becoming facts. Both existing AI branches receive up to five relevant general items and at most two notes from a saved place matched on a return visit, so no third inference call is added. This adapts replies through context, not model-weight fine-tuning.
-
-The primary audience includes immigrants and people moving between Indian states.
-A Bengaluru/Kannada scenario illustrates the need: someone asks a question while
-the newcomer needs a useful reply. Live Conversation now prioritizes translation,
-three suggested replies and pronunciation/playback/copy aids. Word meanings and
-practice open afterwards in a separate Saved review, using already prepared data
-without another AI request. The earlier video is archived. The user approved the new Kannada transcript;
-the original story and approved extension introduce learning near the end as an extra.
-
-## The problem
-
-Knowing individual words does not always help someone respond in a real
-conversation. Immigrants, interstate newcomers and people working in another language may
-understand part of a sentence but struggle with the next turn. A separate
-translation screen, pronunciation tool and vocabulary notebook interrupt the
-exchange. A suggested reply can also be wrong when it forgets what the learner
-already wanted to do.
-
-LingoLive helps the learner find a useful reply during the exchange, then turns
-the saved conversation into learning material afterwards. Its intended
-benefit is more accessible, contextual language practice. Learning gains and
-real-world accessibility outcomes have not yet been measured.
-
-## What the prototype does
-
-The learner chooses a language they understand and one they want to learn.
-A first-use tutorial introduces live replies, then later word review using a
-clearly labelled Kannada example. It makes no paid model call and starts no
-microphone or location request. The main screen then presents one large
-listening button; typed and pasted phrases are also supported.
-
-Google transcribes speech across languages. Finalized speech becomes a lesson
-when the selected learning language is present. Other finalized speech remains
-available as a transcript. Mixed-language phrases can be handled, although
-language detection is an estimate. Interim captions remain temporary.
-
-The lesson shows the source, a translation and three short suggested replies.
-After the conversation, opening that phrase in Saved makes source and reply
-words tappable for their contextual meanings and pronunciation. Original-script and pronunciation views use the same stored word
-data. Hearing or copying a reply, switching views and opening a word meaning
-do not require another model call. Voice playback depends on device voices.
-
-Saved lessons can be searched, reopened and deleted on the same browser.
-The interface keeps settings and detailed explanations behind optional controls.
-The Android companion exists separately; this submission demonstrates the
-current deployed web application.
-
-## Recognize learner readbacks before generating another reply
-
-Spoken suggestions are checked locally before requesting a new lesson. Current
-and recent displayed replies, their pronunciation forms, character similarity,
-word overlap, bigram similarity and substantial partial matches provide redundant
-ways to recognize a learner reading a reply. Full and partial repeats are saved
-as learner turns, keep the existing reply cards and make no new generation call.
-A just-displayed short reply can also match briefly. Negation, changed numbers
-or a changed question prompt speaker confirmation. Explicit corrections take
-priority. These are conservative heuristics, not proof of semantic equivalence.
-
-Optional session-only acoustic estimates from microphone frames provide another
-cue. At most three recent anchors per role expire after three minutes; voice
-features stay in RAM and never enter saved lessons or Google lesson requests.
-A recognized other-voice estimate overrides a textual repeat. Fuzzy matches do
-not train anchors. The learner can correct who spoke or explicitly use Help me
-say this. There is no paid speaker-classifier call. Twenty-five routing checks,
-ten real-browser routing checks and 134 backend tests pass. Synthetic held-out
-voice checks are limited evidence, not noisy-phone speaker-identification accuracy.
-
-## Replies that follow the conversation
-
-The learner can state a goal, such as wanting tea to take away. Later replies
-receive that goal alongside the current utterance, recent turns, the previous
-suggestions, a short scene summary, learner notes and previously seen vocabulary.
-When no goal is supplied, the model estimates the immediate purpose and offers
-plausible replies or clarification. Explicit goals override tentative inferences.
-
-Suggested text is kept separate from confirmed speech. The learner can mark
-“I said this” to record a reply without another generation request. Model-derived
-speaker labels are estimates from the conversation, not verified identity or
-reliable diarization. Seen vocabulary is not presented as mastered vocabulary.
-
-Memory is bounded: at most eight recent turns, twelve seen words, editable notes
-of 800 characters and a scene that expires after 90 minutes of inactivity.
-New conversation resets the scene while preserving saved learning and up to 60 personal-memory items. One-off plans expire after a day, possible routines after 30 days and confirmed routines after 180 days. Settings provide edit, confirmation, forget and pause controls. Approximate coordinates are never turned into a location trail; broad named places come from learner statements or manual entries. Local learner
-profiles separate notes and history; they are not authenticated accounts, and
-anyone using the same browser can switch them.
-
-## Prepare an intention before the task
-
-The learner can prepare an itinerary at home without an AI request: “Reach the
-railway station by cab; maybe stop for tea on the way.” One explicit local plan
-per learner survives page reload, conversation changes and temporary scene expiry
-for a day. It contains a 600-character intention and at most six ordered steps,
-with Optional controls, a current step and explicit Done/Skip/Previous actions.
-The learner can pause, clear or edit it; optional stops are not commitments.
-
-Both existing AI branches receive that plan so the destination and intermediate
-intent stay available throughout the exchange. Current words and a specific
-conversation goal override broader plans. Source understanding may draft steps
-for an unstructured plan in the same request; they require user acceptance.
-Neither GPS nor AI suggestions mark tasks done or execute transport/booking
-operations. A future destination is not a current location or a place-memory fact.
-Plan/revision checks reject late drafts after changes, and plan-scoped old context
-is excluded after the plan changes. Copied plan payloads are not retained in each
-saved lesson request snapshot. Expired plans are withheld until edited/resaved.
-
-## Help when the learner replies in the wrong language
-
-Previously, known-language-only speech could end at a saved transcript. The new
-expression path offers three ways to say that intent in the selected learning
-language, with translation and pronunciation, rather than answering it as though
-the other person spoke. A learner saying “Could we stop for tea first?” can get a
-Kannada request. Known-language expression is automatic; **Help me say this** is
-an explicit correction action. The backend enforces this routing for a detected known-language source even if the model mislabels its response mode. Before the parallel calls, a small deterministic local language detector selects a dedicated meaning-preserving expression prompt for high-confidence known-language text (at least 12 letters, probability at least 0.95). Short or uncertain input keeps model routing; the explicit action always selects expression. There is no third paid classifier call. Role/language detection remains an estimate.
-
-Original language detection remains honest: English input without Kannada has
-contains_learning_language=false and no invented Kannada source words, while
-reply_mode=express carries the three actual target phrases. Learning-language
-input otherwise receives conversational replies. Both flows save target-word
-meanings for later review and retain the same two-call cost/latency architecture.
-
-## Meaningful use of Google AI and Google Cloud
-
-A single Cloud Run service serves the web interface, FastAPI lesson API and
-authenticated speech WebSocket from one HTTPS origin. Browser AudioWorklet code
-resamples microphone input to mono 16 kHz PCM. **Gemini 3.5 Transcribe Live**
-provides streaming transcription. The backend uses **Gemini 3.1 Flash-Lite** with
-minimal thinking for two parallel tasks: source understanding and reply generation.
-
-Both tasks receive the current transcript and incoming learner/conversation
-context. The source task returns translation, word meanings, readings and scene
-estimates. The reply task returns three short replies with translations, meanings
-and readings. The backend validates and merges both into the existing saved lesson
-format. Compact nonempty word triples reduce generated output; spacing and
-punctuation are restored deterministically from the exact source. Missing,
-changed or reordered lexical content and missing definitions fail validation.
-
-There is no third summarization call or automatic retry. If a branch fails, its
-sibling is cancelled and the transcript remains available for manual retry.
-Replies use incoming context immediately; newly inferred source/audio context
-can influence the next turn, rather than delaying the reply branch.
-
-The host uses Vertex AI with a dedicated Cloud Run service account, without a
-Google API key in the browser or recommended host runtime. Alternatively, users
-can connect their own Google AI Studio key. Personal-key mode uses that key for
-both speech and lessons and never falls back to host credentials.
-
-## Guarded place memory and optional setting awareness
-
-Place names previously had no geographic return guard. The current app keeps a
-separate opt-in store: at most **five places**, **three notes per place**, and
-**two place notes per AI request**. General preferences remain separate. Saved
-place notes join context only on a fresh, stationary match after a return visit.
-The first save does not immediately replay itself. A future destination or an
-unlinked place name does not establish where the learner currently is.
-
-The source-understanding call may propose one label and fact with an exact quote
-from the learner's current words. The AI supplies no coordinates and cannot call
-a location-write tool. The browser checks opt-in, high-confidence/confirmed learner
-speech, current location, dwell, capacity and an unchanged visit/epoch ticket.
-Automatic writes are capped at two per rolling day, 30 minutes apart, one per stay.
-A full store refuses new entries. No third generation or paid Maps call is added.
-
-Place anchors are rounded to three decimal coordinates (about a 100-metre cell),
-retained only in the local learner profile, with up to three short notes and minimal
-visit state. Current fine coordinates remain in RAM. A match requires fresh GPS
-(no older than 90 seconds), reported accuracy at most 75 m, optional speed at most
-2.5 m/s, and two distinct samples spanning a stationary minute. The matching rule is
-**distance + reported accuracy + 80 m rounding allowance <= 250 m**. This recognizes
-a broad area; it cannot verify an exact business or distinguish nearby shops.
-
-A return means observed departure and stable re-entry, or a fresh stable match
-following at least 30 minutes without observations. The inactivity alternative
-supports closing the app between visits but cannot prove physical departure.
-Poor/missing/stale GPS, movement, a different area, location being off or a different
-learner withholds the notes. Foreground-only location use stops on hide/profile
-change and starts off on reload. Only label/fact/status reach Google; saved anchor
-coordinates do not. Turning on saved places does not enable separate approximate-
-location sharing. No GPS trail or raw audio archive is created.
-
-Place-specific facts are excluded from general-memory extraction. Older unlinked
-place notes remain editable but are excluded from automatic retrieval. Derived
-summaries/history from a recalled place are excluded after a place change, and
-place-derived tentative intent is cleared. Current explicit goals and statements
-still take priority. Place notes start as Possible and can be confirmed, edited or
-forgotten. Place storage expires after 90 days without a note update. Epoch/visit
-checks block in-flight responses after a forget or pause; original saved
-conversations have separate deletion controls.
-
-Optional temporary setting signals remain available: a manually chosen scene,
-current approximate location rounded to two decimals, and up to four seconds of
-recent sound for the source branch. Those location/audio samples are not saved
-with lesson history. No Maps service is called.
-
-## Local speaker-model assessment
-
-The shipped detector still uses session-only acoustic estimates plus forgiving
-text matching; it does not contain a neural speaker-identification model. The
-learner can explicitly identify their words to improve the current session's
-anchors. Unknown estimates should remain unknown and can be corrected.
-
-A local speaker-embedding model is technically feasible. The assessed public
-candidate, SpeechBrain `spkrec-ecapa-voxceleb` (Apache-2.0), has an **83,316,686-byte
-embedding checkpoint (about 83.3 MB / 79.5 MiB)**. It uses short enrollment speech
-to compare later voice embeddings; it does not learn who the user is from Google
-sign-in or from a name. The published checkpoint needs a tested browser runtime
-or conversion and matching audio preprocessing. A reliable feature also needs
-explicit opt-in enrollment, multiple clean samples, thresholds, unknown rejection,
-noise/language evaluation and deletion controls. It must never authorize access.
-No candidate weights were downloaded or shipped, no enrollment audio was sent
-elsewhere, and no noisy-phone accuracy improvement is claimed in this release.
-Candidate: https://huggingface.co/speechbrain/spkrec-ecapa-voxceleb.
-
-## Performance: measured improvement, with limits
-
-The earlier one-call Gemini 3.8 Flash deployment averaged **9.26 seconds** over
-ten complete lesson requests. A direct same-model comparison found that simply
-splitting the original output into two parallel requests was insufficient:
-three prepared cases averaged 6.71 seconds with one call and 9.55 seconds with
-two original-format calls. Compact parallel output on 3.8 averaged 3.61 seconds.
-
-The earlier web 1.5 measurement combines parallel requests, Flash-Lite, concise output and warm
-HTTP connection reuse. It averaged **1.79 seconds over ten complete, validated
-hosted lessons with zero failures**. The six sequential Japanese/Hindi/Spanish
-requests averaged 1.75 seconds. Two simultaneous independent sessions completed
-in 1.65 and 1.71 seconds. A separate functional context/audio check took 2.34
-seconds; including it gives an eleven-lesson mean of 1.84 seconds.
-
-Those earlier latency samples predate the new personal-memory prompt. In web 1.7, browser interactions took 2.040 and 7.604 seconds, including click auto-wait. A later mobile test found a status notice could intercept submission; local click-to-request time changed from 6.046 to 0.134 seconds after the UI fix. These browser interaction samples do not isolate Google latency. Separate direct-HTTP memory requests took 1.989 and 2.029 seconds, while two without memory took 1.933 and 1.567 seconds. All six succeeded. The slow call remains in the evidence; two samples per mode do not establish causality or a new ten-request average. Final web 1.8 functional HTTP requests took 2.254, 1.864 and 1.691 seconds (mean 1.936); full browser interactions took 2.335, 1.983 and 1.814 seconds. Request timing starts on the browser network event; interaction timing starts before click. These three simulated-location cases are functional checks, not a ten-request benchmark or noisy physical speech test. These are small warm-path samples, not a promise for every language, long input,
-mobile network or cold start. The synthesized speech test took 3.54 seconds from
-the end of audio to the complete lesson, including 1.11 seconds of test-client
-handoff. Thus the measured two-second lesson average does not describe the whole
-speech pipeline. Physical-phone latency remains unverified. Slower and failed
-experiments are retained in the repository rather than excluded from the comparison.
-
-## Privacy, authentication and cost controls
-
-Host-funded usage requires Google sign-in; no access code is requested. Browser sessions use signed,
-opaque, Secure, HttpOnly, SameSite=Strict cookies and expire after one hour.
-Cookie writes and WebSocket connections require the app's own origin.
-The shared demo now requires a **verified Google account through Firebase
-Authentication**, with no passcode. Any verified Google account can use the demo.
-The server validates signature, audience, issuer, verified email and Google as
-the identity provider. A short-lived same-origin nonce binds the browser sign-in
-exchange. Tokens are kept in browser memory during sign-in; Firebase is signed
-out after the opaque server cookie is issued. A dedicated private signing secret
-is separate from the former passcode. Personal-key mode remains available and
-uses its own Google model credentials.
-
-Personal API keys stay in server RAM for at most one hour. They are not stored in
-cookies, IndexedDB, LocalStorage, source code or a transcript database. Disconnect
-revokes the session; restart or scale-to-zero forgets personal keys. Users must
-trust the host that receives their key. Google bills the personal key's project;
-the host still pays relay infrastructure costs.
-
-Lessons and vocabulary stay in browser IndexedDB; notes and settings stay in
-LocalStorage. The app does not create a server-side conversation history database
-or save raw audio recordings. Selected transcript/context necessarily goes to
-Google to provide the requested AI features. Clearing browser data deletes local
-learning. There is no account sync or cross-device history.
-
-Cloud Run has zero minimum and one maximum instance, one CPU, 512 MiB and
-request-based billing. The backend permits two simultaneous lessons and two active
-listeners. A **persistent shared daily allowance** permits at most **1,200 listening
-seconds (20 minutes)** and **200 raw model calls (100 parallel lessons)** across
-all visitors and both connection modes. It resets at **midnight Asia/Kolkata
-(IST)**. This is a shared pool, not 20 minutes per user. Typing cannot bypass the
-model allowance, and signing out, changing keys or restarting does not reset it.
-Existing minute/hour pacing, two listeners, two concurrent lessons and the
-combined 4,096-output-token cap remain in place.
-
-The private Cloud Storage counter uses object-generation compare-and-swap before
-paid access. Concurrent instances cannot each spend the same remaining units.
-Audio reserves connection time, including silence and draining; unused time is
-rounded up and returned after a clean close. Crashes conservatively keep the
-reservation spent. Short remaining reservations bound the connection timeout;
-connections end before the IST day boundary. Duplicate settlement cannot refund
-twice. Storage, authentication or state errors fail closed, with no RAM fallback.
-The store holds counters and random reservation IDs, not user identities, voice,
-text, keys or coordinates. Only the runtime account has bucket-scoped access;
-public access is prevented and old daily objects expire after three days.
-
-These are **AI usage limits, not a hard monetary spending cap**. Provider prices,
-input lengths, ordinary HTTP traffic, builds, image/secret storage, media downloads
-and authentication can have separate charges. Scale-to-zero avoids a continuously
-running minimum instance, but does not promise a zero bill. Billing alerts are
-notifications, not automatic shutoffs. Exact incurred cost was not available from
-the accessible billing metadata/export endpoints; the team must check Google
-Cloud Billing Reports rather than infer charges from test counts.
-
-## Validation and current readiness
-
-**134 backend tests**, **25 speech-routing checks**, **10 routing browser checks**, plus the existing general, audio, memory, plan and guarded-place checks passed, along with
-JavaScript source/word/audio/context checks. Local tests use explicit Google,
-microphone and location fixtures. Separate hosted checks used real Google
-transcription and lessons, validated exact text/readings/meanings, checked access
-controls and proved invalid personal keys do not produce a host-funded fallback.
-Valid personal-key inference and physical-phone capture remain unverified.
-
-Production deployment details in `validation/cloud-current-deployment.json` identify web 1.12 on Cloud Run (see the current revision in `validation/cloud-current-deployment.json`). The same
-revision was checked through a temporary tag before promotion; public health,
-assets and routing were verified afterward. The normal persistent Cloud SDK
-operator login is separate from the runtime service account. No deployment
-credentials are included in the repository or demonstration.
-
-Final web 1.9 typed functional requests took 2.196, 1.894, 1.914, 2.255 seconds (mean 2.065); browser interactions took 2.340, 1.939, 1.972, 2.307 seconds. All four cases passed: Kannada cab directions, an English tea request expressed in Kannada, a Kannada café exchange with explicit plan progress, and declining tea to go to the station. These are four functional cases, not a stable latency average, physical speech capture test or evidence of sub-two-second performance across users. Three earlier staged failures and direct diagnostics remain in the evidence; they are not included in this final passing sample.
-
-## Current video demonstration
-
-The current submission video runs approximately **3:17**, within the supplied
-3–4-minute requirement. The original approved Bengaluru/Kannada story presents
-the communication problem before the solution. An approved extension demonstrates
-real full and partial readbacks filmed against web 1.11; the current sign-in view uses web 1.12. Learning remains an
-additional feature near the end, at **2:52**. The export is 1080p H.264/AAC with
-English captions and no artificial noise bed. Google Gemini 3.1 Flash TTS preview
-provides the original natural-speed voices. No audio is time-stretched.
-
-The extension uses actual Google transcription and lessons. Both learner
-readbacks made zero extra lesson requests; the next driver's speech made one
-lesson request carrying both actual readback transcripts as learner context.
-The capture's original exact-string assertion failed because ASR added a full
-stop to the intended TTS script. Independent verification compares the actual
-recognized transcript with the subsequent context; both turns pass. The original
-failure is retained rather than relabelled as a clean capture run.
-
-The footage shows genuine ASR limitations. The original café question was
-misidentified as Bengali and visibly corrected. The extension's Kannada driver
-question appeared in Telugu script with an incorrect station name; actual app
-output remains visible with a notice. Replies still used the Bengaluru trip
-context. Model outputs are not replaced. Generated opening art, synthetic voices,
-microphone input and simulated location/time are disclosed. No physical microphone
-or native-human language review is claimed.
-
-The original seven final-take lesson requests and three earlier incomplete-take
-requests remain documented. The extension added two lesson requests plus cached
-actor/narration synthesis. Final audio verification compares each expected source
-waveform with the decoded MP4, checks speech level, clipping and silent gaps.
-No new model calls are needed to render, verify or replay the submission video.
-
-## Differentiation and growth
-
-The prototype brings together live conversation, contextual next-turn replies,
-tappable words, pronunciation and local learning memory in one small interface.
-Its engineering focus is a responsive complete lesson, rather than requiring a
-new paid call for each word or pronunciation toggle. It does not claim to be the
-first translation or conversational tutoring product.
-
-For wider adoption, the next steps are representative learner studies, mobile
-and accessibility testing, language-quality evaluation, durable per-user quotas,
-stronger identity and a deliberate design for cross-instance key sessions.
-The current maximum-one-instance setting is a prototype cost choice, not a
-production scaling claim. Learning retention, task completion, reply usefulness,
-word-meaning accuracy and real-device latency should be measured before claiming
-educational outcomes.
-
-## Submission materials and references
-
-- Official-template pitch: `LingoLive-Pitch-Deck.pdf` and editable `LingoLive-Pitch-Deck.pptx` in this directory.
-- Prepared form responses: `ENTRY.md` and `submission.json`.
-- Current demo: `DEMO-TRANSCRIPT-V2.md`, approved `DEMO-EXTENSION-APPROVED.md` and `validation/submission-demo-current.json`. Earlier exports remain archived.
-- Technical detail: `MEMORY.md`, `WEB-DEPLOY.md`, `VALIDATION.md` and `docs/LATENCY.md`.
-- Official requirements and supplied template checked October 18, 2026:
-  https://aibuildercup.com/themes.html and https://aibuildercup.com/Faqs.html.
-- Registered participants access their dashboard at
-  https://hack2skill.com/event/aibuildercup2026/registration?isExternalLinkRedirection=true.
-
-The supplied requirements mandate the official pitch template, a 3–4-minute
-functional video, a deployed prototype, accessible source and a brief description.
-The official terms require public source. The registered team screenshot identifies
-CreativeEngine, Ashish T. Vasant (leader) and Janhvi Singh. The public site lists
-October 18 as the deadline; exact time zone/cutoff and portal declarations must be
-checked at submission. No portal submission or receipt is claimed. A public MP4
-is provided; if the portal demands a particular host, upload it to the accepted
-service before entering that URL.
-
-**Firebase Authentication is used for Google sign-in. Firestore is not used.**
-Browser IndexedDB/LocalStorage retain learning and editable memory; Cloud Run
-hosts the application and AI relay; private Cloud Storage persists daily quotas.
-Future cross-device memory would need a separate opt-in design. Signing in does
-not upload local conversation history or encrypt shared-browser learner profiles.
-No cross-device sync is claimed.
-
-The current video includes the live Google sign-in view from 0:26 to 0:32. Approved narration and actor audio are unchanged; the updated file preserves the exact AAC bitstream checked for all 29 voices. The video does not show completion of an actual Google account login. Automated backend checks use signed identity fixtures; live setup checks verify OAuth flow creation, invalid-token rejection, deployed assets, browser UI and private quota policy.
+# LingoLive
+
+**Understand. Reply. Keep going.**
+
+**AI Builder Cup 2026 · CreativeEngine**  
+**Theme: Sustainability & Social Impact · Category: Accessibility**  
+Ashish T. Vasant, team leader · Janhvi Singh, team member
+
+## What LingoLive does
+
+LingoLive is a mobile-friendly conversation assistant for people living, working or travelling in a place whose language they are still learning. It listens to the other person's speech, shows its meaning in the user's familiar language, and offers three short, context-appropriate replies in the local language, with pronunciation and word meanings. The user chooses a reply and speaks it. The immediate goal is to help the person complete the conversation confidently; afterwards, saved exchanges become a personal language-learning library.
+
+A newcomer in Bengaluru hears a cab driver ask a question in Kannada. Their familiar language is English. LingoLive shows the question's meaning and replies that fit the person's actual plan: take a cab to the railway station, with an optional tea stop if time allows. If they instead say what they want in English, the app helps express that intention in Kannada. The same interaction pattern supports a Marathi conversation in Mumbai or a migrant navigating a new language in another country.
+
+Personalization builds from the user's plans, recent conversation, editable activities and preferences, and **memory tied to saved locations**. A tea-order preference saved near a regular café becomes relevant when the person returns nearby. The live interface keeps the heard words and useful replies prominent, with one large microphone control. Pronunciation, individual word meanings and later practice remain available when the user needs them.
+
+**Live prototype:** https://lingolive-358650584819.us-central1.run.app  
+**Public source:** https://github.com/U4AR/LingoLive
+
+## The accessibility problem
+
+Understanding a translated sentence is only one part of participating in an unfamiliar-language conversation. A newcomer must also decide what to say, express it politely, pronounce it and keep track of the task while the other person waits. Transport, shopping, workplace introductions and routine services create repeated moments in which a language barrier reduces independence. A generic reply can also be inappropriate when the assistant misses the user's destination, an earlier answer or a local routine.
+
+LingoLive supports the whole next turn: understand the question, select a useful response and say it. Plans prepared before the encounter and relevant memories reduce repeated explanation. The person remains in control of what is said, which speaker is being interpreted, and what is remembered. This aligns the project with **Accessibility** within the **Sustainability & Social Impact** theme: practical access to everyday communication and community participation.
+
+## Users, customers and adoption model
+
+End users include interstate migrants, international immigrants, newcomers joining a workplace or university, family members relocating with them, and people travelling through an unfamiliar-language region. The product's customer base can include migrant groups and community associations anywhere, newcomer-support organizations, NGOs, universities, employers and relocation services. These organizations can sponsor access and introduce language pairs relevant to their communities.
+
+**Illustrative adoption estimate:** 20 community, campus or employer partners supporting 100 learners each would provide a path to 2,000 learners. This is a bottom-up expansion scenario: one partner introduces the app, helps participants choose their languages, and sponsors a predictable usage allowance. The initial product demonstration uses Bengaluru and Kannada; the customer model applies across regions and language communities.
+
+**Proposed delivery model:** community and organization-sponsored usage packages, sized around an estimated **US$5 per active learner per month** for ten listening minutes on 20 days each month. A 100-person group shares hosting overhead while each learner retains their own local plans and memories. Community grants, institutional partnerships and personal-key access provide additional distribution options. Partner packages can add onboarding and support around this estimated operating budget.
+
+## A complete user journey
+
+**Before leaving:** the user selects familiar and learning languages and can type a general intention: “Take a cab to the railway station; stop for tea first if there is time.” The app keeps a short plan with ordered steps and optional stops. Done, Skip and Previous controls let the user explicitly advance it. A blank goal is supported: recent speech and the ongoing scene help infer useful replies.
+
+**During the conversation:** the microphone streams speech to Google's live transcription service. The app detects the language and routes the turn. Other-person speech produces a meaning and three short replies. Familiar-language speech can become a request to express the user's intention in the learning language. Reply cards support original script, pronunciation, playback and tappable word meanings. The user can correct who spoke in one tap.
+
+**When the learner reads a reply:** forgiving text matching and short-lived voice estimates identify full or substantial partial readbacks. The actual words join the learner's conversation context, and the existing reply options stay available. The next other-person utterance uses that history to generate the next set of relevant replies. This keeps the conversation moving and reduces duplicate AI work.
+
+**On a later visit:** with explicit place-memory permission, a fresh stationary return near a saved location recalls a small number of relevant notes. At a regular tea stop, “usually orders ginger tea to take away” can help shape the reply. At a different place, its notes are withheld. Current speech and explicit plans take priority over remembered preferences.
+
+**Afterwards:** Saved provides the original conversation, meanings and pronunciation for review. The learner can revisit vocabulary from a real encounter rather than interrupting the live conversation for a lesson. Personal notes and memories can be confirmed, edited, paused or forgotten.
+
+## Deployed architecture
+
+![LingoLive architecture: browser context and memory, authenticated Cloud Run relay, streaming transcription and parallel Flash-Lite tasks](architecture.svg)
+
+The responsive web app captures 16 kHz mono PCM audio through an AudioWorklet and sends it over an authenticated WebSocket to a FastAPI service on Cloud Run. That service relays audio to **Gemini 3.5 Transcribe Live**. Partial transcription provides live feedback; committed text supplies the conversation turn. Local routing checks recent suggestions and session voice estimates before a new generation request is scheduled.
+
+For a turn needing assistance, Cloud Run starts **two Gemini 3.1 Flash-Lite requests concurrently**. The source branch produces the translation, contextual word meanings, readings and grounded memory proposals. The reply branch produces three usable replies with readings and meanings. Both receive the same bounded snapshot of the user's goal, active plan, recent turns, relevant general memory and matched-place notes. Cloud Run validates the structured results, restores exact source spacing and merges the two branches into one response.
+
+The live service uses Vertex AI through its runtime service account. Firebase Authentication provides Google sign-in, and Secret Manager holds the private session-signing secret. A private Cloud Storage object implements durable shared daily usage counters. In the browser, IndexedDB stores saved lessons and LocalStorage keeps local learner profiles, settings, plans and editable memories. This separation keeps the interaction fast while persisting the small usage state needed to protect the hosted prototype.
+
+## Memory that follows the person and the place
+
+The system separates short-lived conversation context, personal facts, task intentions and geographically linked notes. Each layer has a clear relevance window and storage bound. This keeps prompts concise and avoids carrying every past exchange into every request.
+
+| Memory layer | Stored information | Retrieval and lifetime |
+| --- | --- | --- |
+| Current conversation | Recent words, speaker role, prior replies and compact scene context | Up to eight turns and twelve seen words; expires after 90 minutes of inactivity |
+| Before-task plan | General intention, up to six ordered steps, optional stops and current progress | Active plan joins both AI branches; one-day persistence |
+| General learner memory | Activities, routines and preferences with exact learner evidence and confirmation state | Up to 60 items per profile; up to five relevant items per request |
+| Location-linked memory | Rounded saved area, place label and short useful notes | Up to five places, three notes per place and two recalled notes per request |
+| Saved learning | Conversation text, contextual meanings, replies and pronunciation | Local review library, selected by the user |
+
+**Grounded personal memory:** the source branch can propose at most two brief facts from the learner's current words. The browser checks speaker attribution and exact supporting evidence. Possible memories remain editable, and explicit confirmation improves their status. One-off plans expire after a day, possible routines after 30 days and confirmed general facts after 180 days. Current instructions and speech outrank older memories.
+
+**Location-linked saving:** the user enables saved-place memory. Foreground location samples establish a stationary stay before a note can be attached to a rounded area. A grounded AI proposal can add a place fact through the same source response; the browser owns the saving decision. Automatic writes are limited to two per rolling day, separated by at least 30 minutes, with one write per stay. Capacity is five saved places with three notes each.
+
+**Return-based retrieval:** place facts enter model context only after a fresh stationary match on a return visit. Position samples must be at most 90 seconds old, have reported accuracy at most 75 metres, and span at least one stationary minute. Matching uses distance plus reported accuracy plus an 80-metre rounding allowance within 250 metres. Observed departure and stable return establish a new visit; a 30-minute observation gap also requires fresh dwell before recall. The location is a broad area, with facts scoped accordingly.
+
+**Controlled context:** only the matched label, fact and confirmation state are added to the AI request. Current fine location is processed in browser memory, while saved anchors are rounded to three decimal places and stored in the local learner profile. Leaving the area, stale positioning or disabling place memory removes its notes from request context. Related summaries are filtered when the place changes. Place notes expire after 90 days without an update, and deletion invalidates pending proposals. Profile switching keeps each learner's places and notes separate.
+
+**Implementation verification:** 16 place-core checks and eight browser-flow checks cover permission defaults, stationary saving, return recall, coordinate filtering, stale/inaccurate positioning, profile separation and deletion during an in-flight response. Personal-memory checks cover evidence, relevance, confirmation, expiry and bounded storage. The published prototype uses these same memory modules.
+
+## Latency and cost engineering
+
+**Live transcription overlaps capture.** Gemini 3.5 Transcribe Live handles the ongoing audio stream as the person speaks, providing partial text and then committed turns. This reduces the wait associated with collecting and uploading a whole recording after the speaker finishes. The browser keeps the listening control prominent so the user can activate speech when needed.
+
+**Two parallel Flash-Lite branches shorten the critical path.** Source understanding and reply generation start together. Generation time is approximately the slower branch plus validation and transport, rather than the sum of both branches. Both work from the existing conversation snapshot, so the reply branch can proceed immediately. Newly inferred source context improves the following turn. Flash-Lite's low token prices, minimal thinking setting and compact structured output support this interactive workload.
+
+**Prompt and output budgets stay small.** Memory retrieval supplies at most five general facts and two matched-place notes. Word text, pronunciation and meaning use compact tuples; deterministic spacing reconstruction preserves the exact transcript. Persistent HTTP connections reuse warm transport. The server validates source fidelity and structured output before presenting the result.
+
+**The browser reuses work.** Recognized readbacks update local context while preserving the current reply cards. Tapping a word, switching script, replaying an available utterance and reviewing a saved exchange reuse existing lesson data. Memory proposals arrive in the source branch, alongside the meaning, so personalization fits the same two-request architecture.
+
+**Recorded performance:** an earlier ten-lesson warm hosted run of the compact parallel Flash-Lite pipeline averaged **1.79 seconds**, with ten successful complete responses. Two simultaneous session requests completed in **1.65 and 1.71 seconds**. A later four-case Kannada task-flow check averaged **2.065 seconds** for typed lesson requests. These recorded runs support an approximately two-second warm lesson design target; live speech also includes transcription finalization, device and network time. Evidence and experimental versions are documented in `docs/LATENCY.md` and the repository validation files.
+
+## Estimated operating cost
+
+**Estimated operating budget: approximately US$5 per active learner per month (₹450 at a planning conversion of ₹90/US$).** The usage model is ten listening minutes and 20 newly generated reply turns per active day, on 20 days each month: **200 listening minutes and 400 two-branch lessons per learner per month**. Hosting is shared across a 100-person community deployment. The estimate includes a 20% contingency and rounding.
+
+| Per-learner monthly item | Explicit usage assumption | Estimated USD |
+| --- | --- | --- |
+| Live transcription | 200 minutes × $0.008925 per minute | $1.79 |
+| Flash-Lite source and replies | 400 lessons × $0.0044 | $1.76 |
+| Shared infrastructure allowance | $30/month spread across 100 active learners | $0.30 |
+| Subtotal | Before contingency | $3.85 |
+| 20% contingency | Applied to the unrounded subtotal | $0.77 |
+| Rounded monthly planning budget | Approximately ₹450 per active learner | **$5.00** |
+
+The unrounded estimate is US$4.614 per learner, including contingency. A 100-member community produces 20,000 listening minutes and 40,000 lessons each month: US$178.50 for speech, US$176 for generation and a US$30 shared infrastructure allowance. With 20% contingency, the community estimate is US$461.40, rounded to approximately **US$465 per month**. Setting aside US$5 per learner provides a US$500 community planning budget. This scenario sizes an expanded deployment with higher configured capacity and allowances.
+
+**Model arithmetic:** Google's Live Transcribe planning rate uses 25 audio tokens per second and 175 output text tokens per minute. Audio input costs US$3.50 per million tokens and text output US$21 per million tokens, giving US$0.008925 per listening minute. Flash-Lite global text input costs US$0.25 per million tokens and output US$1.50 per million tokens. Assuming **8,000 input and 1,600 output tokens combined across both branches**, one complete lesson costs US$0.0044. Token volumes are explicit planning assumptions covering prompts, retrieved context and generated content. Optional sound-context input can be modelled with the published audio-input rate.
+
+**Shared compute:** request-based Cloud Run active CPU is US$0.000024 per vCPU-second and memory US$0.0000025 per GiB-second. At one CPU and half a GiB, 42,000 active seconds cost US$1.0605 before free-tier deductions. The demo has zero minimum instances, so active usage drives compute spending. Infrastructure allowances cover compute, modest requests, quota operations, logs, image/secret storage, occasional builds and small prototype downloads. Sharing these services across a community lowers per-person overhead.
+
+**Current hosted demo total:** full use of the combined daily pool of 20 listening minutes and 100 lessons over 30 days gives an estimated **US$30 per month for the shared prototype**. Its cost components are US$5.36 transcription, US$13.20 generation, US$1.06 compute and US$3 ancillary allowance, followed by contingency and rounding. This combined demonstration budget is separate from the per-learner community estimate above.
+
+**One useful session:** a 15-minute session with 30 newly generated lessons is estimated at **about US$0.35 (₹32)**: US$0.134 transcription, US$0.132 generation, US$0.024 compute and a small allocated infrastructure allowance. Recognized readbacks and saved review reduce the number of newly generated lessons required.
+
+Rates were checked on October 18, 2026 using standard global on-demand Google model prices and US-central1 Cloud Run rates. Figures are planning estimates before tax, free-tier deductions and promotional credits. `COST-ESTIMATE.json` supplies the assumptions and arithmetic. Daily allowances bound AI usage; scenario budgets can be adjusted as token volumes and activity change.
+
+## Authentication and controlled hosting
+
+Any verified Google account can enter the shared prototype through Firebase Authentication. The server validates the token signature, audience, issuer, verified email and Google provider, with a same-origin nonce binding the exchange. The resulting one-hour browser session uses a signed, opaque Secure, HttpOnly and SameSite cookie. Users can alternatively connect a personal Google model key, held in expiring server memory for the session.
+
+A durable shared pool allows **20 listening minutes and 100 two-branch lessons per day across visitors**, resetting at midnight IST. Cloud Storage object-generation comparison reserves units before paid work, including concurrent requests. Audio time is reserved before opening the upstream stream, with unused reserved time settled on clean close. Daily state survives restarts and sign-outs. Output size, request pacing and simultaneous activity are also bounded; the demo allows two listeners and two lessons at a time.
+
+Cloud Run currently uses one CPU, 512 MiB, zero minimum instances and a maximum of one instance. Its service account has the specific Google AI and quota-storage permissions required by the application. The quota bucket is private and retains short-lived counter objects. Application source, submission materials and downloadable source snapshots are audited for credential patterns before publication.
+
+## Validation and pilot success estimates
+
+The current service has **134 passing backend tests** covering authentication, session handling, schema validation, provider routing and quota behaviour. Conversation routing has **25 core checks and ten browser-flow checks**. Separate place and personal-memory suites exercise evidence, profile isolation and geographic recall. Hosted functional evidence covers Google speech and AI responses, Kannada travel intentions, plan-aware replies and learner readback handling.
+
+**Proposed four-week pilot:** 50 learners completing two five-minute encounters on four days each week would generate an estimated **1,600 encounters**. At five new reply turns per encounter, this represents approximately **8,000 assisted turns**. Pilot targets are 70% of suggested reply sets rated useful, 80% completion of the selected everyday task, and five reviewed words per learner per week. At 60% weekly review participation, the group would complete an estimated 600 word-review events over four weeks. These are explicit pilot targets and activity estimates used to plan evaluation.
+
+The pilot measures time from committed transcript to displayed replies, task completion, use of suggested replies, manual speaker corrections and return-place recall usefulness. It compares the first week with the final week to assess how saved context improves relevance. Learner feedback guides vocabulary quality, reading clarity and language-pair expansion.
+
+## Development and scaling plan
+
+The next delivery phase focuses on community deployments: partner-specific allowances, additional language-pair evaluation, stronger mobile accessibility and opt-in local speaker enrollment. A group-sponsored service can allocate predictable allowances while preserving the same conversation-first interface. Additional capacity can follow the existing Cloud Run request-based architecture, with persistent counters coordinating usage.
+
+Longer-term development expands user-controlled personal memory, community onboarding and optional account-linked continuity. Location-sensitive recall remains selective: a remembered routine helps when it is relevant to the current place and task. Learning stays a continuation of successful everyday communication, with saved encounters supplying useful personal study material.
+
+## Demonstration, source and references
+
+The **3:17 functional demonstration** presents the communication problem first, then shows the Bengaluru/Kannada travel scenario, useful replies, learner readback handling, context and saved-place recall. Saved learning appears near the end as an additional feature. The film includes the live Google sign-in view, English captions, AI actor voices and labelled simulated microphone/location inputs.
+
+- Prototype: https://lingolive-358650584819.us-central1.run.app
+- Public source and supporting validation: https://github.com/U4AR/LingoLive
+- Pitch, editable deck, demonstration and complete submission bundle: https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html
+- Google AI pricing: https://cloud.google.com/vertex-ai/generative-ai/pricing
+- Gemini API pricing: https://ai.google.dev/gemini-api/docs/pricing
+- Cloud Run pricing: https://cloud.google.com/run/pricing
+- Cloud Storage pricing: https://cloud.google.com/storage/pricing
+- Challenge requirements: https://aibuildercup.com/themes.html

@@ -1,19 +1,20 @@
-# AI Builder Cup — prepared submission
+# LingoLive — AI Builder Cup submission
 
 Team: **CreativeEngine**. Leader: **Ashish T. Vasant**. Member: **Janhvi Singh**.
-Team names are taken from the supplied registration screenshot; eligibility and
-portal declarations remain the team's responsibility.
 
 Project: **LingoLive — Understand. Reply. Keep going.**
-Theme: **Media, Content & Digital Experiences**. Category: **Education**.
 
-## Brief description (copy into the form)
+Theme: **Sustainability & Social Impact**. Category: **Accessibility**.
 
-LingoLive helps immigrants and interstate newcomers respond during everyday conversations in an unfamiliar language, then learn from those exchanges afterwards. A Bengaluru newcomer can understand a Kannada cab driver, get three useful replies with pronunciation aids, and express an English intention in Kannada. A pre-task plan, recent turns and bounded editable personal memory keep replies relevant. Opt-in place notes are recalled only after a guarded return nearby. Forgiving readback detection recognizes full or partial repeated suggestions without generating another reply. Saved conversations provide word meanings and practice later.
+## Brief description
 
-Google AI: Gemini 3.5 Transcribe Live streams speech; two parallel Gemini 3.1 Flash-Lite requests produce source understanding and useful replies. Google Cloud Run hosts the responsive web app, FastAPI API and authenticated WebSocket relay. Vertex AI uses a runtime service account; Secret Manager holds host access configuration. Firebase Authentication enables Google sign-in for any verified account without a passcode; users may alternatively bring their own Google key. Authentication, model/audio quotas, bounded output and concurrency limits control prototype usage. Keys remain only in expiring server memory; cookies contain opaque session identifiers.
+LingoLive is a mobile-friendly conversation assistant for immigrants, interstate migrants and newcomers navigating an unfamiliar language. It hears the other person's speech, explains the meaning in the user's familiar language and offers three context-appropriate replies with pronunciation. Users can express their own intention in a familiar language and receive a way to say it locally. Plans prepared before leaving, recent turns, editable personal memory and location-linked notes keep replies relevant. Saved-place notes are recalled only after a fresh stationary return nearby. Forgiving readback handling keeps the learner's repeated reply in context. Afterwards, saved conversations support word meanings and personal language practice.
 
-Firebase Authentication is used for Google sign-in. Firestore is not used. Learning history and editable memory remain in browser IndexedDB/LocalStorage. Optional cross-device synchronization is future work. The prototype demonstrates working functions; learning gains, noisy-phone speaker accuracy and a universal sub-two-second response are not claimed.
+Google AI powers the interactive pipeline: Gemini 3.5 Transcribe Live streams speech as it happens, while two parallel Gemini 3.1 Flash-Lite calls generate source understanding and useful replies. Compact structured output, bounded memory retrieval, warm HTTP connections and local reuse reduce latency and cost. An earlier ten-lesson warm hosted run averaged 1.79 seconds; a later four-case task-flow check averaged 2.065 seconds.
+
+Cloud Run hosts the web app, FastAPI API and authenticated WebSocket relay. Vertex AI uses a runtime service account. Firebase Authentication enables access with any verified Google account, and users can also connect a personal Google model key. Secret Manager holds the private session-signing secret. Private Cloud Storage persists atomic daily usage counters. Browser IndexedDB and local learner profiles retain saved learning, plans and editable memories, including geographically guarded place notes.
+
+Theme: Sustainability & Social Impact. Category: Accessibility. Migrant associations, NGOs, universities, employers and relocation teams anywhere can sponsor learners. Estimated operation is about US$5 per active learner per month (₹450 at a planning rate of ₹90/US$), assuming ten listening minutes and 20 new reply turns on 20 days each month, with infrastructure shared across 100 learners. The estimate includes contingency. Detailed token assumptions, cost arithmetic and the separate combined hosted-demo budget are included in the technical PDF.
 
 ## Links and attachments
 
@@ -27,19 +28,6 @@ Firebase Authentication is used for Google sign-in. Firestore is not used. Learn
 - Downloadable video: https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo-download.mp4
 - Complete downloadable submission: https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Submission.zip
 
-## Judge access and final checks
+## Prototype access
 
-Sign in with any verified Google account; no passcode is required. A personal Google AI Studio key is optional. Never publish personal keys or deployment credentials.
-Saved/demo review works without paid AI, but live speech/replies need a connection.
-
-Keep the Cloud Run service, working AI credentials and public source available
-through evaluation. Public GitHub visibility was verified on October 18, 2026.
-
-The supplied requirement is 3–4 minutes; use the current approximately 3:17 video,
-not the archived 2:22 version. The official pitch sections and branding are
-preserved. If the portal requires YouTube/Vimeo/Drive, upload the MP4 there and
-use the accepted host link. No accepted portal host or submission receipt is
-claimed here. The registered dashboard and final declarations need the team's
-signed-in portal session. Check the actual deadline/cutoff and retain the receipt.
-
-The shared daily allowance is 20 listening minutes and 100 parallel lessons across all visitors, resetting at midnight IST. It survives restarts; it is not a hard currency cap for all Google Cloud charges.
+Sign in with any verified Google account, select familiar and learning languages, and use the large microphone button. A personal Google model key is optional. The shared daily demo pool is 20 listening minutes and 100 two-branch lessons, resetting at midnight IST.

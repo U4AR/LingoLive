@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="610" viewBox="0 0 1440 610" role="img" aria-label="LingoLive deployed architecture: local context, authenticated Cloud Run relay, streaming transcription and two parallel Flash-Lite branches">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#1a73e8"/></marker></defs>
+<rect width="1440" height="610" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#202124}.head{font-size:23px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#526477}.label{font-size:17px;font-weight:700;fill:#1a73e8}</style>
+<rect x="870" y="110" width="550" height="370" rx="20" fill="#f3f9f3" stroke="#9dc4a5" stroke-width="2"/>
+<text class="head" x="890" y="145">Google AI · Vertex AI</text>
+<rect x="440" y="12" width="315" height="84" rx="15" fill="#f1f6fd" stroke="#bdcfe8" stroke-width="2"/>
+<text class="head" x="460" y="44">Firebase Authentication</text>
+<text class="body" x="460" y="75">Verified Google sign-in</text>
+<rect x="20" y="140" width="295" height="287" rx="15" fill="#f1f6fd" stroke="#bdcfe8" stroke-width="2"/>
+<text class="head" x="40" y="172">Mobile / desktop web app</text>
+<text class="body" x="40" y="203">16 kHz microphone stream</text>
+<text class="body" x="40" y="231">Local turn / repeat routing</text>
+<text class="body" x="40" y="259">Goal + plan + recent turns</text>
+<text class="body" x="40" y="287">Relevant personal context</text>
+<text class="body" x="40" y="315">Reply cards + pronunciation</text>
+<text class="body" x="40" y="343">Tap words; review later</text>
+<rect x="440" y="140" width="315" height="287" rx="15" fill="#f1f6fd" stroke="#bdcfe8" stroke-width="2"/>
+<text class="head" x="460" y="172">Cloud Run · FastAPI</text>
+<text class="body" x="460" y="203">Secure session + validation</text>
+<text class="body" x="460" y="231">WebSocket speech relay</text>
+<text class="body" x="460" y="259">Durable usage reservation</text>
+<text class="body" x="460" y="287">Two concurrent AI tasks</text>
+<text class="body" x="460" y="315">Validate + merge JSON</text>
+<text class="body" x="460" y="343">Warm HTTP connections</text>
+<rect x="895" y="166" width="500" height="82" rx="15" fill="#fff" stroke="#9dc4a5" stroke-width="2"/>
+<text class="head" x="915" y="198">Gemini 3.5 Transcribe Live</text>
+<text class="body" x="915" y="229">Streaming multilingual speech → final text</text>
+<rect x="965" y="282" width="430" height="80" rx="15" fill="#fff" stroke="#9dc4a5" stroke-width="2"/>
+<text class="head" x="985" y="314">Flash-Lite · source branch</text>
+<text class="body" x="985" y="345">Meaning, words, memory suggestions</text>
+<rect x="965" y="384" width="430" height="80" rx="15" fill="#fff" stroke="#9dc4a5" stroke-width="2"/>
+<text class="head" x="985" y="416">Flash-Lite · reply branch</text>
+<text class="body" x="985" y="447">Three replies, readings, meanings</text>
+<rect x="20" y="492" width="295" height="104" rx="15" fill="#f1f6fd" stroke="#bdcfe8" stroke-width="2"/>
+<text class="head" x="40" y="524">Local learner memory</text>
+<text class="body" x="40" y="555">Saved lessons + editable notes</text>
+<text class="body" x="40" y="583">On return → place notes</text>
+<rect x="440" y="492" width="315" height="104" rx="15" fill="#f1f6fd" stroke="#bdcfe8" stroke-width="2"/>
+<text class="head" x="460" y="524">Private Cloud Storage</text>
+<text class="body" x="460" y="555">Atomic shared daily counters</text>
+<text class="body" x="460" y="583">20 min audio / 100 lessons</text>
+<rect x="895" y="512" width="500" height="84" rx="15" fill="#f8f9fa" stroke="#dadce0" stroke-width="2"/>
+<text class="head" x="915" y="544">Secret Manager + runtime service account</text>
+<text class="body" x="915" y="575">Private signing secret; authenticated Google AI access</text>
+<path d="M597 96 V140" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M315 198 H440" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<text class="label" x="378" y="179" text-anchor="middle">PCM / text</text>
+<path d="M755 207 H895" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<text class="label" x="825" y="189" text-anchor="middle">Live WS</text>
+<path d="M315 350 H440" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<text class="label" x="378" y="330" text-anchor="middle">Context / result</text>
+<path d="M755 350 H845 V322 H965" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M845 350 V424 H965" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="845" cy="350" r="6" fill="#1a73e8"/>
+<text class="label" x="790" y="291">Parallel</text>
+<text class="small" x="890" y="495">Parallel results merge and validate in Cloud Run.</text>
+<path d="M167 492 V427" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<path d="M597 492 V427" fill="none" stroke="#1a73e8" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+</svg>

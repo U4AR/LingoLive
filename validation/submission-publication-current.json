@@ -6,26 +6,26 @@
   "artifacts": [
     {
       "file": "LingoLive-Pitch-Deck.pdf",
-      "bytes": 615319,
-      "sha256": "814246b5497ddeab73a5fb64cd51cb02ee8fb3203c87d42f940ef5ae06ad54d0",
+      "bytes": 716202,
+      "sha256": "782dbca5af7fd5414c48333b745c957c4ce98d77f4d96a4702bbaef4907a5d37",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Pitch-Deck.pdf",
-      "generation": "1792336878431131",
+      "generation": "1792341377518632",
       "anonymous_download_verified": true
     },
     {
       "file": "LingoLive-Pitch-Deck.pptx",
-      "bytes": 1057366,
-      "sha256": "f64a29036d4d0585149d194c7e67ac6e599ef64adbc8198816a0b7dee854cefa",
+      "bytes": 1197600,
+      "sha256": "ef95caa32bad88d02039a8bda862aa73f5def14d9c3ad5c17e0a15d60024023e",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Pitch-Deck.pptx",
-      "generation": "1792336880827490",
+      "generation": "1792341382790325",
       "anonymous_download_verified": true
     },
     {
       "file": "LingoLive-Writeup.pdf",
-      "bytes": 103974,
-      "sha256": "fd4b30bef5439e5e28e788a8afbcbf5274b197339eb42879c25d296e1c656c84",
+      "bytes": 124693,
+      "sha256": "83f5a4a56b22adfc778dcfea93ee8d74b861c39fb15b9692fb5e203c03e32951",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Writeup.pdf",
-      "generation": "1792336883137862",
+      "generation": "1792341385738647",
       "anonymous_download_verified": true
     },
     {
@@ -33,7 +33,7 @@
       "bytes": 6550441,
       "sha256": "3515135fe9b4ea1af6083fcb223f0ae5eb641271d5ec8608de2aa6ef0c61bcb0",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo.mp4",
-      "generation": "1792336886548564",
+      "generation": "1792341389531398",
       "anonymous_download_verified": true
     },
     {
@@ -41,7 +41,7 @@
       "bytes": 6550441,
       "sha256": "3515135fe9b4ea1af6083fcb223f0ae5eb641271d5ec8608de2aa6ef0c61bcb0",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo-download.mp4",
-      "generation": "1792336892788277",
+      "generation": "1792341395893622",
       "anonymous_download_verified": true
     },
     {
@@ -49,7 +49,7 @@
       "bytes": 4015,
       "sha256": "f4bab11b1ef3dbe6cd94eb2c476c557cb54df7cfd01b70c46b69f9de30dd4b1e",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo.srt",
-      "generation": "1792336896946660",
+      "generation": "1792341401005978",
       "anonymous_download_verified": true
     },
     {
@@ -57,47 +57,47 @@
       "bytes": 4023,
       "sha256": "4f36ddbc45174c54c40b6aaae0a061c81f5cdc57b17403f59fe05165c4d4db7a",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo.vtt",
-      "generation": "1792336897830643",
+      "generation": "1792341402766442",
       "anonymous_download_verified": true
     },
     {
       "file": "LingoLive-Submission.zip",
-      "bytes": 11659172,
-      "sha256": "9b1d3e2888f53535e15db487048d51139fde186afbf9e58818977205f60f4a48",
+      "bytes": 12780856,
+      "sha256": "75109c2ae1634fcfaa6a67810828d1cbda82a247de6ef226bab646def5e6c1ba",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Submission.zip",
-      "generation": "1792336902425846",
+      "generation": "1792341407807767",
       "anonymous_download_verified": true
     },
     {
       "file": "LingoLive-web-source.zip",
-      "bytes": 3943677,
-      "sha256": "7fc5c5374f353afb51883f3a03361bb3deeb2a4d0837d77722dc2a7b8468bdfc",
+      "bytes": 4811581,
+      "sha256": "e977b3985ae9d5226f95b048af011da40a5763abbf7d2c0d82284deee7089ca2",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-web-source.zip",
-      "generation": "1792336908866116",
+      "generation": "1792341414399359",
       "anonymous_download_verified": true
     },
     {
       "file": "ENTRY.md",
-      "bytes": 4428,
-      "sha256": "5a459997e9991df4f1f0b75bde29dc884bb47163b1a484baf76f9dda0b6c5b38",
+      "bytes": 4010,
+      "sha256": "4ea219c399f13d74f4c54207539d7929c1b468ddbb8438b7fc26823689244f7c",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/ENTRY.md",
-      "generation": "1792336912154311",
+      "generation": "1792341418418707",
       "anonymous_download_verified": true
     },
     {
       "file": "BRIEF-DESCRIPTION.txt",
-      "bytes": 1872,
-      "sha256": "b0bfbaa708ccf6ff4ac8aea3eea9cc82408b5cee46e9f50109affc025156cc09",
+      "bytes": 2246,
+      "sha256": "5754d471bdc71ccc3bdc67ca3868756bd38838ef02cb31c40c420ef1ed79558e",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/BRIEF-DESCRIPTION.txt",
-      "generation": "1792336913844904",
+      "generation": "1792341420396782",
       "anonymous_download_verified": true
     },
     {
       "file": "README-SUBMISSION.md",
-      "bytes": 2642,
-      "sha256": "fcda454431dec6e1182bd9871a8a45c3b59cc0c9a1b93eb928883cfd33cf289d",
+      "bytes": 2594,
+      "sha256": "541f74c115fedbfb5fd91079a5a4fc11beef17e15a2690617d700ee0d82101b0",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/README-SUBMISSION.md",
-      "generation": "1792336915501569",
+      "generation": "1792341422901154",
       "anonymous_download_verified": true
     },
     {
@@ -105,7 +105,7 @@
       "bytes": 4075,
       "sha256": "15c8c10626e1146d84a7294525381926cd59a3a2de23e77206ba5e342baec11b",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/video-verification.json",
-      "generation": "1792336916741924",
+      "generation": "1792341424739347",
       "anonymous_download_verified": true
     },
     {
@@ -113,7 +113,7 @@
       "bytes": 10623,
       "sha256": "0d43e729d7e195579582c7409cd92139f2eff435ddf89511b507ff9f3ac972de",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/audio-verification.json",
-      "generation": "1792336917617280",
+      "generation": "1792341425693583",
       "anonymous_download_verified": true
     },
     {
@@ -121,31 +121,31 @@
       "bytes": 806,
       "sha256": "ee1b2266a278d1ed12ebf23477eb7b68104ba98070b5d9c75a378c615a97170b",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/readback-verification.json",
-      "generation": "1792336918520045",
+      "generation": "1792341427531255",
       "anonymous_download_verified": true
     },
     {
       "file": "source-secret-audit.json",
       "bytes": 1359,
-      "sha256": "c0b89bb1345908c5c42d785100b1e819da9228898faae26f398b922734dd7f04",
+      "sha256": "0f80b7175df06b0810a548311a7998950bbec4961de623fda45212e7bcad2ca1",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/source-secret-audit.json",
-      "generation": "1792336919418829",
+      "generation": "1792341429306929",
       "anonymous_download_verified": true
     },
     {
       "file": "source-archive-secret-audit.json",
       "bytes": 1359,
-      "sha256": "c0b89bb1345908c5c42d785100b1e819da9228898faae26f398b922734dd7f04",
+      "sha256": "0f80b7175df06b0810a548311a7998950bbec4961de623fda45212e7bcad2ca1",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/source-archive-secret-audit.json",
-      "generation": "1792336920277949",
+      "generation": "1792341430417319",
       "anonymous_download_verified": true
     },
     {
       "file": "SHA256SUMS.txt",
       "bytes": 1762,
-      "sha256": "5e53db682f90d5e92bfa62ae34705a73ee04d6cd66a8ac0455c79853fa7fc931",
+      "sha256": "b17b94fe9187b2ceed9b0b2f3cd0af8a625b6fb5fd1512235e7bb215ebe2b92c",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/SHA256SUMS.txt",
-      "generation": "1792336921150520",
+      "generation": "1792341432208464",
       "anonymous_download_verified": true
     },
     {
@@ -153,15 +153,15 @@
       "bytes": 63837,
       "sha256": "6fe9f8c2c5e6e398abda6d0c53e581adb2fe9a0e16e29f8d6149893a0adf208a",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/poster.jpg",
-      "generation": "1792336922060556",
+      "generation": "1792341435075315",
       "anonymous_download_verified": true
     },
     {
       "file": "index.html",
-      "bytes": 4911,
-      "sha256": "33f0f5b7172361e553b2b1fc6fc71e3cb00dead4dc02a021e7cdf110676ff997",
+      "bytes": 5069,
+      "sha256": "7291161c2aee1a8158a170e79c8785fe4d1762d82b7ee9781d8df79b0c78051c",
       "url": "https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html",
-      "generation": "1792336923859636",
+      "generation": "1792341436154734",
       "anonymous_download_verified": true
     }
   ],
