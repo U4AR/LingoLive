@@ -28,10 +28,12 @@ remembers** lets you edit, add, confirm or forget them. Both AI branches receive
 bounded relevant context, including place notes on a guarded nearby return.
 See [memory design](MEMORY.md).
 
-**Planning cost:** about US$5 per active learner per month for 200 listening minutes
-and 400 new reply turns, with hosting shared across 100 learners.
-See the [cost assumptions](docs/submission/COST-ESTIMATE.json) and
-[submission write-up](docs/submission/WRITEUP.md).
+**Proposed plans:** US$5/month Starter (120 listening minutes and 240 new reply turns)
+and US$20/month Plus (600 minutes and 1,200 turns) for more frequent use.
+Both include plans, personal/place memory and saved learning. The proposal extends
+to immigrants in Germany, Japan and other language communities; German and
+Japanese are already selectable. See [plans and cost assumptions](docs/submission/COST-ESTIMATE.json)
+and the [submission write-up](docs/submission/WRITEUP.md).
 
 [Watch the current demonstration](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html) · [Download MP4](https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/LingoLive-Demo-download.mp4)
 

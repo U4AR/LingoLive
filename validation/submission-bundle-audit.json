@@ -1,8 +1,8 @@
 {
-  "audit_utc": "2026-10-18T16:35:33Z",
+  "audit_utc": "2026-10-18T17:10:02Z",
   "repository": "https://github.com/U4AR/LingoLive",
-  "head_commit": "3f59918c54f849a01ef5cd3adbe593482c43bdf8",
-  "reachable_commits": 41,
+  "head_commit": "0820c489e0d5c7bccb9b486e59b46a88a5b47a2d",
+  "reachable_commits": 42,
   "refs": [
     "refs/heads/main",
     "refs/remotes/origin/HEAD",
@@ -12,19 +12,19 @@
   "audited_archives": [
     {
       "file": "LingoLive-Submission.zip",
-      "bytes": 12780856,
-      "sha256": "75109c2ae1634fcfaa6a67810828d1cbda82a247de6ef226bab646def5e6c1ba"
+      "bytes": 12773418,
+      "sha256": "5f7664e0109877e13415b7227dc8992c659c22abe0b311c35ab50e72fef82fb9"
     }
   ],
   "counts": {
-    "blob_objects": 782,
-    "payloads": 1684,
-    "text_views": 1920,
-    "images_not_ocr": 143,
-    "commit_objects": 42,
-    "pdf_documents": 26,
-    "archive_members": 833,
-    "changed_files": 26,
+    "blob_objects": 808,
+    "payloads": 1808,
+    "text_views": 2069,
+    "images_not_ocr": 151,
+    "commit_objects": 43,
+    "pdf_documents": 28,
+    "archive_members": 937,
+    "changed_files": 19,
     "external_archives": 1
   },
   "unresolved_findings": [],

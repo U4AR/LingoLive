@@ -88,5 +88,60 @@
     "subtotal": 3.845,
     "contingency_fraction": 0.2,
     "with_contingency": 4.614
+  },
+  "proposed_subscription_tiers": {
+    "status": "commercial_rollout_proposal",
+    "prices_are_customer_subscription_prices": true,
+    "monthly_allowances_are_separate_audio_and_reply_limits": true,
+    "usage_limits_apply_when_either_allowance_is_exhausted": true,
+    "shared_hosting_assumption_active_members": 100,
+    "core_features_in_both": [
+      "Live multilingual transcription",
+      "Contextual replies and pronunciation",
+      "Pre-task plans",
+      "Editable personal and location-linked memory",
+      "Readback handling",
+      "Saved word review"
+    ],
+    "tiers": [
+      {
+        "name": "Starter",
+        "monthly_price_usd": 5,
+        "included_listening_minutes": 120,
+        "included_new_reply_turns": 240,
+        "ai_calls_per_new_reply_turn": 2,
+        "audience": "Occasional errands, short trips and everyday conversations",
+        "estimated_full_allowance_transcription_usd": 1.071,
+        "estimated_full_allowance_generation_usd": 1.056,
+        "allocated_infrastructure_usd": 0.3,
+        "estimated_operating_cost_including_20pct_contingency_usd": 2.9124,
+        "contribution_before_payment_fees_staff_support_and_tax_usd": 2.0876
+      },
+      {
+        "name": "Plus",
+        "monthly_price_usd": 20,
+        "included_listening_minutes": 600,
+        "included_new_reply_turns": 1200,
+        "ai_calls_per_new_reply_turn": 2,
+        "audience": "Frequent workplace, transport and daily-life conversations",
+        "estimated_full_allowance_transcription_usd": 5.355,
+        "estimated_full_allowance_generation_usd": 5.28,
+        "allocated_infrastructure_usd": 0.6,
+        "estimated_operating_cost_including_20pct_contingency_usd": 13.482,
+        "contribution_before_payment_fees_staff_support_and_tax_usd": 6.518
+      }
+    ],
+    "organization_packages": "Migrant groups, NGOs, universities and employers can sponsor seats or negotiate pooled allowances.",
+    "cost_basis": "Conservative 8,000 input / 1,600 output tokens combined per two-call turn; standard model prices; shared infrastructure allocations; 20% contingency; full allowance utilization.",
+    "demonstration_access": "Existing verified-Google shared daily evaluation pool: 20 listening minutes and 100 reply turns."
+  },
+  "illustrative_revenue_scenario": {
+    "active_members": 2000,
+    "starter_share": 0.8,
+    "plus_share": 0.2,
+    "monthly_revenue_usd": 16000,
+    "estimated_full_allowance_operating_cost_usd": 10052.64,
+    "contribution_before_payment_fees_staff_support_and_tax_usd": 5947.36,
+    "status": "illustrative_projection"
   }
 }

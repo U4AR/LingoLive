@@ -10,7 +10,7 @@ Ashish T. Vasant, team leader · Janhvi Singh, team member
 
 LingoLive is a mobile-friendly conversation assistant for people living, working or travelling in a place whose language they are still learning. It listens to the other person's speech, shows its meaning in the user's familiar language, and offers three short, context-appropriate replies in the local language, with pronunciation and word meanings. The user chooses a reply and speaks it. The immediate goal is to help the person complete the conversation confidently; afterwards, saved exchanges become a personal language-learning library.
 
-A newcomer in Bengaluru hears a cab driver ask a question in Kannada. Their familiar language is English. LingoLive shows the question's meaning and replies that fit the person's actual plan: take a cab to the railway station, with an optional tea stop if time allows. If they instead say what they want in English, the app helps express that intention in Kannada. The same interaction pattern supports a Marathi conversation in Mumbai or a migrant navigating a new language in another country.
+A newcomer in Bengaluru hears a cab driver ask a question in Kannada. Their familiar language is English. LingoLive shows the question's meaning and replies that fit the person's actual plan: take a cab to the railway station, with an optional tea stop if time allows. If they instead say what they want in English, the app helps express that intention in Kannada. The same interaction pattern supports a Marathi conversation in Mumbai, a newcomer navigating German in Germany, or a migrant using Japanese for transport and everyday work in Japan.
 
 Personalization builds from the user's plans, recent conversation, editable activities and preferences, and **memory tied to saved locations**. A tea-order preference saved near a regular café becomes relevant when the person returns nearby. The live interface keeps the heard words and useful replies prominent, with one large microphone control. Pronunciation, individual word meanings and later practice remain available when the user needs them.
 
@@ -29,7 +29,30 @@ End users include interstate migrants, international immigrants, newcomers joini
 
 **Illustrative adoption estimate:** 20 community, campus or employer partners supporting 100 learners each would provide a path to 2,000 learners. This is a bottom-up expansion scenario: one partner introduces the app, helps participants choose their languages, and sponsors a predictable usage allowance. The initial product demonstration uses Bengaluru and Kannada; the customer model applies across regions and language communities.
 
-**Proposed delivery model:** community and organization-sponsored usage packages, sized around an estimated **US$5 per active learner per month** for ten listening minutes on 20 days each month. A 100-person group shares hosting overhead while each learner retains their own local plans and memories. Community grants, institutional partnerships and personal-key access provide additional distribution options. Partner packages can add onboarding and support around this estimated operating budget.
+## Proposed US$5 and US$20 monthly plans
+
+The commercial model combines an affordable entry plan with a higher-usage plan for people who rely on LingoLive throughout the week. Both include live transcription, contextual replies, pronunciation, pre-task plans, editable personal and location-linked memory, learner readback handling and saved learning. The difference is the monthly allowance.
+
+| Proposed plan | Monthly subscription | Included listening | New assisted reply turns | Intended use |
+| --- | --- | --- | --- | --- |
+| Starter | **US$5** | 120 minutes | 240 turns | Short errands, occasional travel and everyday help |
+| Plus | **US$20** | 600 minutes | 1,200 turns | Frequent work, commuting and settling-in conversations |
+
+A reply turn includes both parallel AI calls. Monthly limits apply separately to streamed audio and newly generated turns; live assistance pauses when either allowance is exhausted, and saved review remains available. The Plus proposal provides five times the included usage at four times the price. Over 20 active days, Starter supports about six listening minutes and twelve new reply turns per day; Plus supports about 30 minutes and 60 turns per day. A learner can choose the level that fits their actual routine.
+
+Migrant associations, NGOs, universities and employers can sponsor seats or arrange group packages with pooled allowances. This supports access for people who need assistance while allowing higher-frequency users and institutional partners to fund a sustainable service. Commercial rollout would use these monthly plans alongside the current shared evaluation demo.
+
+**Illustrative revenue estimate:** 2,000 active members with an 80% Starter / 20% Plus mix would produce US$16,000 in monthly subscription revenue. At full included usage and the conservative token budgets below, estimated operation including contingency is about US$10,053. The remaining approximately US$5,947 supports payment fees, staffing, support and further development before tax. This is a scenario projection built from the stated customer mix and allowances.
+
+## International expansion: immigrants anywhere
+
+LingoLive's interaction model applies wherever a person knows one language and needs to participate in another. German and Japanese are already selectable in the prototype. International rollout combines that multilingual architecture with language-pair evaluation, pronunciation review and partnerships with local migrant communities.
+
+**Germany:** a newcomer who speaks English, Hindi or another familiar language can use German assistance when discussing a rental viewing, asking about a train connection, shopping or speaking with colleagues. A plan prepared at home can keep the appointment, station and intermediate errands in context. With permission, returning near a saved workplace or regular shop recalls relevant notes for that place. Saved exchanges support later German practice.
+
+**Japan:** an immigrant worker or student can understand a Japanese question at a station or lunch counter, choose a useful reply, and use Latin-script pronunciation while learning the script. Their commuting plan, lunch preferences and relevant return-place notes help the assistant produce replies that fit the routine. Later, the same conversation supplies personally relevant Japanese vocabulary for review.
+
+**Expansion route:** work with migrant associations, universities, employers and relocation teams in each destination; prioritize common local encounters; evaluate the familiar-language / destination-language pair; and adapt onboarding, pronunciation and plan examples to the community. The same architecture can extend to additional countries and language communities. The product remains conversation-first during the encounter, with learning afterwards.
 
 ## A complete user journey
 
@@ -89,18 +112,21 @@ The system separates short-lived conversation context, personal facts, task inte
 
 ## Estimated operating cost
 
-**Estimated operating budget: approximately US$5 per active learner per month (₹450 at a planning conversion of ₹90/US$).** The usage model is ten listening minutes and 20 newly generated reply turns per active day, on 20 days each month: **200 listening minutes and 400 two-branch lessons per learner per month**. Hosting is shared across a 100-person community deployment. The estimate includes a 20% contingency and rounding.
+**Customer prices and operating costs have separate roles.** The proposed subscriptions are **US$5/month for Starter** and **US$20/month for Plus**. The table estimates the expense of serving a member who uses the full included allowance, using conservative model-token budgets, shared hosting across 100 active members and a 20% contingency.
 
-| Per-learner monthly item | Explicit usage assumption | Estimated USD |
+| Monthly cost component | Starter: $5 plan | Plus: $20 plan |
 | --- | --- | --- |
-| Live transcription | 200 minutes × $0.008925 per minute | $1.79 |
-| Flash-Lite source and replies | 400 lessons × $0.0044 | $1.76 |
-| Shared infrastructure allowance | $30/month spread across 100 active learners | $0.30 |
-| Subtotal | Before contingency | $3.85 |
-| 20% contingency | Applied to the unrounded subtotal | $0.77 |
-| Rounded monthly planning budget | Approximately ₹450 per active learner | **$5.00** |
+| Included listening / new reply turns | 120 minutes / 240 turns | 600 minutes / 1,200 turns |
+| Live transcription | $1.07 | $5.36 |
+| Flash-Lite source and replies | $1.06 | $5.28 |
+| Shared infrastructure allocation | $0.30 | $0.60 |
+| 20% contingency | $0.49 | $2.25 |
+| **Estimated full-use operating expense** | **$2.91** | **$13.48** |
+| Contribution before fees, staffing, support and tax | $2.09 | $6.52 |
 
-The unrounded estimate is US$4.614 per learner, including contingency. A 100-member community produces 20,000 listening minutes and 40,000 lessons each month: US$178.50 for speech, US$176 for generation and a US$30 shared infrastructure allowance. With 20% contingency, the community estimate is US$461.40, rounded to approximately **US$465 per month**. Setting aside US$5 per learner provides a US$500 community planning budget. This scenario sizes an expanded deployment with higher configured capacity and allowances.
+These full-use estimates reserve 8,000 input and 1,600 output tokens across the two calls for each new assisted turn. Earlier compact three-language samples averaged approximately 1,643 input and 454 output tokens combined, costing about US$0.00109 per turn. The larger planning budget allows room for retained conversation, plans and memory. Streamed listening time remains the main continuous usage component; reopening saved exchanges and reading an existing suggestion reuse saved results.
+
+**Reference usage scenario:** 200 listening minutes and 400 new turns per learner per month cost an estimated US$2.22 in AI at the earlier compact sample sizes, or US$3.55 with the conservative token allowance. Adding US$0.30 of shared infrastructure and 20% contingency to the conservative scenario gives US$4.61. This explains the earlier rounded US$5 operating budget. The proposed Starter and Plus subscriptions use their own explicit allowances shown above.
 
 **Model arithmetic:** Google's Live Transcribe planning rate uses 25 audio tokens per second and 175 output text tokens per minute. Audio input costs US$3.50 per million tokens and text output US$21 per million tokens, giving US$0.008925 per listening minute. Flash-Lite global text input costs US$0.25 per million tokens and output US$1.50 per million tokens. Assuming **8,000 input and 1,600 output tokens combined across both branches**, one complete lesson costs US$0.0044. Token volumes are explicit planning assumptions covering prompts, retrieved context and generated content. Optional sound-context input can be modelled with the published audio-input rate.
 
@@ -110,7 +136,7 @@ The unrounded estimate is US$4.614 per learner, including contingency. A 100-mem
 
 **One useful session:** a 15-minute session with 30 newly generated lessons is estimated at **about US$0.35 (₹32)**: US$0.134 transcription, US$0.132 generation, US$0.024 compute and a small allocated infrastructure allowance. Recognized readbacks and saved review reduce the number of newly generated lessons required.
 
-Rates were checked on October 18, 2026 using standard global on-demand Google model prices and US-central1 Cloud Run rates. Figures are planning estimates before tax, free-tier deductions and promotional credits. `COST-ESTIMATE.json` supplies the assumptions and arithmetic. Daily allowances bound AI usage; scenario budgets can be adjusted as token volumes and activity change.
+Rates were checked on October 18, 2026 using standard global on-demand Google model prices and US-central1 Cloud Run rates. Subscription prices are proposed commercial packages; operating figures are expense estimates. Figures are planning estimates before tax, free-tier deductions and promotional credits. `COST-ESTIMATE.json` supplies the assumptions and arithmetic. Daily allowances bound AI usage; scenario budgets can be adjusted as token volumes and activity change.
 
 ## Authentication and controlled hosting
 
@@ -130,7 +156,7 @@ The pilot measures time from committed transcript to displayed replies, task com
 
 ## Development and scaling plan
 
-The next delivery phase focuses on community deployments: partner-specific allowances, additional language-pair evaluation, stronger mobile accessibility and opt-in local speaker enrollment. A group-sponsored service can allocate predictable allowances while preserving the same conversation-first interface. Additional capacity can follow the existing Cloud Run request-based architecture, with persistent counters coordinating usage.
+The next delivery phase focuses on the Starter and Plus commercial plans and international community deployments: partner-specific allowances, German and Japanese language-pair evaluation, stronger mobile accessibility and opt-in local speaker enrollment. A group-sponsored service can allocate predictable allowances while preserving the same conversation-first interface. Additional capacity can follow the existing Cloud Run request-based architecture, with persistent counters coordinating usage.
 
 Longer-term development expands user-controlled personal memory, community onboarding and optional account-linked continuity. Location-sensitive recall remains selective: a remembered routine helps when it is relevant to the current place and task. Learning stays a continuation of successful everyday communication, with saved encounters supplying useful personal study material.
 

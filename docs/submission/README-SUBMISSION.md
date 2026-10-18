@@ -25,7 +25,7 @@ Complete bundle: LingoLive-Submission.zip; checksums: SHA256SUMS.txt.
 
 Firebase Authentication provides Google sign-in. Cloud Run hosts the app and AI relay; Gemini handles live speech and two parallel lesson branches. Private Cloud Storage persists shared daily counters. IndexedDB and local learner profiles retain saved exchanges, plans, personal facts and location-linked memory. Saved-place notes are retrieved after a fresh stationary return near the rounded saved area.
 
-The shared daily demo pool is 20 listening minutes and 100 two-branch lessons across visitors, resetting at midnight IST. The technical PDF includes an estimated US$5 per active learner per month, explicit token assumptions and a separate combined hosted-demo budget.
+The shared daily demo pool is 20 listening minutes and 100 two-branch lessons across visitors, resetting at midnight IST. The technical PDF includes proposed US$5 Starter and US$20 Plus monthly plans, separate operating-cost estimates, and international use cases for Germany and Japan.
 
 Public source: https://github.com/U4AR/LingoLive
 Current materials: https://storage.googleapis.com/lingolive-demo-358650584819/ai-builder-cup-2026/submission-2026-10-18/index.html

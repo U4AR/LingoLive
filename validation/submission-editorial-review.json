@@ -2,12 +2,24 @@
   "category": "Accessibility",
   "theme": "Sustainability & Social Impact",
   "pitch_pages": 14,
-  "writeup_pages": 8,
+  "writeup_pages": 9,
   "official_template_sections_preserved": true,
   "wireframe_body_blank": true,
   "architecture_is_visual": true,
   "cost_arithmetic_verified": true,
-  "estimated_per_learner_monthly_budget_usd": 5,
+  "proposed_monthly_subscription_prices_usd": [
+    5,
+    20
+  ],
+  "starter_full_use_operating_expense_usd": 2.9124,
+  "plus_full_use_operating_expense_usd": 13.482,
+  "international_examples": [
+    "Germany",
+    "Japan"
+  ],
+  "language_options_verified": true,
+  "commercial_plans_labelled_proposals": true,
+  "reference_usage_monthly_budget_usd": 5,
   "per_learner_monthly_minutes": 200,
   "per_learner_monthly_lessons": 400,
   "shared_community_size_assumption": 100,
